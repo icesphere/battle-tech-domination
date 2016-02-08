@@ -129,6 +129,15 @@ public abstract class Player {
         scrapCardsFromHandOrDiscard(1, cardType);
     }
 
+    public void scrapCardFromHand(CardType cardType, boolean optional) {
+        if (!hand.isEmpty()) {
+            Card card = getCardToScrapFromHand(cardType, optional);
+            if (card != null) {
+                scrapCardFromHand(card);
+            }
+        }
+    }
+
     public int scrapCardsFromHandOrDiscard(int cards, CardType cardType) {
         List<List<Card>> cardsToScrap = getCardsToOptionallyScrapFromDiscardOrHand(cards, cardType);
 
@@ -148,6 +157,8 @@ public abstract class Player {
 
     public abstract List<List<Card>> getCardsToOptionallyScrapFromDiscardOrHand(int cards, CardType cardType);
 
+    public abstract Card getCardToScrapFromHand(CardType cardType, boolean optional);
+
     protected void scrapCardFromDiscard(Card card) {
         getGame().gameLog("Scrapped " + card.getName() + " from discard");
         discard.remove(card);
@@ -164,9 +175,9 @@ public abstract class Player {
         cardRemovedFromPlay(card);
     }
 
-    public void acquireFreeCardInSupplyAndPutOnTopOfDeck() {
+    public void acquireFreeCardInSupplyAndPutOnTopOfDeck(Integer maxIndustryCost) {
         if (!getGame().getSupply().isEmpty()) {
-            Card card = chooseFreeCardFromSupplyToPutOnTopOfDeck();
+            Card card = chooseFreeCardFromSupplyToPutOnTopOfDeck(maxIndustryCost);
             if (card != null) {
                 getGame().gameLog("Acquired free card from supply on put it on top of deck: " + card.getName());
                 addCardToTopOfDeck(card);
@@ -174,7 +185,7 @@ public abstract class Player {
         }
     }
     
-    public abstract Card chooseFreeCardFromSupplyToPutOnTopOfDeck();
+    public abstract Card chooseFreeCardFromSupplyToPutOnTopOfDeck(Integer maxIndustryCost);
 
     public void setupTurn() {
         actions = 2;

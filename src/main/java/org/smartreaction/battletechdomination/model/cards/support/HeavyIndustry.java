@@ -13,6 +13,6 @@ public class HeavyIndustry extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        player.acquireFreeCardInSupplyAndPutOnTopOfDeck();
+        player.acquireFreeCardInSupplyAndPutOnTopOfDeck(null);
     }
 }

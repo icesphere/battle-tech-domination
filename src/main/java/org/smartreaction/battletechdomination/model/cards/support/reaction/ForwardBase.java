@@ -1,4 +1,4 @@
-package org.smartreaction.battletechdomination.model.cards.support;
+package org.smartreaction.battletechdomination.model.cards.support.reaction;
 
 import org.smartreaction.battletechdomination.model.Player;
 import org.smartreaction.battletechdomination.model.cards.ScrappableCard;
