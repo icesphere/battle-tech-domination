@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public abstract class Card {
     protected String name;
+    protected String subName;
     protected String cardText;
     protected CardType cardType;
     protected int industryCost;
