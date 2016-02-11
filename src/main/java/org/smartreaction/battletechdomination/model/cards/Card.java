@@ -18,6 +18,10 @@ public abstract class Card {
 
     }
 
+    public void cardDamaged(Player player) {
+
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null)

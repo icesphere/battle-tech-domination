@@ -8,7 +8,21 @@ public abstract class Unit extends Card {
 
     @Override
     public void cardPlayed(Player player) {
+        unitDeployed(player);
+    }
 
+    public void unitDeployed(Player player) {
+        if (this instanceof Mobile) {
+            player.addActions(1);
+        }
+
+        if (this instanceof SwarmAttack) {
+            player.getOpponent().damageMech();
+        }
+
+        if (this instanceof AntiInfantry) {
+            player.getOpponent().damageInfantry();
+        }
     }
 
     public int getAttack() {

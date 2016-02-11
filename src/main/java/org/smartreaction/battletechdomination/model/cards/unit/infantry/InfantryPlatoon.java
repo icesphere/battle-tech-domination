@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.infantry;
 
+import org.smartreaction.battletechdomination.model.cards.Expendable;
 import org.smartreaction.battletechdomination.model.cards.InfantryUnit;
 
-public class InfantryPlatoon extends InfantryUnit {
+public class InfantryPlatoon extends InfantryUnit implements Expendable {
     public InfantryPlatoon() {
         name = "Infantry Platoon";
         cardText = "EXPENDABLE: You may damage this unit at the start of your Combat phase.  If you do, +1 Attack.";
@@ -10,6 +11,4 @@ public class InfantryPlatoon extends InfantryUnit {
         defense = 1;
         industryCost = 0;
     }
-
-    //todo
 }

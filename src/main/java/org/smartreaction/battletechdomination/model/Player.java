@@ -70,7 +70,7 @@ public abstract class Player {
         discard.add(card);
     }
 
-    public void discardCard(Card card) {
+    public void discardCardFromHand(Card card) {
         getGame().gameLog("Discarded " + card.getName());
         hand.remove(card);
         discard.add(card);
@@ -256,6 +256,31 @@ public abstract class Player {
         cards.addAll(deploymentZone);
 
         return cards;
+    }
+
+    public void damageMech() {
+        damageUnit(CardType.UNIT_MECH);
+    }
+
+    public void damageInfantry() {
+        damageUnit(CardType.UNIT_INFANTRY);
+    }
+
+    public void damageUnit(CardType type) {
+        Unit unit = chooseUnitToDamage(type);
+        if (unit != null) {
+            cardDamaged(unit);
+        }
+    }
+
+    public abstract MechUnit chooseUnitToDamage(CardType type);
+
+    public void cardDamaged(Card card) {
+        card.cardDamaged(this);
+        getGame().gameLog("Damaged " + card.getName());
+        deploymentZone.remove(card);
+        discard.add(card);
+        cardRemovedFromPlay(card);
     }
 
     public String getPlayerName() {
