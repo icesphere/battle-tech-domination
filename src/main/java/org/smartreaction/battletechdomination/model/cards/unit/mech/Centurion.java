@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
+import org.smartreaction.battletechdomination.model.cards.abilities.HighMaintenance;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 
-public class Centurion extends MechUnit {
+public class Centurion extends MechUnit implements HighMaintenance {
     public Centurion() {
         name = "Centurion";
         subName = "CN9-D";
@@ -11,6 +12,4 @@ public class Centurion extends MechUnit {
         defense = 2;
         industryCost = 3;
     }
-
-    //todo
 }

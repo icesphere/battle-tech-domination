@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.PoorHeatManagement;
 
-public class Stalker extends MechUnit {
+public class Stalker extends MechUnit implements PoorHeatManagement {
     public Stalker() {
         name = "Stalker";
         subName = "STK-5M";
@@ -11,6 +12,4 @@ public class Stalker extends MechUnit {
         defense = 2;
         industryCost = 6;
     }
-
-    //todo
 }

@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
 
-public class Masakari extends MechUnit {
+public class Masakari extends MechUnit implements QuadERPPCs {
     public Masakari() {
         name = "Masakari";
         subName = "WARHAWK";
@@ -12,6 +13,4 @@ public class Masakari extends MechUnit {
         industryCost = 8;
         losTechCost = 1;
     }
-
-    //todo
 }

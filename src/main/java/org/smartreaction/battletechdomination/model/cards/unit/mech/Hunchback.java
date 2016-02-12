@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.AC20;
 
-public class Hunchback extends MechUnit {
+public class Hunchback extends MechUnit implements AC20 {
     public Hunchback() {
         name = "Hunchback";
         subName = "HBK-4G";
@@ -11,6 +12,4 @@ public class Hunchback extends MechUnit {
         defense = 1;
         industryCost = 4;
     }
-
-    //todo
 }

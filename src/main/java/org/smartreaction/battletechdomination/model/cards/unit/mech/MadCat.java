@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.FastAssault;
 
-public class MadCat extends MechUnit {
+public class MadCat extends MechUnit implements FastAssault {
     public MadCat() {
         name = "Mad Cat";
         subName = "TIMBERWOLF";
@@ -12,6 +13,4 @@ public class MadCat extends MechUnit {
         industryCost = 7;
         losTechCost = 1;
     }
-
-    //todo
 }

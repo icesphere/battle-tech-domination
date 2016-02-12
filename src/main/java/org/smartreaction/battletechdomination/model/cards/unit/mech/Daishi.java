@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.GreatDeath;
 
-public class Daishi extends MechUnit {
+public class Daishi extends MechUnit implements GreatDeath {
     public Daishi() {
         name = "Daishi";
         subName = "DIRE WOLF";
@@ -12,6 +13,4 @@ public class Daishi extends MechUnit {
         industryCost = 9;
         losTechCost = 1;
     }
-
-    //todo
 }

@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Heroic;
 
-public class Orion extends MechUnit {
+public class Orion extends MechUnit implements Heroic {
     public Orion() {
         name = "Orion";
         subName = "ON1-K";
@@ -11,6 +12,4 @@ public class Orion extends MechUnit {
         defense = 2;
         industryCost = 6;
     }
-
-    //todo
 }

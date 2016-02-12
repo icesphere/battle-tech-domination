@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Versatile;
 
-public class Quickdraw extends MechUnit {
+public class Quickdraw extends MechUnit implements Versatile {
     public Quickdraw() {
         name = "Quickdraw";
         subName = "QKD-4G";
@@ -11,6 +12,4 @@ public class Quickdraw extends MechUnit {
         defense = 2;
         industryCost = 5;
     }
-
-    //todo
 }

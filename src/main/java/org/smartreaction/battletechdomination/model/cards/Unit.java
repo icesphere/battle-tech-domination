@@ -1,6 +1,8 @@
 package org.smartreaction.battletechdomination.model.cards;
 
+import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.abilities.*;
 
 public abstract class Unit extends Card {
     protected int attack;
@@ -22,6 +24,18 @@ public abstract class Unit extends Card {
 
         if (this instanceof AntiInfantry) {
             player.getOpponent().damageInfantry();
+        }
+
+        if (this instanceof HighMaintenance) {
+            player.discardCards(1, false);
+        }
+
+        if (this instanceof Versatile) {
+            Choice choice1 = new Choice(1, "+1 Cards");
+            Choice choice2 = new Choice(2, "+1 Actions");
+            Choice choice3 = new Choice(3, "+1 Industry");
+
+            player.makeChoice(this, choice1, choice2, choice3);
         }
     }
 

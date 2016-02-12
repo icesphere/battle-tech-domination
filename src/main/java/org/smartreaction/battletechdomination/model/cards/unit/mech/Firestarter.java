@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Flamers;
 
-public class Firestarter extends MechUnit {
+public class Firestarter extends MechUnit implements Flamers {
     public Firestarter() {
         name = "Commando";
         subName = "FS9-H";
@@ -11,6 +12,4 @@ public class Firestarter extends MechUnit {
         defense = 0;
         industryCost = 3;
     }
-
-    //todo
 }

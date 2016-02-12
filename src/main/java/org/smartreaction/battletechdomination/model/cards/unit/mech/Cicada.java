@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Mobile;
 
-public class Cicada extends MechUnit {
+public class Cicada extends MechUnit implements Mobile {
     public Cicada() {
         name = "Centurion";
         subName = "CDA-2A";
@@ -11,6 +12,4 @@ public class Cicada extends MechUnit {
         defense = 1;
         industryCost = 4;
     }
-
-    //todo
 }

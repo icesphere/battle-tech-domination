@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.JumpJets;
 
-public class Victor extends MechUnit {
+public class Victor extends MechUnit implements JumpJets {
     public Victor() {
         name = "Victor";
         subName = "VTR-9S";
@@ -11,6 +12,4 @@ public class Victor extends MechUnit {
         defense = 2;
         industryCost = 6;
     }
-
-    //todo
 }

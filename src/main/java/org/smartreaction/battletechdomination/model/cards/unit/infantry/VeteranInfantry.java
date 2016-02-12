@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.infantry;
 
 import org.smartreaction.battletechdomination.model.cards.InfantryUnit;
-import org.smartreaction.battletechdomination.model.cards.unit.Inspiring;
+import org.smartreaction.battletechdomination.model.cards.abilities.Inspiring;
 
 public class VeteranInfantry extends InfantryUnit implements Inspiring {
     public VeteranInfantry() {

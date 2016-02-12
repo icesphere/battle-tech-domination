@@ -1,8 +1,8 @@
 package org.smartreaction.battletechdomination.model.cards.unit.infantry;
 
-import org.smartreaction.battletechdomination.model.cards.Expendable;
+import org.smartreaction.battletechdomination.model.cards.abilities.Expendable;
 import org.smartreaction.battletechdomination.model.cards.InfantryUnit;
-import org.smartreaction.battletechdomination.model.cards.Mobile;
+import org.smartreaction.battletechdomination.model.cards.abilities.Mobile;
 
 public class MechanizedInfantry extends InfantryUnit implements Expendable, Mobile {
     public MechanizedInfantry() {

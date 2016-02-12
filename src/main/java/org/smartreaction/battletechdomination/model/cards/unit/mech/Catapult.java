@@ -11,6 +11,4 @@ public class Catapult extends MechUnit {
         defense = 2;
         industryCost = 5;
     }
-
-    //todo
 }

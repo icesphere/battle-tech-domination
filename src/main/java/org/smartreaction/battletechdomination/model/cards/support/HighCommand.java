@@ -12,6 +12,6 @@ public class HighCommand extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        //todo
+        //todo - need to figure out how to make this not need opponent interaction on your turn
     }
 }

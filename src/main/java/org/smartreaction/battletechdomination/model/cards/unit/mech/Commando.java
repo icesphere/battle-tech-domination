@@ -1,8 +1,10 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Durable;
+import org.smartreaction.battletechdomination.model.cards.abilities.Scout;
 
-public class Commando extends MechUnit {
+public class Commando extends MechUnit implements Durable, Scout {
     public Commando() {
         name = "Commando";
         subName = "COM-2D";
@@ -11,6 +13,4 @@ public class Commando extends MechUnit {
         defense = 1;
         industryCost = 2;
     }
-
-    //todo
 }

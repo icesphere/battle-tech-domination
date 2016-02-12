@@ -1,8 +1,10 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.QuickToAction;
+import org.smartreaction.battletechdomination.model.cards.abilities.Versatile;
 
-public class KitFox extends MechUnit {
+public class KitFox extends MechUnit implements Versatile, QuickToAction {
     public KitFox() {
         name = "Kit Fox";
         subName = "ULLER";
@@ -12,6 +14,4 @@ public class KitFox extends MechUnit {
         industryCost = 3;
         losTechCost = 1;
     }
-
-    //todo
 }

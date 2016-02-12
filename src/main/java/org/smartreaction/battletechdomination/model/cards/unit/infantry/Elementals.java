@@ -1,6 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.unit.infantry;
 
-import org.smartreaction.battletechdomination.model.cards.AntiInfantry;
+import org.smartreaction.battletechdomination.model.cards.abilities.AntiInfantry;
 import org.smartreaction.battletechdomination.model.cards.InfantryUnit;
 
 public class Elementals extends InfantryUnit implements AntiInfantry {

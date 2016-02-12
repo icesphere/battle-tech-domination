@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Tank;
 
-public class PartisanHeavyTank extends VehicleUnit {
+public class PartisanHeavyTank extends VehicleUnit implements Tank {
     public PartisanHeavyTank() {
         name = "Partisan Heavy Tank";
         cardText = "TANK: If this unit is damaged, scrap it instead.";
@@ -10,6 +11,4 @@ public class PartisanHeavyTank extends VehicleUnit {
         defense = 2;
         industryCost = 0;
     }
-
-    //todo
 }

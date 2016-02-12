@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.CityFighter;
 
-public class Urbanmech extends MechUnit {
+public class Urbanmech extends MechUnit implements CityFighter {
     public Urbanmech() {
         name = "Urbanmech";
         subName = "UM-R63";
@@ -11,6 +12,4 @@ public class Urbanmech extends MechUnit {
         defense = 1;
         industryCost = 1;
     }
-
-    //todo
 }

@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Tank;
 
-public class SRMCarrier extends VehicleUnit {
+public class SRMCarrier extends VehicleUnit implements Tank {
     public SRMCarrier() {
         name = "SRM Carrier";
         cardText = "TANK: If this unit is damaged, scrap it instead.";
@@ -10,6 +11,4 @@ public class SRMCarrier extends VehicleUnit {
         defense = 0;
         industryCost = 2;
     }
-
-    //todo
 }

@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.ReconInForce;
 
-public class ShadowHawk extends MechUnit {
+public class ShadowHawk extends MechUnit implements ReconInForce {
     public ShadowHawk() {
         name = "Shadow Hawk";
         subName = "SHD-2H";
@@ -11,6 +12,4 @@ public class ShadowHawk extends MechUnit {
         defense = 1;
         industryCost = 4;
     }
-
-    //todo
 }

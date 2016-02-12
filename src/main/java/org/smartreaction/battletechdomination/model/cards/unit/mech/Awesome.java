@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.Overheat;
 
-public class Awesome extends MechUnit {
+public class Awesome extends MechUnit implements Overheat {
     public Awesome() {
         name = "Awesome";
         subName = "AWS-9M";
@@ -11,6 +12,4 @@ public class Awesome extends MechUnit {
         defense = 3;
         industryCost = 6;
     }
-
-    //todo
 }

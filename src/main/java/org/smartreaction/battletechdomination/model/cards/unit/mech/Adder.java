@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.TargetingComputer;
 
-public class Adder extends MechUnit {
+public class Adder extends MechUnit implements TargetingComputer {
     public Adder() {
         name = "Adder";
         subName = "PUMA";
@@ -12,6 +13,4 @@ public class Adder extends MechUnit {
         industryCost = 3;
         losTechCost = 1;
     }
-
-    //todo
 }

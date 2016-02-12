@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.LRMFireSupport;
 
-public class Vulture extends MechUnit {
+public class Vulture extends MechUnit implements LRMFireSupport {
     public Vulture() {
         name = "Vulture";
         subName = "MAD DOG";
@@ -12,6 +13,4 @@ public class Vulture extends MechUnit {
         industryCost = 5;
         losTechCost = 1;
     }
-
-    //todo
 }

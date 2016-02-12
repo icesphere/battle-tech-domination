@@ -41,7 +41,7 @@ public abstract class Player {
             if (deck.isEmpty()) {
                 deck.addAll(discard);
                 discard.clear();
-                getGame().gameLog("Shuffling deck");
+                addGameLog("Shuffling deck");
                 Collections.shuffle(deck);
                 shuffles++;
             }
@@ -50,7 +50,7 @@ public abstract class Player {
                 Card cardToDraw = deck.remove(0);
                 cardsDrawn.add(cardToDraw);
                 addCardToHand(cardToDraw);
-                getGame().gameLog("Added " + cardToDraw.getName() + " to hand");
+                addGameLog("Added " + cardToDraw.getName() + " to hand");
             }
         }
 
@@ -63,7 +63,7 @@ public abstract class Player {
 
     public void addCardToTopOfDeck(Card card) {
         deck.add(0, card);
-        getGame().gameLog(card.getName() + " added to top of deck");
+        addGameLog(card.getName() + " added to top of deck");
     }
 
     private void cardAcquired(Card card) {
@@ -71,14 +71,14 @@ public abstract class Player {
     }
 
     public void discardCardFromHand(Card card) {
-        getGame().gameLog("Discarded " + card.getName());
+        addGameLog("Discarded " + card.getName());
         hand.remove(card);
         discard.add(card);
         cardRemovedFromPlay(card);
     }
 
     public void opponentDiscardsCard() {
-        getGame().gameLog("Opponent discarding card");
+        addGameLog("Opponent discarding card");
         opponent.discardCards(1, false);
     }
 
@@ -160,13 +160,13 @@ public abstract class Player {
     public abstract Card getCardToScrapFromHand(CardType cardType, boolean optional);
 
     protected void scrapCardFromDiscard(Card card) {
-        getGame().gameLog("Scrapped " + card.getName() + " from discard");
+        addGameLog("Scrapped " + card.getName() + " from discard");
         discard.remove(card);
         playerCardScrapped(card);
     }
 
     protected void scrapCardFromHand(Card card) {
-        getGame().gameLog("Scrapped " + card.getName() + " from hand");
+        addGameLog("Scrapped " + card.getName() + " from hand");
         hand.remove(card);
         playerCardScrapped(card);
     }
@@ -179,7 +179,7 @@ public abstract class Player {
         if (!getGame().getSupply().isEmpty()) {
             Card card = chooseFreeCardFromSupplyToPutOnTopOfDeck(maxIndustryCost);
             if (card != null) {
-                getGame().gameLog("Acquired free card from supply on put it on top of deck: " + card.getName());
+                addGameLog("Acquired free card from supply on put it on top of deck: " + card.getName());
                 addCardToTopOfDeck(card);
             }
         }
@@ -214,7 +214,7 @@ public abstract class Player {
     }
 
     public void endTurn() {
-        getGame().gameLog("Ending turn");
+        addGameLog("Ending turn");
 
         turns++;
 
@@ -277,10 +277,27 @@ public abstract class Player {
 
     public void cardDamaged(Card card) {
         card.cardDamaged(this);
-        getGame().gameLog("Damaged " + card.getName());
+        addGameLog("Damaged " + card.getName());
         deploymentZone.remove(card);
         discard.add(card);
         cardRemovedFromPlay(card);
+    }
+    
+    public void versatileChoiceMade(int choice) {
+        if (choice == 1) {
+            addGameLog("Chose +1 Card1");
+            drawCards(1);
+        } else if (choice == 2) {
+            addGameLog("Chose +1 Action1");
+            addActions(1);
+        } else if (choice == 3) {
+            addGameLog("Chose +1 Industry");
+            addIndustry(1);
+        }
+    }
+    
+    public void addGameLog(String log) {
+        getGame().gameLog(log);
     }
 
     public String getPlayerName() {
