@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.support.attack;
 
 import org.smartreaction.battletechdomination.model.Player;
 import org.smartreaction.battletechdomination.model.cards.SupportAttack;
+import org.smartreaction.battletechdomination.model.cards.actions.UnitFromHandToTopOfDeck;
 
 public class ForcedNegotiations extends SupportAttack {
     public ForcedNegotiations() {
@@ -12,7 +13,8 @@ public class ForcedNegotiations extends SupportAttack {
 
     @Override
     public void cardPlayed(Player player) {
-        player.discardCards(1, false);
-        //todo
+        player.discardCardFromHand();
+        player.gainMunitionsFactory();
+        player.addOpponentAction(new UnitFromHandToTopOfDeck());
     }
 }

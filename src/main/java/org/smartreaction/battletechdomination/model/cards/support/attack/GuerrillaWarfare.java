@@ -1,7 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.support.attack;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.SupportAttack;
+import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 
 public class GuerrillaWarfare extends SupportAttack {
     public GuerrillaWarfare() {
@@ -13,6 +15,11 @@ public class GuerrillaWarfare extends SupportAttack {
     @Override
     public void cardPlayed(Player player) {
         player.addActions(1);
-        //todo
+        Card topCard = player.revealTopCardOfDeck();
+        if (topCard != null) {
+            if (topCard.getIndustryCost() <= player.getOpponent().getNumUnitsInDeploymentZone()) {
+                player.addOpponentAction(new DamageUnit());
+            }
+        }
     }
 }

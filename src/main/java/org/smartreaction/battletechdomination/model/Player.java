@@ -1,6 +1,10 @@
 package org.smartreaction.battletechdomination.model;
 
 import org.smartreaction.battletechdomination.model.cards.*;
+import org.smartreaction.battletechdomination.model.cards.actions.Action;
+import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
+import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
+import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +21,8 @@ public abstract class Player {
     private List<Card> supportCardsPlayed = new ArrayList<>();
 
     private List<Card> deploymentZone = new ArrayList<>();
+
+    private List<Action> actionsQueue = new ArrayList<>();
 
     private int actions;
     private int attack;
@@ -39,11 +45,7 @@ public abstract class Player {
         game.gameLog(playerName + " drawing " + cards + " cards");
         for (int i = 0; i < cards; i++) {
             if (deck.isEmpty()) {
-                deck.addAll(discard);
-                discard.clear();
-                addGameLog("Shuffling deck");
-                Collections.shuffle(deck);
-                shuffles++;
+                shuffleDiscardIntoDeck();
             }
 
             if (!deck.isEmpty()) {
@@ -55,6 +57,14 @@ public abstract class Player {
         }
 
         return cardsDrawn;
+    }
+
+    private void shuffleDiscardIntoDeck() {
+        addGameLog("Shuffling discard into deck");
+        Collections.shuffle(discard);
+        deck.addAll(discard);
+        discard.clear();
+        shuffles++;
     }
 
     public void addCardToHand(Card card) {
@@ -71,19 +81,34 @@ public abstract class Player {
     }
 
     public void discardCardFromHand(Card card) {
-        addGameLog("Discarded " + card.getName());
         hand.remove(card);
         discard.add(card);
-        cardRemovedFromPlay(card);
+        addGameLog("Discarded " + card.getName() + " from hand");
     }
 
     public void opponentDiscardsCard() {
         addGameLog("Opponent discarding card");
-        opponent.discardCards(1, false);
+        opponent.discardCardFromHand();
     }
 
-    public int discardCards(int cards, boolean optional) {
-        return getCardsToDiscard(cards, optional).size();
+    public void discardTopCardOfDeck() {
+        Card card = deck.remove(0);
+        addGameLog("Discarded " + card.getName() + " from top of deck");
+        discard.add(card);
+    }
+
+    public void discardCardFromHand() {
+        discardCardsFromHand(1, false);
+    }
+
+    public List<Card> discardCardsFromHand(int cards, boolean optional) {
+        List<Card> cardsToDiscard = getCardsToDiscard(cards, optional);
+
+        for (Card card : cardsToDiscard) {
+            discardCardFromHand(card);
+        }
+
+        return cardsToDiscard;
     }
 
     public abstract List<Card> getCardsToDiscard(int cards, boolean optional);
@@ -104,6 +129,69 @@ public abstract class Player {
     private void cardRemovedFromPlay(Card card) {
 
     }
+
+    public void gainMunitionsFactory() {
+        if (!game.getMunitionsFactories().isEmpty()) {
+            MunitionsFactory munitionsFactory = game.getMunitionsFactories().remove(0);
+            cardAcquired(munitionsFactory);
+        }
+    }
+
+    public void gainHeavyCasualties() {
+        if (!game.getHeavyCasualties().isEmpty()) {
+            HeavyCasualties heavyCasualties = game.getHeavyCasualties().remove(0);
+            cardAcquired(heavyCasualties);
+        }
+    }
+
+    public void gainRaidedSupplies() {
+        if (!game.getRaidedSupplies().isEmpty()) {
+            RaidedSupplies raidedSupplies = game.getRaidedSupplies().remove(0);
+            cardAcquired(raidedSupplies);
+        }
+    }
+
+    public Card revealTopCardOfDeck() {
+        List<Card> cards = revealTopCardsOfDeck(1);
+        if (cards.isEmpty()) {
+            return null;
+        }
+        return cards.get(0);
+    }
+
+    public List<Card> revealTopCardsOfDeck(int cards) {
+        List<Card> revealedCards = new ArrayList<>();
+
+        if (deck.size() < cards) {
+            shuffleDiscardIntoDeck();
+        }
+
+        if (deck.isEmpty()) {
+            addGameLog("No cards to reveal");
+        } else {
+            for (int i = 0; i < cards; i++) {
+                if (deck.size() < i+1) {
+                    addGameLog("No more cards to reveal");
+                } else {
+                    Card card = deck.get(i);
+                    addGameLog("Revealed card from top of deck: " + card.getName());
+                    revealedCards.add(card);
+                }
+            }
+        }
+
+        return revealedCards;
+    }
+
+    public void handleStrategicBombing(List<Card> revealedCards) {
+        //todo what happens if there are less than 3 revealed cards?
+        List<Card> cardsToDiscard = chooseCardsToDiscardForStrategicBombing();
+        for (Card card : cardsToDiscard) {
+            //todo
+        }
+    }
+
+    public abstract List<Card> chooseCardsToDiscardForStrategicBombing();
 
     public void addActions(int actions) {
         this.actions += actions;
@@ -172,7 +260,6 @@ public abstract class Player {
     }
 
     private void playerCardScrapped(Card card) {
-        cardRemovedFromPlay(card);
     }
 
     public void acquireFreeCardInSupplyAndPutOnTopOfDeck(Integer maxIndustryCost) {
@@ -295,6 +382,19 @@ public abstract class Player {
             addIndustry(1);
         }
     }
+
+    public void damageOpponentUnit() {
+        Unit unit = chooseOpponentUnitToDamage();
+        if (unit != null) {
+            getOpponent().cardDamaged(unit);
+        }
+    }
+
+    public abstract Unit chooseOpponentUnitToDamage();
+
+    public void addOpponentAction(Action action) {
+        opponent.getActionsQueue().add(action);
+    }
     
     public void addGameLog(String log) {
         getGame().gameLog(log);
@@ -362,5 +462,17 @@ public abstract class Player {
 
     public int getTurns() {
         return turns;
+    }
+
+    public List<Action> getActionsQueue() {
+        return actionsQueue;
+    }
+
+    public List<Card> getDeploymentZone() {
+        return deploymentZone;
+    }
+
+    public int getNumUnitsInDeploymentZone() {
+        return (int) deploymentZone.stream().filter(c -> c instanceof Unit).count();
     }
 }

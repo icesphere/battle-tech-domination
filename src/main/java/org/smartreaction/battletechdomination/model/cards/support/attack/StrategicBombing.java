@@ -1,7 +1,10 @@
 package org.smartreaction.battletechdomination.model.cards.support.attack;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.SupportAttack;
+
+import java.util.List;
 
 public class StrategicBombing extends SupportAttack {
     public StrategicBombing() {
@@ -12,6 +15,7 @@ public class StrategicBombing extends SupportAttack {
 
     @Override
     public void cardPlayed(Player player) {
-        //todo
+        List<Card> cards = player.getOpponent().revealTopCardsOfDeck(3);
+        player.handleStrategicBombing(cards);
     }
 }

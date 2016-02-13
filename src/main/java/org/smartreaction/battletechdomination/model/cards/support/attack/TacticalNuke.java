@@ -1,7 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.support.attack;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.SupportAttack;
+import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 
 public class TacticalNuke extends SupportAttack {
     public TacticalNuke() {
@@ -12,6 +14,13 @@ public class TacticalNuke extends SupportAttack {
 
     @Override
     public void cardPlayed(Player player) {
-        //todo
+        Card card = player.revealTopCardOfDeck();
+        if (card != null) {
+            player.discardTopCardOfDeck();
+            int roundedValue = (int) Math.round(card.getIndustryCost() / 2.0);
+            for (int i = 0; i < roundedValue; i++) {
+                 player.getOpponent().addOpponentAction(new DamageUnit());
+            }
+        }
     }
 }

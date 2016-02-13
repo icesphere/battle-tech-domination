@@ -27,7 +27,7 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof HighMaintenance) {
-            player.discardCards(1, false);
+            player.discardCardFromHand();
         }
 
         if (this instanceof Versatile) {

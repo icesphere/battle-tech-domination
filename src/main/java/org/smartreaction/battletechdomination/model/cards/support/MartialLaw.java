@@ -14,6 +14,6 @@ public class MartialLaw extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(2);
         player.addActions(2);
-        player.discardCards(1, false);
+        player.discardCardFromHand();
     }
 }

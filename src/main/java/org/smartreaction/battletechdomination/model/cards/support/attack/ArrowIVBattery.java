@@ -12,7 +12,7 @@ public class ArrowIVBattery extends SupportAttack {
 
     @Override
     public void cardPlayed(Player player) {
-        player.discardCards(1, false);
-        //todo
+        player.discardCardFromHand();
+        player.damageOpponentUnit();
     }
 }

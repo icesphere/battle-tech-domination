@@ -5,6 +5,10 @@ import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
+import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
+import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 
 import java.util.List;
 
@@ -22,6 +26,14 @@ public class Game {
     private List<CriticalHit> criticalHits;
 
     private List<Retreat> retreats;
+
+    private List<InfantryPlatoon> infantryPlatoons;
+
+    private List<BasicFactory> basicFactories;
+
+    private List<MunitionsFactory> munitionsFactories;
+
+    private List<AdvancedFactory> advancedFactories;
 
     private boolean createGameLog;
 
@@ -139,6 +151,38 @@ public class Game {
 
     public void setRetreats(List<Retreat> retreats) {
         this.retreats = retreats;
+    }
+
+    public List<InfantryPlatoon> getInfantryPlatoons() {
+        return infantryPlatoons;
+    }
+
+    public void setInfantryPlatoons(List<InfantryPlatoon> infantryPlatoons) {
+        this.infantryPlatoons = infantryPlatoons;
+    }
+
+    public List<BasicFactory> getBasicFactories() {
+        return basicFactories;
+    }
+
+    public void setBasicFactories(List<BasicFactory> basicFactories) {
+        this.basicFactories = basicFactories;
+    }
+
+    public List<MunitionsFactory> getMunitionsFactories() {
+        return munitionsFactories;
+    }
+
+    public void setMunitionsFactories(List<MunitionsFactory> munitionsFactories) {
+        this.munitionsFactories = munitionsFactories;
+    }
+
+    public List<AdvancedFactory> getAdvancedFactories() {
+        return advancedFactories;
+    }
+
+    public void setAdvancedFactories(List<AdvancedFactory> advancedFactories) {
+        this.advancedFactories = advancedFactories;
     }
 
     public int getTurn() {

@@ -14,6 +14,6 @@ public class StagingGround extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(3);
         player.addActions(1);
-        player.discardCards(3, false);
+        player.discardCardsFromHand(3, false);
     }
 }
