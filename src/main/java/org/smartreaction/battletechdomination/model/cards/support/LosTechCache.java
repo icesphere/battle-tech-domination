@@ -14,6 +14,6 @@ public class LosTechCache extends Support {
     @Override
     public void cardPlayed(Player player) {
         player.drawCards(3);
-        //todo
+        player.ignoreLosTechCost();
     }
 }

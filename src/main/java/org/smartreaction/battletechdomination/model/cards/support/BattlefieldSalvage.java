@@ -1,7 +1,10 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Support;
+
+import java.util.List;
 
 public class BattlefieldSalvage extends Support {
     public BattlefieldSalvage() {
@@ -13,6 +16,10 @@ public class BattlefieldSalvage extends Support {
     @Override
     public void cardPlayed(Player player) {
         player.addIndustry(2);
-        //todo
+        List<Card> cards = player.discardCardsFromHandOrDeploymentZone(1, true);
+        if (!cards.isEmpty()) {
+            Card card = cards.get(0);
+            player.addIndustry(card.getIndustryCost());
+        }
     }
 }

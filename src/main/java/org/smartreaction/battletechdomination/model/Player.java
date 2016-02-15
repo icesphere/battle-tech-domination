@@ -4,7 +4,10 @@ import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.actions.Action;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
+import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
+import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +27,8 @@ public abstract class Player {
 
     private List<Action> actionsQueue = new ArrayList<>();
 
+    private List<Card> setAside = new ArrayList<>();
+
     private int actions;
     private int attack;
     private int defense;
@@ -39,6 +44,16 @@ public abstract class Player {
     private int shuffles;
 
     private boolean firstPlayer;
+
+    private boolean ignoreLosTechCost;
+
+    private boolean mayPutBoughtOrGainedCardsOnTopOfDeck;
+
+    public void drawHandTo(int cards) {
+        if (hand.size() < cards) {
+            drawCards(cards - hand.size());
+        }
+    }
 
     public List<Card> drawCards(int cards) {
         List<Card> cardsDrawn = new ArrayList<>();
@@ -101,8 +116,18 @@ public abstract class Player {
         discardCardsFromHand(1, false);
     }
 
+    public List<Card> discardCardsFromHandOrDeploymentZone(int cards, boolean optional) {
+        List<Card> cardsToDiscard = getCardsToDiscardFromHandOrDeploymentZone(cards, optional);
+
+        for (Card card : cardsToDiscard) {
+            //todo figure out where the card is - maybe store card location on card
+        }
+
+        return cardsToDiscard;
+    }
+
     public List<Card> discardCardsFromHand(int cards, boolean optional) {
-        List<Card> cardsToDiscard = getCardsToDiscard(cards, optional);
+        List<Card> cardsToDiscard = getCardsToDiscardFromHand(cards, optional);
 
         for (Card card : cardsToDiscard) {
             discardCardFromHand(card);
@@ -111,7 +136,9 @@ public abstract class Player {
         return cardsToDiscard;
     }
 
-    public abstract List<Card> getCardsToDiscard(int cards, boolean optional);
+    public abstract List<Card> getCardsToDiscardFromHand(int cards, boolean optional);
+
+    public abstract List<Card> getCardsToDiscardFromHandOrDeploymentZone(int cards, boolean optional);
 
     public abstract List<Card> getCardsFromHandToAddToTopOfDeck(int cards);
 
@@ -133,6 +160,7 @@ public abstract class Player {
     public void gainMunitionsFactory() {
         if (!game.getMunitionsFactories().isEmpty()) {
             MunitionsFactory munitionsFactory = game.getMunitionsFactories().remove(0);
+            addGameLog("Gained " + munitionsFactory.getName());
             cardAcquired(munitionsFactory);
         }
     }
@@ -140,6 +168,7 @@ public abstract class Player {
     public void gainHeavyCasualties() {
         if (!game.getHeavyCasualties().isEmpty()) {
             HeavyCasualties heavyCasualties = game.getHeavyCasualties().remove(0);
+            addGameLog("Gained " + heavyCasualties.getName());
             cardAcquired(heavyCasualties);
         }
     }
@@ -147,7 +176,16 @@ public abstract class Player {
     public void gainRaidedSupplies() {
         if (!game.getRaidedSupplies().isEmpty()) {
             RaidedSupplies raidedSupplies = game.getRaidedSupplies().remove(0);
+            addGameLog("Gained " + raidedSupplies.getName());
             cardAcquired(raidedSupplies);
+        }
+    }
+
+    public void gainInfantryPlatoonIntoHand() {
+        if (!game.getInfantryPlatoons().isEmpty()) {
+            InfantryPlatoon infantryPlatoon = game.getInfantryPlatoons().remove(0);
+            addGameLog("Gained " + infantryPlatoon.getName() + " into hand");
+            addCardToHand(infantryPlatoon);
         }
     }
 
@@ -184,14 +222,44 @@ public abstract class Player {
     }
 
     public void handleStrategicBombing(List<Card> revealedCards) {
-        //todo what happens if there are less than 3 revealed cards?
-        List<Card> cardsToDiscard = chooseCardsToDiscardForStrategicBombing();
+        List<Card> cardsToDiscard;
+        if (revealedCards.size() < 3) {
+            cardsToDiscard = new ArrayList<>(revealedCards);
+        } else {
+            cardsToDiscard = chooseCardsToDiscardForStrategicBombing(revealedCards);
+        }
         for (Card card : cardsToDiscard) {
-            //todo
+            opponent.getDeck().remove(card);
+            opponent.getDiscard().add(card);
+            revealedCards.remove(card);
+            addGameLog("Discarded " + card.getName() + " from opponent's deck");
+        }
+        if (!revealedCards.isEmpty()) {
+            Card card = revealedCards.get(0);
+            opponent.addCardToTopOfDeck(card);
+            addGameLog("Put " + card.getName() + " back on top of opponent's deck");
         }
     }
 
-    public abstract List<Card> chooseCardsToDiscardForStrategicBombing();
+    public abstract List<Card> chooseCardsToDiscardForStrategicBombing(List<Card> cards);
+
+    public void putCardsOnTopOfDeckInAnyOrder(List<Card> cards) {
+        List<Card> orderedCards = chooseOrderToPutCardsOnTopOfDeck(cards);
+        deck.addAll(0, orderedCards);
+    }
+
+    public abstract List<Card> chooseOrderToPutCardsOnTopOfDeck(List<Card> cards);
+
+    public void addUnitFromDeploymentZoneToHand() {
+        Card card = chooseCardFromDeploymentZoneToAddToHand();
+        if (card != null) {
+            deploymentZone.remove(card);
+            hand.add(card);
+            addGameLog("Moved " + card.getName() + " from deployment zone into hand");
+        }
+    }
+
+    public abstract Card chooseCardFromDeploymentZoneToAddToHand();
 
     public void addActions(int actions) {
         this.actions += actions;
@@ -217,13 +285,15 @@ public abstract class Player {
         scrapCardsFromHandOrDiscard(1, cardType);
     }
 
-    public void scrapCardFromHand(CardType cardType, boolean optional) {
+    public Card scrapCardFromHand(CardType cardType, boolean optional) {
+        Card card = null;
         if (!hand.isEmpty()) {
-            Card card = getCardToScrapFromHand(cardType, optional);
+            card = getCardToScrapFromHand(cardType, optional);
             if (card != null) {
                 scrapCardFromHand(card);
             }
         }
+        return card;
     }
 
     public int scrapCardsFromHandOrDiscard(int cards, CardType cardType) {
@@ -274,8 +344,42 @@ public abstract class Player {
     
     public abstract Card chooseFreeCardFromSupplyToPutOnTopOfDeck(Integer maxIndustryCost);
 
+    public void gainFreeResourceCardIntoHand(int maxIndustryCost) {
+        //todo does this include Dropship and Strip Mining?
+
+        List<Card> resourceCards = new ArrayList<>();
+        if (!game.getAdvancedFactories().isEmpty()) {
+            resourceCards.add(new AdvancedFactory());
+        }
+        if (!game.getBasicFactories().isEmpty()) {
+            resourceCards.add(new BasicFactory());
+        }
+        if (!game.getMunitionsFactories().isEmpty()) {
+            resourceCards.add(new MunitionsFactory());
+        }
+
+        if (!resourceCards.isEmpty()) {
+            Card card = chooseFreeResourceCardToPutIntoHand(maxIndustryCost);
+            if (card != null) {
+                addGameLog("Acquired free Resource card into hand: " + card.getName());
+                addCardToHand(card);
+                if (card instanceof AdvancedFactory) {
+                    game.getAdvancedFactories().remove(0);
+                } else if (card instanceof BasicFactory) {
+                    game.getBasicFactories().remove(0);
+                } else if (card instanceof MunitionsFactory) {
+                    game.getMunitionsFactories().remove(0);
+                }
+            }
+        }
+    }
+
+    public abstract Card chooseFreeResourceCardToPutIntoHand(int maxIndustryCost);
+
     public void setupTurn() {
         actions = 2;
+        hand.addAll(setAside);
+        setAside.clear();
     }
 
     public abstract void takeTurn();
@@ -310,6 +414,9 @@ public abstract class Player {
         defense = 0;
         industry = 0;
         losTech = 0;
+
+        ignoreLosTechCost = false;
+        mayPutBoughtOrGainedCardsOnTopOfDeck = false;
 
         for (Card card : resourcesPlayed) {
             discard.add(card);
@@ -395,7 +502,16 @@ public abstract class Player {
     public void addOpponentAction(Action action) {
         opponent.getActionsQueue().add(action);
     }
-    
+
+    public void setAsideCardFromHand() {
+        Card card = chooseCardToSetAside();
+        if (card != null) {
+            setAside.add(card);
+        }
+    }
+
+    public abstract Card chooseCardToSetAside();
+
     public void addGameLog(String log) {
         getGame().gameLog(log);
     }
@@ -474,5 +590,41 @@ public abstract class Player {
 
     public int getNumUnitsInDeploymentZone() {
         return (int) deploymentZone.stream().filter(c -> c instanceof Unit).count();
+    }
+
+    public List<Card> getSetAside() {
+        return setAside;
+    }
+
+    public void ignoreLosTechCost() {
+        this.ignoreLosTechCost = true;
+    }
+
+    public void mayPutBoughtOrGainedCardsOnTopOfDeck() {
+        mayPutBoughtOrGainedCardsOnTopOfDeck = true;
+    }
+
+    public List<Card> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(List<Card> deck) {
+        this.deck = deck;
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public void setHand(List<Card> hand) {
+        this.hand = hand;
+    }
+
+    public List<Card> getDiscard() {
+        return discard;
+    }
+
+    public void setDiscard(List<Card> discard) {
+        this.discard = discard;
     }
 }

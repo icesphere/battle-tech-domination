@@ -12,6 +12,9 @@ public class Mobilization extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        //todo
+        player.drawHandTo(6);
+        if (player.getNumUnitsInDeploymentZone() < player.getOpponent().getNumUnitsInDeploymentZone()) {
+            player.addActions(1);
+        }
     }
 }

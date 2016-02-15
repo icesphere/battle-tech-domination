@@ -14,6 +14,6 @@ public class HiddenBase extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(1);
         player.addActions(1);
-        //todo
+        player.setAsideCardFromHand();
     }
 }

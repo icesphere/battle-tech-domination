@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.CardType;
 import org.smartreaction.battletechdomination.model.cards.Support;
 
@@ -13,7 +14,9 @@ public class Refinery extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        player.scrapCardFromHand(CardType.RESOURCE, false);
-        //todo
+        Card card = player.scrapCardFromHand(CardType.RESOURCE, false);
+        if (card != null) {
+            player.gainFreeResourceCardIntoHand(card.getIndustryCost() + 3);
+        }
     }
 }

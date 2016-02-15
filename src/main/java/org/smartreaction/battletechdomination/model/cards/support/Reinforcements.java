@@ -1,7 +1,12 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Support;
+import org.smartreaction.battletechdomination.model.cards.Unit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reinforcements extends Support {
     public Reinforcements() {
@@ -13,6 +18,17 @@ public class Reinforcements extends Support {
     @Override
     public void cardPlayed(Player player) {
         player.addActions(1);
-        //todo
+        List<Card> cards = player.revealTopCardsOfDeck(4);
+        List<Card> nonUnitCards = new ArrayList<>();
+        for (Card card : cards) {
+            player.getDeck().remove(card);
+            if (card instanceof Unit) {
+                player.addGameLog("Adding Unit to hand: " + card.getName());
+                player.addCardToHand(card);
+            } else {
+                nonUnitCards.add(card);
+            }
+        }
+        player.putCardsOnTopOfDeckInAnyOrder(nonUnitCards);
     }
 }

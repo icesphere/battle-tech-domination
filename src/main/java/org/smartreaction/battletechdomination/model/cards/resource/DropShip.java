@@ -5,7 +5,7 @@ import org.smartreaction.battletechdomination.model.cards.Resource;
 
 public class DropShip extends Resource {
     public DropShip() {
-        name = "Drop Ship";
+        name = "Dropship";
         cardText = "+3 Cards. Put a card from your hand on top of your deck.";
         industryCost = 4;
     }
