@@ -11,6 +11,7 @@ public abstract class Card {
     protected CardType cardType;
     protected int industryCost;
     protected int losTechCost;
+    protected CardLocation cardLocation;
 
     public abstract void cardPlayed(Player player);
 
@@ -50,6 +51,14 @@ public abstract class Card {
         this.name = name;
     }
 
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
+    }
+
     public String getCardText() {
         return cardText;
     }
@@ -80,5 +89,13 @@ public abstract class Card {
 
     public void setLosTechCost(int losTechCost) {
         this.losTechCost = losTechCost;
+    }
+
+    public CardLocation getCardLocation() {
+        return cardLocation;
+    }
+
+    public void setCardLocation(CardLocation cardLocation) {
+        this.cardLocation = cardLocation;
     }
 }

@@ -77,28 +77,39 @@ public abstract class Player {
     private void shuffleDiscardIntoDeck() {
         addGameLog("Shuffling discard into deck");
         Collections.shuffle(discard);
+        for (Card card : discard) {
+            card.setCardLocation(CardLocation.DECK);
+        }
         deck.addAll(discard);
         discard.clear();
         shuffles++;
     }
 
     public void addCardToHand(Card card) {
+        card.setCardLocation(CardLocation.HAND);
         hand.add(card);
     }
 
     public void addCardToTopOfDeck(Card card) {
+        card.setCardLocation(CardLocation.DECK);
         deck.add(0, card);
         addGameLog(card.getName() + " added to top of deck");
     }
 
     private void cardAcquired(Card card) {
-        discard.add(card);
+        addCardToDiscard(card);
     }
 
     public void discardCardFromHand(Card card) {
         hand.remove(card);
-        discard.add(card);
+        addCardToDiscard(card);
         addGameLog("Discarded " + card.getName() + " from hand");
+    }
+
+    public void discardCardFromDeploymentZone(Card card) {
+        deploymentZone.remove(card);
+        addCardToDiscard(card);
+        addGameLog("Discarded " + card.getName() + " from deployment zone");
     }
 
     public void opponentDiscardsCard() {
@@ -109,21 +120,34 @@ public abstract class Player {
     public void discardTopCardOfDeck() {
         Card card = deck.remove(0);
         addGameLog("Discarded " + card.getName() + " from top of deck");
-        discard.add(card);
+        addCardToDiscard(card);
     }
 
     public void discardCardFromHand() {
         discardCardsFromHand(1, false);
     }
 
+    public void addCardToDiscard(Card card) {
+        card.setCardLocation(CardLocation.DISCARD);
+        discard.add(card);
+    }
+
     public List<Card> discardCardsFromHandOrDeploymentZone(int cards, boolean optional) {
         List<Card> cardsToDiscard = getCardsToDiscardFromHandOrDeploymentZone(cards, optional);
 
         for (Card card : cardsToDiscard) {
-            //todo figure out where the card is - maybe store card location on card
+            if (card.getCardLocation() == CardLocation.HAND) {
+                discardCardFromHand(card);
+            } else if (card.getCardLocation() == CardLocation.DEPLOYMENT_ZONE) {
+                discardCardFromDeploymentZone(card);
+            }
         }
 
         return cardsToDiscard;
+    }
+
+    public void removeCardFromDeck(Card card) {
+        deck.remove(card);
     }
 
     public List<Card> discardCardsFromHand(int cards, boolean optional) {
@@ -229,8 +253,8 @@ public abstract class Player {
             cardsToDiscard = chooseCardsToDiscardForStrategicBombing(revealedCards);
         }
         for (Card card : cardsToDiscard) {
-            opponent.getDeck().remove(card);
-            opponent.getDiscard().add(card);
+            opponent.removeCardFromDeck(card);
+            opponent.addCardToDiscard(card);
             revealedCards.remove(card);
             addGameLog("Discarded " + card.getName() + " from opponent's deck");
         }
@@ -419,19 +443,21 @@ public abstract class Player {
         mayPutBoughtOrGainedCardsOnTopOfDeck = false;
 
         for (Card card : resourcesPlayed) {
-            discard.add(card);
+            addCardToDiscard(card);
             cardRemovedFromPlay(card);
         }
 
         for (Card card : supportCardsPlayed) {
-            discard.add(card);
+            addCardToDiscard(card);
             cardRemovedFromPlay(card);
         }
 
         resourcesPlayed.clear();
         supportCardsPlayed.clear();
 
-        discard.addAll(hand);
+        for (Card card : hand) {
+            addCardToDiscard(card);
+        }
         hand.clear();
 
         drawCards(5);
@@ -473,7 +499,7 @@ public abstract class Player {
         card.cardDamaged(this);
         addGameLog("Damaged " + card.getName());
         deploymentZone.remove(card);
-        discard.add(card);
+        addCardToDiscard(card);
         cardRemovedFromPlay(card);
     }
     
@@ -602,29 +628,5 @@ public abstract class Player {
 
     public void mayPutBoughtOrGainedCardsOnTopOfDeck() {
         mayPutBoughtOrGainedCardsOnTopOfDeck = true;
-    }
-
-    public List<Card> getDeck() {
-        return deck;
-    }
-
-    public void setDeck(List<Card> deck) {
-        this.deck = deck;
-    }
-
-    public List<Card> getHand() {
-        return hand;
-    }
-
-    public void setHand(List<Card> hand) {
-        this.hand = hand;
-    }
-
-    public List<Card> getDiscard() {
-        return discard;
-    }
-
-    public void setDiscard(List<Card> discard) {
-        this.discard = discard;
     }
 }
