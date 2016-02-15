@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.HeavyFireSupport;
 
-public class Catapult extends MechUnit {
+public class Catapult extends MechUnit implements HeavyFireSupport {
     public Catapult() {
         name = "Catapult";
         subName = "CPLT-C1";

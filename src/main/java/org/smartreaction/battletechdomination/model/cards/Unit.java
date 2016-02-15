@@ -3,6 +3,7 @@ package org.smartreaction.battletechdomination.model.cards;
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.Player;
 import org.smartreaction.battletechdomination.model.cards.abilities.*;
+import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 
 public abstract class Unit extends Card {
     protected int attack;
@@ -19,11 +20,11 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof SwarmAttack) {
-            player.getOpponent().damageMech();
+            player.addOpponentAction(new DamageUnit(CardType.UNIT_MECH));
         }
 
         if (this instanceof AntiInfantry) {
-            player.getOpponent().damageInfantry();
+            player.addOpponentAction(new DamageUnit(CardType.UNIT_INFANTRY));
         }
 
         if (this instanceof HighMaintenance) {

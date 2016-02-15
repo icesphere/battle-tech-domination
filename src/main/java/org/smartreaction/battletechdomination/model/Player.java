@@ -1,7 +1,9 @@
 package org.smartreaction.battletechdomination.model;
 
 import org.smartreaction.battletechdomination.model.cards.*;
+import org.smartreaction.battletechdomination.model.cards.abilities.AC20;
 import org.smartreaction.battletechdomination.model.cards.actions.Action;
+import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
@@ -36,6 +38,8 @@ public abstract class Player {
     private int losTech;
 
     private int turns;
+
+    private TurnPhase turnPhase;
 
     private Player opponent;
 
@@ -369,8 +373,6 @@ public abstract class Player {
     public abstract Card chooseFreeCardFromSupplyToPutOnTopOfDeck(Integer maxIndustryCost);
 
     public void gainFreeResourceCardIntoHand(int maxIndustryCost) {
-        //todo does this include Dropship and Strip Mining?
-
         List<Card> resourceCards = new ArrayList<>();
         if (!game.getAdvancedFactories().isEmpty()) {
             resourceCards.add(new AdvancedFactory());
@@ -380,6 +382,12 @@ public abstract class Player {
         }
         if (!game.getMunitionsFactories().isEmpty()) {
             resourceCards.add(new MunitionsFactory());
+        }
+
+        for (Card card : game.getSupply()) {
+            if (card instanceof Resource) {
+                resourceCards.add(card);
+            }
         }
 
         if (!resourceCards.isEmpty()) {
@@ -393,6 +401,9 @@ public abstract class Player {
                     game.getBasicFactories().remove(0);
                 } else if (card instanceof MunitionsFactory) {
                     game.getMunitionsFactories().remove(0);
+                } else {
+                    game.getSupply().remove(card);
+                    game.addCardToSupplyGrid();
                 }
             }
         }
@@ -404,6 +415,7 @@ public abstract class Player {
         actions = 2;
         hand.addAll(setAside);
         setAside.clear();
+        turnPhase = TurnPhase.COMBAT;
     }
 
     public abstract void takeTurn();
@@ -428,10 +440,26 @@ public abstract class Player {
         }
     }
 
+    public void useMechAbility(MechUnit unit) {
+        if (unit.isAbilityAvailable(this)) {
+            unit.setAbilityUsed(true);
+            if (unit instanceof AC20) {
+                Card card = revealTopCardOfDeck();
+                if (card instanceof Resource) {
+                    addOpponentAction(new DamageUnit(CardType.UNIT_MECH));
+                } else if (card instanceof Support) {
+                    cardDamaged(card);
+                }
+            }
+        }
+    }
+
     public void endTurn() {
         addGameLog("Ending turn");
 
         turns++;
+
+        turnPhase = TurnPhase.NONE;
 
         actions = 0;
         attack = 0;
@@ -628,5 +656,13 @@ public abstract class Player {
 
     public void mayPutBoughtOrGainedCardsOnTopOfDeck() {
         mayPutBoughtOrGainedCardsOnTopOfDeck = true;
+    }
+
+    public TurnPhase getTurnPhase() {
+        return turnPhase;
+    }
+
+    public void setTurnPhase(TurnPhase turnPhase) {
+        this.turnPhase = turnPhase;
     }
 }

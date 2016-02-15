@@ -1,7 +1,11 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
 import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Support;
+
+import java.util.Collections;
+import java.util.List;
 
 public class HighCommand extends Support {
     public HighCommand() {
@@ -12,6 +16,32 @@ public class HighCommand extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        //todo - need to figure out how Los Tech factors into the highest cost card
+        List<Card> cards = player.revealTopCardsOfDeck(5);
+        Collections.shuffle(cards);
+
+        int highestValue = 0;
+
+        Card cardWithHighestValue = null;
+
+        for (Card card : cards) {
+            int value = card.getIndustryCost();
+            if (card.getLosTechCost() > 0) {
+                value++;
+            }
+            if (value >= highestValue) {
+                highestValue = value;
+                cardWithHighestValue = card;
+            }
+        }
+
+        if (cardWithHighestValue != null) {
+            player.addGameLog("Discarded " + cardWithHighestValue.getName());
+            player.addCardToDiscard(cardWithHighestValue);
+            cards.remove(cardWithHighestValue);
+        }
+
+        for (Card card : cards) {
+            player.addCardToHand(card);
+        }
     }
 }

@@ -10,6 +10,7 @@ import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -18,6 +19,8 @@ public class Game {
     private List<Player> players;
 
     private List<Card> supply;
+
+    private List<Card> supplyGrid = new ArrayList<>();
 
     private List<HeavyCasualties> heavyCasualties;
 
@@ -83,6 +86,37 @@ public class Game {
             gameLog(playerName + "'s cards: ");
             player.getAllCards().forEach(c -> gameLog(c.getName()));
         }
+    }
+
+    public void addCardToSupplyGrid() {
+        addCardsToSupplyGrid(1);
+    }
+
+    public void addCardsToSupplyGrid(int cards) {
+        for (int i = 0; i < cards; i++) {
+            if (!supply.isEmpty()) {
+                addCardToSupplyGrid(supply.remove(0));
+            }
+        }
+        gameLog("Supply Grid: " + getCardsAsString(supplyGrid));
+    }
+
+    public void addCardToSupplyGrid(Card card) {
+        supplyGrid.add(card);
+    }
+
+    public String getCardsAsString(List cards) {
+        String cardString = "";
+        boolean first = true;
+        for (Object card : cards) {
+            if (!first) {
+                cardString += ", ";
+            } else {
+                first = false;
+            }
+            cardString += ((Card) card).getName();
+        }
+        return cardString;
     }
 
     public Player getCurrentPlayer() {
