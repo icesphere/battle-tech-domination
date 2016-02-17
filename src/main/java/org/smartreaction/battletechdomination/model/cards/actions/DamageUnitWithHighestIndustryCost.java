@@ -1,5 +1,5 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
-public interface Action {
-    //todo
+public class DamageUnitWithHighestIndustryCost implements Action {
+
 }

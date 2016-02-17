@@ -1,11 +1,12 @@
 package org.smartreaction.battletechdomination.model;
 
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.abilities.AC20;
-import org.smartreaction.battletechdomination.model.cards.actions.Action;
-import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.*;
+import org.smartreaction.battletechdomination.model.cards.actions.*;
+import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
+import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
 import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
@@ -100,6 +101,14 @@ public abstract class Player {
         addGameLog(card.getName() + " added to top of deck");
     }
 
+    private void cardBought(Card card) {
+        if (card instanceof QuickToAction) {
+            makeYesNoChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");
+        } else {
+            cardAcquired(card);
+        }
+    }
+
     private void cardAcquired(Card card) {
         addCardToDiscard(card);
     }
@@ -136,6 +145,12 @@ public abstract class Player {
         discard.add(card);
     }
 
+    public void shuffleCardIntoDeck(Card card) {
+        deck.add(card);
+        Collections.shuffle(deck);
+        addGameLog("Shuffled " + card.getName() + " into deck");
+    }
+
     public List<Card> discardCardsFromHandOrDeploymentZone(int cards, boolean optional) {
         List<Card> cardsToDiscard = getCardsToDiscardFromHandOrDeploymentZone(cards, optional);
 
@@ -164,6 +179,25 @@ public abstract class Player {
         return cardsToDiscard;
     }
 
+    public void discardUnitFromHandToDamageOpponentUnit() {
+        Unit unit = getUnitFromHandToDiscardToDamageOpponentUnit();
+        if (unit != null) {
+            discardCardFromHand(unit);
+            addOpponentAction(new DamageUnit());
+        }
+    }
+
+    public void discardCardFromHandForPlusOneAttack() {
+        Card card = getCardFromHandToDiscardForPlusOneAttack();
+        if (card != null) {
+            attack++;
+        }
+    }
+
+    public abstract Card getCardFromHandToDiscardForPlusOneAttack();
+
+    public abstract Unit getUnitFromHandToDiscardToDamageOpponentUnit();
+
     public abstract List<Card> getCardsToDiscardFromHand(int cards, boolean optional);
 
     public abstract List<Card> getCardsToDiscardFromHandOrDeploymentZone(int cards, boolean optional);
@@ -171,6 +205,8 @@ public abstract class Player {
     public abstract List<Card> getCardsFromHandToAddToTopOfDeck(int cards);
 
     public abstract void makeChoice(Card card, Choice... choices);
+
+    public abstract void makeYesNoChoice(Card card, String choiceIdentifier, String text);
 
     public void addCardsFromHandToTopOfDeck(int cards) {
         List<Card> cardsFromHand = getCardsFromHandToAddToTopOfDeck(cards);
@@ -206,6 +242,22 @@ public abstract class Player {
             RaidedSupplies raidedSupplies = game.getRaidedSupplies().remove(0);
             addGameLog("Gained " + raidedSupplies.getName());
             cardAcquired(raidedSupplies);
+        }
+    }
+
+    public void gainRetreat() {
+        if (!game.getRetreats().isEmpty()) {
+            Retreat retreat = game.getRetreats().remove(0);
+            addGameLog("Gained " + retreat.getName());
+            cardAcquired(retreat);
+        }
+    }
+
+    public void gainCriticalHit() {
+        if (!game.getCriticalHits().isEmpty()) {
+            CriticalHit criticalHit = game.getCriticalHits().remove(0);
+            addGameLog("Gained " + criticalHit.getName());
+            cardAcquired(criticalHit);
         }
     }
 
@@ -415,7 +467,123 @@ public abstract class Player {
         actions = 2;
         hand.addAll(setAside);
         setAside.clear();
+        startCombatPhase();
+    }
+
+    public void startCombatPhase() {
+        turnPhase = TurnPhase.COMBAT_START;
+
+        attack = 0;
+        defense = 0;
+        opponent.setAttack(0);
+        opponent.setDefense(0);
+    }
+
+    public void continueCombatPhase() {
         turnPhase = TurnPhase.COMBAT;
+
+        applyCombatPhaseBonuses();
+        opponent.applyCombatPhaseBonuses();
+    }
+
+    public void endCombatPhase() {
+        sumAttackAndDefense();
+        opponent.sumAttackAndDefense();
+
+        if (attack > opponent.getDefense()) {
+            int difference = attack - opponent.getDefense();
+
+            if (difference >= 4) {
+                opponent.gainRetreat();
+            } else if (difference == 3) {
+                opponent.gainCriticalHit();
+            } else if (difference == 2) {
+                opponent.gainRaidedSupplies();
+            } else if (difference == 1) {
+                opponent.gainHeavyCasualties();
+            }
+
+            List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
+
+            for (Card card : deploymentZoneCopy) {
+                if (card instanceof GreatDeath) {
+                    addOpponentAction(new DamageUnit());
+                }
+                if (card instanceof GuerrillaFighter) {
+                    drawCards(1);
+                }
+                if (card instanceof PoorHeatManagement) {
+                    discardCardsFromHand(1, false);
+                    deploymentZone.remove(card);
+                    shuffleCardIntoDeck(card);
+                }
+            }
+        }
+
+        if (attack > 0) {
+            addOpponentAction(new DamageUnit());
+        }
+    }
+
+    public void applyCombatPhaseBonuses() {
+        for (Card card : deploymentZone) {
+            if (card instanceof CityFighter) {
+                ((MechUnit) card).setAbilityUsed(true);
+                if (opponent.getNumInfantryUnitsInDeploymentZone() >= 2) {
+                    addGameLog("Gained +1 Attack from CityFighter ability");
+                    attack++;
+                }
+            }
+
+            if (card instanceof ECM) {
+                ((MechUnit) card).setAbilityUsed(true);
+                List<Card> otherDeploymentZoneCards = new ArrayList<>(deploymentZone);
+                otherDeploymentZoneCards.remove(card);
+                for (Card otherDeploymentZoneCard : otherDeploymentZoneCards) {
+                    addGameLog("All other Mech units gained +1 Defense from ECM ability");
+                    if (otherDeploymentZoneCard instanceof MechUnit) {
+                        ((MechUnit) otherDeploymentZoneCard).setBonusDefense(((MechUnit) otherDeploymentZoneCard).getBonusDefense() + 1);
+                    }
+                }
+            }
+
+            if (card instanceof Heroic) {
+                if (getNumUnitsInDeploymentZone() < opponent.getNumUnitsInDeploymentZone()) {
+                    addGameLog("Gained +1 Attack and +2 Defense from Heroic ability");
+                    attack++;
+                    defense += 2;
+                }
+            }
+
+            if (card instanceof Inspiring) {
+                List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
+                for (Card deploymentZoneCard : deploymentZoneCopy) {
+                    if (deploymentZoneCard instanceof InfantryPlatoon) {
+                        ((InfantryPlatoon) deploymentZoneCard).setBonusAttack(((InfantryPlatoon) deploymentZoneCard).getBonusAttack() + 1);
+                    }
+                }
+            }
+
+            if (card instanceof LRMFireSupport) {
+                List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
+                for (Card deploymentZoneCard : deploymentZoneCopy) {
+                    if (deploymentZoneCard instanceof MechUnit) {
+                        ((MechUnit) deploymentZoneCard).setBonusAttack(((MechUnit) deploymentZoneCard).getBonusAttack() + 1);
+                    }
+                }
+            }
+        }
+    }
+
+    public void sumAttackAndDefense() {
+        for (Card card : deploymentZone) {
+            if (card instanceof Unit) {
+                attack += ((Unit) card).getAttack();
+                attack += ((Unit) card).getBonusAttack();
+                defense += ((Unit) card).getDefense();
+                defense += ((Unit) card).getBonusDefense();
+            }
+        }
     }
 
     public abstract void takeTurn();
@@ -432,11 +600,27 @@ public abstract class Player {
                 resourcesPlayed.add(card);
             } else if (card instanceof Support || card instanceof SupportAttack) {
                 supportCardsPlayed.add(card);
-            } else if (card instanceof Unit || card instanceof SupportReaction) {
+            } else if (card instanceof SupportReaction) {
                 deploymentZone.add(card);
+            } else if (card instanceof Unit) {
+                deployUnit((Unit) card);
             }
 
             card.cardPlayed(this);
+        }
+    }
+
+    public void deployUnit(Unit unit) {
+        if (!unit.isDeployable(this)) {
+            addGameLog(unit.getName() + " is not deployable");
+            return;
+        }
+        if (unit instanceof MechUnit || unit instanceof VehicleUnit) {
+            for (Card card : opponent.getDeploymentZone()) {
+                if (card instanceof ActiveProbe) {
+                    opponent.drawCards(1);
+                }
+            }
         }
     }
 
@@ -449,6 +633,36 @@ public abstract class Player {
                     addOpponentAction(new DamageUnit(CardType.UNIT_MECH));
                 } else if (card instanceof Support) {
                     cardDamaged(card);
+                }
+            }
+
+            if (unit instanceof Expendable) {
+                cardDamaged(unit);
+                attack++;
+            }
+
+            if (unit instanceof DeathFromAbove) {
+                cardDamaged(unit);
+                addOpponentAction(new ScrapUnitMaxCost(5));
+            }
+
+            if (unit instanceof HeavyFireSupport) {
+                discardUnitFromHandToDamageOpponentUnit();
+            }
+
+            if (unit instanceof MobileFireSupport) {
+                discardCardFromHandForPlusOneAttack();
+            }
+
+            if (unit instanceof Overheat) {
+                cardDamaged(unit);
+                attack += 4;
+            }
+
+            if (unit instanceof QuadERPPCs) {
+                List<Card> cards = discardCardsFromHand(2, false);
+                if (cards.size() == 2) {
+                    opponent.gainHeavyCasualties();
                 }
             }
         }
@@ -478,6 +692,12 @@ public abstract class Player {
         for (Card card : supportCardsPlayed) {
             addCardToDiscard(card);
             cardRemovedFromPlay(card);
+        }
+
+        for (Card card : deploymentZone) {
+            if (card instanceof MechUnit) {
+                ((MechUnit) card).setAbilityUsed(false);
+            }
         }
 
         resourcesPlayed.clear();
@@ -524,11 +744,40 @@ public abstract class Player {
     public abstract MechUnit chooseUnitToDamage(CardType type);
 
     public void cardDamaged(Card card) {
-        card.cardDamaged(this);
         addGameLog("Damaged " + card.getName());
         deploymentZone.remove(card);
-        addCardToDiscard(card);
-        cardRemovedFromPlay(card);
+
+        if (card instanceof CounterAttack) {
+            addOpponentAction(new DamageUnitWithHighestIndustryCost());
+        }
+
+        if (card instanceof Durable) {
+            drawCards(1);
+        }
+
+        if (card instanceof HeavyArmor) {
+            makeYesNoChoice(card, "HeavyArmor", "Shuffle " + card.getName() + " into deck?");
+        } else {
+            addCardToDiscard(card);
+            cardRemovedFromPlay(card);
+        }
+    }
+
+    public void yesNoChoiceMade(Card card, String choiceIdentifier, int choice) {
+        if (choiceIdentifier.equals("HeavyArmor")) {
+            if (choice == 1) {
+                shuffleCardIntoDeck(card);
+            } else {
+                addCardToDiscard(card);
+                cardRemovedFromPlay(card);
+            }
+        } else if (choiceIdentifier.equals("QuickToAction")) {
+            if (choice == 1) {
+                addCardToTopOfDeck(card);
+            } else {
+                addCardToDiscard(card);
+            }
+        }
     }
     
     public void versatileChoiceMade(int choice) {
@@ -618,8 +867,16 @@ public abstract class Player {
         return attack;
     }
 
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
     public int getDefense() {
         return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public int getIndustry() {
@@ -644,6 +901,14 @@ public abstract class Player {
 
     public int getNumUnitsInDeploymentZone() {
         return (int) deploymentZone.stream().filter(c -> c instanceof Unit).count();
+    }
+
+    public int getNumMechUnitsInDeploymentZone() {
+        return (int) deploymentZone.stream().filter(c -> c instanceof MechUnit).count();
+    }
+
+    public int getNumInfantryUnitsInDeploymentZone() {
+        return (int) deploymentZone.stream().filter(c -> c instanceof InfantryUnit).count();
     }
 
     public List<Card> getSetAside() {

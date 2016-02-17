@@ -2,7 +2,7 @@ package org.smartreaction.battletechdomination.model.cards;
 
 import org.smartreaction.battletechdomination.model.Player;
 import org.smartreaction.battletechdomination.model.TurnPhase;
-import org.smartreaction.battletechdomination.model.cards.abilities.AC20;
+import org.smartreaction.battletechdomination.model.cards.abilities.*;
 
 public abstract class MechUnit extends Unit {
     protected MechUnit() {
@@ -24,8 +24,46 @@ public abstract class MechUnit extends Unit {
             return false;
         }
 
+        TurnPhase turnPhase = player.getTurnPhase();
+
         if (this instanceof AC20) {
-            if (player.getTurnPhase() == TurnPhase.ACTION) {
+            if (turnPhase == TurnPhase.ACTION) {
+                return true;
+            }
+        }
+
+        if (this instanceof DeathFromAbove) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof Expendable) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof HeavyFireSupport) {
+            if (turnPhase == TurnPhase.ACTION) {
+                return true;
+            }
+        }
+
+        if (this instanceof MobileFireSupport) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof Overheat) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof QuadERPPCs) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
                 return true;
             }
         }
