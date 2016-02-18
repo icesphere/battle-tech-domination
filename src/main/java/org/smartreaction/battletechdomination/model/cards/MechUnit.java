@@ -68,6 +68,12 @@ public abstract class MechUnit extends Unit {
             }
         }
 
+        if (this instanceof Scout) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

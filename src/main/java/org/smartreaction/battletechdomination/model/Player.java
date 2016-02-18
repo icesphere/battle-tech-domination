@@ -10,6 +10,8 @@ import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
 import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public abstract class Player {
     private List<Card> resourcesPlayed = new ArrayList<>();
     private List<Card> supportCardsPlayed = new ArrayList<>();
 
-    private List<Card> deploymentZone = new ArrayList<>();
+    private List<Unit> deploymentZone = new ArrayList<>();
 
     private List<Action> actionsQueue = new ArrayList<>();
 
@@ -53,6 +55,10 @@ public abstract class Player {
     private boolean ignoreLosTechCost;
 
     private boolean mayPutBoughtOrGainedCardsOnTopOfDeck;
+
+    private boolean expertMechTechsInDeploymentZone;
+
+    private boolean forwardBaseInDeploymentZone;
 
     public void drawHandTo(int cards) {
         if (hand.size() < cards) {
@@ -103,7 +109,7 @@ public abstract class Player {
 
     private void cardBought(Card card) {
         if (card instanceof QuickToAction) {
-            makeYesNoChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");
+            makeYesNoAbilityChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");
         } else {
             cardAcquired(card);
         }
@@ -206,7 +212,9 @@ public abstract class Player {
 
     public abstract void makeChoice(Card card, Choice... choices);
 
-    public abstract void makeYesNoChoice(Card card, String choiceIdentifier, String text);
+    public abstract void makeAbilityChoice(Card card, String abilityName, Choice... choices);
+
+    public abstract void makeYesNoAbilityChoice(Card card, String abilityName, String text);
 
     public void addCardsFromHandToTopOfDeck(int cards) {
         List<Card> cardsFromHand = getCardsFromHandToAddToTopOfDeck(cards);
@@ -410,6 +418,10 @@ public abstract class Player {
     }
 
     private void playerCardScrapped(Card card) {
+        if (card instanceof TacticalCommand) {
+            addGameLog("Opponent draws 2 cards from " + card.getName() + " being scrapped");
+            opponent.drawCards(2);
+        }
     }
 
     public void acquireFreeCardInSupplyAndPutOnTopOfDeck(Integer maxIndustryCost) {
@@ -492,6 +504,10 @@ public abstract class Player {
 
         if (attack > opponent.getDefense()) {
             int difference = attack - opponent.getDefense();
+
+            if (opponent.isForwardBaseInDeploymentZone()) {
+                addOpponentAction(new ScrapForwardBaseOnOverrun());
+            }
 
             if (difference >= 4) {
                 opponent.gainRetreat();
@@ -601,7 +617,11 @@ public abstract class Player {
             } else if (card instanceof Support || card instanceof SupportAttack) {
                 supportCardsPlayed.add(card);
             } else if (card instanceof SupportReaction) {
-                deploymentZone.add(card);
+                if (card instanceof ExpertMechTechs) {
+                    expertMechTechsInDeploymentZone = true;
+                } else if (card instanceof ForwardBase) {
+                    forwardBaseInDeploymentZone = true;
+                }
             } else if (card instanceof Unit) {
                 deployUnit((Unit) card);
             }
@@ -615,6 +635,7 @@ public abstract class Player {
             addGameLog(unit.getName() + " is not deployable");
             return;
         }
+
         if (unit instanceof MechUnit || unit instanceof VehicleUnit) {
             for (Card card : opponent.getDeploymentZone()) {
                 if (card instanceof ActiveProbe) {
@@ -622,6 +643,8 @@ public abstract class Player {
                 }
             }
         }
+
+        deploymentZone.add(unit);
     }
 
     public void useMechAbility(MechUnit unit) {
@@ -664,6 +687,15 @@ public abstract class Player {
                 if (cards.size() == 2) {
                     opponent.gainHeavyCasualties();
                 }
+            }
+
+            if (unit instanceof Scout) {
+                Card card = opponent.revealTopCardOfDeck();
+
+                Choice choice1 = new Choice(1, "Opponent discards " + card.getName());
+                Choice choice2 = new Choice(2, "Opponent puts " + card.getName() + " back on top of deck");
+
+                this.makeAbilityChoice(unit, "Scout", choice1, choice2);
             }
         }
     }
@@ -710,6 +742,17 @@ public abstract class Player {
 
         drawCards(5);
 
+        for (Card card : deploymentZone) {
+            if (card instanceof TacticalCommand) {
+                drawCards(2);
+                if (hand.size() > 5) {
+                    discardCardsFromHand(hand.size() - 5, false);
+                    //todo don't end turn until card have been discarded
+                    //todo need to think about how to handle things that require waiting for user to decide something
+                }
+            }
+        }
+
         game.turnEnded();
     }
 
@@ -744,8 +787,18 @@ public abstract class Player {
     public abstract MechUnit chooseUnitToDamage(CardType type);
 
     public void cardDamaged(Card card) {
+        if (card instanceof TotemMech && getNumMechUnitsInDeploymentZone() == 1) {
+            addGameLog(card.getName() + " was not damaged due to Totem Mech ability");
+            return;
+        }
+
         addGameLog("Damaged " + card.getName());
         deploymentZone.remove(card);
+
+        if (card instanceof TacticalCommand) {
+            addGameLog("Opponent draws 2 cards from damaging " + card.getName());
+            opponent.drawCards(2);
+        }
 
         if (card instanceof CounterAttack) {
             addOpponentAction(new DamageUnitWithHighestIndustryCost());
@@ -755,16 +808,39 @@ public abstract class Player {
             drawCards(1);
         }
 
+        if (card instanceof MechUnit) {
+            for (Card opponentCard : opponent.getDeploymentZone()) {
+                if (opponentCard instanceof TargetingComputer) {
+                    opponent.drawCards(1);
+                }
+            }
+        }
+
         if (card instanceof HeavyArmor) {
-            makeYesNoChoice(card, "HeavyArmor", "Shuffle " + card.getName() + " into deck?");
+            makeYesNoAbilityChoice(card, "HeavyArmor", "Shuffle " + card.getName() + " into deck?");
+        } else if (card instanceof Tank) {
+            addGameLog(card.getName() + " was scrapped due to Tank ability");
+            playerCardScrapped(card);
         } else {
-            addCardToDiscard(card);
-            cardRemovedFromPlay(card);
+            if (card instanceof MechUnit && expertMechTechsInDeploymentZone) {
+                makeYesNoAbilityChoice(card, "ExpertMechTechs", "Scrap Expert Mech Techs to put " + card.getName() + " into your hand instead of your discard pile?");
+            } else {
+                addCardToDiscard(card);
+                cardRemovedFromPlay(card);
+            }
         }
     }
 
-    public void yesNoChoiceMade(Card card, String choiceIdentifier, int choice) {
-        if (choiceIdentifier.equals("HeavyArmor")) {
+    public void abilityChoiceMade(Card card, String choiceIdentifier, int choice) {
+        if (choiceIdentifier.equals("ExpertMechTechs")) {
+            if (choice == 1) {
+                expertMechTechsInDeploymentZone = false;
+                addCardToHand(card);
+            } else {
+                addCardToDiscard(card);
+                cardRemovedFromPlay(card);
+            }
+        } else if (choiceIdentifier.equals("HeavyArmor")) {
             if (choice == 1) {
                 shuffleCardIntoDeck(card);
             } else {
@@ -777,19 +853,28 @@ public abstract class Player {
             } else {
                 addCardToDiscard(card);
             }
-        }
-    }
-    
-    public void versatileChoiceMade(int choice) {
-        if (choice == 1) {
-            addGameLog("Chose +1 Card1");
-            drawCards(1);
-        } else if (choice == 2) {
-            addGameLog("Chose +1 Action1");
-            addActions(1);
-        } else if (choice == 3) {
-            addGameLog("Chose +1 Industry");
-            addIndustry(1);
+        } else if (choiceIdentifier.equals("ReconInForce")) {
+            if (choice == 1) {
+                discardCardsFromHand(1, false);
+            }
+        } else if (choiceIdentifier.equals("Scout")) {
+            if (choice == 1) {
+                addGameLog("Chose to discard top card of opponent's deck");
+                opponent.discardTopCardOfDeck();
+            } else {
+                addGameLog("Chose to keep top card of opponent's deck on top of deck");
+            }
+        } else if (choiceIdentifier.equals("Versatile")) {
+            if (choice == 1) {
+                addGameLog("Chose +1 Card1");
+                drawCards(1);
+            } else if (choice == 2) {
+                addGameLog("Chose +1 Action1");
+                addActions(1);
+            } else if (choice == 3) {
+                addGameLog("Chose +1 Industry");
+                addIndustry(1);
+            }
         }
     }
 
@@ -895,7 +980,7 @@ public abstract class Player {
         return actionsQueue;
     }
 
-    public List<Card> getDeploymentZone() {
+    public List<Unit> getDeploymentZone() {
         return deploymentZone;
     }
 
@@ -929,5 +1014,17 @@ public abstract class Player {
 
     public void setTurnPhase(TurnPhase turnPhase) {
         this.turnPhase = turnPhase;
+    }
+
+    public int getHandSize() {
+        return hand.size();
+    }
+
+    public boolean isExpertMechTechsInDeploymentZone() {
+        return expertMechTechsInDeploymentZone;
+    }
+
+    public boolean isForwardBaseInDeploymentZone() {
+        return forwardBaseInDeploymentZone;
     }
 }

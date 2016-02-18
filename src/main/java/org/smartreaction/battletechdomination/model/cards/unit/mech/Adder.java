@@ -7,7 +7,7 @@ public class Adder extends MechUnit implements TargetingComputer {
     public Adder() {
         name = "Adder";
         subName = "PUMA";
-        cardText = "TARGETING COMPUTER: +1 Card when your opponent damages a Mech.";
+        cardText = "TARGETING COMPUTER: +1 Card when you damage an OPPOSING Mech.";
         attack = 3;
         defense = 1;
         industryCost = 3;
