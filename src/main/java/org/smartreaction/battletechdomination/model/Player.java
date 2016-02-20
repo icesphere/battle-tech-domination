@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public abstract class Player {
     private String playerName;
 
@@ -234,6 +236,18 @@ public abstract class Player {
             MunitionsFactory munitionsFactory = game.getMunitionsFactories().remove(0);
             addGameLog("Gained " + munitionsFactory.getName());
             cardAcquired(munitionsFactory);
+        }
+    }
+
+    public void gainOverrunCard(Overrun overrun) {
+        if (overrun instanceof HeavyCasualties) {
+            gainHeavyCasualties();
+        } else if (overrun instanceof RaidedSupplies) {
+            gainRaidedSupplies();
+        } else if (overrun instanceof CriticalHit) {
+            gainCriticalHit();
+        } else if (overrun instanceof Retreat) {
+            gainRetreat();
         }
     }
 
@@ -479,7 +493,62 @@ public abstract class Player {
         actions = 2;
         hand.addAll(setAside);
         setAside.clear();
-        startCombatPhase();
+        resolveActions();
+    }
+
+    public void resolveActions() {
+        if (actionsQueue.isEmpty()) {
+            startCombatPhase();
+        } else {
+            Action action = actionsQueue.remove(0);
+            resolveAction(action);
+        }
+    }
+
+    private void resolveAction(Action action) {
+        if (action instanceof DamageUnit) {
+            if (deploymentZone.isEmpty()) {
+                resolveActions();
+            } else {
+                damageUnit(((DamageUnit) action).getCardType());
+            }
+        } else if (action instanceof DamageUnitMaxCost) {
+            List<Unit> units = deploymentZone.stream().filter(u -> u.getIndustryCost() <= ((DamageUnitMaxCost) action).getMaxCost()).collect(toList());
+            if (units.isEmpty()) {
+                resolveActions();
+            } else {
+                damageUnitMaxCost(((DamageUnitMaxCost) action).getMaxCost());
+            }
+        } else if (action instanceof DamageUnitMinCost) {
+            List<Unit> units = deploymentZone.stream().filter(u -> u.getIndustryCost() >= ((DamageUnitMinCost) action).getMinCost()).collect(toList());
+            if (units.isEmpty()) {
+                resolveActions();
+            } else {
+                damageUnitMinCost(((DamageUnitMinCost) action).getMinCost());
+            }
+        } else if (action instanceof DamageUnitWithHighestIndustryCost) {
+            Unit unit = getUnitWithHighestIndustryCost(deploymentZone);
+            if (unit != null) {
+                cardDamaged(unit);
+                resolveActions();
+            }
+        } else if (action instanceof ScrapForwardBaseOnOverrun) {
+            makeYesNoAbilityChoice(getOverrunCard(((ScrapForwardBaseOnOverrun) action).getDifference()), "ScrapForwardBaseOnOverrun", "You were Overrun. Do you want to scrap your Forward Base to prevent gaining the Overrun card?");
+        } else if (action instanceof ScrapUnitMaxCost) {
+            List<Unit> units = deploymentZone.stream().filter(u -> u.getIndustryCost() <= ((ScrapUnitMaxCost) action).getMaxCost()).collect(toList());
+            if (units.isEmpty()) {
+                resolveActions();
+            } else {
+                scrapUnitMaxCost(((ScrapUnitMaxCost) action).getMaxCost());
+            }
+        } else if (action instanceof UnitFromHandToTopOfDeck) {
+            List<Card> units = hand.stream().filter(c -> c instanceof Unit).collect(toList());
+            if (units.isEmpty()) {
+                resolveActions();
+            } else {
+                putUnitFromHandToPutOnTopOfDeck();
+            }
+        }
     }
 
     public void startCombatPhase() {
@@ -506,17 +575,9 @@ public abstract class Player {
             int difference = attack - opponent.getDefense();
 
             if (opponent.isForwardBaseInDeploymentZone()) {
-                addOpponentAction(new ScrapForwardBaseOnOverrun());
-            }
-
-            if (difference >= 4) {
-                opponent.gainRetreat();
-            } else if (difference == 3) {
-                opponent.gainCriticalHit();
-            } else if (difference == 2) {
-                opponent.gainRaidedSupplies();
-            } else if (difference == 1) {
-                opponent.gainHeavyCasualties();
+                addOpponentAction(new ScrapForwardBaseOnOverrun(difference));
+            } else {
+                opponent.gainOverrunCard(getOverrunCard(difference));
             }
 
             List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
@@ -539,6 +600,19 @@ public abstract class Player {
         if (attack > 0) {
             addOpponentAction(new DamageUnit());
         }
+    }
+
+    public Overrun getOverrunCard(int difference) {
+        if (difference >= 4) {
+            return new Retreat();
+        } else if (difference == 3) {
+            return new CriticalHit();
+        } else if (difference == 2) {
+            return new RaidedSupplies();
+        } else if (difference == 1) {
+            return new HeavyCasualties();
+        }
+        return null;
     }
 
     public void applyCombatPhaseBonuses() {
@@ -784,7 +858,51 @@ public abstract class Player {
         }
     }
 
-    public abstract MechUnit chooseUnitToDamage(CardType type);
+    public void damageUnitMaxCost(int maxCost) {
+        Unit unit = chooseUnitToDamageMaxCost(maxCost);
+        if (unit != null) {
+            cardDamaged(unit);
+        }
+    }
+
+    public void damageUnitMinCost(int minCost) {
+        Unit unit = chooseUnitToDamageMinCost(minCost);
+        if (unit != null) {
+            cardDamaged(unit);
+        }
+    }
+
+    public void scrapUnitMaxCost(int maxCost) {
+        Unit unit = chooseUnitToScrapMaxCost(maxCost);
+        if (unit != null) {
+            scrapUnitFromDeploymentZone(unit);
+        }
+    }
+
+    public void putUnitFromHandToPutOnTopOfDeck() {
+        Unit unit = chooseUnitFromHandToPutOnTopOfDeck();
+        if (unit != null) {
+            hand.remove(unit);
+            addGameLog("Chose " + unit.getName() + " from hand to put on top of deck");
+            addCardToTopOfDeck(unit);
+        }
+    }
+
+    public abstract Unit chooseUnitToDamage(CardType type);
+
+    public abstract Unit chooseUnitToDamageMaxCost(int maxCost);
+
+    public abstract Unit chooseUnitToDamageMinCost(int minCost);
+
+    public abstract Unit chooseUnitToScrapMaxCost(int maxCost);
+
+    public abstract Unit chooseUnitFromHandToPutOnTopOfDeck();
+
+    public void scrapUnitFromDeploymentZone(Unit unit) {
+        addGameLog("Scrapped " + unit.getName());
+        deploymentZone.remove(unit);
+        playerCardScrapped(unit);
+    }
 
     public void cardDamaged(Card card) {
         if (card instanceof TotemMech && getNumMechUnitsInDeploymentZone() == 1) {
@@ -835,6 +953,7 @@ public abstract class Player {
         if (choiceIdentifier.equals("ExpertMechTechs")) {
             if (choice == 1) {
                 expertMechTechsInDeploymentZone = false;
+                addGameLog("Scrapped Expert Mech Techs");
                 addCardToHand(card);
             } else {
                 addCardToDiscard(card);
@@ -864,12 +983,19 @@ public abstract class Player {
             } else {
                 addGameLog("Chose to keep top card of opponent's deck on top of deck");
             }
+        } else if (choiceIdentifier.equals("ScrapForwardBaseOnOverrun")) {
+            if (choice == 1) {
+                addGameLog("Scrapped Forward Base");
+                forwardBaseInDeploymentZone = false;
+            } else {
+                gainOverrunCard((Overrun) card);
+            }
         } else if (choiceIdentifier.equals("Versatile")) {
             if (choice == 1) {
-                addGameLog("Chose +1 Card1");
+                addGameLog("Chose +1 Card");
                 drawCards(1);
             } else if (choice == 2) {
-                addGameLog("Chose +1 Action1");
+                addGameLog("Chose +1 Action");
                 addActions(1);
             } else if (choice == 3) {
                 addGameLog("Chose +1 Industry");
@@ -985,7 +1111,7 @@ public abstract class Player {
     }
 
     public int getNumUnitsInDeploymentZone() {
-        return (int) deploymentZone.stream().filter(c -> c instanceof Unit).count();
+        return deploymentZone.size();
     }
 
     public int getNumMechUnitsInDeploymentZone() {
@@ -1026,5 +1152,13 @@ public abstract class Player {
 
     public boolean isForwardBaseInDeploymentZone() {
         return forwardBaseInDeploymentZone;
+    }
+
+    public Unit getUnitWithHighestIndustryCost(List<Unit> units) {
+        if (units == null || units.isEmpty()) {
+            return null;
+        }
+        List<Unit> sortedCards = units.stream().sorted((u1, u2) -> Integer.compare(u2.getIndustryCost(), u1.getIndustryCost())).collect(toList());
+        return sortedCards.get(0);
     }
 }
