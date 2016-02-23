@@ -9,6 +9,7 @@ import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFacto
 import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
+import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,13 @@ public class Game {
         if (createGameLog) {
             gameLog.append(log).append("<br/>");
         }
+    }
+
+    public void startGame() {
+        currentPlayerIndex = 0;
+        turn = 1;
+        gameLog("Player 1: " + players.get(0).getPlayerName());
+        gameLog("Player 2: " + players.get(1).getPlayerName());
     }
 
     public void turnEnded() {

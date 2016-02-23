@@ -1,6 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
-import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.CardType;
 import org.smartreaction.battletechdomination.model.cards.Support;

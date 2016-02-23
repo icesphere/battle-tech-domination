@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.resource;
 
 import org.smartreaction.battletechdomination.model.Choice;
-import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 
 public class MunitionsFactory extends Resource {

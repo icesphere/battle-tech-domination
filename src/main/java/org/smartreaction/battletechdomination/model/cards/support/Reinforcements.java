@@ -1,6 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
-import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Support;
 import org.smartreaction.battletechdomination.model.cards.Unit;
@@ -21,7 +21,7 @@ public class Reinforcements extends Support {
         List<Card> cards = player.revealTopCardsOfDeck(4);
         List<Card> nonUnitCards = new ArrayList<>();
         for (Card card : cards) {
-            player.getDeck().remove(card);
+            player.removeCardFromDeck(card);
             if (card instanceof Unit) {
                 player.addGameLog("Adding Unit to hand: " + card.getName());
                 player.addCardToHand(card);

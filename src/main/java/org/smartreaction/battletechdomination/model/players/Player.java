@@ -1,5 +1,8 @@
-package org.smartreaction.battletechdomination.model;
+package org.smartreaction.battletechdomination.model.players;
 
+import org.smartreaction.battletechdomination.model.Choice;
+import org.smartreaction.battletechdomination.model.Game;
+import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.abilities.*;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
@@ -21,46 +24,46 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public abstract class Player {
-    private String playerName;
+    protected String playerName;
 
-    private List<Card> deck = new ArrayList<>();
-    private List<Card> hand = new ArrayList<>();
-    private List<Card> discard = new ArrayList<>();
+    protected List<Card> deck = new ArrayList<>();
+    protected List<Card> hand = new ArrayList<>();
+    protected List<Card> discard = new ArrayList<>();
 
-    private List<Card> resourcesPlayed = new ArrayList<>();
-    private List<Card> supportCardsPlayed = new ArrayList<>();
+    protected List<Card> resourcesPlayed = new ArrayList<>();
+    protected List<Card> supportCardsPlayed = new ArrayList<>();
 
-    private List<Unit> deploymentZone = new ArrayList<>();
+    protected List<Unit> deploymentZone = new ArrayList<>();
 
-    private List<Action> actionsQueue = new ArrayList<>();
+    protected List<Action> actionsQueue = new ArrayList<>();
 
-    private List<Card> setAside = new ArrayList<>();
+    protected List<Card> setAside = new ArrayList<>();
 
-    private int actions;
-    private int attack;
-    private int defense;
-    private int industry;
-    private int losTech;
+    protected int actions;
+    protected int attack;
+    protected int defense;
+    protected int industry;
+    protected int losTech;
 
-    private int turns;
+    protected int turns;
 
-    private TurnPhase turnPhase;
+    protected TurnPhase turnPhase;
 
-    private Player opponent;
+    protected Player opponent;
 
-    private Game game;
+    protected Game game;
 
-    private int shuffles;
+    protected int shuffles;
 
-    private boolean firstPlayer;
+    protected boolean firstPlayer;
 
-    private boolean ignoreLosTechCost;
+    protected boolean ignoreLosTechCost;
 
-    private boolean mayPutBoughtOrGainedCardsOnTopOfDeck;
+    protected boolean mayPutBoughtOrGainedCardsOnTopOfDeck;
 
-    private boolean expertMechTechsInDeploymentZone;
+    protected boolean expertMechTechsInDeploymentZone;
 
-    private boolean forwardBaseInDeploymentZone;
+    protected boolean forwardBaseInDeploymentZone;
 
     public void drawHandTo(int cards) {
         if (hand.size() < cards) {

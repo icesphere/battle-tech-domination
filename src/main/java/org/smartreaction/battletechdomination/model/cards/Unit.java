@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards;
 
 import org.smartreaction.battletechdomination.model.Choice;
-import org.smartreaction.battletechdomination.model.Player;
+import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.abilities.*;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnitMaxCost;

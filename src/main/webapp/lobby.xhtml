@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/commonLayout.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <div>
+                Logged in Users:
+            </div>
+            <h:dataTable value="#{lobbyView.users}" var="user">
+                <h:column>
+                    <h:outputText value="#{user.username}"/>
+                </h:column>
+            </h:dataTable>
+            <div style="padding-top: 20px;">
+                <p:commandLink action="#{lobbyView.startAutoMatch}" process="@this" update="@form" value="Auto Match" rendered="#{!userSession.autoMatch}"/>
+                <h:outputText value="Waiting for Auto Match..." rendered="#{userSession.autoMatch}"/>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

@@ -6,7 +6,13 @@
     <ui:define name="content">
         <h:form>
             <div>
-                Login using Gmail, Facebook, Yahoo, Etc. or Login as guest
+                Choose a username:
+            </div>
+            <div style="padding-top: 20px;">
+                <p:inputText value="#{loginView.username}"/>
+            </div>
+            <div style="padding-top: 20px;">
+                <p:commandButton process="@form" value="Login" action="#{loginView.loginAsGuest}"/>
             </div>
         </h:form>
     </ui:define>
