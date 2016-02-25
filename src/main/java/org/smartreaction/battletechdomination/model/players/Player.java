@@ -112,6 +112,16 @@ public abstract class Player {
         addGameLog(card.getName() + " added to top of deck");
     }
 
+    public void addCardToDeck(Card card) {
+        card.setCardLocation(CardLocation.DECK);
+        deck.add(card);
+    }
+
+    public void setup() {
+        Collections.shuffle(deck);
+        drawCards(5);
+    }
+
     private void cardBought(Card card) {
         if (card instanceof QuickToAction) {
             makeYesNoAbilityChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");

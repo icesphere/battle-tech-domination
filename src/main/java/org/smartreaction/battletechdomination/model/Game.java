@@ -17,27 +17,27 @@ import java.util.List;
 public class Game {
     public static final boolean SHOW_GAME_LOG = false;
 
-    private List<Player> players;
+    private List<Player> players = new ArrayList<>();
 
-    private List<Card> supply;
+    private List<Card> supply = new ArrayList<>();
 
     private List<Card> supplyGrid = new ArrayList<>();
 
-    private List<HeavyCasualties> heavyCasualties;
+    private List<HeavyCasualties> heavyCasualties = new ArrayList<>();
 
-    private List<RaidedSupplies> raidedSupplies;
+    private List<RaidedSupplies> raidedSupplies = new ArrayList<>();
 
-    private List<CriticalHit> criticalHits;
+    private List<CriticalHit> criticalHits = new ArrayList<>();
 
-    private List<Retreat> retreats;
+    private List<Retreat> retreats = new ArrayList<>();
 
-    private List<InfantryPlatoon> infantryPlatoons;
+    private List<InfantryPlatoon> infantryPlatoons = new ArrayList<>();
 
-    private List<BasicFactory> basicFactories;
+    private List<BasicFactory> basicFactories = new ArrayList<>();
 
-    private List<MunitionsFactory> munitionsFactories;
+    private List<MunitionsFactory> munitionsFactories = new ArrayList<>();
 
-    private List<AdvancedFactory> advancedFactories;
+    private List<AdvancedFactory> advancedFactories = new ArrayList<>();
 
     private boolean createGameLog;
 
