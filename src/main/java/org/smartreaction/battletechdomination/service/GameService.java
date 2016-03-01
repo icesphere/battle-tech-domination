@@ -139,7 +139,9 @@ public class GameService {
         cards.add(new Quartermaster());
 
         cards.add(new RapidDeployment());
+        cards.add(new RapidDeployment());
 
+        cards.add(new Reinforcements());
         cards.add(new Reinforcements());
 
         cards.add(new Refinery());
@@ -174,7 +176,7 @@ public class GameService {
         cards.add(new PartisanHeavyTank());
         cards.add(new PartisanHeavyTank());
 
-        cards.add(new SchrekPPCTank());
+        cards.add(new SchrekPPCCarrier());
 
         cards.add(new SRMCarrier());
 
@@ -238,7 +240,6 @@ public class GameService {
 
         cards.add(new Quickdraw());
 
-        cards.add(new Raven());
         cards.add(new Raven());
 
         cards.add(new ShadowCat());
