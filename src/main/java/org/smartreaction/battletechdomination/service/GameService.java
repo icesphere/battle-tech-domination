@@ -272,11 +272,16 @@ public class GameService {
 
     public void autoMatchUser(User user) {
         //todo synchronize this
+        if (user.getCurrentGame() != null) {
+            return;
+        }
         List<User> users = loggedInUsers.getUsersWaitingForAutoMatch();
         if (!users.isEmpty()) {
             User opponent = users.get(0);
             opponent.setAutoMatch(false);
-            createGame(user, opponent);
+            Game game = createGame(user, opponent);
+            user.setCurrentGame(game);
+            user.setAutoMatch(false);
         }
     }
 }

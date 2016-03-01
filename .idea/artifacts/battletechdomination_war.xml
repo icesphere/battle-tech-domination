@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="war" name="battletechdomination:war">
-    <output-path>$PROJECT_DIR$/../jetty9/webapps</output-path>
+    <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="battle-tech-domination.war">
       <element id="artifact" artifact-name="battletechdomination:war exploded" />
     </root>

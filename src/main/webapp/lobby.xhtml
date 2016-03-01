@@ -14,8 +14,8 @@
                 </h:column>
             </h:dataTable>
             <div style="padding-top: 20px;">
-                <p:commandLink action="#{lobbyView.startAutoMatch}" process="@this" update="@form" value="Auto Match" rendered="#{!userSession.autoMatch}"/>
-                <h:outputText value="Waiting for Auto Match..." rendered="#{userSession.autoMatch}"/>
+                <p:commandLink action="#{lobbyView.startAutoMatch}" process="@this" update="@form" value="Auto Match" rendered="#{!userSession.user.autoMatch}"/>
+                <h:outputText value="Waiting for Auto Match..." rendered="#{userSession.user.autoMatch}"/>
             </div>
         </h:form>
     </ui:define>

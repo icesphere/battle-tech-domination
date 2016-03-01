@@ -26,8 +26,12 @@ public class LobbyView {
         return loggedInUsers.getUsers();
     }
 
-    public void startAutoMatch() {
+    public String startAutoMatch() {
         gameService.autoMatchUser(userSession.getUser());
+        if (userSession.getUser().getCurrentGame() != null) {
+            return "game.xhtml?faces-redirect=true";
+        }
+        return null;
     }
 
     public void setUserSession(UserSession userSession) {

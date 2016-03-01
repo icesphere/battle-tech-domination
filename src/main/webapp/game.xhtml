@@ -7,8 +7,20 @@
         <h:form>
             <div>
                 Game page.
+                <br/>
+                <br/>
+                <p:commandButton value="Test Game Message" actionListener="#{gameView.sendGameMessage}" oncomplete="alert('sent game message')" />
             </div>
         </h:form>
+
+        <p:socket onMessage="handleGameMessage" channel="/{game}" autoConnect="false" widgetVar='subscriber' />
+
+        <script type="text/javascript">
+            function handleGameMessage(message) {
+                console.log("received message from server: ");
+                console.log(message);
+            }
+        </script>
     </ui:define>
 </ui:composition>
 </html>
