@@ -8,13 +8,14 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
 
 @ManagedBean
 @ViewScoped
-public class GameView {
+public class GameView implements Serializable {
     private final EventBus eventBus = EventBusFactory.getDefault().eventBus();
 
-    private final static String CHANNEL = "/game/";
+    private final static String CHANNEL = "/game/1/";
 
     @ManagedProperty(value="#{userSession}")
     UserSession userSession;
@@ -24,5 +25,9 @@ public class GameView {
 
     public void sendGameMessage() {
         eventBus.publish(CHANNEL + "*", userSession.getUser().getUsername() + ": " + "test message");
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
     }
 }

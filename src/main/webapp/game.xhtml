@@ -9,14 +9,15 @@
                 Game page.
                 <br/>
                 <br/>
-                <p:commandButton value="Test Game Message" actionListener="#{gameView.sendGameMessage}" oncomplete="alert('sent game message')" />
+                <p:commandButton value="Test Game Message" actionListener="#{gameView.sendGameMessage}" />
             </div>
         </h:form>
 
-        <p:socket onMessage="handleGameMessage" channel="/{game}" autoConnect="false" widgetVar='subscriber' />
+        <p:socket onMessage="handleGameMessage" channel="/game/1/#{userSession.user.username}" autoConnect="true" widgetVar='gameMessageSubscriber' />
 
         <script type="text/javascript">
             function handleGameMessage(message) {
+                alert("received message from server");
                 console.log("received message from server: ");
                 console.log(message);
             }

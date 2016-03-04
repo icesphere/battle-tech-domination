@@ -8,11 +8,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
 import java.util.List;
 
 @ManagedBean
 @ViewScoped
-public class LobbyView {
+public class LobbyView implements Serializable {
     @ManagedProperty(value="#{userSession}")
     UserSession userSession;
 

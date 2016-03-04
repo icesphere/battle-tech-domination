@@ -282,6 +282,8 @@ public class GameService {
             Game game = createGame(user, opponent);
             user.setCurrentGame(game);
             user.setAutoMatch(false);
+        } else {
+            user.setAutoMatch(true);
         }
     }
 }
