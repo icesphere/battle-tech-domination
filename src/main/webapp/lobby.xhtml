@@ -18,6 +18,18 @@
                 <h:outputText value="Waiting for Auto Match..." rendered="#{userSession.user.autoMatch}"/>
             </div>
         </h:form>
+
+        <p:socket onMessage="handleLobbyMessage" channel="/game/lobby/#{userSession.user.username}" autoConnect="true" widgetVar='lobbyMessageSubscriber' />
+
+        <script type="text/javascript">
+            function handleLobbyMessage(response) {
+                console.log("received message from server: ");
+                console.log(response);
+                if (response.message == 'game_started') {
+                    window.location.href = 'game.xhtml?faces-redirect=true';
+                }
+            }
+        </script>
     </ui:define>
 </ui:composition>
 </html>

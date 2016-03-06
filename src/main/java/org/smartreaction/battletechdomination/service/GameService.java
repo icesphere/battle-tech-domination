@@ -1,5 +1,7 @@
 package org.smartreaction.battletechdomination.service;
 
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.User;
 import org.smartreaction.battletechdomination.model.cards.Card;
@@ -26,6 +28,10 @@ import java.util.List;
 
 @Stateless
 public class GameService {
+    private EventBus eventBus;
+
+    private final static String GAME_CHANNEL = "/game/";
+
     @EJB
     LoggedInUsers loggedInUsers;
 
@@ -282,8 +288,24 @@ public class GameService {
             Game game = createGame(user, opponent);
             user.setCurrentGame(game);
             user.setAutoMatch(false);
+            sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
         } else {
             user.setAutoMatch(true);
         }
+    }
+
+    public void sendLobbyMessage(String sender, String recipient, String message) {
+        sendGameMessage(sender, recipient, "lobby", message);
+    }
+
+    public void sendGameMessage(String sender, String recipient, String channel, String message) {
+        getEventBus().publish(GAME_CHANNEL + channel + "/" + recipient, sender + ":" + message);
+    }
+
+    EventBus getEventBus() {
+        if (eventBus == null) {
+            eventBus = EventBusFactory.getDefault().eventBus();
+        }
+        return eventBus;
     }
 }

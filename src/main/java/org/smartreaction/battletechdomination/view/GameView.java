@@ -1,7 +1,5 @@
 package org.smartreaction.battletechdomination.view;
 
-import org.primefaces.push.EventBus;
-import org.primefaces.push.EventBusFactory;
 import org.smartreaction.battletechdomination.service.GameService;
 
 import javax.ejb.EJB;
@@ -13,10 +11,6 @@ import java.io.Serializable;
 @ManagedBean
 @ViewScoped
 public class GameView implements Serializable {
-    private final EventBus eventBus = EventBusFactory.getDefault().eventBus();
-
-    private final static String CHANNEL = "/game/1/";
-
     @ManagedProperty(value="#{userSession}")
     UserSession userSession;
 
@@ -24,7 +18,7 @@ public class GameView implements Serializable {
     GameService gameService;
 
     public void sendGameMessage() {
-        eventBus.publish(CHANNEL + "*", userSession.getUser().getUsername() + ": " + "test message");
+        gameService.sendGameMessage(userSession.getUser().getUsername(), "*", "1", "test message");
     }
 
     public void setUserSession(UserSession userSession) {
