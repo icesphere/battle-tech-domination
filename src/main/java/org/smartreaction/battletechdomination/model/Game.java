@@ -13,9 +13,12 @@ import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Game {
     public static final boolean SHOW_GAME_LOG = false;
+
+    private String gameId;
 
     private List<Player> players = new ArrayList<>();
 
@@ -48,6 +51,10 @@ public class Game {
     private int currentPlayerIndex;
 
     private boolean gameOver;
+
+    public Game() {
+        gameId = UUID.randomUUID().toString();
+    }
 
     public void gameLog(String log) {
         if (SHOW_GAME_LOG) {
@@ -241,5 +248,9 @@ public class Game {
 
     public int getCurrentPlayerIndex() {
         return currentPlayerIndex;
+    }
+
+    public String getGameId() {
+        return gameId;
     }
 }

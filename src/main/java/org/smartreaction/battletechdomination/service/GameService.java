@@ -288,6 +288,7 @@ public class GameService {
             Game game = createGame(user, opponent);
             user.setCurrentGame(game);
             user.setAutoMatch(false);
+            opponent.setCurrentGame(game);
             sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
         } else {
             user.setAutoMatch(true);

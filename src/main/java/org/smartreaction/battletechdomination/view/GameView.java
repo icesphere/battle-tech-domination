@@ -18,7 +18,7 @@ public class GameView implements Serializable {
     GameService gameService;
 
     public void sendGameMessage() {
-        gameService.sendGameMessage(userSession.getUser().getUsername(), "*", "1", "test message");
+        gameService.sendGameMessage(userSession.getUser().getUsername(), "*", userSession.getUser().getCurrentGame().getGameId(), "test message");
     }
 
     public void setUserSession(UserSession userSession) {
