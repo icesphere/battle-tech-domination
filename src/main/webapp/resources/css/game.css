@@ -1,0 +1,84 @@
+.gamePage {
+    padding: 10px;
+    float: left;
+    width: 1000px;
+    overflow: auto;
+}
+
+.leftSection {
+    float: left;
+    width: 230px;
+    margin-right: 10px;
+}
+
+.middleSection {
+    float: left;
+    width: 520px;
+    margin-right: 10px;
+}
+
+.rightSection {
+    float: left;
+    width: 230px;
+}
+
+.baseCards {
+
+}
+
+.supplyGrid {
+    padding-top: 10px;
+}
+
+.cardView {
+    padding-top: 10px;
+}
+
+.overrunCards {
+    float: left;
+    margin-right: 10px;
+}
+
+.playerInfo {
+    float: left;
+}
+
+.units {
+    clear: left;
+    float: left;
+    padding-top: 10px;
+}
+
+.player1Units {
+    float: left;
+    margin-right: 10px;
+}
+
+.player2Units {
+    float: left;
+}
+
+.playArea {
+    clear: left;
+    padding-top: 10px;
+}
+
+.hand {
+    padding-top: 10px;
+}
+
+.gameLog {
+
+}
+
+.playerCardInfo {
+    padding-top: 10px;
+}
+
+.turnInfo {
+    padding-top: 10px;
+}
+
+.turnButtons {
+    padding-top: 10px;
+}

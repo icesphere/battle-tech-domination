@@ -39,9 +39,6 @@ table {
 }
 
 #contentDiv {
-    clear: both;
-    padding: 10px 20px 0 20px;
-    margin-bottom: 10px;
 }
 
 .captionText {
@@ -50,6 +47,7 @@ table {
 }
 
 .footerText {
+    clear: both;
     font-size: 12px;
     margin-bottom: 10px;
 }

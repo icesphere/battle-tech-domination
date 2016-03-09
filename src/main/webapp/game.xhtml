@@ -3,14 +3,84 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition template="/templates/commonLayout.xhtml">
+    <ui:define name="head">
+        <h:outputStylesheet name="game.css" library="css" />
+    </ui:define>
     <ui:define name="content">
         <h:form>
-            <div>
-                Game page.
-                <br/>
-                <br/>
-                <p:commandButton value="Test Game Message" actionListener="#{gameView.sendGameMessage}" />
+
+            <div class="gamePage">
+
+                <div class="leftSection">
+
+                    <div class="baseCards">
+                        Base Cards
+                    </div>
+
+                    <div class="supplyGrid">
+                        Supply Grid
+                    </div>
+
+                    <div class="cardView">
+                        Card View
+                    </div>
+
+                </div>
+
+                <div class="middleSection">
+
+                    <div class="overrunCards">
+                        Overrun Cards
+                    </div>
+
+                    <div class="playerInfo">
+                        Player Info
+                    </div>
+
+                    <div class="units">
+
+                        <div class="player1Units">
+                            Player 1 Units
+                        </div>
+
+                        <div class="player2Units">
+                            Player 2 Units
+                        </div>
+
+                    </div>
+
+                    <div class="playArea">
+                        Play Area
+                    </div>
+
+                    <div class="hand">
+                        Hand
+                    </div>
+
+                </div>
+
+                <div class="rightSection">
+
+                    <div class="gameLog">
+                        Game Log
+                    </div>
+
+                    <div class="playerCardInfo">
+                        Player Card Info
+                    </div>
+
+                    <div class="turnInfo">
+                        Turn Info
+                    </div>
+
+                    <div class="turnButtons">
+                        Turn Buttons
+                    </div>
+
+                </div>
+
             </div>
+
         </h:form>
 
         <p:socket onMessage="handleGameMessage" channel="/game/#{userSession.user.currentGame.gameId}/#{userSession.user.username}" autoConnect="true" widgetVar='gameMessageSubscriber' />
