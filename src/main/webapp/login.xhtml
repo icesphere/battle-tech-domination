@@ -5,14 +5,16 @@
 <ui:composition template="/templates/commonLayout.xhtml">
     <ui:define name="content">
         <h:form>
-            <div>
-                Choose a username:
-            </div>
-            <div style="padding-top: 20px;">
-                <p:inputText value="#{loginView.username}"/>
-            </div>
-            <div style="padding-top: 20px;">
-                <p:commandButton process="@form" value="Login" action="#{loginView.loginAsGuest}"/>
+            <div style="padding: 10px;">
+                <div>
+                    Choose a username:
+                </div>
+                <div style="padding-top: 20px;">
+                    <p:inputText value="#{loginView.username}"/>
+                </div>
+                <div style="padding-top: 20px;">
+                    <p:commandButton process="@form" value="Login" action="#{loginView.loginAsGuest}"/>
+                </div>
             </div>
         </h:form>
     </ui:define>

@@ -7,7 +7,7 @@
 
 .leftSection {
     float: left;
-    width: 230px;
+    width: 240px;
     margin-right: 10px;
 }
 
@@ -19,7 +19,7 @@
 
 .rightSection {
     float: left;
-    width: 230px;
+    width: 220px;
 }
 
 .baseCards {
@@ -27,6 +27,7 @@
 }
 
 .supplyGrid {
+    clear: both;
     padding-top: 10px;
 }
 
@@ -82,3 +83,46 @@
 .turnButtons {
     padding-top: 10px;
 }
+
+.supplyCard {
+    clear: both;
+    float: left;
+    margin-bottom: 2px;
+}
+
+.supplyCardCost {
+    float: left;
+    padding: 5px 10px;
+    margin-right: 2px;
+}
+
+.supplyCardInfo {
+    float: left;
+    padding: 5px 10px;
+    min-width: 185px;
+}
+
+.infantryUnit {
+    background-color: green;
+}
+
+.mechUnit {
+    background-color: red;
+}
+
+.vehicleUnit {
+    background-color: orange;
+}
+
+.resource {
+    background-color: yellow;
+}
+
+.supportReaction {
+    background-color: lightblue;
+}
+
+.support {
+    background-color: lightgray;
+}
+

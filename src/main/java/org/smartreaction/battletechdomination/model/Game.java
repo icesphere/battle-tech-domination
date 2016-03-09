@@ -253,4 +253,8 @@ public class Game {
     public String getGameId() {
         return gameId;
     }
+
+    public List<Card> getSupplyGrid() {
+        return supplyGrid;
+    }
 }

@@ -148,3 +148,7 @@ a {
 .backToTopLink {
     display: none;
 }
+
+.lobbyPage {
+    padding: 10px;
+}

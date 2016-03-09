@@ -1,11 +1,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:btd="http://java.sun.com/jsf/composite/components">
+
 <ui:composition template="/templates/commonLayout.xhtml">
+
     <ui:define name="head">
         <h:outputStylesheet name="game.css" library="css" />
     </ui:define>
+
     <ui:define name="content">
         <h:form>
 
@@ -14,11 +18,24 @@
                 <div class="leftSection">
 
                     <div class="baseCards">
-                        Base Cards
+                        <h:panelGroup rendered="#{!empty gameView.game.infantryPlatoons}">
+                            <btd:supplyCard card="#{gameView.game.infantryPlatoons[0]}"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{!empty gameView.game.basicFactories}">
+                            <btd:supplyCard card="#{gameView.game.basicFactories[0]}"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{!empty gameView.game.munitionsFactories}">
+                            <btd:supplyCard card="#{gameView.game.munitionsFactories[0]}"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{!empty gameView.game.advancedFactories}">
+                            <btd:supplyCard card="#{gameView.game.advancedFactories[0]}"/>
+                        </h:panelGroup>
                     </div>
 
                     <div class="supplyGrid">
-                        Supply Grid
+                        <ui:repeat value="#{gameView.game.supplyGrid}" var="card">
+                            <btd:supplyCard card="#{card}"/>
+                        </ui:repeat>
                     </div>
 
                     <div class="cardView">
@@ -83,7 +100,7 @@
 
         </h:form>
 
-        <p:socket onMessage="handleGameMessage" channel="/game/#{userSession.user.currentGame.gameId}/#{userSession.user.username}" autoConnect="true" widgetVar='gameMessageSubscriber' />
+        <p:socket onMessage="handleGameMessage" channel="/game/#{gameView.game.gameId}/#{userSession.user.username}" autoConnect="true" widgetVar='gameMessageSubscriber' />
 
         <script type="text/javascript">
             function handleGameMessage(message) {
@@ -93,5 +110,6 @@
             }
         </script>
     </ui:define>
+
 </ui:composition>
 </html>

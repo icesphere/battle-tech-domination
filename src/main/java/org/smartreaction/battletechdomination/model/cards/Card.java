@@ -94,4 +94,8 @@ public abstract class Card {
     public void setCardLocation(CardLocation cardLocation) {
         this.cardLocation = cardLocation;
     }
+
+    public boolean isUnit() {
+        return this instanceof Unit;
+    }
 }
