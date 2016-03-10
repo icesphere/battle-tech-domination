@@ -11,4 +11,9 @@ public class ManticoreHeavyTank extends VehicleUnit implements Tank {
         defense = 1;
         industryCost = 1;
     }
+
+    @Override
+    public String getAbbreviatedName() {
+        return "Manticore";
+    }
 }

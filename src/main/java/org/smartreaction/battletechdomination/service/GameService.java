@@ -103,7 +103,12 @@ public class GameService {
         for (int i = 0; i < 3; i++) {
             game.getRetreats().add(new Retreat());
         }
-        game.setSupply(getSupplyCards());
+
+        List<Card> supplyCards = getSupplyCards();
+        Collections.shuffle(supplyCards);
+        game.setSupply(supplyCards);
+
+        game.addCardsToSupplyGrid(6);
     }
 
     public List<Card> getSupplyCards() {

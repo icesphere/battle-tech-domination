@@ -15,11 +15,12 @@
     <h:panelGroup layout="block" styleClass="supplyCard">
 
         <div class="supplyCardCost #{gameView.getCardClass(cc.attrs.card)}">
-            <h:outputText value="#{cc.attrs.card.industryCost}"/>
+            <h:outputText value="$#{cc.attrs.card.industryCost}"/>
+            <h:outputText rendered="#{cc.attrs.card.losTechCost ne 0}" value="*"/>
         </div>
 
         <div class="supplyCardInfo #{gameView.getCardClass(cc.attrs.card)}">
-            <h:outputText value="#{cc.attrs.card.name}"/>
+            <h:outputText value="#{cc.attrs.card.abbreviatedName}"/>
             <h:outputText rendered="#{cc.attrs.card.unit}" value=" (#{cc.attrs.card.attack}/#{cc.attrs.card.defense})"/>
         </div>
 

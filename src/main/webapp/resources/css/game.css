@@ -7,7 +7,7 @@
 
 .leftSection {
     float: left;
-    width: 240px;
+    width: 245px;
     margin-right: 10px;
 }
 
@@ -19,7 +19,7 @@
 
 .rightSection {
     float: left;
-    width: 220px;
+    width: 215px;
 }
 
 .baseCards {
@@ -94,35 +94,37 @@
     float: left;
     padding: 5px 10px;
     margin-right: 2px;
+    min-width: 24px;
+    text-align: center;
 }
 
 .supplyCardInfo {
     float: left;
     padding: 5px 10px;
-    min-width: 185px;
+    min-width: 175px;
 }
 
 .infantryUnit {
-    background-color: green;
+    background-color: #66AA66;
 }
 
 .mechUnit {
-    background-color: red;
+    background-color: #DD5555;
 }
 
 .vehicleUnit {
-    background-color: orange;
+    background-color: #F88017;
 }
 
 .resource {
-    background-color: yellow;
+    background-color: #EECC00;
 }
 
 .supportReaction {
-    background-color: lightblue;
+    background-color: #77AAEE;
 }
 
 .support {
-    background-color: lightgray;
+    background-color: #CCCCCC;
 }
 
