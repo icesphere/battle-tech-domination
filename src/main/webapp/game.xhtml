@@ -47,7 +47,10 @@
                 <div class="middleSection">
 
                     <div class="overrunCards">
-                        Overrun Cards
+                        <btd:overrunCard cardsLeft="#{gameView.game.heavyCasualties.size()}" pileName="Heavy Casualties"/>
+                        <btd:overrunCard cardsLeft="#{gameView.game.raidedSupplies.size()}" pileName="Raided Supplies"/>
+                        <btd:overrunCard cardsLeft="#{gameView.game.criticalHits.size()}" pileName="Critical Hits"/>
+                        <btd:overrunCard cardsLeft="#{gameView.game.retreats.size()}" pileName="Retreats"/>
                     </div>
 
                     <div class="playerInfo">

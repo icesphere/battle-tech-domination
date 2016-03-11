@@ -128,3 +128,12 @@
     background-color: #CCCCCC;
 }
 
+.overrunCard {
+    background-color: #7733BB;
+    color: white;
+    margin-bottom: 2px;
+    padding: 6px 8px;
+    min-width: 115px;
+    font-size: 14px;
+}
+
