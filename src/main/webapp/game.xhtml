@@ -59,12 +59,22 @@
 
                     <div class="units">
 
-                        <div class="player1Units">
-                            Player 1 Units
+                        <div class="player1UnitsSection player1">
+                            Player 1 Units:
+                            <div style="padding: 10px 0;">
+                                <ui:repeat value="#{userSession.user.currentGame.players[0].deploymentZone}" var="card">
+                                    <btd:card card="#{card}"/>
+                                </ui:repeat>
+                            </div>
                         </div>
 
-                        <div class="player2Units">
-                            Player 2 Units
+                        <div class="player2UnitsSection player2">
+                            Player 2 Units:
+                            <div style="padding: 10px 0;">
+                                <ui:repeat value="#{userSession.user.currentGame.players[1].deploymentZone}" var="card">
+                                    <btd:card card="#{card}"/>
+                                </ui:repeat>
+                            </div>
                         </div>
 
                     </div>

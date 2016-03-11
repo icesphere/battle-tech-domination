@@ -13,25 +13,27 @@
 
 .middleSection {
     float: left;
-    width: 520px;
+    width: 490px;
     margin-right: 10px;
 }
 
 .rightSection {
     float: left;
-    width: 215px;
+    width: 245px;
 }
 
 .baseCards {
-
+    float: left;
 }
 
 .supplyGrid {
     clear: both;
+    float: left;
     padding-top: 10px;
 }
 
 .cardView {
+    clear: both;
     padding-top: 10px;
 }
 
@@ -50,13 +52,17 @@
     padding-top: 10px;
 }
 
-.player1Units {
+.player1UnitsSection {
     float: left;
     margin-right: 10px;
+    padding: 5px;
+    min-width: 180px;
 }
 
-.player2Units {
+.player2UnitsSection {
     float: left;
+    padding: 5px;
+    min-width: 180px;
 }
 
 .playArea {
@@ -135,5 +141,25 @@
     padding: 6px 8px;
     min-width: 115px;
     font-size: 14px;
+}
+
+.player1 {
+    background-color: #DDFF77;
+}
+
+.player2 {
+    background-color: #FFCC88;
+}
+
+.card {
+    clear: both;
+    float: left;
+    margin-bottom: 2px;
+}
+
+.cardInfo {
+    float: left;
+    padding: 5px 10px;
+    min-width: 175px;
 }
 
