@@ -53,25 +53,29 @@
                         <btd:overrunCard cardsLeft="#{gameView.game.retreats.size()}" pileName="Retreats"/>
                     </div>
 
-                    <div class="playerInfo">
-                        Player Info
+                    <div class="playerInfoSection">
+
+                        <btd:playerInfo player="#{gameView.player}" playerClass="player"/>
+
+                        <btd:playerInfo player="#{gameView.opponent}" playerClass="opponent"/>
+
                     </div>
 
-                    <div class="units">
+                    <div class="unitsSection">
 
-                        <div class="player1UnitsSection player1">
-                            Player 1 Units:
+                        <div class="yourUnitsSection player">
+                            #{gameView.player.playerName}'s Units:
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{userSession.user.currentGame.players[0].deploymentZone}" var="card">
+                                <ui:repeat value="#{gameView.player.deploymentZone}" var="card">
                                     <btd:card card="#{card}"/>
                                 </ui:repeat>
                             </div>
                         </div>
 
-                        <div class="player2UnitsSection player2">
-                            Player 2 Units:
+                        <div class="opponentUnitsSection opponent">
+                            #{gameView.opponent.playerName}'s Units:
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{userSession.user.currentGame.players[1].deploymentZone}" var="card">
+                                <ui:repeat value="#{gameView.opponent.deploymentZone}" var="card">
                                     <btd:card card="#{card}"/>
                                 </ui:repeat>
                             </div>
@@ -79,12 +83,22 @@
 
                     </div>
 
-                    <div class="playArea">
-                        Play Area
+                    <div class="playAreaSection">
+                        Play Area:
+                        <div class="playArea">
+                            <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
+                                <btd:card card="#{card}"/>
+                            </ui:repeat>
+                        </div>
                     </div>
 
-                    <div class="hand">
-                        Hand
+                    <div class="handSection">
+                        Your Hand:
+                        <div class="hand">
+                            <ui:repeat value="#{gameView.player.hand}" var="card">
+                                <btd:card card="#{card}"/>
+                            </ui:repeat>
+                        </div>
                     </div>
 
                 </div>
@@ -92,14 +106,41 @@
                 <div class="rightSection">
 
                     <div class="gameLog">
-                        Game Log
+                        <h:outputText value="#{gameView.game.gameLog.toString()}"/>
                     </div>
 
-                    <div class="playerCardInfo">
-                        Player Card Info
+                    <div class="playerCardInfoSection">
+                        <div class="playerCardInfoBox">
+                            <div class="playerCardInfoRow">
+                                <div class="playerCardInfoNameContainer">&#160;</div>
+                                <div class="playerCardInfoValue">Hand</div>
+                                <div class="playerCardInfoValue">Deck</div>
+                                <div class="playerCardInfoValue">Discard</div>
+                            </div>
+                            <div class="playerCardInfoRow">
+                                <div class="playerCardInfoNameContainer player">
+                                    <div class="playerCardInfoName">
+                                        <h:outputText value="#{gameView.player.playerName}"/>
+                                    </div>
+                                </div>
+                                <div class="playerCardInfoValue">#{gameView.player.hand.size()}</div>
+                                <div class="playerCardInfoValue">#{gameView.player.deck.size()}</div>
+                                <div class="playerCardInfoValue">#{gameView.player.discard.size()}</div>
+                            </div>
+                            <div class="playerCardInfoRow">
+                                <div class="playerCardInfoNameContainer opponent">
+                                    <div class="playerCardInfoName">
+                                        <h:outputText value="#{gameView.opponent.playerName}"/>
+                                    </div>
+                                </div>
+                                <div class="playerCardInfoValue">#{gameView.opponent.hand.size()}</div>
+                                <div class="playerCardInfoValue">#{gameView.opponent.deck.size()}</div>
+                                <div class="playerCardInfoValue">#{gameView.opponent.discard.size()}</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="turnInfo">
+                    <div class="turnInfoSection">
                         Turn Info
                     </div>
 

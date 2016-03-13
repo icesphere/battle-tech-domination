@@ -45,6 +45,12 @@ public class GameService {
         players.add(player1);
         players.add(player2);
 
+        user1.setCurrentPlayer(player1);
+        user1.setCurrentGame(game);
+
+        user2.setCurrentPlayer(player2);
+        user2.setCurrentGame(game);
+
         player1.setOpponent(player2);
         player2.setOpponent(player1);
 
@@ -106,7 +112,7 @@ public class GameService {
 
         List<Card> supplyCards = getSupplyCards();
         Collections.shuffle(supplyCards);
-        game.setSupply(supplyCards);
+        game.setSupply(supplyCards.subList(0, 40));
 
         game.addCardsToSupplyGrid(6);
     }
@@ -290,10 +296,8 @@ public class GameService {
         if (!users.isEmpty()) {
             User opponent = users.get(0);
             opponent.setAutoMatch(false);
-            Game game = createGame(user, opponent);
-            user.setCurrentGame(game);
+            createGame(user, opponent);
             user.setAutoMatch(false);
-            opponent.setCurrentGame(game);
             sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
         } else {
             user.setAutoMatch(true);

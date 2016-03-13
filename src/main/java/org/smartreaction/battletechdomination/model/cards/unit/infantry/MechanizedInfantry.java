@@ -12,9 +12,4 @@ public class MechanizedInfantry extends InfantryUnit implements Expendable, Mobi
         defense = 1;
         industryCost = 2;
     }
-
-    @Override
-    public String getAbbreviatedName() {
-        return "Mechanized Inf";
-    }
 }

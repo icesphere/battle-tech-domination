@@ -65,6 +65,8 @@ public abstract class Player {
 
     protected boolean forwardBaseInDeploymentZone;
 
+    protected boolean yourTurn;
+
     public void drawHandTo(int cards) {
         if (hand.size() < cards) {
             drawCards(cards - hand.size());
@@ -503,6 +505,7 @@ public abstract class Player {
     public abstract Card chooseFreeResourceCardToPutIntoHand(int maxIndustryCost);
 
     public void setupTurn() {
+        yourTurn = true;
         actions = 2;
         hand.addAll(setAside);
         setAside.clear();
@@ -840,6 +843,8 @@ public abstract class Player {
             }
         }
 
+        yourTurn = false;
+
         game.turnEnded();
     }
 
@@ -1173,5 +1178,30 @@ public abstract class Player {
         }
         List<Unit> sortedCards = units.stream().sorted((u1, u2) -> Integer.compare(u2.getIndustryCost(), u1.getIndustryCost())).collect(toList());
         return sortedCards.get(0);
+    }
+
+    public List<Card> getCardsInPlayArea() {
+        if (turnPhase == TurnPhase.ACTION) {
+            return supportCardsPlayed;
+        } else if (turnPhase == TurnPhase.BUY) {
+            return resourcesPlayed;
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public List<Card> getDeck() {
+        return deck;
+    }
+
+    public List<Card> getDiscard() {
+        return discard;
+    }
+
+    public boolean isYourTurn() {
+        return yourTurn;
     }
 }

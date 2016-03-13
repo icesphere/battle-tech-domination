@@ -11,9 +11,4 @@ public class PartisanHeavyTank extends VehicleUnit implements Tank {
         defense = 2;
         industryCost = 0;
     }
-
-    @Override
-    public String getAbbreviatedName() {
-        return "Partisan";
-    }
 }

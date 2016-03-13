@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.view;
 
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.cards.*;
+import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
 
 import javax.ejb.EJB;
@@ -9,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
+import java.util.List;
 
 @ManagedBean
 @ViewScoped
@@ -31,6 +33,14 @@ public class GameView implements Serializable {
         return userSession.getUser().getCurrentGame();
     }
 
+    public Player getPlayer() {
+        return userSession.getUser().getCurrentPlayer();
+    }
+
+    public Player getOpponent() {
+        return userSession.getUser().getCurrentPlayer().getOpponent();
+    }
+
     public String getCardClass(Card card) {
         if (card instanceof InfantryUnit) {
             return "infantryUnit";
@@ -49,5 +59,13 @@ public class GameView implements Serializable {
         }
 
         return "";
+    }
+
+    public List<Card> getCardsForPlayArea() {
+        if (getPlayer().isYourTurn()) {
+            return getPlayer().getCardsInPlayArea();
+        } else {
+            return getOpponent().getCardsInPlayArea();
+        }
     }
 }

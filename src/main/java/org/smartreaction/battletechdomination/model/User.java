@@ -1,11 +1,15 @@
 package org.smartreaction.battletechdomination.model;
 
+import org.smartreaction.battletechdomination.model.players.Player;
+
 import java.util.Objects;
 
 public class User {
     private String username;
 
     private Game currentGame;
+
+    private Player currentPlayer;
 
     private boolean autoMatch;
 
@@ -23,6 +27,14 @@ public class User {
 
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public boolean isAutoMatch() {

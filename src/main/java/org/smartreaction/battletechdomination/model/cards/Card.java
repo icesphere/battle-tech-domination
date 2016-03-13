@@ -47,10 +47,6 @@ public abstract class Card {
         this.name = name;
     }
 
-    public String getAbbreviatedName() {
-        return name;
-    }
-
     public String getSubName() {
         return subName;
     }

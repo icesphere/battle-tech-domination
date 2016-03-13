@@ -1,25 +1,25 @@
 .gamePage {
     padding: 10px;
     float: left;
-    width: 1000px;
+    width: 1024px;
     overflow: auto;
 }
 
 .leftSection {
     float: left;
-    width: 245px;
+    width: 260px;
     margin-right: 10px;
 }
 
 .middleSection {
     float: left;
-    width: 490px;
+    width: 462px;
     margin-right: 10px;
 }
 
 .rightSection {
     float: left;
-    width: 245px;
+    width: 280px;
 }
 
 .baseCards {
@@ -42,47 +42,94 @@
     margin-right: 10px;
 }
 
-.playerInfo {
+.playerInfoSection {
     float: left;
+    padding-top: 12px;
 }
 
-.units {
+.unitsSection {
     clear: left;
     float: left;
     padding-top: 10px;
 }
 
-.player1UnitsSection {
+.yourUnitsSection {
     float: left;
     margin-right: 10px;
     padding: 5px;
-    min-width: 180px;
+    min-width: 215px;
 }
 
-.player2UnitsSection {
+.opponentUnitsSection {
     float: left;
     padding: 5px;
-    min-width: 180px;
+    min-width: 215px;
+}
+
+.playAreaSection {
+    clear: left;
+    padding-top: 10px;
 }
 
 .playArea {
-    clear: left;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.handSection {
     padding-top: 10px;
 }
 
 .hand {
+    padding-left: 20px;
     padding-top: 10px;
 }
 
 .gameLog {
-
+    height: 250px;
+    overflow: auto;
+    border: 2px solid black;
 }
 
-.playerCardInfo {
+.playerCardInfoSection {
     padding-top: 10px;
 }
 
-.turnInfo {
+.playerCardInfoBox {
+    border: 1px solid #333;
+    background-color: #CCC;
+    float: left;
+    width: 277px;
+}
+
+.playerCardInfoRow {
+    clear: left;
+    float: left;
+    padding: 5px;
+}
+
+.playerCardInfoNameContainer {
+    float: left;
+    min-width: 100px;
+    margin-right: 5px;
+    position: relative;
+    top: -5px;
+}
+
+.playerCardInfoName {
+    float: left;
+    padding: 7px 14px;
+}
+
+.playerCardInfoValue {
+    float: left;
+    min-width: 45px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.turnInfoSection {
+    clear: both;
     padding-top: 10px;
 }
 
@@ -107,7 +154,7 @@
 .supplyCardInfo {
     float: left;
     padding: 5px 10px;
-    min-width: 175px;
+    min-width: 190px;
 }
 
 .infantryUnit {
@@ -143,12 +190,12 @@
     font-size: 14px;
 }
 
-.player1 {
+.player {
     background-color: #DDFF77;
 }
 
-.player2 {
-    background-color: #FFCC88;
+.opponent {
+    background-color: #FFDDAA;
 }
 
 .card {
@@ -160,6 +207,26 @@
 .cardInfo {
     float: left;
     padding: 5px 10px;
-    min-width: 175px;
+    min-width: 190px;
+}
+
+.playerInfo {
+    padding-top: 5px;
+    clear: both;
+    float: left;
+}
+
+.playerInfoName {
+    float: left;
+    padding: 10px;
+    margin-right: 2px;
+    min-width: 128px;
+}
+
+.playerInfoValue {
+    float: left;
+    padding: 10px;
+    margin-right: 2px;
+    min-width: 35px;
 }
 

@@ -12,9 +12,4 @@ public class SturmfeurLRMTank extends VehicleUnit implements LRMFireSupport, Tan
         defense = 0;
         industryCost = 2;
     }
-
-    @Override
-    public String getAbbreviatedName() {
-        return "Sturmfeur";
-    }
 }
