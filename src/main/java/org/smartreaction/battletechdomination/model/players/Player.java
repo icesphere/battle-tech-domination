@@ -567,6 +567,20 @@ public abstract class Player {
         }
     }
 
+    public void nextPhase() {
+        if (turnPhase == TurnPhase.COMBAT_START) {
+            continueCombatPhase();
+        } else if (turnPhase == TurnPhase.COMBAT) {
+            endCombatPhase();
+            turnPhase = TurnPhase.ACTION;
+        } else if (turnPhase == TurnPhase.ACTION) {
+            turnPhase = TurnPhase.BUY;
+        } else if (turnPhase == TurnPhase.BUY) {
+            turnPhase = TurnPhase.CLEANUP;
+            endTurn();
+        }
+    }
+
     public void startCombatPhase() {
         turnPhase = TurnPhase.COMBAT_START;
 
@@ -636,7 +650,7 @@ public abstract class Player {
             if (card instanceof CityFighter) {
                 ((MechUnit) card).setAbilityUsed(true);
                 if (opponent.getNumInfantryUnitsInDeploymentZone() >= 2) {
-                    addGameLog("Gained +1 Attack from CityFighter ability");
+                    addGameLog("Gained +1 Attack from City Fighter ability");
                     attack++;
                 }
             }
@@ -795,8 +809,6 @@ public abstract class Player {
 
         turns++;
 
-        turnPhase = TurnPhase.NONE;
-
         actions = 0;
         attack = 0;
         defense = 0;
@@ -844,6 +856,8 @@ public abstract class Player {
         }
 
         yourTurn = false;
+
+        turnPhase = TurnPhase.NONE;
 
         game.turnEnded();
     }

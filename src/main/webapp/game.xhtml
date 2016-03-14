@@ -38,7 +38,7 @@
                         </ui:repeat>
                     </div>
 
-                    <div class="cardView">
+                    <div class="cardViewSection">
                         Card View
                     </div>
 
@@ -141,12 +141,31 @@
                     </div>
 
                     <div class="turnInfoSection">
-                        Turn Info
+                        <h:outputText styleClass="turnPhaseText" value="#{gameView.turnPhase}"/>
+                        <div class="turnValueTextWrapper">
+                            <h:outputText styleClass="turnValueText" value="Actions: #{gameView.game.currentPlayer.actions}"/>
+                        </div>
+                        <div class="turnValueTextWrapper">
+                            <h:outputText styleClass="turnValueText" value="$: #{gameView.game.currentPlayer.industry}"/>
+                            <h:outputText styleClass="turnValueText" style="padding-left: 10px;" value="LosTech: #{gameView.game.currentPlayer.losTech}"/>
+                        </div>
                     </div>
 
-                    <div class="turnButtons">
-                        Turn Buttons
-                    </div>
+                    <h:panelGroup layout="block" rendered="#{gameView.player.yourTurn}" styleClass="turnButtonsSection">
+
+                        <div class="turnButtonWrapper">
+                            <p:commandLink styleClass="turnButton" value="PLAY ALL"/>
+                        </div>
+
+                        <div class="turnButtonWrapper">
+                            <p:commandLink styleClass="turnButton" value="NEXT PHASE"/>
+                        </div>
+
+                        <div class="turnButtonWrapper">
+                            <p:commandLink styleClass="turnButton" value="END TURN"/>
+                        </div>
+
+                    </h:panelGroup>
 
                 </div>
 

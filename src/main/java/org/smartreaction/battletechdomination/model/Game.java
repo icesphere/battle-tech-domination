@@ -68,6 +68,7 @@ public class Game {
     public void startGame() {
         currentPlayerIndex = 0;
         turn = 1;
+        getCurrentPlayer().setupTurn();
         gameLog("Player 1: " + players.get(0).getPlayerName());
         gameLog("Player 2: " + players.get(1).getPlayerName());
     }

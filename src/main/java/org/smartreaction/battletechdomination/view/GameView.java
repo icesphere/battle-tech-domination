@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.view;
 
 import org.smartreaction.battletechdomination.model.Game;
+import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
@@ -61,11 +62,24 @@ public class GameView implements Serializable {
         return "";
     }
 
-    public List<Card> getCardsForPlayArea() {
-        if (getPlayer().isYourTurn()) {
-            return getPlayer().getCardsInPlayArea();
-        } else {
-            return getOpponent().getCardsInPlayArea();
+    public String getTurnPhase() {
+        return getTurnPhaseDisplayName(getGame().getCurrentPlayer().getTurnPhase());
+    }
+
+    public String getTurnPhaseDisplayName(TurnPhase turnPhase) {
+        if (turnPhase == TurnPhase.COMBAT_START || turnPhase == TurnPhase.COMBAT) {
+            return "COMBAT PHASE";
+        } else if (turnPhase == TurnPhase.ACTION) {
+            return "ACTION PHASE";
+        } else if (turnPhase == TurnPhase.BUY) {
+            return "BUY PHASE";
+        } else if (turnPhase == TurnPhase.CLEANUP) {
+            return "CLEANUP PHASE";
         }
+        return "";
+    }
+
+    public List<Card> getCardsForPlayArea() {
+        return getGame().getCurrentPlayer().getCardsInPlayArea();
     }
 }
