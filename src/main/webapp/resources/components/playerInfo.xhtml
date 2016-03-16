@@ -20,15 +20,18 @@
         </div>
 
         <div class="#{cc.attrs.playerClass} playerInfoValue">
-            <h:outputText value="#{cc.attrs.player.losTech} LT"/>
+            <h:outputText value="#{cc.attrs.player.losTech}"/>
+            <h:graphicImage library="images" name="LosTechIcon.png" styleClass="playerInfoIcon"/>
         </div>
 
         <div class="#{cc.attrs.playerClass} playerInfoValue">
-            <h:outputText value="#{cc.attrs.player.attack} A"/>
+            <h:outputText value="#{cc.attrs.player.attack}"/>
+            <h:graphicImage library="images" name="AttackIcon.png" styleClass="playerInfoIcon"/>
         </div>
 
         <div class="#{cc.attrs.playerClass} playerInfoValue">
-            <h:outputText value="#{cc.attrs.player.defense} D"/>
+            <h:outputText value="#{cc.attrs.player.defense}"/>
+            <h:graphicImage library="images" name="DefenseIcon.png" styleClass="playerInfoIcon"/>
         </div>
 
     </h:panelGroup>

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Game {
-    public static final boolean SHOW_GAME_LOG = false;
+    public static final boolean SHOW_GAME_LOG = true;
 
     private String gameId;
 

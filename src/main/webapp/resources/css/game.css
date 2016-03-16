@@ -1,25 +1,29 @@
 .gamePage {
-    padding: 10px;
+    padding: 15px;
     float: left;
-    width: 1024px;
+    width: 1100px;
     overflow: auto;
 }
 
 .leftSection {
     float: left;
-    width: 260px;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .middleSection {
     float: left;
-    width: 462px;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .rightSection {
     float: left;
-    width: 280px;
+}
+
+.supplySection {
+    float: left;
+    padding: 15px;
+    background-color: #EEEEF9;
+    border: 1px solid #DDDDE9;
 }
 
 .baseCards {
@@ -29,12 +33,22 @@
 .supplyGrid {
     clear: both;
     float: left;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .cardViewSection {
     clear: both;
+    float: left;
     padding-top: 10px;
+}
+
+.cardView {
+    float: left;
+    width: 256px;
+    height: 290px;
+    padding: 15px;
+    background-color: #EEEEF9;
+    border: 1px solid #DDDDE9;
 }
 
 .overrunCards {
@@ -51,6 +65,11 @@
     clear: left;
     float: left;
     padding-top: 10px;
+}
+
+.unitsLabel {
+    font-style: italic;
+    padding-left: 10px;
 }
 
 .yourUnitsSection {
@@ -87,12 +106,13 @@
 
 .gameLog {
     height: 220px;
+    width: 275px;
     overflow: auto;
     border: 2px solid black;
 }
 
 .playerCardInfoSection {
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .playerCardInfoBox {
@@ -130,7 +150,7 @@
 
 .turnInfoSection {
     clear: both;
-    padding-top: 10px;
+    padding-top: 15px;
     text-align: center;
 }
 
@@ -139,14 +159,15 @@
 }
 
 .turnButtonWrapper {
-    padding-top: 10px;
+    padding-top: 15px;
     clear: both;
     float: left;
+    margin-left: 10px;
 }
 
 .turnButton {
     float: left;
-    min-width: 150px;
+    min-width: 130px;
     text-align: center;
     background: #3498db;
     background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
@@ -160,8 +181,8 @@
     text-shadow: 1px 1px 3px #666666;
     font-family: Arial;
     color: #ffffff;
-    font-size: 18px;
-    padding: 25px 60px 25px 60px;
+    font-size: 16px;
+    padding: 20px 60px 20px 60px;
     border: solid #1f628d 2px;
     text-decoration: none;
 }
@@ -230,11 +251,11 @@
 }
 
 .player {
-    background-color: #DDFF77;
+    background-color: #DFFFBF;
 }
 
 .opponent {
-    background-color: #FFDDAA;
+    background-color: #FFE0B0;
 }
 
 .card {
@@ -264,9 +285,15 @@
 
 .playerInfoValue {
     float: left;
-    padding: 10px;
+    padding: 7px 10px;
     margin-right: 2px;
     min-width: 35px;
+}
+
+.playerInfoIcon {
+    margin-left: 5px;
+    height: 19px;
+    width: 19px;
 }
 
 .turnPhaseText {
@@ -281,6 +308,11 @@
 
 .turnValueText {
     font-size: 20px;
-    font-style: italic;
+}
+
+.turnValueIcon {
+    margin-left: 10px;
+    height: 19px;
+    width: 19px;
 }
 
