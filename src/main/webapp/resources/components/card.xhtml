@@ -12,7 +12,7 @@
 
 <composite:implementation>
 
-    <h:panelGroup layout="block" styleClass="card">
+    <h:panelGroup layout="block" styleClass="card" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])">
 
         <div class="cardInfo #{gameView.getCardClass(cc.attrs.card)}">
             <h:outputText value="#{cc.attrs.card.name}"/>

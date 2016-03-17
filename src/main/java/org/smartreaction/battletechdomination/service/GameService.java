@@ -287,6 +287,127 @@ public class GameService {
         return cards;
     }
 
+    public Card getCardByName(String cardName) {
+        if (cardName == null) {
+            return null;
+        }
+
+        cardName = cardName.replaceAll("\\s", "").toLowerCase();
+        cardName = cardName.replaceAll("'", "");
+
+        switch (cardName) {
+            case "criticalhit":
+                return new CriticalHit();
+            case "heavycasualties":
+                return new HeavyCasualties();
+            case "raidedsupplies":
+                return new RaidedSupplies();
+            case "retreat":
+                return new Retreat();
+
+            case "advancedfactory":
+                return new AdvancedFactory();
+            case "basicfactory":
+                return new BasicFactory();
+            case "dropship":
+                return new DropShip();
+            case "munitionsfactory":
+                return new MunitionsFactory();
+            case "stripmining":
+                return new StripMining();
+
+            case "arrowivbattery":
+                return new ArrowIVBattery();
+            case "closedairsupport":
+                return new CloseAirSupport();
+            case "forcednegotiations":
+                return new ForcedNegotiations();
+            case "guerrillawarfare":
+                return new GuerrillaWarfare();
+            case "longtombattery":
+                return new LongTomBattery();
+            case "strategicbombing":
+                return new StrategicBombing();
+            case "tacticalnuke":
+                return new TacticalNuke();
+
+            case "expertmechtechs":
+                return new ExpertMechTechs();
+            case "forwardbase":
+                return new ForwardBase();
+
+            case "ammodump":
+                return new AmmoDump();
+            case "battlefieldsalvage":
+                return new BattlefieldSalvage();
+            case "commandcouncil":
+                return new CommandCouncil();
+            case "comstarengineers":
+                return new ComStarEngineers();
+            case "convoy":
+                return new Convoy();
+            case "heavyindustry":
+                return new HeavyIndustry();
+            case "hiddenbase":
+                return new HiddenBase();
+            case "highcommand":
+                return new HighCommand();
+            case "lostechcache":
+                return new LosTechCache();
+            case "martiallaw":
+                return new MartialLaw();
+            case "mobilization":
+                return new Mobilization();
+            case "propaganda":
+                return new Propaganda();
+            case "quartermaster":
+                return new Quartermaster();
+            case "rapiddeployment":
+                return new RapidDeployment();
+            case "refinery":
+                return new Refinery();
+            case "reinforcements":
+                return new Reinforcements();
+            case "socialgenerals":
+                return new SocialGenerals();
+            case "stagingground":
+                return new StagingGround();
+            case "supplyroute":
+                return new SupplyRoute();
+            case "tacticalredeployment":
+                return new TacticalRedeployment();
+
+            case "battlearmorsquad":
+                return new BattleArmorSquad();
+            case "elementals":
+                return new Elementals();
+            case "infantryplatoon":
+                return new InfantryPlatoon();
+            case "mechanizedinfantry":
+                return new MechanizedInfantry();
+            case "veteraninfantry":
+                return new VeteranInfantry();
+
+            //todo mechs
+
+            case "manticoreheavytank":
+                return new ManticoreHeavyTank();
+            case "mobilehq":
+                return new MobileHQ();
+            case "partisanheavytank":
+                return new PartisanHeavyTank();
+            case "schrekppccarrier":
+                return new SchrekPPCCarrier();
+            case "srmcarrier":
+                return new SRMCarrier();
+            case "sturmfeurlrmtank":
+                return new SturmfeurLRMTank();
+
+            default:
+                return null;
+        }
+    }
+
     public void autoMatchUser(User user) {
         //todo synchronize this
         if (user.getCurrentGame() != null) {

@@ -10,8 +10,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @ManagedBean
 @ViewScoped
@@ -21,6 +23,8 @@ public class GameView implements Serializable {
 
     @EJB
     GameService gameService;
+
+    Card cardToView;
 
     public void sendGameMessage() {
         gameService.sendGameMessage(userSession.getUser().getUsername(), "*", userSession.getUser().getCurrentGame().getGameId(), "test message");
@@ -81,5 +85,19 @@ public class GameView implements Serializable {
 
     public List<Card> getCardsForPlayArea() {
         return getGame().getCurrentPlayer().getCardsInPlayArea();
+    }
+
+    public void updateCardView() {
+        Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String cardName = paramValues.get("cardName");
+        cardToView = gameService.getCardByName(cardName);
+    }
+
+    public Card getCardToView() {
+        return cardToView;
+    }
+
+    public void setCardToView(Card cardToView) {
+        this.cardToView = cardToView;
     }
 }

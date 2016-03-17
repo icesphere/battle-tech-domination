@@ -13,6 +13,8 @@
     <ui:define name="content">
         <h:form>
 
+            <p:remoteCommand name="updateCardView" actionListener="#{gameView.updateCardView}" update="cardViewSection"/>
+
             <div class="gamePage">
 
                 <div class="leftSection">
@@ -42,11 +44,11 @@
 
                     </div>
 
-                    <div class="cardViewSection">
+                    <h:panelGroup layout="block" id="cardViewSection" styleClass="cardViewSection">
                         <div class="cardView">
-                            Card View
+                            #{gameView.cardToView.name}
                         </div>
-                    </div>
+                    </h:panelGroup>
 
                 </div>
 

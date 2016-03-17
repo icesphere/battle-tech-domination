@@ -22,8 +22,8 @@
 .supplySection {
     float: left;
     padding: 15px;
-    background-color: #EEEEF9;
-    border: 1px solid #DDDDE9;
+    background-color: #EEEEF0;
+    border: 1px solid #DDDDE0;
 }
 
 .baseCards {
@@ -47,8 +47,8 @@
     width: 256px;
     height: 290px;
     padding: 15px;
-    background-color: #EEEEF9;
-    border: 1px solid #DDDDE9;
+    background-color: #EEEEF0;
+    border: 1px solid #DDDDE0;
 }
 
 .overrunCards {
