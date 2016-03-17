@@ -83,6 +83,11 @@ public class GameView implements Serializable {
         return "";
     }
 
+    public String getCardTypeDisplayName(CardType cardType) {
+        //todo
+        return cardType.toString();
+    }
+
     public List<Card> getCardsForPlayArea() {
         return getGame().getCurrentPlayer().getCardsInPlayArea();
     }

@@ -46,7 +46,26 @@
 
                     <h:panelGroup layout="block" id="cardViewSection" styleClass="cardViewSection">
                         <div class="cardView">
-                            #{gameView.cardToView.name}
+                            <h:panelGroup layout="block" rendered="#{!empty gameView.cardToView}">
+                                <h:outputText value="#{gameView.cardToView.name}" style="font-weight: bold; font-size: 20px;"/>
+                                <div style="padding-top: 15px; font-size: 18px;">
+                                    <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
+                                </div>
+                                <div style="padding-top: 15px;">
+                                    <h:outputText value="#{gameView.cardToView.industryCost}"/>
+                                    <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
+                                    <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
+                                </div>
+                                <h:panelGroup layout="block" rendered="#{gameView.cardToView.unit}" style="padding-top: 15px;">
+                                    <h:outputText value="#{gameView.cardToView.attack}"/>
+                                    <h:graphicImage library="images" name="AttackIcon.png" styleClass="playerInfoIcon"/>
+                                    <h:outputText value="#{gameView.cardToView.defense}" style="padding-left: 15px;"/>
+                                    <h:graphicImage library="images" name="DefenseIcon.png" styleClass="playerInfoIcon"/>
+                                </h:panelGroup>
+                                <div style="padding-top: 15px;">
+                                    <h:outputText value="#{gameView.cardToView.cardText}"/>
+                                </div>
+                            </h:panelGroup>
                         </div>
                     </h:panelGroup>
 

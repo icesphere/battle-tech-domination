@@ -388,7 +388,70 @@ public class GameService {
             case "veteraninfantry":
                 return new VeteranInfantry();
 
-            //todo mechs
+            case "adder":
+                return new Adder();
+            case "atlas":
+                return new Atlas();
+            case "awesome":
+                return new Awesome();
+            case "catapult":
+                return new Catapult();
+            case "centurion":
+                return new Centurion();
+            case "cicada":
+                return new Cicada();
+            case "commando":
+                return new Commando();
+            case "daishi":
+                return new Daishi();
+            case "firestarter":
+                return new Firestarter();
+            case "gladiator":
+                return new Gladiator();
+            case "hunchback":
+                return new Hunchback();
+            case "jenner":
+                return new Jenner();
+            case "kitfox":
+                return new KitFox();
+            case "loki":
+                return new Loki();
+            case "madcat":
+                return new MadCat();
+            case "madcatmkii":
+                return new MadCatMkII();
+            case "marauder":
+                return new Marauder();
+            case "masakari":
+                return new Masakari();
+            case "orion":
+                return new Orion();
+            case "quickdraw":
+                return new Quickdraw();
+            case "raven":
+                return new Raven();
+            case "shadowcat":
+                return new ShadowCat();
+            case "shadowhawk":
+                return new ShadowHawk();
+            case "stalker":
+                return new Stalker();
+            case "stormcrow":
+                return new Stormcrow();
+            case "thor":
+                return new Thor();
+            case "trebuchet":
+                return new Trebuchet();
+            case "urbanmech":
+                return new Urbanmech();
+            case "uziel":
+                return new Uziel();
+            case "victor":
+                return new Victor();
+            case "vulture":
+                return new Vulture();
+            case "zeus":
+                return new Zeus();
 
             case "manticoreheavytank":
                 return new ManticoreHeavyTank();
