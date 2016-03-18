@@ -13,7 +13,7 @@
 
 <composite:implementation>
 
-    <h:panelGroup layout="block" styleClass="overrunCard">
+    <h:panelGroup layout="block" styleClass="overrunCard" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.pileName}'}])">
         
         <h:outputText value="#{cc.attrs.cardsLeft}" style="padding-right: 10px;"/>
         <h:outputText value="#{cc.attrs.pileName}"/>

@@ -84,8 +84,28 @@ public class GameView implements Serializable {
     }
 
     public String getCardTypeDisplayName(CardType cardType) {
-        //todo
-        return cardType.toString();
+        switch (cardType) {
+            case UNIT_INFANTRY:
+                return "Unit - Infantry";
+            case UNIT_MECH:
+                return "Unit - Mech";
+            case UNIT_VEHICLE:
+                return "Unit - Vehicle";
+            case OVERRUN_SUPPORT:
+                return "Overrun - Support";
+            case OVERRUN:
+                return "Overrun";
+            case SUPPORT:
+                return "Support";
+            case SUPPORT_REACTION:
+                return "Support - Reaction";
+            case SUPPORT_ATTACK:
+                return "Support - Attack";
+            case RESOURCE:
+                return "Resource";
+            default:
+                return cardType.toString();
+        }
     }
 
     public List<Card> getCardsForPlayArea() {

@@ -297,12 +297,14 @@ public class GameService {
 
         switch (cardName) {
             case "criticalhit":
+            case "criticalhits":
                 return new CriticalHit();
             case "heavycasualties":
                 return new HeavyCasualties();
             case "raidedsupplies":
                 return new RaidedSupplies();
             case "retreat":
+            case "retreats":
                 return new Retreat();
 
             case "advancedfactory":

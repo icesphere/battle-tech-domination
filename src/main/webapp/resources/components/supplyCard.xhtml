@@ -12,7 +12,7 @@
 
 <composite:implementation>
 
-    <h:panelGroup layout="block" styleClass="supplyCard">
+    <h:panelGroup layout="block" styleClass="supplyCard" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])">
 
         <div class="supplyCardCost #{gameView.getCardClass(cc.attrs.card)}">
             <h:outputText value="$#{cc.attrs.card.industryCost}"/>
