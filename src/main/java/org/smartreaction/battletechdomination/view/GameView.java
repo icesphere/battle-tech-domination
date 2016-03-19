@@ -125,4 +125,8 @@ public class GameView implements Serializable {
     public void setCardToView(Card cardToView) {
         this.cardToView = cardToView;
     }
+
+    public void nextPhase() {
+        getPlayer().nextPhase();
+    }
 }

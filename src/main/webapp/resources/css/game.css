@@ -3,6 +3,7 @@
     float: left;
     width: 1100px;
     overflow: auto;
+    font-size: 16px;
 }
 
 .leftSection {
@@ -105,7 +106,7 @@
     padding-top: 10px;
 }
 
-.gameLog {
+.gameLogSection {
     height: 220px;
     width: 275px;
     overflow: auto;
@@ -315,5 +316,10 @@
     margin-left: 10px;
     height: 19px;
     width: 19px;
+}
+
+.currentPlayerTurnText {
+    padding: 5px 15px;
+    font-size: 18px;
 }
 

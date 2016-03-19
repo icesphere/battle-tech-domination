@@ -570,9 +570,7 @@ public abstract class Player {
     public void nextPhase() {
         if (turnPhase == TurnPhase.COMBAT_START) {
             continueCombatPhase();
-        } else if (turnPhase == TurnPhase.COMBAT) {
             endCombatPhase();
-            turnPhase = TurnPhase.ACTION;
         } else if (turnPhase == TurnPhase.ACTION) {
             turnPhase = TurnPhase.BUY;
         } else if (turnPhase == TurnPhase.BUY) {
@@ -630,6 +628,8 @@ public abstract class Player {
         if (attack > 0) {
             addOpponentAction(new DamageUnit());
         }
+
+        turnPhase = TurnPhase.ACTION;
     }
 
     public Overrun getOverrunCard(int difference) {
@@ -1217,5 +1217,17 @@ public abstract class Player {
 
     public boolean isYourTurn() {
         return yourTurn;
+    }
+
+    public boolean isCombatStart() {
+        return turnPhase == TurnPhase.COMBAT_START;
+    }
+
+    public boolean isActionPhase() {
+        return turnPhase == TurnPhase.ACTION;
+    }
+
+    public boolean isBuyPhase() {
+        return turnPhase == TurnPhase.BUY;
     }
 }
