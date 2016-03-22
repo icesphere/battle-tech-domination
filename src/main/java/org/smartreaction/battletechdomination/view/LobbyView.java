@@ -35,6 +35,7 @@ public class LobbyView implements Serializable {
         return null;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public void setUserSession(UserSession userSession) {
         this.userSession = userSession;
     }

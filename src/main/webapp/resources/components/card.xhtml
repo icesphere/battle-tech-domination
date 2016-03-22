@@ -14,7 +14,7 @@
 
     <h:panelGroup layout="block" styleClass="card" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])">
 
-        <div class="cardInfo #{gameView.getCardClass(cc.attrs.card)}">
+        <div class="cardInfo #{gameView.getActionableCardClass(cc.attrs.card)}">
             <h:outputText value="#{cc.attrs.card.name}"/>
             <h:outputText rendered="#{cc.attrs.card.unit}" value=" (#{cc.attrs.card.attack}/#{cc.attrs.card.defense})"/>
         </div>

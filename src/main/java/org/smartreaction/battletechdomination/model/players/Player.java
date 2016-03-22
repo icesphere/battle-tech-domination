@@ -751,7 +751,7 @@ public abstract class Player {
         deploymentZone.add(unit);
     }
 
-    public void useMechAbility(MechUnit unit) {
+    public void useUnitAbility(Unit unit) {
         if (unit.isAbilityAvailable(this)) {
             unit.setAbilityUsed(true);
             if (unit instanceof AC20) {
@@ -1174,10 +1174,6 @@ public abstract class Player {
         this.turnPhase = turnPhase;
     }
 
-    public int getHandSize() {
-        return hand.size();
-    }
-
     public boolean isExpertMechTechsInDeploymentZone() {
         return expertMechTechsInDeploymentZone;
     }
@@ -1203,16 +1199,34 @@ public abstract class Player {
         return new ArrayList<>();
     }
 
-    public List<Card> getHand() {
-        return hand;
+    public List<Card> getActionableHand() {
+        return hand.stream().map(c -> {
+            c.setActionable(yourTurn && ((c.isUnit() && isActionPhase()) || (c.isResource() && isBuyPhase())));
+            return c;
+        }).collect(toList());
     }
 
-    public List<Card> getDeck() {
-        return deck;
+    public List<Card> getActionableDeploymentZone() {
+        return deploymentZone.stream().map(u -> {
+            u.setActionable(yourTurn && u.isAbilityAvailable(this));
+            return u;
+        }).collect(toList());
     }
 
-    public List<Card> getDiscard() {
-        return discard;
+    public boolean isCardBuyable(Card card) {
+        return yourTurn && isBuyPhase() && card.getIndustryCost() <= industry && card.getLosTechCost() <= losTech;
+    }
+
+    public int getHandSize() {
+        return hand.size();
+    }
+
+    public int getDeckSize() {
+        return deck.size();
+    }
+
+    public int getDiscardSize() {
+        return discard.size();
     }
 
     public boolean isYourTurn() {

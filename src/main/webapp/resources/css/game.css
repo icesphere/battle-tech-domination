@@ -323,3 +323,13 @@
     font-size: 18px;
 }
 
+.actionableCard {
+    border: 3px solid #0055FF;
+    padding: 2px 7px;
+}
+
+.buyableCard {
+    border: 3px solid #0055FF;
+    padding: 2px 7px;
+}
+

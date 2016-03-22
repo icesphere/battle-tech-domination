@@ -33,6 +33,7 @@ public class LoginView implements Serializable {
         return "lobby.xhtml?faces-redirect=true";
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public void setUserSession(UserSession userSession) {
         this.userSession = userSession;
     }

@@ -30,6 +30,7 @@ public class GameView implements Serializable {
         gameService.sendGameMessage(userSession.getUser().getUsername(), "*", userSession.getUser().getCurrentGame().getGameId(), "test message");
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public void setUserSession(UserSession userSession) {
         this.userSession = userSession;
     }
@@ -46,24 +47,46 @@ public class GameView implements Serializable {
         return userSession.getUser().getCurrentPlayer().getOpponent();
     }
 
-    public String getCardClass(Card card) {
-        if (card instanceof InfantryUnit) {
-            return "infantryUnit";
-        } else if (card instanceof MechUnit) {
-            return "mechUnit";
-        } else if (card instanceof VehicleUnit) {
-            return "vehicleUnit";
-        } else if (card instanceof Resource) {
-            return "resource";
-        } else if (card instanceof SupportReaction) {
-            return "supportReaction";
-        } else if (card instanceof Support || card instanceof SupportAttack) {
-            return "support";
-        } else if (card instanceof Overrun) {
-            return "overrun";
+    public String getSupplyCardClass(Card card) {
+        String cardClass = getCardClass(card);
+
+        if (getPlayer().isCardBuyable(card)) {
+            cardClass += " buyableCard";
         }
 
-        return "";
+        return cardClass;
+    }
+
+    public String getActionableCardClass(Card card) {
+        String cardClass = getCardClass(card);
+
+        if (card.isActionable()) {
+            cardClass += " actionableCard";
+        }
+
+        return cardClass;
+    }
+
+    public String getCardClass(Card card) {
+        String cardClass = "";
+        
+        if (card instanceof InfantryUnit) {
+            cardClass = "infantryUnit";
+        } else if (card instanceof MechUnit) {
+            cardClass = "mechUnit";
+        } else if (card instanceof VehicleUnit) {
+            cardClass = "vehicleUnit";
+        } else if (card instanceof Resource) {
+            cardClass = "resource";
+        } else if (card instanceof SupportReaction) {
+            cardClass = "supportReaction";
+        } else if (card instanceof Support || card instanceof SupportAttack) {
+            cardClass = "support";
+        } else if (card instanceof Overrun) {
+            cardClass = "overrun";
+        }
+
+        return cardClass;
     }
 
     public String getTurnPhase() {

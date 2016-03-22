@@ -44,29 +44,31 @@
 
                     </h:panelGroup>
 
-                    <h:panelGroup layout="block" id="cardViewSection" styleClass="cardViewSection">
-                        <div class="cardView">
-                            <h:panelGroup layout="block" rendered="#{!empty gameView.cardToView}">
-                                <h:outputText value="#{gameView.cardToView.name}" style="font-weight: bold; font-size: 20px;"/>
-                                <div style="padding-top: 15px; font-size: 18px;">
-                                    <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
-                                </div>
-                                <div style="padding-top: 15px;">
-                                    <h:outputText value="#{gameView.cardToView.industryCost}"/>
-                                    <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
-                                    <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
-                                </div>
-                                <h:panelGroup layout="block" rendered="#{gameView.cardToView.unit}" style="padding-top: 15px;">
-                                    <h:outputText value="#{gameView.cardToView.attack}"/>
-                                    <h:graphicImage library="images" name="AttackIcon.png" styleClass="playerInfoIcon"/>
-                                    <h:outputText value="#{gameView.cardToView.defense}" style="padding-left: 15px;"/>
-                                    <h:graphicImage library="images" name="DefenseIcon.png" styleClass="playerInfoIcon"/>
+                    <h:panelGroup layout="block" id="cardViewSection">
+                        <h:panelGroup layout="block" styleClass="cardViewSection" rendered="#{!empty gameView.cardToView}">
+                            <div class="cardView">
+                                <h:panelGroup layout="block">
+                                    <h:outputText value="#{gameView.cardToView.name}" style="font-weight: bold; font-size: 20px;"/>
+                                    <div style="padding-top: 15px; font-size: 18px;">
+                                        <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
+                                    </div>
+                                    <div style="padding-top: 15px;">
+                                        <h:outputText value="#{gameView.cardToView.industryCost}"/>
+                                        <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
+                                        <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
+                                    </div>
+                                    <h:panelGroup layout="block" rendered="#{gameView.cardToView.unit}" style="padding-top: 15px;">
+                                        <h:outputText value="#{gameView.cardToView.attack}"/>
+                                        <h:graphicImage library="images" name="AttackIcon.png" styleClass="playerInfoIcon"/>
+                                        <h:outputText value="#{gameView.cardToView.defense}" style="padding-left: 15px;"/>
+                                        <h:graphicImage library="images" name="DefenseIcon.png" styleClass="playerInfoIcon"/>
+                                    </h:panelGroup>
+                                    <div style="padding-top: 15px;">
+                                        <h:outputText value="#{gameView.cardToView.cardText}"/>
+                                    </div>
                                 </h:panelGroup>
-                                <div style="padding-top: 15px;">
-                                    <h:outputText value="#{gameView.cardToView.cardText}"/>
-                                </div>
-                            </h:panelGroup>
-                        </div>
+                            </div>
+                        </h:panelGroup>
                     </h:panelGroup>
 
                 </h:panelGroup>
@@ -93,7 +95,7 @@
                         <h:panelGroup layout="block" id="yourUnitsSection" styleClass="yourUnitsSection player">
                             <h:outputText value="#{gameView.player.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.player.deploymentZone}" var="card">
+                                <ui:repeat value="#{gameView.player.actionableDeploymentZone}" var="card">
                                     <btd:card card="#{card}"/>
                                 </ui:repeat>
                             </div>
@@ -122,7 +124,7 @@
                     <h:panelGroup layout="block" id="handSection" styleClass="handSection">
                         <span style="font-style: italic">Your Hand:</span>
                         <div class="hand">
-                            <ui:repeat value="#{gameView.player.hand}" var="card">
+                            <ui:repeat value="#{gameView.player.actionableHand}" var="card">
                                 <btd:card card="#{card}"/>
                             </ui:repeat>
                         </div>
@@ -150,9 +152,9 @@
                                         <h:outputText value="#{gameView.player.playerName}"/>
                                     </div>
                                 </div>
-                                <div class="playerCardInfoValue">#{gameView.player.hand.size()}</div>
-                                <div class="playerCardInfoValue">#{gameView.player.deck.size()}</div>
-                                <div class="playerCardInfoValue">#{gameView.player.discard.size()}</div>
+                                <div class="playerCardInfoValue">#{gameView.player.handSize}</div>
+                                <div class="playerCardInfoValue">#{gameView.player.deckSize}</div>
+                                <div class="playerCardInfoValue">#{gameView.player.discardSize}</div>
                             </div>
                             <div class="playerCardInfoRow">
                                 <div class="playerCardInfoNameContainer opponent">
@@ -160,9 +162,9 @@
                                         <h:outputText value="#{gameView.opponent.playerName}"/>
                                     </div>
                                 </div>
-                                <div class="playerCardInfoValue">#{gameView.opponent.hand.size()}</div>
-                                <div class="playerCardInfoValue">#{gameView.opponent.deck.size()}</div>
-                                <div class="playerCardInfoValue">#{gameView.opponent.discard.size()}</div>
+                                <div class="playerCardInfoValue">#{gameView.opponent.handSize}</div>
+                                <div class="playerCardInfoValue">#{gameView.opponent.deckSize}</div>
+                                <div class="playerCardInfoValue">#{gameView.opponent.discardSize}</div>
                             </div>
                         </div>
                     </h:panelGroup>
@@ -189,15 +191,15 @@
                     <h:panelGroup layout="block" rendered="#{gameView.player.yourTurn}" id="turnButtonsSection" styleClass="turnButtonsSection">
 
                         <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.combatStart}">
-                            <p:commandLink process="@this" update="gameLogSection playerInfoSection turnInfoSection turnButtonsSection" styleClass="turnButton" value="APPLY COMBAT" actionListener="#{gameView.nextPhase}"/>
+                            <p:commandLink process="@this" update="gameLogSection playerInfoSection turnInfoSection turnButtonsSection" styleClass="turnButton" value="ATTACK!" actionListener="#{gameView.nextPhase}"/>
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.actionPhase}">
-                            <p:commandLink process="@this" update="gameLogSection playerInfoSection turnInfoSection turnButtonsSection" styleClass="turnButton" value="BUY PHASE" actionListener="#{gameView.nextPhase}"/>
+                            <p:commandLink process="@this" update="gameLogSection playerInfoSection turnInfoSection turnButtonsSection" styleClass="turnButton" value="BUY CARDS" actionListener="#{gameView.nextPhase}"/>
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.buyPhase}">
-                            <p:commandLink process="@this" update="gameLogSection playerInfoSection turnInfoSection turnButtonsSection hand playerCardInfoSection" styleClass="turnButton" value="END TURN" actionListener="#{gameView.nextPhase}"/>
+                            <p:commandLink process="@this" update="gameLogSection playerInfoSection turnInfoSection turnButtonsSection handSection playerCardInfoSection" styleClass="turnButton" value="END TURN" actionListener="#{gameView.nextPhase}"/>
                         </h:panelGroup>
 
                     </h:panelGroup>

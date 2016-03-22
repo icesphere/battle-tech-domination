@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards;
 
 import org.smartreaction.battletechdomination.model.Choice;
+import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.abilities.*;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
@@ -17,6 +18,74 @@ public abstract class Unit extends Card {
 
     protected int bonusAttack;
     protected int bonusDefense;
+
+    protected boolean abilityUsed;
+
+    public boolean isAbilityUsed() {
+        return abilityUsed;
+    }
+
+    public void setAbilityUsed(boolean abilityUsed) {
+        this.abilityUsed = abilityUsed;
+    }
+
+    public boolean isAbilityAvailable(Player player) {
+        if (abilityUsed) {
+            return false;
+        }
+
+        TurnPhase turnPhase = player.getTurnPhase();
+
+        if (this instanceof AC20) {
+            if (turnPhase == TurnPhase.ACTION) {
+                return true;
+            }
+        }
+
+        if (this instanceof DeathFromAbove) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof Expendable) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof HeavyFireSupport) {
+            if (turnPhase == TurnPhase.ACTION) {
+                return true;
+            }
+        }
+
+        if (this instanceof MobileFireSupport) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof Overheat) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof QuadERPPCs) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        if (this instanceof Scout) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public void cardPlayed(Player player) {

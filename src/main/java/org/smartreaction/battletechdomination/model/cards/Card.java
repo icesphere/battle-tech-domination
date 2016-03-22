@@ -12,6 +12,7 @@ public abstract class Card {
     protected int industryCost;
     protected int losTechCost;
     protected CardLocation cardLocation;
+    protected boolean actionable;
 
     public abstract void cardPlayed(Player player);
 
@@ -97,5 +98,17 @@ public abstract class Card {
 
     public boolean isUnit() {
         return this instanceof Unit;
+    }
+
+    public boolean isResource() {
+        return this instanceof Resource;
+    }
+
+    public boolean isActionable() {
+        return actionable;
+    }
+
+    public void setActionable(boolean actionable) {
+        this.actionable = actionable;
     }
 }
