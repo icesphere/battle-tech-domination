@@ -156,20 +156,29 @@ public class GameView implements Serializable {
                 getPlayer().buyCard(card);
             }
         } else  {
-            int index = Integer.parseInt(paramValues.get("index"));
+            String cardId = paramValues.get("cardId");
 
             if (source.equals("hand")) {
-                Card card = getPlayer().getHand().get(index);
+                Card card = findCardById(getPlayer().getHand(), cardId);
                 if (getPlayer().isCardActionable(card)) {
                     getPlayer().playCardFromHand(card);
                 }
             } else if (source.equals("playerUnits")) {
-                Unit unit = getPlayer().getDeploymentZone().get(index);
+                Unit unit = (Unit) findCardById(getPlayer().getDeploymentZone(), cardId);
                 if (getPlayer().isCardActionable(unit)) {
                     getPlayer().useUnitAbility(unit);
                 }
             }
         }
+    }
+
+    public Card findCardById(List<? extends Card> cards, String cardId) {
+        for (Card card : cards) {
+            if (card.getId().equals(cardId)) {
+                return card;
+            }
+        }
+        return null;
     }
 
     public Card getCardToView() {

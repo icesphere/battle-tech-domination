@@ -9,12 +9,11 @@
 <composite:interface>
     <composite:attribute name="card" required="true" type="org.smartreaction.battletechdomination.model.cards.Card"/>
     <composite:attribute name="source" required="true"/>
-    <composite:attribute name="index" required="true"/>
 </composite:interface>
 
 <composite:implementation>
 
-    <h:panelGroup layout="block" styleClass="card" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])" onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'}, {name:'index', value:'#{cc.attrs.index}'}])">
+    <h:panelGroup layout="block" styleClass="card" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])" onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'}, {name:'cardId', value:'#{cc.attrs.card.id}'}])">
 
         <div class="cardInfo #{gameView.getActionableCardClass(cc.attrs.card)}">
             <h:outputText value="#{cc.attrs.card.name}"/>

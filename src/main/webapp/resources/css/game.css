@@ -53,6 +53,11 @@
     text-align: center;
 }
 
+.emptyCardView {
+    padding-top: 20px;
+    font-style: italic;
+}
+
 .overrunCards {
     float: left;
     margin-right: 10px;

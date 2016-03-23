@@ -3,8 +3,10 @@ package org.smartreaction.battletechdomination.model.cards;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public abstract class Card {
+    protected String id;
     protected String name;
     protected String subName;
     protected String cardText;
@@ -12,6 +14,10 @@ public abstract class Card {
     protected int industryCost;
     protected int losTechCost;
     protected CardLocation cardLocation;
+
+    protected Card() {
+        id = UUID.randomUUID().toString();
+    }
 
     public abstract void cardPlayed(Player player);
 
@@ -31,12 +37,12 @@ public abstract class Card {
         }
 
         final Card other = (Card) obj;
-        return Objects.equals(this.name, other.name);
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.name);
+        return Objects.hash(this.id);
     }
 
     public String getName() {
@@ -101,5 +107,9 @@ public abstract class Card {
 
     public boolean isResource() {
         return this instanceof Resource;
+    }
+
+    public String getId() {
+        return id;
     }
 }

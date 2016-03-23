@@ -46,9 +46,9 @@
                     </h:panelGroup>
 
                     <h:panelGroup layout="block" id="cardViewSection">
-                        <h:panelGroup layout="block" styleClass="cardViewSection" rendered="#{!empty gameView.cardToView}">
+                        <h:panelGroup layout="block" styleClass="cardViewSection">
                             <div class="cardView">
-                                <h:panelGroup layout="block">
+                                <h:panelGroup layout="block" rendered="#{!empty gameView.cardToView}">
                                     <h:outputText value="#{gameView.cardToView.name}" style="font-weight: bold; font-size: 20px;"/>
                                     <div style="padding-top: 15px; font-size: 18px;">
                                         <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
@@ -67,6 +67,9 @@
                                     <div style="padding-top: 15px;">
                                         <h:outputText value="#{gameView.cardToView.cardText}"/>
                                     </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{empty gameView.cardToView}" styleClass="emptyCardView">
+                                    Hover over a card to see card details.
                                 </h:panelGroup>
                             </div>
                         </h:panelGroup>
@@ -96,8 +99,8 @@
                         <h:panelGroup layout="block" id="playerUnitsSection" styleClass="playerUnitsSection player">
                             <h:outputText value="#{gameView.player.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.player.deploymentZone}" var="card" varStatus="current">
-                                    <btd:card card="#{card}" source="playerUnits" index="#{current.index}"/>
+                                <ui:repeat value="#{gameView.player.deploymentZone}" var="card">
+                                    <btd:card card="#{card}" source="playerUnits"/>
                                 </ui:repeat>
                             </div>
                         </h:panelGroup>
@@ -105,8 +108,8 @@
                         <h:panelGroup layout="block" id="opponentUnitsSection" styleClass="opponentUnitsSection opponent">
                             <h:outputText value="#{gameView.opponent.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.opponent.deploymentZone}" var="card" varStatus="current">
-                                    <btd:card card="#{card}" source="opponentUnits" index="#{current.index}"/>
+                                <ui:repeat value="#{gameView.opponent.deploymentZone}" var="card">
+                                    <btd:card card="#{card}" source="opponentUnits"/>
                                 </ui:repeat>
                             </div>
                         </h:panelGroup>
@@ -116,8 +119,8 @@
                     <h:panelGroup layout="block" id="playAreaSection" styleClass="playAreaSection">
                         <span style="font-style: italic">Play Area:</span>
                         <div class="playArea">
-                            <ui:repeat value="#{gameView.cardsForPlayArea}" var="card" varStatus="current">
-                                <btd:card card="#{card}" source="playArea" index="#{current.index}"/>
+                            <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
+                                <btd:card card="#{card}" source="playArea"/>
                             </ui:repeat>
                         </div>
                     </h:panelGroup>
@@ -125,8 +128,8 @@
                     <h:panelGroup layout="block" id="handSection" styleClass="handSection">
                         <span style="font-style: italic">Your Hand:</span>
                         <div class="hand">
-                            <ui:repeat value="#{gameView.player.hand}" var="card" varStatus="current">
-                                <btd:card card="#{card}" source="hand" index="#{current.index}"/>
+                            <ui:repeat value="#{gameView.player.hand}" var="card">
+                                <btd:card card="#{card}" source="hand"/>
                             </ui:repeat>
                         </div>
                     </h:panelGroup>
