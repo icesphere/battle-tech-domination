@@ -4,5 +4,7 @@ public enum CardLocation {
     DECK,
     HAND,
     DISCARD,
-    DEPLOYMENT_ZONE
+    DEPLOYMENT_ZONE,
+    PLAY_AREA,
+    DEPLOYMENT_ZONE_REACTION
 }

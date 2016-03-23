@@ -74,17 +74,17 @@
     padding-left: 10px;
 }
 
-.yourUnitsSection {
+.playerUnitsSection {
     float: left;
     margin-right: 10px;
-    padding: 5px;
-    min-width: 215px;
+    padding: 7px;
+    min-width: 210px;
 }
 
 .opponentUnitsSection {
     float: left;
-    padding: 5px;
-    min-width: 215px;
+    padding: 7px;
+    min-width: 210px;
 }
 
 .playAreaSection {
@@ -98,6 +98,7 @@
 }
 
 .handSection {
+    clear: left;
     padding-top: 10px;
 }
 
@@ -290,6 +291,7 @@
     padding: 7px 10px;
     margin-right: 2px;
     min-width: 35px;
+    font-size: 20px;
 }
 
 .playerInfoIcon {
@@ -326,10 +328,20 @@
 .actionableCard {
     border: 3px solid #0055FF;
     padding: 2px 7px;
+    cursor: pointer;
 }
 
 .buyableCard {
     border: 3px solid #0055FF;
-    padding: 2px 7px;
+    cursor: pointer;
+}
+
+.buyableCard .supplyCardCost {
+    padding-left: 8px;
+    padding-right: 9px;
+}
+
+.buyableCard .supplyCardInfo {
+    padding-right: 7px;
 }
 

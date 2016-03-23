@@ -48,19 +48,17 @@ public class GameView implements Serializable {
     }
 
     public String getSupplyCardClass(Card card) {
-        String cardClass = getCardClass(card);
-
         if (getPlayer().isCardBuyable(card)) {
-            cardClass += " buyableCard";
+            return "buyableCard";
         }
 
-        return cardClass;
+        return "";
     }
 
     public String getActionableCardClass(Card card) {
         String cardClass = getCardClass(card);
 
-        if (card.isActionable()) {
+        if (getPlayer().isCardActionable(card)) {
             cardClass += " actionableCard";
         }
 
@@ -139,6 +137,39 @@ public class GameView implements Serializable {
         Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String cardName = paramValues.get("cardName");
         cardToView = gameService.getCardByName(cardName);
+    }
+
+    public void cardClicked() {
+        if (!getPlayer().isYourTurn()) {
+            return;
+        }
+
+        Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+
+        String source = paramValues.get("source");
+
+        String cardName = paramValues.get("cardName");
+
+        if (source.equals("supply")) {
+            Card card = gameService.getCardByName(cardName);
+            if (getPlayer().isCardBuyable(card)) {
+                getPlayer().buyCard(card);
+            }
+        } else  {
+            int index = Integer.parseInt(paramValues.get("index"));
+
+            if (source.equals("hand")) {
+                Card card = getPlayer().getHand().get(index);
+                if (getPlayer().isCardActionable(card)) {
+                    getPlayer().playCardFromHand(card);
+                }
+            } else if (source.equals("playerUnits")) {
+                Unit unit = getPlayer().getDeploymentZone().get(index);
+                if (getPlayer().isCardActionable(unit)) {
+                    getPlayer().useUnitAbility(unit);
+                }
+            }
+        }
     }
 
     public Card getCardToView() {

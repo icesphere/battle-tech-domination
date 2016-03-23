@@ -12,14 +12,14 @@
 
 <composite:implementation>
 
-    <h:panelGroup layout="block" styleClass="supplyCard" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])">
+    <h:panelGroup layout="block" styleClass="supplyCard #{gameView.getSupplyCardClass(cc.attrs.card)}" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])" onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'supply'}])">
 
-        <div class="supplyCardCost #{gameView.getSupplyCardClass(cc.attrs.card)}">
+        <div class="supplyCardCost #{gameView.getCardClass(cc.attrs.card)}">
             <h:outputText value="$#{cc.attrs.card.industryCost}"/>
             <h:outputText rendered="#{cc.attrs.card.losTechCost ne 0}" value="*"/>
         </div>
 
-        <div class="supplyCardInfo #{gameView.getSupplyCardClass(cc.attrs.card)}">
+        <div class="supplyCardInfo #{gameView.getCardClass(cc.attrs.card)}">
             <h:outputText value="#{cc.attrs.card.name}"/>
             <h:outputText rendered="#{cc.attrs.card.unit}" value=" (#{cc.attrs.card.attack}/#{cc.attrs.card.defense})"/>
         </div>

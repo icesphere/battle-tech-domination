@@ -14,6 +14,7 @@
         <h:form>
 
             <p:remoteCommand name="updateCardView" actionListener="#{gameView.updateCardView}" update="cardViewSection"/>
+            <p:remoteCommand name="cardClicked" actionListener="#{gameView.cardClicked}"/>
 
             <h:panelGroup layout="block" id="gamePage" styleClass="gamePage">
 
@@ -92,11 +93,11 @@
 
                     <h:panelGroup layout="block" id="unitsSection" styleClass="unitsSection">
 
-                        <h:panelGroup layout="block" id="yourUnitsSection" styleClass="yourUnitsSection player">
+                        <h:panelGroup layout="block" id="playerUnitsSection" styleClass="playerUnitsSection player">
                             <h:outputText value="#{gameView.player.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.player.actionableDeploymentZone}" var="card">
-                                    <btd:card card="#{card}"/>
+                                <ui:repeat value="#{gameView.player.deploymentZone}" var="card" varStatus="current">
+                                    <btd:card card="#{card}" source="playerUnits" index="#{current.index}"/>
                                 </ui:repeat>
                             </div>
                         </h:panelGroup>
@@ -104,8 +105,8 @@
                         <h:panelGroup layout="block" id="opponentUnitsSection" styleClass="opponentUnitsSection opponent">
                             <h:outputText value="#{gameView.opponent.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.opponent.deploymentZone}" var="card">
-                                    <btd:card card="#{card}"/>
+                                <ui:repeat value="#{gameView.opponent.deploymentZone}" var="card" varStatus="current">
+                                    <btd:card card="#{card}" source="opponentUnits" index="#{current.index}"/>
                                 </ui:repeat>
                             </div>
                         </h:panelGroup>
@@ -115,8 +116,8 @@
                     <h:panelGroup layout="block" id="playAreaSection" styleClass="playAreaSection">
                         <span style="font-style: italic">Play Area:</span>
                         <div class="playArea">
-                            <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
-                                <btd:card card="#{card}"/>
+                            <ui:repeat value="#{gameView.cardsForPlayArea}" var="card" varStatus="current">
+                                <btd:card card="#{card}" source="playArea" index="#{current.index}"/>
                             </ui:repeat>
                         </div>
                     </h:panelGroup>
@@ -124,8 +125,8 @@
                     <h:panelGroup layout="block" id="handSection" styleClass="handSection">
                         <span style="font-style: italic">Your Hand:</span>
                         <div class="hand">
-                            <ui:repeat value="#{gameView.player.actionableHand}" var="card">
-                                <btd:card card="#{card}"/>
+                            <ui:repeat value="#{gameView.player.hand}" var="card" varStatus="current">
+                                <btd:card card="#{card}" source="hand" index="#{current.index}"/>
                             </ui:repeat>
                         </div>
                     </h:panelGroup>

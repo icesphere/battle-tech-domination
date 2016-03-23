@@ -125,6 +125,7 @@ public abstract class Player {
     }
 
     private void cardBought(Card card) {
+        getGame().gameLog(playerName + " bought " + card.getName());
         if (card instanceof QuickToAction) {
             makeYesNoAbilityChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");
         } else {
@@ -504,12 +505,13 @@ public abstract class Player {
 
     public abstract Card chooseFreeResourceCardToPutIntoHand(int maxIndustryCost);
 
-    public void setupTurn() {
+    public void startTurn() {
         yourTurn = true;
         actions = 2;
         hand.addAll(setAside);
         setAside.clear();
         resolveActions();
+        takeTurn();
     }
 
     public void resolveActions() {
@@ -708,25 +710,34 @@ public abstract class Player {
 
     public abstract void takeTurn();
 
-    public void playCard(Card card) {
-        if (actions > 0) {
-            actions--;
+    public void playCardFromHand(Card card) {
+        if (isBuyPhase() && card instanceof Resource) {
+            game.gameLog("Played Resource card: " + card.getName());
+            hand.remove(card);
+            card.setCardLocation(CardLocation.PLAY_AREA);
+            resourcesPlayed.add(card);
 
-            game.gameLog("Played card: " + card.getName());
+            card.cardPlayed(this);
+        }
+        else if (isActionPhase() && actions > 0) {
+            actions--;
 
             hand.remove(card);
 
-            if (card instanceof Resource) {
-                resourcesPlayed.add(card);
-            } else if (card instanceof Support || card instanceof SupportAttack) {
+            if (card instanceof Support || card instanceof SupportAttack) {
+                game.gameLog("Played Support card: " + card.getName());
+                card.setCardLocation(CardLocation.PLAY_AREA);
                 supportCardsPlayed.add(card);
             } else if (card instanceof SupportReaction) {
+                game.gameLog("Played Support Reaction card: " + card.getName());
+                card.setCardLocation(CardLocation.DEPLOYMENT_ZONE_REACTION);
                 if (card instanceof ExpertMechTechs) {
                     expertMechTechsInDeploymentZone = true;
                 } else if (card instanceof ForwardBase) {
                     forwardBaseInDeploymentZone = true;
                 }
             } else if (card instanceof Unit) {
+                game.gameLog("Deployed Unit: " + card.getName());
                 deployUnit((Unit) card);
             }
 
@@ -748,6 +759,7 @@ public abstract class Player {
             }
         }
 
+        unit.setCardLocation(CardLocation.DEPLOYMENT_ZONE);
         deploymentZone.add(unit);
     }
 
@@ -1199,18 +1211,16 @@ public abstract class Player {
         return new ArrayList<>();
     }
 
-    public List<Card> getActionableHand() {
-        return hand.stream().map(c -> {
-            c.setActionable(yourTurn && ((c.isUnit() && isActionPhase()) || (c.isResource() && isBuyPhase())));
-            return c;
-        }).collect(toList());
-    }
-
-    public List<Card> getActionableDeploymentZone() {
-        return deploymentZone.stream().map(u -> {
-            u.setActionable(yourTurn && u.isAbilityAvailable(this));
-            return u;
-        }).collect(toList());
+    public boolean isCardActionable(Card card) {
+        if (!yourTurn) {
+            return false;
+        }
+        if (card.getCardLocation() == CardLocation.HAND) {
+            return (card.isUnit() && isActionPhase()) || (card.isResource() && isBuyPhase());
+        } else if (card.getCardLocation() == CardLocation.DEPLOYMENT_ZONE) {
+            return ((Unit) card).isAbilityAvailable(this);
+        }
+        return false;
     }
 
     public boolean isCardBuyable(Card card) {
@@ -1243,5 +1253,56 @@ public abstract class Player {
 
     public boolean isBuyPhase() {
         return turnPhase == TurnPhase.BUY;
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public void buyCard(Card card) {
+        if (isCardBuyable(card)) {
+            industry -= card.getIndustryCost();
+            losTech -= card.getLosTechCost();
+
+            getGame().getSupplyGrid().remove(card);
+            getGame().addCardToSupplyGrid();
+
+            cardBought(card);
+        }
+    }
+
+    public int getPoints() {
+        int points = 0;
+
+        for (Card card : getAllCards()) {
+            if (card.getLosTechCost() > 0) {
+                points += 2;
+            }
+            if (card instanceof Overrun) {
+                points -= ((Overrun) card).getOverrunAmount();
+            }
+        }
+
+        return points;
+    }
+
+    public int getCurrentDefense() {
+        int defense = 0;
+
+        for (Unit unit : getDeploymentZone()) {
+            defense += unit.getDefense();
+        }
+
+        return defense;
+    }
+
+    public int getCurrentAttack() {
+        int attack = 0;
+
+        for (Unit unit : getDeploymentZone()) {
+            attack += unit.getAttack();
+        }
+
+        return attack;
     }
 }
