@@ -64,6 +64,9 @@ public class GameService {
 
         game.getCurrentPlayer().setFirstPlayer(true);
 
+        game.gameLog("** Starting Game **");
+        game.gameLog("Player 1: " + players.get(0).getPlayerName() + " - Player 2: " + players.get(1).getPlayerName());
+
         setupCards(game);
 
         game.startGame();
@@ -81,6 +84,7 @@ public class GameService {
             }
             player.setup();
             if (!player.isFirstPlayer()) {
+                game.gameLog(player.getPlayerName() + " adds Infantry Platoon to discard pile");
                 player.addCardToDiscard(new InfantryPlatoon());
             }
         }

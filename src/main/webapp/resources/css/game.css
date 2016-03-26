@@ -114,7 +114,8 @@
 
 .gameLogSection {
     height: 220px;
-    width: 275px;
+    width: 265px;
+    padding: 5px;
     overflow: auto;
     border: 2px solid black;
 }

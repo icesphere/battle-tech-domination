@@ -45,7 +45,7 @@ public abstract class Player {
     protected int industry;
     protected int losTech;
 
-    protected int turns;
+    protected int turn;
 
     protected TurnPhase turnPhase;
 
@@ -87,7 +87,6 @@ public abstract class Player {
                 Card cardToDraw = deck.remove(0);
                 cardsDrawn.add(cardToDraw);
                 addCardToHand(cardToDraw);
-                addGameLog("Added " + cardToDraw.getName() + " to hand");
             }
         }
 
@@ -514,6 +513,8 @@ public abstract class Player {
 
     public void startTurn() {
         yourTurn = true;
+        turn++;
+        addGameLog("** " + playerName + "'s Turn " + turn + " **");
         actions = 2;
         hand.addAll(setAside);
         setAside.clear();
@@ -581,8 +582,10 @@ public abstract class Player {
             continueCombatPhase();
             endCombatPhase();
         } else if (turnPhase == TurnPhase.ACTION) {
+            addGameLog("** " + playerName + " begins Buy Phase **");
             turnPhase = TurnPhase.BUY;
         } else if (turnPhase == TurnPhase.BUY) {
+            addGameLog("** " + playerName + " ends turn **");
             turnPhase = TurnPhase.CLEANUP;
             endTurn();
         }
@@ -590,6 +593,8 @@ public abstract class Player {
 
     public void startCombatPhase() {
         turnPhase = TurnPhase.COMBAT_START;
+
+        addGameLog("** " + playerName + " begins Combat Phase **");
 
         attack = 0;
         defense = 0;
@@ -637,6 +642,8 @@ public abstract class Player {
         if (attack > 0) {
             addOpponentAction(new DamageUnit());
         }
+
+        addGameLog("** " + playerName + " begins Action Phase **");
 
         turnPhase = TurnPhase.ACTION;
     }
@@ -824,10 +831,6 @@ public abstract class Player {
     }
 
     public void endTurn() {
-        addGameLog("Ending turn");
-
-        turns++;
-
         actions = 0;
         attack = 0;
         defense = 0;
@@ -1150,8 +1153,8 @@ public abstract class Player {
         return losTech;
     }
 
-    public int getTurns() {
-        return turns;
+    public int getTurn() {
+        return turn;
     }
 
     public List<Action> getActionsQueue() {

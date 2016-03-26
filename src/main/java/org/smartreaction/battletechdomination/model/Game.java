@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class Game {
-    public static final boolean SHOW_GAME_LOG = true;
-
     private String gameId;
 
     private List<Player> players = new ArrayList<>();
@@ -57,25 +55,16 @@ public class Game {
     }
 
     public void gameLog(String log) {
-        if (SHOW_GAME_LOG) {
-            System.out.println(log);
-        }
-        if (createGameLog) {
-            gameLog.append(log).append("<br/>");
-        }
+        gameLog.insert(0, log + "<br/>");
     }
 
     public void startGame() {
         currentPlayerIndex = 0;
         turn = 1;
         getCurrentPlayer().startTurn();
-        gameLog("Player 1: " + players.get(0).getPlayerName());
-        gameLog("Player 2: " + players.get(1).getPlayerName());
     }
 
     public void turnEnded() {
-        gameLog("End of turn " + turn);
-
         if (supply.isEmpty() || heavyCasualties.isEmpty() || raidedSupplies.isEmpty() || criticalHits.isEmpty() || retreats.isEmpty()) {
             gameOver();
             return;
@@ -114,7 +103,6 @@ public class Game {
                 addCardToSupplyGrid(supply.remove(0));
             }
         }
-        gameLog("Supply Grid: " + getCardsAsString(supplyGrid));
     }
 
     public void addCardToSupplyGrid(Card card) {
@@ -145,14 +133,6 @@ public class Game {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }
-
-    public boolean isCreateGameLog() {
-        return createGameLog;
-    }
-
-    public void setCreateGameLog(boolean createGameLog) {
-        this.createGameLog = createGameLog;
     }
 
     public StringBuilder getGameLog() {

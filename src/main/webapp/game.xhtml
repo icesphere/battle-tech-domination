@@ -11,7 +11,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form name="gameForm" id="gameForm">
 
             <p:remoteCommand name="updateCardView" actionListener="#{gameView.updateCardView}" update="cardViewSection"/>
 
@@ -21,6 +21,7 @@
             <p:remoteCommand name="refreshLeftSection" process="@this" update="leftSection"/>
             <p:remoteCommand name="refreshMiddleSection" process="@this" update="middleSection"/>
             <p:remoteCommand name="refreshRightSection" process="@this" update="rightSection"/>
+            <p:remoteCommand name="refreshGameLog" process="@this" update="gameLogSection"/>
             <p:remoteCommand name="refreshHand" process="@this" update="handSection"/>
             <p:remoteCommand name="refreshPlayArea" process="@this" update="playAreaSection"/>
             <p:remoteCommand name="refreshPlayerInfo" process="@this" update="playerInfoSection"/>
@@ -153,7 +154,7 @@
                 <h:panelGroup layout="block" id="rightSection" styleClass="rightSection">
 
                     <h:panelGroup layout="block" id="gameLogSection" styleClass="gameLogSection">
-                        <h:outputText value="#{gameView.game.gameLog.toString()}"/>
+                        <h:outputText value="#{gameView.game.gameLog.toString()}" escape="false"/>
                     </h:panelGroup>
 
                     <h:panelGroup layout="block" id="playerCardInfoSection" styleClass="playerCardInfoSection">
