@@ -26,8 +26,20 @@ public class GameView implements Serializable {
 
     Card cardToView;
 
-    public void sendGameMessage() {
-        gameService.sendGameMessage(userSession.getUser().getUsername(), "*", userSession.getUser().getCurrentGame().getGameId(), "test message");
+    public void sendGameMessageToAll(String message) {
+        sendGameMessage("*", message);
+    }
+
+    public void sendGameMessageToPlayer(String message) {
+        sendGameMessage(getPlayer().getPlayerName(), message);
+    }
+
+    public void sendGameMessageToOpponent(String message) {
+        sendGameMessage(getPlayer().getOpponent().getPlayerName(), message);
+    }
+
+    public void sendGameMessage(String recipient, String message) {
+        gameService.sendGameMessage(getPlayer().getPlayerName(), recipient, getGame().getGameId(), message);
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -154,6 +166,9 @@ public class GameView implements Serializable {
             Card card = gameService.getCardByName(cardName);
             if (getPlayer().isCardBuyable(card)) {
                 getPlayer().buyCard(card);
+                sendGameMessageToAll("refresh_supply");
+                sendGameMessageToAll("refresh_player_card_info");
+                sendGameMessageToAll("refresh_game_log");
             }
         } else  {
             String cardId = paramValues.get("cardId");
@@ -162,11 +177,18 @@ public class GameView implements Serializable {
                 Card card = findCardById(getPlayer().getHand(), cardId);
                 if (getPlayer().isCardActionable(card)) {
                     getPlayer().playCardFromHand(card);
+                    sendGameMessageToAll("refresh_middle_section");
+                    sendGameMessageToAll("refresh_right_section");
+                    if (card instanceof Resource) {
+                        sendGameMessageToPlayer("refresh_supply");
+                    }
                 }
             } else if (source.equals("playerUnits")) {
                 Unit unit = (Unit) findCardById(getPlayer().getDeploymentZone(), cardId);
                 if (getPlayer().isCardActionable(unit)) {
                     getPlayer().useUnitAbility(unit);
+                    sendGameMessageToAll("refresh_middle_section");
+                    sendGameMessageToAll("refresh_right_section");
                 }
             }
         }
@@ -191,5 +213,19 @@ public class GameView implements Serializable {
 
     public void nextPhase() {
         getPlayer().nextPhase();
+        if (getPlayer().isActionPhase()) {
+            sendGameMessageToOpponent("refresh_middle_section");
+            sendGameMessageToOpponent("refresh_right_section");
+        } else if (getPlayer().isBuyPhase()) {
+            sendGameMessageToOpponent("refresh_right_section");
+        }
+    }
+
+    public void endTurn() {
+        getPlayer().nextPhase();
+        if (!getGame().isGameOver()) {
+            getPlayer().getOpponent().startTurn();
+        }
+        sendGameMessageToOpponent("refresh_game_page");
     }
 }
