@@ -67,6 +67,8 @@ public abstract class Player {
 
     protected boolean yourTurn;
 
+    protected boolean boughtInfantryPlatoonThisTurn;
+
     public void drawHandTo(int cards) {
         if (hand.size() < cards) {
             drawCards(cards - hand.size());
@@ -126,6 +128,11 @@ public abstract class Player {
 
     private void cardBought(Card card) {
         getGame().gameLog(playerName + " bought " + card.getName());
+
+        if (card instanceof InfantryPlatoon) {
+            boughtInfantryPlatoonThisTurn = true;
+        }
+
         if (card instanceof QuickToAction) {
             makeYesNoAbilityChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");
         } else {
@@ -829,6 +836,7 @@ public abstract class Player {
 
         ignoreLosTechCost = false;
         mayPutBoughtOrGainedCardsOnTopOfDeck = false;
+        boughtInfantryPlatoonThisTurn = false;
 
         for (Card card : resourcesPlayed) {
             addCardToDiscard(card);
@@ -1224,6 +1232,10 @@ public abstract class Player {
     }
 
     public boolean isCardBuyable(Card card) {
+        //noinspection SimplifiableIfStatement
+        if (boughtInfantryPlatoonThisTurn && card instanceof InfantryPlatoon) {
+            return false;
+        }
         return yourTurn && isBuyPhase() && card.getIndustryCost() <= industry && card.getLosTechCost() <= losTech;
     }
 

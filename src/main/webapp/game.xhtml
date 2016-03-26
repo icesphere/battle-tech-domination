@@ -38,22 +38,22 @@
 
                         <div class="baseCards">
                             <h:panelGroup rendered="#{!empty gameView.game.infantryPlatoons}">
-                                <btd:supplyCard card="#{gameView.game.infantryPlatoons[0]}"/>
+                                <btd:supplyCard card="#{gameView.game.infantryPlatoons[0]}" source="basic_supply"/>
                             </h:panelGroup>
                             <h:panelGroup rendered="#{!empty gameView.game.basicFactories}">
-                                <btd:supplyCard card="#{gameView.game.basicFactories[0]}"/>
+                                <btd:supplyCard card="#{gameView.game.basicFactories[0]}" source="basic_supply"/>
                             </h:panelGroup>
                             <h:panelGroup rendered="#{!empty gameView.game.munitionsFactories}">
-                                <btd:supplyCard card="#{gameView.game.munitionsFactories[0]}"/>
+                                <btd:supplyCard card="#{gameView.game.munitionsFactories[0]}" source="basic_supply"/>
                             </h:panelGroup>
                             <h:panelGroup rendered="#{!empty gameView.game.advancedFactories}">
-                                <btd:supplyCard card="#{gameView.game.advancedFactories[0]}"/>
+                                <btd:supplyCard card="#{gameView.game.advancedFactories[0]}" source="basic_supply"/>
                             </h:panelGroup>
                         </div>
 
                         <div class="supplyGrid">
                             <ui:repeat value="#{gameView.game.supplyGrid}" var="card">
-                                <btd:supplyCard card="#{card}"/>
+                                <btd:supplyCard card="#{card}" source="supply_grid"/>
                             </ui:repeat>
                         </div>
 
@@ -234,9 +234,9 @@
             function handleGameMessage(response) {
                 console.log("received message from server: ");
                 console.log(response);
-                
+
                 var message = response.message;
-                
+
                 if (message == 'refresh_game_page') {
                     refreshGamePage();
                 } else if (message == 'refresh_left_section') {

@@ -8,11 +8,12 @@
 
 <composite:interface>
     <composite:attribute name="card" required="true" type="org.smartreaction.battletechdomination.model.cards.Card"/>
+    <composite:attribute name="source" required="true"/>
 </composite:interface>
 
 <composite:implementation>
 
-    <h:panelGroup layout="block" styleClass="supplyCard #{gameView.getSupplyCardClass(cc.attrs.card)}" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])" onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'supply'}])">
+    <h:panelGroup layout="block" styleClass="supplyCard #{gameView.getSupplyCardClass(cc.attrs.card)}" onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])" onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'}, {name:'cardId', value:'#{cc.attrs.card.id}'}])">
 
         <div class="supplyCardCost #{gameView.getCardClass(cc.attrs.card)}">
             <h:outputText value="$#{cc.attrs.card.industryCost}"/>

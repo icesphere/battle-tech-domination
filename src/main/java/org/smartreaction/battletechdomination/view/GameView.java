@@ -162,8 +162,14 @@ public class GameView implements Serializable {
 
         String cardName = paramValues.get("cardName");
 
-        if (source.equals("supply")) {
-            Card card = gameService.getCardByName(cardName);
+        if (source.equals("basic_supply") || source.equals("supply_grid")) {
+            Card card;
+            if (source.equals("basic_supply")) {
+                card = gameService.getCardByName(cardName);
+            } else {
+                String cardId = paramValues.get("cardId");
+                card = findCardById(getGame().getSupplyGrid(), cardId);
+            }
             if (getPlayer().isCardBuyable(card)) {
                 getPlayer().buyCard(card);
                 sendGameMessageToAll("refresh_supply");
