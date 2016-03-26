@@ -67,10 +67,10 @@ public class GameView implements Serializable {
         return "";
     }
 
-    public String getActionableCardClass(Card card) {
+    public String getActionableCardClass(Card card, String source) {
         String cardClass = getCardClass(card);
 
-        if (getPlayer().isCardActionable(card)) {
+        if ((source.equals("playerUnits") || source.equals("hand")) && getPlayer().isCardActionable(card)) {
             cardClass += " actionableCard";
         }
 
