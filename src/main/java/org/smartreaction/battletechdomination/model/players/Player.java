@@ -1276,8 +1276,10 @@ public abstract class Player {
             industry -= card.getIndustryCost();
             losTech -= card.getLosTechCost();
 
-            getGame().getSupplyGrid().remove(card);
-            getGame().addCardToSupplyGrid();
+            if (!(card instanceof BaseSupply)) {
+                getGame().getSupplyGrid().remove(card);
+                getGame().addCardToSupplyGrid();
+            }
 
             cardBought(card);
         }

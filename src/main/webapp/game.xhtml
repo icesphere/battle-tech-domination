@@ -196,7 +196,7 @@
                         </div>
                         <h:panelGroup layout="block" styleClass="turnValueTextWrapper" rendered="#{gameView.game.currentPlayer.actionPhase}">
                             <h:outputText styleClass="turnValueText" value="#{gameView.game.currentPlayer.actions}" style="padding-right: 10px;"/>
-                            <h:outputText styleClass="turnValueText" value="Actions"/>
+                            <h:outputText styleClass="turnValueText" value="#{gameView.game.currentPlayer.actions ne 1 ? 'Actions' : 'Action'}"/>
                         </h:panelGroup>
                         <h:panelGroup layout="block" styleClass="turnValueTextWrapper" rendered="#{gameView.game.currentPlayer.actionPhase or gameView.game.currentPlayer.buyPhase}">
                             <h:outputText styleClass="turnValueText" value="#{gameView.game.currentPlayer.industry}"/>

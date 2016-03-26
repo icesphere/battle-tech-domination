@@ -173,8 +173,7 @@ public class GameView implements Serializable {
             if (getPlayer().isCardBuyable(card)) {
                 getPlayer().buyCard(card);
                 sendGameMessageToAll("refresh_supply");
-                sendGameMessageToAll("refresh_player_card_info");
-                sendGameMessageToAll("refresh_game_log");
+                sendGameMessageToAll("refresh_right_section");
             }
         } else  {
             String cardId = paramValues.get("cardId");

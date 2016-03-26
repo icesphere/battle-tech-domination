@@ -1,10 +1,11 @@
 package org.smartreaction.battletechdomination.model.cards.resource;
 
 import org.smartreaction.battletechdomination.model.Choice;
+import org.smartreaction.battletechdomination.model.cards.BaseSupply;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 
-public class MunitionsFactory extends Resource {
+public class MunitionsFactory extends Resource implements BaseSupply {
     public MunitionsFactory() {
         name = "Munitions Factory";
         cardText = "Choose one: +2 Industry or +1 Los Tech";
