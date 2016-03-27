@@ -726,10 +726,11 @@ public abstract class Player {
 
     public void playCardFromHand(Card card) {
         if (isBuyPhase() && card instanceof Resource) {
-            game.gameLog("Played Resource card: " + card.getName());
             hand.remove(card);
             card.setCardLocation(CardLocation.PLAY_AREA);
             resourcesPlayed.add(card);
+
+            game.gameLog(this.getPlayerName() + " played " + card.getName());
 
             card.cardPlayed(this);
         }
@@ -739,11 +740,11 @@ public abstract class Player {
             hand.remove(card);
 
             if (card instanceof Support || card instanceof SupportAttack) {
-                game.gameLog("Played Support card: " + card.getName());
+                game.gameLog(this.getPlayerName() + " played " + card.getName());
                 card.setCardLocation(CardLocation.PLAY_AREA);
                 supportCardsPlayed.add(card);
             } else if (card instanceof SupportReaction) {
-                game.gameLog("Played Support Reaction card: " + card.getName());
+                game.gameLog(this.getPlayerName() + " played " + card.getName());
                 card.setCardLocation(CardLocation.DEPLOYMENT_ZONE_REACTION);
                 if (card instanceof ExpertMechTechs) {
                     expertMechTechsInDeploymentZone = true;
@@ -751,7 +752,7 @@ public abstract class Player {
                     forwardBaseInDeploymentZone = true;
                 }
             } else if (card instanceof Unit) {
-                game.gameLog("Deployed Unit: " + card.getName());
+                game.gameLog(this.getPlayerName() + " deployed " + card.getName());
                 deployUnit((Unit) card);
             }
 
@@ -1227,7 +1228,7 @@ public abstract class Player {
             return false;
         }
         if (card.getCardLocation() == CardLocation.HAND) {
-            return (card.isUnit() && isActionPhase()) || (card.isResource() && isBuyPhase());
+            return (card.isUnit() && isActionPhase() && actions > 0) || (card.isResource() && isBuyPhase());
         } else if (card.getCardLocation() == CardLocation.DEPLOYMENT_ZONE) {
             return ((Unit) card).isAbilityAvailable(this);
         }
@@ -1321,5 +1322,10 @@ public abstract class Player {
         }
 
         return attack;
+    }
+
+    public void playAll() {
+        List<Card> copyOfHand = new ArrayList<>(hand);
+        copyOfHand.stream().filter(card -> card instanceof Resource).forEach(this::playCardFromHand);
     }
 }

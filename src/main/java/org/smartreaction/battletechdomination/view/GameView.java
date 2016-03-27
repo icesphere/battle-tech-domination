@@ -226,6 +226,11 @@ public class GameView implements Serializable {
         }
     }
 
+    public void playAll() {
+        getPlayer().playAll();
+        sendGameMessageToOpponent("refresh_game_page");
+    }
+
     public void endTurn() {
         getPlayer().nextPhase();
         if (!getGame().isGameOver()) {
