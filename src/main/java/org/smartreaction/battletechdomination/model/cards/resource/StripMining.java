@@ -14,6 +14,6 @@ public class StripMining extends Resource {
     @Override
     public void cardPlayed(Player player) {
         player.addIndustry(1);
-        player.scrapCardFromHandOrDiscard(CardType.RESOURCE);
+        player.scrapCardFromHandOrDiscard(CardType.RESOURCE, true);
     }
 }

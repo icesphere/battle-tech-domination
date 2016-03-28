@@ -1,5 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
+import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Support;
 
@@ -14,6 +15,8 @@ public class HiddenBase extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(1);
         player.addActions(1);
-        player.setAsideCardFromHand();
+        if (player.getHandSize() > 0) {
+            player.addAction(new CardAction(this));
+        }
     }
 }
