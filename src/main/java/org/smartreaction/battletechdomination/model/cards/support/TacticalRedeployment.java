@@ -14,6 +14,6 @@ public class TacticalRedeployment extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(1);
         player.addActions(1);
-        player.addUnitFromDeploymentZoneToHand();
+        player.moveUnitFromDeploymentZoneToHand();
     }
 }

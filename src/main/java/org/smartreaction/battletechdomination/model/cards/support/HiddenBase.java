@@ -15,8 +15,6 @@ public class HiddenBase extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(1);
         player.addActions(1);
-        if (player.getHandSize() > 0) {
-            player.addAction(new CardAction(this));
-        }
+        player.addAction(new CardAction(this));
     }
 }

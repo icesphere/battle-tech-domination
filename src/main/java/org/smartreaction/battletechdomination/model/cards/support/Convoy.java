@@ -13,7 +13,7 @@ public class Convoy extends Support {
     @Override
     public void cardPlayed(Player player) {
         player.drawCards(5);
-        player.discardCardsFromHand(3, false);
+        player.discardCardsFromHand(3);
         player.getOpponent().drawCards(1);
     }
 }

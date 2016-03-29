@@ -1,5 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.resource;
 
+import org.smartreaction.battletechdomination.model.cards.actions.CardFromHandToTopOfDeck;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 
@@ -13,6 +14,6 @@ public class DropShip extends Resource {
     @Override
     public void cardPlayed(Player player) {
         player.drawCards(3);
-        player.addCardsFromHandToTopOfDeck(1);
+        player.addAction(new CardFromHandToTopOfDeck());
     }
 }

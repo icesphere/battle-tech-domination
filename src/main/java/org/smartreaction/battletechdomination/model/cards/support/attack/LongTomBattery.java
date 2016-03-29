@@ -1,10 +1,8 @@
 package org.smartreaction.battletechdomination.model.cards.support.attack;
 
+import org.smartreaction.battletechdomination.model.cards.SupportAttack;
+import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
-import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
-
-import java.util.List;
 
 public class LongTomBattery extends SupportAttack {
     public LongTomBattery() {
@@ -15,14 +13,6 @@ public class LongTomBattery extends SupportAttack {
 
     @Override
     public void cardPlayed(Player player) {
-        List<Card> cards = player.discardCardsFromHand(1, false);
-        if (!cards.isEmpty()) {
-            Card card = cards.get(0);
-            if (card instanceof Unit) {
-                player.getOpponent().gainRaidedSupplies();
-            } else if (card instanceof Resource || card instanceof Support) {
-                player.getOpponent().addOpponentAction(new DamageUnit());
-            }
-        }
+        player.addAction(new CardAction(this));
     }
 }

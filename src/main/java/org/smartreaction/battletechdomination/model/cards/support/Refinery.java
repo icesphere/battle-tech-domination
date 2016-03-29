@@ -13,8 +13,6 @@ public class Refinery extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        if (player.getHandSize() > 0) {
-            player.addAction(new CardAction(this));
-        }
+        player.addAction(new CardAction(this));
     }
 }

@@ -55,13 +55,13 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof HeavyFireSupport) {
-            if (turnPhase == TurnPhase.ACTION) {
+            if (turnPhase == TurnPhase.ACTION && player.numUnitsInHand() > 0) {
                 return true;
             }
         }
 
         if (this instanceof MobileFireSupport) {
-            if (turnPhase == TurnPhase.COMBAT_START) {
+            if (turnPhase == TurnPhase.COMBAT_START && player.getHandSize() > 0) {
                 return true;
             }
         }
@@ -73,7 +73,7 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof QuadERPPCs) {
-            if (turnPhase == TurnPhase.COMBAT_START) {
+            if (turnPhase == TurnPhase.COMBAT_START && player.getHandSize() >= 2) {
                 return true;
             }
         }
