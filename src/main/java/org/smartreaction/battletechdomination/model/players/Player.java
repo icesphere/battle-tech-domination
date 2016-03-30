@@ -191,11 +191,19 @@ public abstract class Player {
         addAction(new DiscardCardsFromHand(cards));
     }
 
-    public abstract void makeChoice(Card card, Choice... choices);
+    public void makeChoice(Card card, Choice... choices) {
+        addAction(new ChoiceAction(card, choices));
+    }
 
-    public abstract void makeAbilityChoice(Card card, String abilityName, Choice... choices);
+    public void makeAbilityChoice(Card card, String abilityName, Choice... choices) {
+        ChoiceAction choiceAction = new ChoiceAction(card, choices);
+        choiceAction.setAbilityName(abilityName);
+        addAction(choiceAction);
+    }
 
-    public abstract void makeYesNoAbilityChoice(Card card, String abilityName, String text);
+    public void makeYesNoAbilityChoice(Card card, String abilityName, String text) {
+        addAction(new YesNoAbilityAction(card, abilityName, text));
+    }
 
     private void cardRemovedFromPlay(Card card) {
 
@@ -505,20 +513,20 @@ public abstract class Player {
         currentAction = action;
     }
 
-    public void actionResult(Action action, Card card) {
-        actionResult(action, card, null);
-    }
-
-    public void actionResult(Action action, Integer choice) {
-        actionResult(action, null, choice);
-    }
-
     @SuppressWarnings({"ConstantConditions", "SuspiciousMethodCalls"})
-    public void actionResult(Action action, Card card, Integer choice) {
-        if (card == null && choice == null) {
+    public void actionResult(Action action, ActionResult result) {
+        if (result.getSelectedCards().isEmpty() && result.getChoiceSelected() == null) {
             currentAction = null;
             resolveActions();
             return;
+        }
+
+        Card card = null;
+
+        Integer choice = result.getChoiceSelected();
+
+        if (!result.getSelectedCards().isEmpty()) {
+            card = result.getSelectedCards().get(0);
         }
 
         if (action instanceof DamageUnit || action instanceof DamageUnitMaxCost || action instanceof DamageUnitMinCost) {
@@ -629,6 +637,16 @@ public abstract class Player {
         } else if (action instanceof DiscardCardsFromHand) {
             List<Card> cards = ((DiscardCardsFromHand) action).getCards();
             cards.stream().forEach(this::discardCardFromHand);
+        } else if (action instanceof YesNoAbilityAction) {
+            YesNoAbilityAction yesNoAbilityAction = (YesNoAbilityAction) action;
+            abilityChoiceMade(yesNoAbilityAction.getCard(), yesNoAbilityAction.getAbilityName(), choice);
+        } else if (action instanceof ChoiceAction) {
+            ChoiceAction choiceAction = (ChoiceAction) action;
+            if (choiceAction.getAbilityName() != null) {
+                abilityChoiceMade(choiceAction.getCard(), choiceAction.getAbilityName(), choice);
+            } else {
+                choiceAction.getCard().choiceMade(choice, this);
+            }
         }
 
         currentAction = null;
@@ -1003,58 +1021,66 @@ public abstract class Player {
         }
     }
 
-    public void abilityChoiceMade(Card card, String choiceIdentifier, int choice) {
-        if (choiceIdentifier.equals("ExpertMechTechs")) {
-            if (choice == 1) {
-                expertMechTechsInDeploymentZone = false;
-                addGameLog("Scrapped Expert Mech Techs");
-                addCardToHand(card);
-            } else {
-                addCardToDiscard(card);
-                cardRemovedFromPlay(card);
-            }
-        } else if (choiceIdentifier.equals("HeavyArmor")) {
-            if (choice == 1) {
-                shuffleCardIntoDeck(card);
-            } else {
-                addCardToDiscard(card);
-                cardRemovedFromPlay(card);
-            }
-        } else if (choiceIdentifier.equals("QuickToAction")) {
-            if (choice == 1) {
-                addCardToTopOfDeck(card);
-            } else {
-                addCardToDiscard(card);
-            }
-        } else if (choiceIdentifier.equals("ReconInForce")) {
-            if (choice == 1) {
-                discardCardsFromHand(1);
-            }
-        } else if (choiceIdentifier.equals("Scout")) {
-            if (choice == 1) {
-                addGameLog("Chose to discard top card of opponent's deck");
-                opponent.discardTopCardOfDeck();
-            } else {
-                addGameLog("Chose to keep top card of opponent's deck on top of deck");
-            }
-        } else if (choiceIdentifier.equals("ScrapForwardBaseOnOverrun")) {
-            if (choice == 1) {
-                addGameLog("Scrapped Forward Base");
-                forwardBaseInDeploymentZone = false;
-            } else {
-                gainOverrunCard((Overrun) card);
-            }
-        } else if (choiceIdentifier.equals("Versatile")) {
-            if (choice == 1) {
-                addGameLog("Chose +1 Card");
-                drawCards(1);
-            } else if (choice == 2) {
-                addGameLog("Chose +1 Action");
-                addActions(1);
-            } else if (choice == 3) {
-                addGameLog("Chose +1 Industry");
-                addIndustry(1);
-            }
+    public void abilityChoiceMade(Card card, String abilityName, int choice) {
+        switch (abilityName) {
+            case "ExpertMechTechs":
+                if (choice == 1) {
+                    expertMechTechsInDeploymentZone = false;
+                    addGameLog("Scrapped Expert Mech Techs");
+                    addCardToHand(card);
+                } else {
+                    addCardToDiscard(card);
+                    cardRemovedFromPlay(card);
+                }
+                break;
+            case "HeavyArmor":
+                if (choice == 1) {
+                    shuffleCardIntoDeck(card);
+                } else {
+                    addCardToDiscard(card);
+                    cardRemovedFromPlay(card);
+                }
+                break;
+            case "QuickToAction":
+                if (choice == 1) {
+                    addCardToTopOfDeck(card);
+                } else {
+                    addCardToDiscard(card);
+                }
+                break;
+            case "ReconInForce":
+                if (choice == 1) {
+                    discardCardsFromHand(1);
+                }
+                break;
+            case "Scout":
+                if (choice == 1) {
+                    addGameLog("Chose to discard top card of opponent's deck");
+                    opponent.discardTopCardOfDeck();
+                } else {
+                    addGameLog("Chose to keep top card of opponent's deck on top of deck");
+                }
+                break;
+            case "ScrapForwardBaseOnOverrun":
+                if (choice == 1) {
+                    addGameLog("Scrapped Forward Base");
+                    forwardBaseInDeploymentZone = false;
+                } else {
+                    gainOverrunCard((Overrun) card);
+                }
+                break;
+            case "Versatile":
+                if (choice == 1) {
+                    addGameLog("Chose +1 Card");
+                    drawCards(1);
+                } else if (choice == 2) {
+                    addGameLog("Chose +1 Action");
+                    addActions(1);
+                } else if (choice == 3) {
+                    addGameLog("Chose +1 Industry");
+                    addIndustry(1);
+                }
+                break;
         }
     }
 
