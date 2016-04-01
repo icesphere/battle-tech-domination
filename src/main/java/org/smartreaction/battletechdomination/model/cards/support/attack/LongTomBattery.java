@@ -13,6 +13,6 @@ public class LongTomBattery extends SupportAttack {
 
     @Override
     public void cardPlayed(Player player) {
-        player.addAction(new CardAction(this));
+        player.addAction(new CardAction(this, cardText));
     }
 }

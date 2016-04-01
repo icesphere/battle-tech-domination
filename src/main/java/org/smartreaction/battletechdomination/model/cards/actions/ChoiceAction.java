@@ -6,16 +6,17 @@ import org.smartreaction.battletechdomination.model.cards.Card;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChoiceAction implements Action {
+public class ChoiceAction extends Action {
     private Card card;
 
     private List<Choice> choices;
 
     private String abilityName;
 
-    public ChoiceAction(Card card, Choice... choices) {
+    public ChoiceAction(Card card, String text, Choice... choices) {
         this.card = card;
         this.choices = Arrays.asList(choices);
+        this.text = text;
     }
 
     public Card getCard() {

@@ -15,6 +15,6 @@ public class HiddenBase extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(1);
         player.addActions(1);
-        player.addAction(new CardAction(this));
+        player.addAction(new CardAction(this, "Set aside a card from your hand face down. At the start of your next turn the card will be put into your hand."));
     }
 }

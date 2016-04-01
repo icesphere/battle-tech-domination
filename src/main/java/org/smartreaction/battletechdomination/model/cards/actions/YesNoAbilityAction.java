@@ -2,10 +2,9 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
 
-public class YesNoAbilityAction implements Action {
+public class YesNoAbilityAction extends Action {
     private Card card;
     private String abilityName;
-    private String text;
 
     public YesNoAbilityAction(Card card, String abilityName, String text) {
         this.card = card;
@@ -19,9 +18,5 @@ public class YesNoAbilityAction implements Action {
 
     public String getAbilityName() {
         return abilityName;
-    }
-
-    public String getText() {
-        return text;
     }
 }

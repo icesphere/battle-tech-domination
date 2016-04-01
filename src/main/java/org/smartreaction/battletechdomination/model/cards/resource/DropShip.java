@@ -14,6 +14,6 @@ public class DropShip extends Resource {
     @Override
     public void cardPlayed(Player player) {
         player.drawCards(3);
-        player.addAction(new CardFromHandToTopOfDeck());
+        player.addAction(new CardFromHandToTopOfDeck("Put a card from your hand on top of your deck."));
     }
 }

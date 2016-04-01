@@ -229,6 +229,10 @@
 
                 </h:panelGroup>
 
+                <p:dialog header="Action" widgetVar="actionDialog" modal="true" height="100">
+                    <h:outputText rendered="#{!empty gameView.currentAction.text}" value="" />
+                </p:dialog>
+
             </h:panelGroup>
 
         </h:form>

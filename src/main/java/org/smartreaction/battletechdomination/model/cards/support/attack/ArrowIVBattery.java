@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.support.attack;
 
 import org.smartreaction.battletechdomination.model.cards.SupportAttack;
+import org.smartreaction.battletechdomination.model.cards.actions.DamageOpponentUnit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class ArrowIVBattery extends SupportAttack {
@@ -13,6 +14,6 @@ public class ArrowIVBattery extends SupportAttack {
     @Override
     public void cardPlayed(Player player) {
         player.discardCardFromHand();
-        player.damageOpponentUnit();
+        player.addAction(new DamageOpponentUnit("Choose an opponent unit to damage"));
     }
 }

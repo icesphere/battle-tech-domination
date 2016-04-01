@@ -40,7 +40,7 @@ public class ComStarEngineers extends Support {
         }
 
 
-        player.makeChoice(this, choices.toArray(new Choice[choices.size()]));
+        player.makeChoice(this, "Choose three (must be different)", choices.toArray(new Choice[choices.size()]));
     }
 
     @Override

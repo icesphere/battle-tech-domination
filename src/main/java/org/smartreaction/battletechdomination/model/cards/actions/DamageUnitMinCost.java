@@ -1,10 +1,11 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
-public class DamageUnitMinCost implements Action {
+public class DamageUnitMinCost extends Action {
     private int minCost;
 
-    public DamageUnitMinCost(int minCost) {
+    public DamageUnitMinCost(int minCost, String text) {
         this.minCost = minCost;
+        this.text = text;
     }
 
     public int getMinCost() {

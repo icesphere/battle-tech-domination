@@ -4,13 +4,14 @@ import org.smartreaction.battletechdomination.model.cards.Card;
 
 import java.util.List;
 
-public class CardAction implements Action {
+public class CardAction extends Action {
     private Card card;
 
     private List<Card> selectedCards;
 
-    public CardAction(Card card) {
+    public CardAction(Card card, String text) {
         this.card = card;
+        this.text = text;
     }
 
     public Card getCard() {

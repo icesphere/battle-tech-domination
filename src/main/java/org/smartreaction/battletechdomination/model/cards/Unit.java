@@ -103,11 +103,11 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof SwarmAttack) {
-            player.addOpponentAction(new DamageUnit(CardType.UNIT_MECH));
+            player.addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
         }
 
         if (this instanceof AntiInfantry) {
-            player.addOpponentAction(new DamageUnit(CardType.UNIT_INFANTRY));
+            player.addOpponentAction(new DamageUnit(CardType.UNIT_INFANTRY, "Damage an Infantry Unit"));
         }
 
         if (this instanceof HighMaintenance) {
@@ -115,11 +115,11 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof JumpJets) {
-            player.addOpponentAction(new DamageUnitMinCost(6));
+            player.addOpponentAction(new DamageUnitMinCost(6, "Damage a unit costing 6 Industry or more"));
         }
 
         if (this instanceof FastAssault) {
-            player.addOpponentAction(new DamageUnitMaxCost(5));
+            player.addOpponentAction(new DamageUnitMaxCost(5, "Damage a unit costing 5 Industry or less"));
         }
 
         if (this instanceof ReconInForce) {
@@ -133,7 +133,7 @@ public abstract class Unit extends Card {
             Choice choice2 = new Choice(2, "+1 Actions");
             Choice choice3 = new Choice(3, "+1 Industry");
 
-            player.makeAbilityChoice(this, "Versatile", choice1, choice2, choice3);
+            player.makeAbilityChoice(this, "Versatile", "Choose one", choice1, choice2, choice3);
         }
     }
 

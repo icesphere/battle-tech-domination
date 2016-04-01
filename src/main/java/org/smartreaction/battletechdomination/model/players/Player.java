@@ -188,15 +188,19 @@ public abstract class Player {
     }
 
     public void discardCardsFromHand(int cards) {
-        addAction(new DiscardCardsFromHand(cards));
+        String text = "Discard " + cards + " card";
+        if (cards != 1) {
+            text += "s";
+        }
+        addAction(new DiscardCardsFromHand(cards, text));
     }
 
-    public void makeChoice(Card card, Choice... choices) {
-        addAction(new ChoiceAction(card, choices));
+    public void makeChoice(Card card, String text, Choice... choices) {
+        addAction(new ChoiceAction(card, text, choices));
     }
 
-    public void makeAbilityChoice(Card card, String abilityName, Choice... choices) {
-        ChoiceAction choiceAction = new ChoiceAction(card, choices);
+    public void makeAbilityChoice(Card card, String abilityName, String text, Choice... choices) {
+        ChoiceAction choiceAction = new ChoiceAction(card, text, choices);
         choiceAction.setAbilityName(abilityName);
         addAction(choiceAction);
     }
@@ -314,16 +318,16 @@ public abstract class Player {
                 addGameLog("Discarded " + card.getName() + " from opponent's deck");
             }
         } else {
-            addAction(new DiscardCardsForStrategicBombing(revealedCards));
+            addAction(new DiscardCardsForStrategicBombing(revealedCards, "These cards were revealed from the top of your opponent's deck. Choose two of them to discard. The other card will be put on top of your opponent's deck."));
         }
     }
 
     public void putCardsOnTopOfDeckInAnyOrder(List<Card> cards) {
-        addAction(new CardsOnTopOfDeckInAnyOrder(cards));
+        addAction(new CardsOnTopOfDeckInAnyOrder(cards, "Put these cards on top of your deck in any order."));
     }
 
     public void moveUnitFromDeploymentZoneToHand() {
-        addAction(new UnitFromDeploymentZoneToHand());
+        addAction(new UnitFromDeploymentZoneToHand("Choose a unit from your deployment zone to put into your hand"));
     }
 
     public void addActions(int actions) {
@@ -347,7 +351,13 @@ public abstract class Player {
     }
 
     public void scrapCardFromHandOrDiscard(CardType cardType, boolean optional) {
-        addAction(new ScrapCardFromHandOrDiscard(cardType, optional));
+        String text = "Scrap a";
+        if (cardType == CardType.RESOURCE) {
+            text += " Resource";
+        }
+        text += " card from your hand or discard";
+
+        addAction(new ScrapCardFromHandOrDiscard(cardType, optional, text));
     }
 
     protected void scrapCardFromDiscard(Card card) {
@@ -370,11 +380,21 @@ public abstract class Player {
     }
 
     public void acquireFreeCardInSupplyAndPutOnTopOfDeck(Integer maxIndustryCost) {
-        addAction(new FreeCardFromSupplyToTopOfDeck(maxIndustryCost));
+        String text = "Choose a free card from the Supply to go on top of your deck";
+        if (maxIndustryCost != null) {
+            text += " costing up to " + maxIndustryCost + " Industry";
+        }
+
+        addAction(new FreeCardFromSupplyToTopOfDeck(maxIndustryCost, text));
     }
 
-    public void gainFreeResourceCardIntoHand(int maxIndustryCost) {
-        addAction(new FreeResourceCardIntoHand(maxIndustryCost));
+    public void gainFreeResourceCardIntoHand(Integer maxIndustryCost) {
+        String text = "Choose a free Resource card from the Supply to go into your hand";
+        if (maxIndustryCost != null) {
+            text += " costing up to " + maxIndustryCost + " Industry";
+        }
+
+        addAction(new FreeResourceCardIntoHand(maxIndustryCost, text));
     }
 
     public void startTurn() {
@@ -420,15 +440,8 @@ public abstract class Player {
                 resolveActions();
                 return;
             }
-        } else if (action instanceof DamageUnitWithHighestIndustryCost) {
-            Unit unit = getUnitWithHighestIndustryCost(deploymentZone);
-            if (unit != null) {
-                cardDamaged(unit);
-                resolveActions();
-                return;
-            }
-        } else if (action instanceof ScrapUnitMaxCost) {
-            List<Unit> units = deploymentZone.stream().filter(u -> u.getIndustryCost() <= ((ScrapUnitMaxCost) action).getMaxCost()).collect(toList());
+        } else if (action instanceof ScrapOpponentUnitMaxCost) {
+            List<Unit> units = opponent.getDeploymentZone().stream().filter(u -> u.getIndustryCost() <= ((ScrapOpponentUnitMaxCost) action).getMaxCost()).collect(toList());
             if (units.isEmpty()) {
                 resolveActions();
                 return;
@@ -445,7 +458,7 @@ public abstract class Player {
             }
         } else if (action instanceof CardAction) {
             Card card = ((CardAction) action).getCard();
-            if (card instanceof HiddenBase || card instanceof Refinery || card instanceof MobileFireSupport) {
+            if (card instanceof HiddenBase || card instanceof Refinery || card instanceof MobileFireSupport || card instanceof CloseAirSupport) {
                 if (hand.isEmpty()) {
                     resolveActions();
                     return;
@@ -468,6 +481,12 @@ public abstract class Player {
             }
         } else if (action instanceof DamageOpponentUnit) {
             if (opponent.getDeploymentZone().isEmpty()) {
+                resolveActions();
+                return;
+            }
+        } else if (action instanceof DamageOpponentUnitMaxCost) {
+            List<Unit> units = opponent.getDeploymentZone().stream().filter(u -> u.getIndustryCost() <= ((DamageOpponentUnitMaxCost) action).getMaxCost()).collect(toList());
+            if (units.isEmpty()) {
                 resolveActions();
                 return;
             }
@@ -498,7 +517,7 @@ public abstract class Player {
                 resolveActions();
                 return;
             }
-        } else if (action instanceof CardFromHandToTopOfDeck || action instanceof DiscardCardsFromHand || action instanceof CloseAirSupport) {
+        } else if (action instanceof CardFromHandToTopOfDeck || action instanceof DiscardCardsFromHand) {
             if (hand.isEmpty()) {
                 resolveActions();
                 return;
@@ -538,8 +557,8 @@ public abstract class Player {
             } else {
                 gainOverrunCard((Overrun) card);
             }
-        } else if (action instanceof ScrapUnitMaxCost) {
-            scrapUnitFromDeploymentZone((Unit) card);
+        } else if (action instanceof ScrapOpponentUnitMaxCost) {
+            opponent.scrapUnitFromDeploymentZone((Unit) card);
         } else if (action instanceof UnitFromHandToTopOfDeck) {
             hand.remove(card);
             addGameLog(this.getPlayerName() + " put " + card.getName() + " from hand on top of deck");
@@ -562,7 +581,7 @@ public abstract class Player {
                 if (card instanceof Resource) {
                     addOpponentAction(new DamageUnit());
                 } else if (card instanceof Unit) {
-                    addOpponentAction(new DamageUnit(CardType.UNIT_MECH));
+                    addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
                 } else if (card instanceof Support) {
                     addOpponentAction(new DamageUnit());
                     getOpponent().gainHeavyCasualties();
@@ -586,7 +605,7 @@ public abstract class Player {
                 }
                 addIndustry(card.getIndustryCost());
             }
-        } else if (action instanceof DamageOpponentUnit) {
+        } else if (action instanceof DamageOpponentUnit || action instanceof DamageOpponentUnitMaxCost) {
             getOpponent().cardDamaged(card);
         } else if (action instanceof FreeResourceCardIntoHand) {
             if (card instanceof AdvancedFactory) {
@@ -693,7 +712,8 @@ public abstract class Player {
             int difference = attack - opponent.getDefense();
 
             if (opponent.isForwardBaseInDeploymentZone()) {
-                addOpponentAction(new ScrapForwardBaseOnOverrun(difference));
+                String text = "Do you want to scrap your Forward Base to prevent getting a " + getOverrunCard(difference).getName() + "?";
+                addOpponentAction(new ScrapForwardBaseOnOverrun(difference, text));
             } else {
                 opponent.gainOverrunCard(getOverrunCard(difference));
             }
@@ -859,7 +879,7 @@ public abstract class Player {
             if (unit instanceof AC20) {
                 Card card = revealTopCardOfDeck();
                 if (card instanceof Resource) {
-                    addOpponentAction(new DamageUnit(CardType.UNIT_MECH));
+                    addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
                 } else if (card instanceof Support) {
                     cardDamaged(card);
                 }
@@ -872,15 +892,15 @@ public abstract class Player {
 
             if (unit instanceof DeathFromAbove) {
                 cardDamaged(unit);
-                addOpponentAction(new ScrapUnitMaxCost(5));
+                addAction(new ScrapOpponentUnitMaxCost(5, "Damage an opponent's unit costing 5 Industry or less"));
             }
 
             if (unit instanceof HeavyFireSupport) {
-                addAction(new CardAction(unit));
+                addAction(new CardAction(unit, "Discard a Unit card from your hand to make your opponent damage a unit."));
             }
 
             if (unit instanceof MobileFireSupport) {
-                addAction(new CardAction(unit));
+                addAction(new CardAction(unit, "Discard a card from your hand for +1 Attack."));
             }
 
             if (unit instanceof Overheat) {
@@ -889,7 +909,7 @@ public abstract class Player {
             }
 
             if (unit instanceof QuadERPPCs) {
-                addAction(new CardAction(unit));
+                addAction(new CardAction(unit, "Discard two cards from your hand to make your opponent gain a Heavy Casualties card."));
             }
 
             if (unit instanceof Scout) {
@@ -898,7 +918,7 @@ public abstract class Player {
                 Choice choice1 = new Choice(1, "Opponent discards " + card.getName());
                 Choice choice2 = new Choice(2, "Opponent puts " + card.getName() + " back on top of deck");
 
-                this.makeAbilityChoice(unit, "Scout", choice1, choice2);
+                this.makeAbilityChoice(unit, "Scout", "Opponent's top card of deck is " + card.getName() + ". Do you want to discard it or put it back?", choice1, choice2);
             }
         }
     }
@@ -991,7 +1011,10 @@ public abstract class Player {
         }
 
         if (card instanceof CounterAttack) {
-            addOpponentAction(new DamageUnitWithHighestIndustryCost());
+            Unit unit = opponent.getUnitWithHighestIndustryCost(opponent.getDeploymentZone());
+            if (unit != null) {
+                opponent.cardDamaged(unit);
+            }
         }
 
         if (card instanceof Durable) {
@@ -1082,10 +1105,6 @@ public abstract class Player {
                 }
                 break;
         }
-    }
-
-    public void damageOpponentUnit() {
-        addAction(new DamageOpponentUnit());
     }
 
     public void addOpponentAction(Action action) {

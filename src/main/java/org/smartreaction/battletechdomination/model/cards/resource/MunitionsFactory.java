@@ -17,7 +17,7 @@ public class MunitionsFactory extends Resource implements BaseSupply {
         Choice choice1 = new Choice(1, "+2 Industry");
         Choice choice2 = new Choice(2, "+1 Los Tech");
 
-        player.makeChoice(this, choice1, choice2);
+        player.makeChoice(this, "Choose one", choice1, choice2);
     }
 
     @Override

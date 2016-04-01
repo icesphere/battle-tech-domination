@@ -13,6 +13,6 @@ public class Refinery extends Support {
 
     @Override
     public void cardPlayed(Player player) {
-        player.addAction(new CardAction(this));
+        player.addAction(new CardAction(this, "Scrap a Resource card from your hand. Gain a Resource card costing up to 3 Industry more than the card you scrapped. The gained card will be put into your hand."));
     }
 }

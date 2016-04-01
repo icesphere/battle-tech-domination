@@ -1,9 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
-public class DamageUnitMaxCost extends Action {
+public class DamageOpponentUnitMaxCost extends Action {
     private int maxCost;
 
-    public DamageUnitMaxCost(int maxCost, String text) {
+    public DamageOpponentUnitMaxCost(int maxCost, String text) {
         this.maxCost = maxCost;
         this.text = text;
     }

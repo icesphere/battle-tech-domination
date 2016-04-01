@@ -15,6 +15,6 @@ public class ForcedNegotiations extends SupportAttack {
     public void cardPlayed(Player player) {
         player.discardCardFromHand();
         player.gainMunitionsFactory();
-        player.addOpponentAction(new UnitFromHandToTopOfDeck());
+        player.addOpponentAction(new UnitFromHandToTopOfDeck("Put a unit card from your hand on top of your deck"));
     }
 }

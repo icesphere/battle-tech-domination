@@ -25,7 +25,7 @@ public class Quartermaster extends Support {
         Choice choice2 = new Choice(2, "+1 Actions");
         Choice choice3 = new Choice(3, "+1 Industry");
 
-        player.makeChoice(this, choice1, choice2, choice3);
+        player.makeChoice(this, "Choose two (may be same or different)", choice1, choice2, choice3);
     }
 
     @Override
