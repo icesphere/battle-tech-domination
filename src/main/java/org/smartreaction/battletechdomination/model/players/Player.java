@@ -1365,4 +1365,8 @@ public abstract class Player {
             resolveActions();
         }
     }
+
+    public Action getCurrentAction() {
+        return currentAction;
+    }
 }

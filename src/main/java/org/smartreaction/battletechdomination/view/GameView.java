@@ -3,6 +3,7 @@ package org.smartreaction.battletechdomination.view;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
+import org.smartreaction.battletechdomination.model.cards.actions.Action;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
 
@@ -57,6 +58,10 @@ public class GameView implements Serializable {
 
     public Player getOpponent() {
         return userSession.getUser().getCurrentPlayer().getOpponent();
+    }
+
+    public Action getAction() {
+        return userSession.getUser().getCurrentPlayer().getCurrentAction();
     }
 
     public String getSupplyCardClass(Card card) {
