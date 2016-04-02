@@ -28,6 +28,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class Player {
     protected String playerName;
 
@@ -52,7 +53,7 @@ public abstract class Player {
 
     protected int turn;
 
-    protected TurnPhase turnPhase;
+    protected TurnPhase turnPhase = TurnPhase.NONE;
 
     protected Player opponent;
 
@@ -1219,10 +1220,6 @@ public abstract class Player {
         return turnPhase;
     }
 
-    public void setTurnPhase(TurnPhase turnPhase) {
-        this.turnPhase = turnPhase;
-    }
-
     public boolean isExpertMechTechsInDeploymentZone() {
         return expertMechTechsInDeploymentZone;
     }
@@ -1252,9 +1249,16 @@ public abstract class Player {
         if (!yourTurn) {
             return false;
         }
-        //todo check support cards
         if (card.getCardLocation() == CardLocation.HAND) {
-            return (card.isUnit() && isActionPhase() && actions > 0) || (card.isResource() && isBuyPhase());
+            if (card.isResource() && isBuyPhase()) {
+                return true;
+            } else if (isActionPhase() && actions > 0) {
+                if (card.isUnit()) {
+                    return true;
+                } else if (card.isSupport()) {
+                    return true;
+                }
+            }
         } else if (card.getCardLocation() == CardLocation.DEPLOYMENT_ZONE) {
             return ((Unit) card).isAbilityAvailable(this);
         }
@@ -1277,10 +1281,12 @@ public abstract class Player {
         return (int) hand.stream().filter(Card::isUnit).count();
     }
 
+    @SuppressWarnings("unused")
     public int getDeckSize() {
         return deck.size();
     }
 
+    @SuppressWarnings("unused")
     public int getDiscardSize() {
         return discard.size();
     }
@@ -1368,5 +1374,9 @@ public abstract class Player {
 
     public Action getCurrentAction() {
         return currentAction;
+    }
+
+    public boolean isResourceCardInHand() {
+        return hand.stream().filter(Card::isResource).count() > 0;
     }
 }

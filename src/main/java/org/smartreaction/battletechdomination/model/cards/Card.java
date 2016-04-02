@@ -109,6 +109,10 @@ public abstract class Card {
         return this instanceof Resource;
     }
 
+    public boolean isSupport() {
+        return this instanceof Support || this instanceof SupportAttack || this instanceof SupportReaction;
+    }
+
     public String getId() {
         return id;
     }

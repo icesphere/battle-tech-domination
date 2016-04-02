@@ -202,6 +202,10 @@ public class GameView implements Serializable {
                 }
             }
         }
+
+        if (getPlayer().getCurrentAction() != null) {
+            sendGameMessageToPlayer("show_action");
+        }
     }
 
     public Card findCardById(List<? extends Card> cards, String cardId) {
@@ -229,11 +233,17 @@ public class GameView implements Serializable {
         } else if (getPlayer().isBuyPhase()) {
             sendGameMessageToOpponent("refresh_right_section");
         }
+        if (getPlayer().getCurrentAction() != null) {
+            sendGameMessageToPlayer("show_action");
+        }
     }
 
     public void playAll() {
         getPlayer().playAll();
         sendGameMessageToOpponent("refresh_game_page");
+        if (getPlayer().getCurrentAction() != null) {
+            sendGameMessageToPlayer("show_action");
+        }
     }
 
     public void endTurn() {
@@ -241,6 +251,10 @@ public class GameView implements Serializable {
         if (!getGame().isGameOver()) {
             getPlayer().getOpponent().startTurn();
         }
-        sendGameMessageToOpponent("refresh_game_page");
+        if (getPlayer().getOpponent().getCurrentAction() != null) {
+            sendGameMessageToOpponent("show_action");
+        } else {
+            sendGameMessageToOpponent("refresh_game_page");
+        }
     }
 }

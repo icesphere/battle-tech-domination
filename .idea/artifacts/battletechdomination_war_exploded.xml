@@ -2,7 +2,6 @@
   <artifact type="exploded-war" name="battletechdomination:war exploded">
     <output-path>$PROJECT_DIR$/target/battle-tech-domination</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="battletechdomination/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="battletechdomination" />
@@ -22,6 +21,10 @@
           <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
         </element>
       </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/battle-tech-domination/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="battletechdomination/web/Web" />
     </root>
   </artifact>
 </component>

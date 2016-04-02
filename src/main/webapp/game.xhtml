@@ -31,6 +31,8 @@
             <p:remoteCommand name="refreshSupply" process="@this" update="supplySection"/>
             <p:remoteCommand name="refreshUnits" process="@this" update="unitsSection"/>
 
+            <p:remoteCommand name="showAction" process="@this" update="gamePage" oncomplete="PF('actionDialog').show()"/>
+
             <h:panelGroup layout="block" id="gamePage" styleClass="gamePage">
 
                 <h:panelGroup layout="block" id="leftSection" styleClass="leftSection">
@@ -217,7 +219,7 @@
                             <p:commandLink process="@this" update="supplySection middleSection rightSection" styleClass="turnButton" value="BUY CARDS" actionListener="#{gameView.nextPhase}"/>
                         </h:panelGroup>
 
-                        <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.buyPhase and !empty gameView.player.hand}">
+                        <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.buyPhase and gameView.player.resourceCardInHand}">
                             <p:commandLink process="@this" update="gamePage" styleClass="turnButton" value="PLAY ALL" actionListener="#{gameView.playAll}"/>
                         </h:panelGroup>
 
@@ -274,6 +276,8 @@
                     refreshSupply();
                 } else if (message == 'refresh_units') {
                     refreshUnits();
+                } else if (message == 'show_action') {
+                    showAction();
                 }
             }
         </script>

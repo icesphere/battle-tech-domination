@@ -324,7 +324,7 @@ public class GameService {
 
             case "arrowivbattery":
                 return new ArrowIVBattery();
-            case "closedairsupport":
+            case "closeairsupport":
                 return new CloseAirSupport();
             case "forcednegotiations":
                 return new ForcedNegotiations();
