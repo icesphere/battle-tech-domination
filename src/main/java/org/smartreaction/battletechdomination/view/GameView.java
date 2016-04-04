@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("WeakerAccess")
 @ManagedBean
 @ViewScoped
 public class GameView implements Serializable {

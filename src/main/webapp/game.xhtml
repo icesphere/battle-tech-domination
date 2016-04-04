@@ -8,6 +8,15 @@
 
     <ui:define name="head">
         <h:outputStylesheet name="game.css" library="css" />
+
+        <script>
+            $( document ).ready(function() {
+                var needToShowActionDialog = "#{!empty gameView.action}";
+                if (needToShowActionDialog === "true") {
+                    showAction();
+                }
+            });
+        </script>
     </ui:define>
 
     <ui:define name="content">
