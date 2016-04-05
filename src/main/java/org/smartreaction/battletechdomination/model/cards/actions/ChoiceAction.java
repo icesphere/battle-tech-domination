@@ -23,6 +23,7 @@ public class ChoiceAction extends Action {
         return card;
     }
 
+    @Override
     public List<Choice> getChoices() {
         return choices;
     }

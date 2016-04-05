@@ -240,9 +240,23 @@
 
                 </h:panelGroup>
 
-                <p:dialog header="Action" widgetVar="actionDialog" modal="true" height="100">
+                <p:dialog header="Action" widgetVar="actionDialog" styleClass="actionDialog" modal="true" height="100" closable="false" resizable="false">
                     <h:panelGroup rendered="#{!empty gameView.action}">
-                        <h:outputText value="#{gameView.action.text}" />
+                        <div>
+                            <h:outputText value="#{gameView.action.text}" />
+                        </div>
+                        <div style="padding-top: 15px;">
+                            <h:panelGroup rendered="#{!empty gameView.action.choices}">
+                                <ui:repeat value="#{gameView.action.choices}" var="choice">
+                                    <p:commandButton value="#{choice.text}" style="margin-right: 10px;"
+                                                     actionListener="#{gameView.choiceMade(choice.choiceNumber)}"
+                                                     oncomplete="PF('actionDialog').hide()"/>
+                                </ui:repeat>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{empty gameView.action.choices}">
+                                <p:commandButton value="OK" oncomplete="PF('actionDialog').hide()"/>
+                            </h:panelGroup>
+                        </div>
                     </h:panelGroup>
                 </p:dialog>
 

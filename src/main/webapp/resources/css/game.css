@@ -250,6 +250,10 @@
     background-color: #CCCCCC;
 }
 
+.overrun {
+    background-color: #7733BB;
+}
+
 .overrunCard {
     background-color: #7733BB;
     color: white;
@@ -349,5 +353,12 @@
 
 .buyableCard .supplyCardInfo {
     padding-right: 7px;
+}
+
+.actionDialog {
+    padding: 5px;
+    padding-top: 10px;
+    text-align: center;
+    min-width: 200px;
 }
 

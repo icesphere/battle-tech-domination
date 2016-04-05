@@ -131,7 +131,8 @@ public class GameService {
         cards.add(new DropShip());
         cards.add(new DropShip());
 
-        cards.add(new StripMining());
+        //todo
+        //cards.add(new StripMining());
 
         cards.add(new AmmoDump());
 
@@ -162,8 +163,9 @@ public class GameService {
         cards.add(new RapidDeployment());
         cards.add(new RapidDeployment());
 
-        cards.add(new Reinforcements());
-        cards.add(new Reinforcements());
+        //todo
+        //cards.add(new Reinforcements());
+        //cards.add(new Reinforcements());
 
         cards.add(new Refinery());
 
@@ -192,7 +194,8 @@ public class GameService {
         cards.add(new ManticoreHeavyTank());
         cards.add(new ManticoreHeavyTank());
 
-        cards.add(new MobileHQ());
+        //todo
+        //cards.add(new MobileHQ());
 
         cards.add(new PartisanHeavyTank());
         cards.add(new PartisanHeavyTank());

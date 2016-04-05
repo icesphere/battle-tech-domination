@@ -28,7 +28,6 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@SuppressWarnings("WeakerAccess")
 public abstract class Player {
     protected String playerName;
 
@@ -217,7 +216,7 @@ public abstract class Player {
     public void gainMunitionsFactory() {
         if (!game.getMunitionsFactories().isEmpty()) {
             MunitionsFactory munitionsFactory = game.getMunitionsFactories().remove(0);
-            addGameLog("Gained " + munitionsFactory.getName());
+            addGameLog(playerName + " gained " + munitionsFactory.getName());
             cardAcquired(munitionsFactory);
         }
     }
@@ -237,7 +236,7 @@ public abstract class Player {
     public void gainHeavyCasualties() {
         if (!game.getHeavyCasualties().isEmpty()) {
             HeavyCasualties heavyCasualties = game.getHeavyCasualties().remove(0);
-            addGameLog("Gained " + heavyCasualties.getName());
+            addGameLog(playerName + " gained " + heavyCasualties.getName());
             cardAcquired(heavyCasualties);
         }
     }
@@ -245,7 +244,7 @@ public abstract class Player {
     public void gainRaidedSupplies() {
         if (!game.getRaidedSupplies().isEmpty()) {
             RaidedSupplies raidedSupplies = game.getRaidedSupplies().remove(0);
-            addGameLog("Gained " + raidedSupplies.getName());
+            addGameLog(playerName + " gained " + raidedSupplies.getName());
             cardAcquired(raidedSupplies);
         }
     }
@@ -253,7 +252,7 @@ public abstract class Player {
     public void gainRetreat() {
         if (!game.getRetreats().isEmpty()) {
             Retreat retreat = game.getRetreats().remove(0);
-            addGameLog("Gained " + retreat.getName());
+            addGameLog(playerName + " gained " + retreat.getName());
             cardAcquired(retreat);
         }
     }
@@ -261,7 +260,7 @@ public abstract class Player {
     public void gainCriticalHit() {
         if (!game.getCriticalHits().isEmpty()) {
             CriticalHit criticalHit = game.getCriticalHits().remove(0);
-            addGameLog("Gained " + criticalHit.getName());
+            addGameLog(playerName + " gained " + criticalHit.getName());
             cardAcquired(criticalHit);
         }
     }
@@ -269,7 +268,7 @@ public abstract class Player {
     public void gainInfantryPlatoonIntoHand() {
         if (!game.getInfantryPlatoons().isEmpty()) {
             InfantryPlatoon infantryPlatoon = game.getInfantryPlatoons().remove(0);
-            addGameLog("Gained " + infantryPlatoon.getName() + " into hand");
+            addGameLog(playerName + " gained " + infantryPlatoon.getName() + " into hand");
             addCardToHand(infantryPlatoon);
         }
     }
@@ -404,7 +403,7 @@ public abstract class Player {
         addGameLog("** " + playerName + "'s Turn " + turn + " **");
         actions = 2;
         if (!hiddenBaseCards.isEmpty()) {
-            hand.addAll(hiddenBaseCards);
+            hiddenBaseCards.stream().forEach(this::addCardToHand);
             hiddenBaseCards.clear();
             addGameLog(playerName + " added cards set aside by Hidden Base to hand");
         }
@@ -567,6 +566,7 @@ public abstract class Player {
         } else if (action instanceof CardAction) {
             Card cardActionCard = ((CardAction) action).getCard();
             if (cardActionCard instanceof HiddenBase) {
+                hand.remove(card);
                 hiddenBaseCards.add(card);
             } else if (cardActionCard instanceof Refinery) {
                 scrapCardFromHand(card);
@@ -632,7 +632,7 @@ public abstract class Player {
             }
         } else if (action instanceof UnitFromDeploymentZoneToHand) {
             deploymentZone.remove(card);
-            hand.add(card);
+            addCardToHand(card);
         } else if (action instanceof CardsOnTopOfDeckInAnyOrder) {
             deck.addAll(0, ((CardsOnTopOfDeckInAnyOrder) action).getCards());
         } else if (action instanceof DiscardCardsForStrategicBombing) {
@@ -655,7 +655,7 @@ public abstract class Player {
             hand.remove(card);
             addCardToTopOfDeck(card);
         } else if (action instanceof DiscardCardsFromHand) {
-            List<Card> cards = ((DiscardCardsFromHand) action).getCards();
+            List<Card> cards = ((DiscardCardsFromHand) action).getSelectedCards();
             cards.stream().forEach(this::discardCardFromHand);
         } else if (action instanceof YesNoAbilityAction) {
             YesNoAbilityAction yesNoAbilityAction = (YesNoAbilityAction) action;
@@ -821,7 +821,7 @@ public abstract class Player {
     }
 
     public void playCardFromHand(Card card) {
-        if (isBuyPhase() && card instanceof Resource) {
+        if (isBuyPhase() && card.isResource()) {
             hand.remove(card);
             card.setCardLocation(CardLocation.PLAY_AREA);
             resourcesPlayed.add(card);
@@ -831,11 +831,12 @@ public abstract class Player {
             card.cardPlayed(this);
         }
         else if (isActionPhase() && actions > 0) {
+            game.gameLog("using action for " + card.getName());
             actions--;
 
             hand.remove(card);
 
-            if (card instanceof Support || card instanceof SupportAttack) {
+            if (card instanceof Support || card instanceof SupportAttack || card instanceof OverrunSupport) {
                 game.gameLog(this.getPlayerName() + " played " + card.getName());
                 card.setCardLocation(CardLocation.PLAY_AREA);
                 supportCardsPlayed.add(card);
@@ -847,9 +848,11 @@ public abstract class Player {
                 } else if (card instanceof ForwardBase) {
                     forwardBaseInDeploymentZone = true;
                 }
-            } else if (card instanceof Unit) {
+            } else if (card.isUnit()) {
                 game.gameLog(this.getPlayerName() + " deployed " + card.getName());
                 deployUnit((Unit) card);
+            } else {
+                game.gameLog("card type didn't match action type: " + card.getCardType().toString());
             }
 
             card.cardPlayed(this);
