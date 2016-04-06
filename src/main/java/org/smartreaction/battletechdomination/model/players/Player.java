@@ -35,8 +35,7 @@ public abstract class Player {
     protected List<Card> hand = new ArrayList<>();
     protected List<Card> discard = new ArrayList<>();
 
-    protected List<Card> resourcesPlayed = new ArrayList<>();
-    protected List<Card> supportCardsPlayed = new ArrayList<>();
+    protected List<Card> cardsPlayed = new ArrayList<>();
 
     protected List<Unit> deploymentZone = new ArrayList<>();
 
@@ -824,7 +823,7 @@ public abstract class Player {
         if (isBuyPhase() && card.isResource()) {
             hand.remove(card);
             card.setCardLocation(CardLocation.PLAY_AREA);
-            resourcesPlayed.add(card);
+            cardsPlayed.add(card);
 
             game.gameLog(this.getPlayerName() + " played " + card.getName());
 
@@ -839,7 +838,7 @@ public abstract class Player {
             if (card instanceof Support || card instanceof SupportAttack || card instanceof OverrunSupport) {
                 game.gameLog(this.getPlayerName() + " played " + card.getName());
                 card.setCardLocation(CardLocation.PLAY_AREA);
-                supportCardsPlayed.add(card);
+                cardsPlayed.add(card);
             } else if (card instanceof SupportReaction) {
                 game.gameLog(this.getPlayerName() + " played " + card.getName());
                 card.setCardLocation(CardLocation.DEPLOYMENT_ZONE_REACTION);
@@ -938,12 +937,7 @@ public abstract class Player {
         mayPutBoughtOrGainedCardsOnTopOfDeck = false;
         boughtInfantryPlatoonThisTurn = false;
 
-        for (Card card : resourcesPlayed) {
-            addCardToDiscard(card);
-            cardRemovedFromPlay(card);
-        }
-
-        for (Card card : supportCardsPlayed) {
+        for (Card card : cardsPlayed) {
             addCardToDiscard(card);
             cardRemovedFromPlay(card);
         }
@@ -954,8 +948,7 @@ public abstract class Player {
             }
         }
 
-        resourcesPlayed.clear();
-        supportCardsPlayed.clear();
+        cardsPlayed.clear();
 
         for (Card card : hand) {
             addCardToDiscard(card);
@@ -987,8 +980,7 @@ public abstract class Player {
         cards.addAll(hand);
         cards.addAll(deck);
         cards.addAll(discard);
-        cards.addAll(resourcesPlayed);
-        cards.addAll(supportCardsPlayed);
+        cards.addAll(cardsPlayed);
         cards.addAll(deploymentZone);
 
         return cards;
@@ -1239,15 +1231,6 @@ public abstract class Player {
         return sortedCards.get(0);
     }
 
-    public List<Card> getCardsInPlayArea() {
-        if (turnPhase == TurnPhase.ACTION) {
-            return supportCardsPlayed;
-        } else if (turnPhase == TurnPhase.BUY) {
-            return resourcesPlayed;
-        }
-        return new ArrayList<>();
-    }
-
     public boolean isCardActionable(Card card) {
         if (!yourTurn) {
             return false;
@@ -1381,5 +1364,9 @@ public abstract class Player {
 
     public boolean isResourceCardInHand() {
         return hand.stream().filter(Card::isResource).count() > 0;
+    }
+
+    public List<Card> getCardsPlayed() {
+        return cardsPlayed;
     }
 }

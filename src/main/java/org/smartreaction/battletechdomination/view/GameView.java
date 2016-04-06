@@ -274,7 +274,7 @@ public class GameView implements Serializable {
     }
 
     public List<Card> getCardsForPlayArea() {
-        return getGame().getCurrentPlayer().getCardsInPlayArea();
+        return getGame().getCurrentPlayer().getCardsPlayed();
     }
 
     public void updateCardView() {

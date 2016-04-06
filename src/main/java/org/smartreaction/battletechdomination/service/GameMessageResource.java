@@ -28,6 +28,7 @@ public class GameMessageResource {
 
     @OnClose
     public void onClose(RemoteEndpoint r, EventBus eventBus) {
+        System.out.println("websocket closed");
     }
 
     @OnMessage(decoders = {GameMessageDecoder.class}, encoders = {GameMessageEncoder.class})

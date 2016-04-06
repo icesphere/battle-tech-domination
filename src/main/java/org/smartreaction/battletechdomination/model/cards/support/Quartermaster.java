@@ -5,8 +5,6 @@ import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Support;
 
 public class Quartermaster extends Support {
-    private int choicesMade = 0;
-
     public Quartermaster() {
         name = "Quartermaster";
         cardText = "+1 Industry. Choose two (may be same or different): +1 Card; +1 Action; +1 Industry.";
@@ -21,32 +19,39 @@ public class Quartermaster extends Support {
     }
 
     private void choseOne(Player player) {
-        Choice choice1 = new Choice(1, "+1 Cards");
-        Choice choice2 = new Choice(2, "+1 Actions");
-        Choice choice3 = new Choice(3, "+1 Industry");
+        Choice choice1 = new Choice(1, "+2 Cards");
+        Choice choice2 = new Choice(2, "+2 Actions");
+        Choice choice3 = new Choice(3, "+2 Industry");
+        Choice choice4 = new Choice(1, "+1 Card, +1 Action");
+        Choice choice5 = new Choice(1, "+1 Card, +1 Industry");
+        Choice choice6 = new Choice(2, "+1 Action, +1 Industry");
 
-        player.makeChoice(this, "Choose two (may be same or different)", choice1, choice2, choice3);
+        player.makeChoice(this, "Choose one", choice1, choice2, choice3, choice4, choice5, choice6);
     }
 
     @Override
     public void choiceMade(int choice, Player player) {
         if (choice == 1) {
-            player.getGame().gameLog("Chose +1 Card1");
-            player.drawCards(1);
+            player.getGame().gameLog("Chose +2 Cards");
+            player.drawCards(2);
         } else if (choice == 2) {
-            player.getGame().gameLog("Chose +1 Action1");
-            player.addActions(1);
+            player.getGame().gameLog("Chose +2 Actions");
+            player.addActions(2);
         } else if (choice == 3) {
-            player.getGame().gameLog("Chose +1 Industry");
+            player.getGame().gameLog("Chose +2 Industry");
+            player.addIndustry(2);
+        } else if (choice == 4) {
+            player.getGame().gameLog("+1 Card, +1 Action");
+            player.drawCards(1);
+            player.addActions(1);
+        } else if (choice == 5) {
+            player.getGame().gameLog("+1 Card, +1 Industry");
+            player.drawCards(1);
             player.addIndustry(1);
-        }
-
-        choicesMade++;
-
-        if (choicesMade < 2) {
-            choseOne(player);
-        } else {
-            choicesMade = 0;
+        } else if (choice == 6) {
+            player.getGame().gameLog("+1 Action, +1 Industry");
+            player.addActions(1);
+            player.addIndustry(1);
         }
     }
 }

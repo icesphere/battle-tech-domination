@@ -218,7 +218,7 @@
                         </h:panelGroup>
                     </h:panelGroup>
 
-                    <h:panelGroup layout="block" rendered="#{gameView.player.yourTurn}" id="turnButtonsSection" styleClass="turnButtonsSection">
+                    <h:panelGroup layout="block" rendered="#{gameView.player.yourTurn and empty gameView.action}" id="turnButtonsSection" styleClass="turnButtonsSection">
 
                         <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.combatStart}">
                             <p:commandLink process="@this" update="middleSection rightSection" styleClass="turnButton" value="ATTACK!" actionListener="#{gameView.nextPhase}"/>
