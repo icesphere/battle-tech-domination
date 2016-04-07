@@ -80,7 +80,7 @@
                                         <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
                                     </div>
                                     <div style="padding-top: 15px;">
-                                        <h:outputText value="Cost: #{gameView.cardToView.industryCost}"/>
+                                        <h:outputText value="Cost: #{gameView.cardToView.industryCost}" style="padding-right: 10px;"/>
                                         <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
                                         <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
                                     </div>
@@ -240,7 +240,7 @@
 
                 </h:panelGroup>
 
-                <p:dialog header="Action" widgetVar="actionDialog" styleClass="actionDialog" modal="true" height="100" closable="false" resizable="false">
+                <p:dialog header="Action" widgetVar="actionDialog" styleClass="actionDialog" modal="true" closable="false" resizable="false">
                     <h:panelGroup rendered="#{!empty gameView.action}">
                         <div>
                             <h:outputText value="#{gameView.action.text}" />

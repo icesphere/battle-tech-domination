@@ -7,6 +7,7 @@ import org.smartreaction.battletechdomination.model.cards.abilities.HeavyFireSup
 import org.smartreaction.battletechdomination.model.cards.abilities.MobileFireSupport;
 import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
+import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.support.BattlefieldSalvage;
 import org.smartreaction.battletechdomination.model.cards.support.HiddenBase;
 import org.smartreaction.battletechdomination.model.cards.support.Refinery;
@@ -143,10 +144,10 @@ public class GameView implements Serializable {
                         return true;
                     }
                 }
-            } else if (action instanceof ScrapCardFromHandOrDiscard) {
+            } else if (action instanceof ScrapCardFromHand) {
                 if (source.equals("hand")) {
-                    //todo allow selecting from discard
-                    return true;
+                    ScrapCardFromHand scrapCardFromHandAction = (ScrapCardFromHand) action;
+                    return scrapCardFromHandAction.getCardType() == null || card.getCardType() == scrapCardFromHandAction.getCardType();
                 }
             } else if (action instanceof ScrapOpponentUnitMaxCost) {
                 if (source.equals("opponentUnits") && card.getIndustryCost() <= ((ScrapOpponentUnitMaxCost) action).getMaxCost()) {
@@ -190,7 +191,7 @@ public class GameView implements Serializable {
                     if (source.equals("hand")) {
                         return true;
                     }
-                } else if (cardAction.getCard() instanceof QuadERPPCs) {
+                } else if (cardAction.getCard() instanceof QuadERPPCs || cardAction.getCard() instanceof RaidedSupplies) {
                     if (source.equals("hand")) {
                         if (!((CardAction) action).getSelectedCards().contains(card)) {
                             return true;
@@ -199,9 +200,7 @@ public class GameView implements Serializable {
                     }
                 }
             }
-            //todo CardsOnTopOfDeckInAnyOrder
             //todo DiscardCardsForStrategicBombing
-            //todo YesNoAbilityAction
         } else if ((source.equals("playerUnits") || source.equals("hand")) && getPlayer().isCardActionable(card)) {
             return true;
         }
@@ -363,7 +362,7 @@ public class GameView implements Serializable {
                 result.getSelectedCards().addAll(discardCardsFromHand.getSelectedCards());
                 getPlayer().actionResult(action, result);
             }
-        } else if (action instanceof CardAction && ((CardAction) action).getCard() instanceof QuadERPPCs) {
+        } else if (action instanceof CardAction && (((CardAction) action).getCard() instanceof QuadERPPCs || ((CardAction) action).getCard() instanceof RaidedSupplies)) {
             CardAction cardAction = (CardAction) action;
             cardAction.getSelectedCards().add(card);
             if (cardAction.getSelectedCards().size() == 2) {
@@ -407,6 +406,14 @@ public class GameView implements Serializable {
 
     public void endTurn() {
         getPlayer().nextPhase();
+        if (getAction() != null) {
+            sendShowActionToPlayer();
+        } else {
+            refreshAfterEndTurn();
+        }
+    }
+
+    public void refreshAfterEndTurn() {
         if (!getGame().isGameOver()) {
             getPlayer().getOpponent().startTurn();
         }
@@ -429,13 +436,21 @@ public class GameView implements Serializable {
             sendGameMessageToPlayer("show_action");
             sendGameMessageToOpponent("refresh_game_page");
         } else {
-            sendGameMessageToAll("refresh_game_page");
+            if (!getPlayer().isYourTurn()) {
+                refreshAfterEndTurn();
+            } else {
+                sendGameMessageToAll("refresh_game_page");
+            }
         }
     }
 
     public void checkForAction() {
         if (getAction() != null) {
-            sendGameMessageToPlayer("show_action");
+            sendShowActionToPlayer();
         }
+    }
+
+    public void sendShowActionToPlayer() {
+        sendGameMessageToPlayer("show_action");
     }
 }
