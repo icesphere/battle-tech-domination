@@ -294,6 +294,7 @@ public class GameView implements Serializable {
 
         String cardName = paramValues.get("cardName");
 
+        //todo remove this log
         getGame().gameLog("clicked " + cardName + " from " + source);
 
         if (source.equals("basic_supply") || source.equals("supply_grid")) {

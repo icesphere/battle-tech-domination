@@ -111,6 +111,7 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof HighMaintenance) {
+            player.addGameLog(player.getPlayerName() + " must discard a card due to the High Maintenance ability on " + getName());
             player.discardCardFromHand();
         }
 
@@ -129,8 +130,8 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof Versatile) {
-            Choice choice1 = new Choice(1, "+1 Cards");
-            Choice choice2 = new Choice(2, "+1 Actions");
+            Choice choice1 = new Choice(1, "+1 Card");
+            Choice choice2 = new Choice(2, "+1 Action");
             Choice choice3 = new Choice(3, "+1 Industry");
 
             player.makeAbilityChoice(this, "Versatile", "Choose one", choice1, choice2, choice3);

@@ -23,4 +23,8 @@ public class LoggedInUsers {
     public List<User> getUsersWaitingForAutoMatch() {
         return users.stream().filter(User::isAutoMatch).collect(toList());
     }
+
+    public boolean isUsernameInUse(String username) {
+        return users.stream().anyMatch(u -> u.getUsername().equalsIgnoreCase(username));
+    }
 }

@@ -28,9 +28,12 @@ public class LoginView implements Serializable {
     }
 
     public String loginAsGuest() {
-        userSession.loginAsGuest(username);
-
-        return "lobby.xhtml?faces-redirect=true";
+        if (userSession.loginAsGuest(username)) {
+            return "lobby.xhtml?faces-redirect=true";
+        } else {
+            //todo show error
+            return null;
+        }
     }
 
     @SuppressWarnings("UnusedDeclaration")

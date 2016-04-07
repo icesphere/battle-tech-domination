@@ -110,7 +110,7 @@ public abstract class Card {
     }
 
     public boolean isSupport() {
-        return this instanceof Support || this instanceof SupportAttack || this instanceof SupportReaction;
+        return this instanceof Support || this instanceof SupportAttack || this instanceof SupportReaction || this instanceof OverrunSupport;
     }
 
     public String getId() {

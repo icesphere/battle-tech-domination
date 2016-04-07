@@ -82,13 +82,13 @@
 .playerUnitsSection {
     float: left;
     margin-right: 10px;
-    padding: 7px;
+    padding: 12px;
     min-width: 210px;
 }
 
 .opponentUnitsSection {
     float: left;
-    padding: 7px;
+    padding: 12px;
     min-width: 210px;
 }
 
@@ -294,13 +294,14 @@
     padding: 10px;
     margin-right: 2px;
     min-width: 128px;
+    min-height: 17px;
 }
 
 .playerInfoValue {
     float: left;
     padding: 7px 10px;
     margin-right: 2px;
-    min-width: 35px;
+    min-width: 41px;
     font-size: 20px;
 }
 

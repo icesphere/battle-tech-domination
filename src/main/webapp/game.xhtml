@@ -80,7 +80,7 @@
                                         <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
                                     </div>
                                     <div style="padding-top: 15px;">
-                                        <h:outputText value="#{gameView.cardToView.industryCost}"/>
+                                        <h:outputText value="Cost: #{gameView.cardToView.industryCost}"/>
                                         <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
                                         <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
                                     </div>

@@ -46,16 +46,16 @@ public class ComStarEngineers extends Support {
     @Override
     public void choiceMade(int choice, Player player) {
         if (choice == 1) {
-            player.getGame().gameLog("Chose +2 Cards");
+            player.addGameLog("Chose +2 Cards");
             player.drawCards(2);
         } else if (choice == 2) {
-            player.getGame().gameLog("Chose +2 Actions");
+            player.addGameLog("Chose +2 Actions");
             player.addActions(2);
         } else if (choice == 3) {
-            player.getGame().gameLog("Chose +3 Industry");
+            player.addGameLog("Chose +3 Industry");
             player.addIndustry(3);
         } else if (choice == 4) {
-            player.getGame().gameLog("Chose +1 Los Tech");
+            player.addGameLog("Chose +1 Los Tech");
             player.addLosTech(1);
         }
 

@@ -32,24 +32,24 @@ public class Quartermaster extends Support {
     @Override
     public void choiceMade(int choice, Player player) {
         if (choice == 1) {
-            player.getGame().gameLog("Chose +2 Cards");
+            player.addGameLog("Chose +2 Cards");
             player.drawCards(2);
         } else if (choice == 2) {
-            player.getGame().gameLog("Chose +2 Actions");
+            player.addGameLog("Chose +2 Actions");
             player.addActions(2);
         } else if (choice == 3) {
-            player.getGame().gameLog("Chose +2 Industry");
+            player.addGameLog("Chose +2 Industry");
             player.addIndustry(2);
         } else if (choice == 4) {
-            player.getGame().gameLog("+1 Card, +1 Action");
+            player.addGameLog("+1 Card, +1 Action");
             player.drawCards(1);
             player.addActions(1);
         } else if (choice == 5) {
-            player.getGame().gameLog("+1 Card, +1 Industry");
+            player.addGameLog("+1 Card, +1 Industry");
             player.drawCards(1);
             player.addIndustry(1);
         } else if (choice == 6) {
-            player.getGame().gameLog("+1 Action, +1 Industry");
+            player.addGameLog("+1 Action, +1 Industry");
             player.addActions(1);
             player.addIndustry(1);
         }
