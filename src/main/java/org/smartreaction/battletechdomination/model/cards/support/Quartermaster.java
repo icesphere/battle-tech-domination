@@ -22,9 +22,9 @@ public class Quartermaster extends Support {
         Choice choice1 = new Choice(1, "+2 Cards");
         Choice choice2 = new Choice(2, "+2 Actions");
         Choice choice3 = new Choice(3, "+2 Industry");
-        Choice choice4 = new Choice(1, "+1 Card, +1 Action");
-        Choice choice5 = new Choice(1, "+1 Card, +1 Industry");
-        Choice choice6 = new Choice(2, "+1 Action, +1 Industry");
+        Choice choice4 = new Choice(4, "+1 Card, +1 Action");
+        Choice choice5 = new Choice(5, "+1 Card, +1 Industry");
+        Choice choice6 = new Choice(6, "+1 Action, +1 Industry");
 
         player.makeChoice(this, "Choose one", choice1, choice2, choice3, choice4, choice5, choice6);
     }

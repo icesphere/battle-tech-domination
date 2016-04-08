@@ -3,16 +3,9 @@ package org.smartreaction.battletechdomination.view;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.abilities.HeavyFireSupport;
-import org.smartreaction.battletechdomination.model.cards.abilities.MobileFireSupport;
 import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
-import org.smartreaction.battletechdomination.model.cards.support.BattlefieldSalvage;
-import org.smartreaction.battletechdomination.model.cards.support.HiddenBase;
-import org.smartreaction.battletechdomination.model.cards.support.Refinery;
-import org.smartreaction.battletechdomination.model.cards.support.attack.CloseAirSupport;
-import org.smartreaction.battletechdomination.model.cards.support.attack.LongTomBattery;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
 
@@ -82,20 +75,13 @@ public class GameView implements Serializable {
     }
 
     public boolean highlightSupplyCard(Card card) {
-        if (getPlayer().isYourTurn() && getAction() != null) {
-            Action action = getAction();
-            if (action instanceof FreeCardFromSupplyToTopOfDeck) {
-                return true;
-            } else if (action instanceof FreeResourceCardIntoHand && card.isResource()) {
-                return true;
-            }
+        if (!getPlayer().isYourTurn()) {
+            return false;
+        } else if (getAction() != null) {
+            return getAction().isCardActionable(card, Card.CARD_LOCATION_SUPPLY, getPlayer());
         } else {
-            if (getPlayer().isCardBuyable(card)) {
-                return true;
-            }
+            return getPlayer().isCardBuyable(card);
         }
-
-        return false;
     }
 
     public String getActionableCardClass(Card card, String source) {
@@ -108,104 +94,14 @@ public class GameView implements Serializable {
         return cardClass;
     }
 
-    public boolean highlightCard(Card card, String source) {
-        if (getPlayer().isYourTurn() && getAction() != null) {
-            Action action = getAction();
-            if (action instanceof CardFromHandToTopOfDeck) {
-                if (source.equals("hand")) {
-                    return true;
-                }
-            } else if (action instanceof DamageOpponentUnit) {
-                if (source.equals("opponentUnits")) {
-                    return true;
-                }
-            } else if (action instanceof DamageOpponentUnitMaxCost) {
-                if (source.equals("opponentUnits") && card.getIndustryCost() <= ((DamageOpponentUnitMaxCost) action).getMaxCost()) {
-                    return true;
-                }
-            } else if (action instanceof DamageUnit) {
-                if (source.equals("playerUnits")) {
-                    DamageUnit damageUnitAction = (DamageUnit) action;
-                    if (damageUnitAction.getCardType() == null || damageUnitAction.getCardType() == card.getCardType()) {
-                        return true;
-                    }
-                }
-            } else if (action instanceof DamageUnitMaxCost) {
-                if (source.equals("playerUnits") && card.getIndustryCost() <= ((DamageUnitMaxCost) action).getMaxCost()) {
-                    return true;
-                }
-            } else if (action instanceof DamageUnitMinCost) {
-                if (source.equals("playerUnits") && card.getIndustryCost() >= ((DamageUnitMinCost) action).getMinCost()) {
-                    return true;
-                }
-            } else if (action instanceof DiscardCardsFromHand) {
-                if (source.equals("hand")) {
-                    if (!((DiscardCardsFromHand) action).getSelectedCards().contains(card)) {
-                        return true;
-                    }
-                }
-            } else if (action instanceof ScrapCardFromHand) {
-                if (source.equals("hand")) {
-                    ScrapCardFromHand scrapCardFromHandAction = (ScrapCardFromHand) action;
-                    return scrapCardFromHandAction.getCardType() == null || card.getCardType() == scrapCardFromHandAction.getCardType();
-                }
-            } else if (action instanceof ScrapOpponentUnitMaxCost) {
-                if (source.equals("opponentUnits") && card.getIndustryCost() <= ((ScrapOpponentUnitMaxCost) action).getMaxCost()) {
-                    return true;
-                }
-            } else if (action instanceof UnitFromDeploymentZoneToHand) {
-                if (source.equals("playerUnits")) {
-                    return true;
-                }
-            } else if (action instanceof UnitFromHandToTopOfDeck) {
-                if (source.equals("hand")) {
-                    return true;
-                }
-            } else if (action instanceof CardAction) {
-                CardAction cardAction = (CardAction) action;
-                if (cardAction.getCard() instanceof BattlefieldSalvage) {
-                    if (card.isUnit() && (source.equals("hand") || source.equals("playerUnits"))) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof HiddenBase) {
-                    if (source.equals("hand")) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof Refinery) {
-                    if (card.isResource() && source.equals("hand")) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof CloseAirSupport) {
-                    if (source.equals("hand")) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof LongTomBattery) {
-                    if (source.equals("hand")) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof HeavyFireSupport) {
-                    if (card.isUnit() && source.equals("hand")) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof MobileFireSupport) {
-                    if (source.equals("hand")) {
-                        return true;
-                    }
-                } else if (cardAction.getCard() instanceof QuadERPPCs || cardAction.getCard() instanceof RaidedSupplies) {
-                    if (source.equals("hand")) {
-                        if (!((CardAction) action).getSelectedCards().contains(card)) {
-                            return true;
-                        }
-                        return true;
-                    }
-                }
-            }
-            //todo DiscardCardsForStrategicBombing
-        } else if ((source.equals("playerUnits") || source.equals("hand")) && getPlayer().isCardActionable(card)) {
-            return true;
+    public boolean highlightCard(Card card, String cardLocation) {
+        if (!getPlayer().isYourTurn()) {
+            return false;
+        } else if (getAction() != null) {
+            return getAction().isCardActionable(card, cardLocation, getPlayer());
+        } else {
+            return card.isActionable(getPlayer(), cardLocation);
         }
-
-        return false;
     }
 
     public String getCardClass(Card card) {
@@ -221,7 +117,7 @@ public class GameView implements Serializable {
             cardClass = "resource";
         } else if (card instanceof SupportReaction) {
             cardClass = "supportReaction";
-        } else if (card instanceof Support || card instanceof SupportAttack) {
+        } else if (card instanceof Support) {
             cardClass = "support";
         } else if (card instanceof Overrun) {
             cardClass = "overrun";
@@ -296,9 +192,9 @@ public class GameView implements Serializable {
         //todo remove this log
         getGame().gameLog("clicked " + cardName + " from " + source);
 
-        if (source.equals("basic_supply") || source.equals("supply_grid")) {
+        if (source.equals("basicSupply") || source.equals("supplyGrid")) {
             Card card;
-            if (source.equals("basic_supply")) {
+            if (source.equals("basicSupply")) {
                 card = gameService.getCardByName(cardName);
             } else {
                 String cardId = paramValues.get("cardId");
@@ -306,7 +202,7 @@ public class GameView implements Serializable {
             }
             if (highlightSupplyCard(card)) {
                 if (getAction() != null) {
-                    handleCardClickedForAction(card);
+                    handleCardClickedForAction(card, source);
                 } else {
                     getPlayer().buyCard(card);
                     sendGameMessageToAll("refresh_supply");
@@ -320,7 +216,7 @@ public class GameView implements Serializable {
                 Card card = findCardById(getPlayer().getHand(), cardId);
                 if (highlightCard(card, source)) {
                     if (getAction() != null) {
-                        handleCardClickedForAction(card);
+                        handleCardClickedForAction(card, source);
                     } else {
                         getPlayer().playCardFromHand(card);
                         refreshGamePageWithCheckForAction();
@@ -330,7 +226,7 @@ public class GameView implements Serializable {
                 Unit unit = (Unit) findCardById(getPlayer().getDeploymentZone(), cardId);
                 if (highlightCard(unit, source)) {
                     if (getAction() != null) {
-                        handleCardClickedForAction(unit);
+                        handleCardClickedForAction(unit, source);
                     } else {
                         getPlayer().useUnitAbility(unit);
                         sendGameMessageToAll("refresh_middle_section");
@@ -352,29 +248,32 @@ public class GameView implements Serializable {
         return null;
     }
 
-    public void handleCardClickedForAction(Card card) {
+    public void handleCardClickedForAction(Card card, String cardLocation) {
         Action action = getAction();
+        ActionResult result = new ActionResult();
+        result.setCardLocation(cardLocation);
+
         if (action instanceof DiscardCardsFromHand) {
             DiscardCardsFromHand discardCardsFromHand = (DiscardCardsFromHand) action;
             discardCardsFromHand.getSelectedCards().add(card);
             if (discardCardsFromHand.getNumCardsToDiscard() == discardCardsFromHand.getSelectedCards().size()) {
-                ActionResult result = new ActionResult();
                 result.getSelectedCards().addAll(discardCardsFromHand.getSelectedCards());
-                getPlayer().actionResult(action, result);
+            } else {
+                return;
             }
         } else if (action instanceof CardAction && (((CardAction) action).getCard() instanceof QuadERPPCs || ((CardAction) action).getCard() instanceof RaidedSupplies)) {
             CardAction cardAction = (CardAction) action;
             cardAction.getSelectedCards().add(card);
             if (cardAction.getSelectedCards().size() == 2) {
-                ActionResult result = new ActionResult();
                 result.getSelectedCards().addAll(cardAction.getSelectedCards());
-                getPlayer().actionResult(action, result);
+            } else {
+                return;
             }
         } else {
-            ActionResult result = new ActionResult();
             result.getSelectedCards().add(card);
-            getPlayer().actionResult(action, result);
         }
+
+        getPlayer().actionResult(action, result);
 
         refreshGamePageWithCheckForAction();
     }

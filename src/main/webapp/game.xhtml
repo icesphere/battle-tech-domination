@@ -50,22 +50,22 @@
 
                         <div class="baseCards">
                             <h:panelGroup rendered="#{!empty gameView.game.infantryPlatoons}">
-                                <btd:supplyCard card="#{gameView.game.infantryPlatoons[0]}" source="basic_supply"/>
+                                <btd:supplyCard card="#{gameView.game.infantryPlatoons[0]}" source="basicSupply"/>
                             </h:panelGroup>
                             <h:panelGroup rendered="#{!empty gameView.game.basicFactories}">
-                                <btd:supplyCard card="#{gameView.game.basicFactories[0]}" source="basic_supply"/>
+                                <btd:supplyCard card="#{gameView.game.basicFactories[0]}" source="basicSupply"/>
                             </h:panelGroup>
                             <h:panelGroup rendered="#{!empty gameView.game.munitionsFactories}">
-                                <btd:supplyCard card="#{gameView.game.munitionsFactories[0]}" source="basic_supply"/>
+                                <btd:supplyCard card="#{gameView.game.munitionsFactories[0]}" source="basicSupply"/>
                             </h:panelGroup>
                             <h:panelGroup rendered="#{!empty gameView.game.advancedFactories}">
-                                <btd:supplyCard card="#{gameView.game.advancedFactories[0]}" source="basic_supply"/>
+                                <btd:supplyCard card="#{gameView.game.advancedFactories[0]}" source="basicSupply"/>
                             </h:panelGroup>
                         </div>
 
                         <div class="supplyGrid">
                             <ui:repeat value="#{gameView.game.supplyGrid}" var="card">
-                                <btd:supplyCard card="#{card}" source="supply_grid"/>
+                                <btd:supplyCard card="#{card}" source="supplyGrid"/>
                             </ui:repeat>
                         </div>
 
@@ -80,7 +80,8 @@
                                         <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
                                     </div>
                                     <div style="padding-top: 15px;">
-                                        <h:outputText value="Cost: #{gameView.cardToView.industryCost}" style="padding-right: 10px;"/>
+                                        <h:outputText value="Cost:" style="padding-right: 10px;"/>
+                                        <h:outputText value="#{gameView.cardToView.industryCost}"/>
                                         <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
                                         <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
                                     </div>

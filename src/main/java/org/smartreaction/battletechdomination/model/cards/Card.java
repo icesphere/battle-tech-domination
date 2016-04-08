@@ -13,7 +13,13 @@ public abstract class Card {
     protected CardType cardType;
     protected int industryCost;
     protected int losTechCost;
-    protected CardLocation cardLocation;
+
+    public static String CARD_LOCATION_HAND = "hand";
+    public static String CARD_LOCATION_DECK = "deck";
+    public static String CARD_LOCATION_DISCARD = "discard";
+    public static String CARD_LOCATION_PLAYER_UNITS = "playerUnits";
+    public static String CARD_LOCATION_OPPONENT_UNITS = "opponentUnits";
+    public static String CARD_LOCATION_SUPPLY = "supply";
 
     protected Card() {
         id = UUID.randomUUID().toString();
@@ -93,14 +99,6 @@ public abstract class Card {
         this.losTechCost = losTechCost;
     }
 
-    public CardLocation getCardLocation() {
-        return cardLocation;
-    }
-
-    public void setCardLocation(CardLocation cardLocation) {
-        this.cardLocation = cardLocation;
-    }
-
     public boolean isUnit() {
         return this instanceof Unit;
     }
@@ -116,4 +114,6 @@ public abstract class Card {
     public String getId() {
         return id;
     }
+
+    public abstract boolean isActionable(Player player, String cardLocation);
 }

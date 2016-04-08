@@ -99,7 +99,7 @@ public abstract class Unit extends Card {
 
         if (this instanceof Flamers) {
             List<Card> opponentDeploymentZoneCards = new ArrayList<>(player.getOpponent().getDeploymentZone());
-            opponentDeploymentZoneCards.stream().filter(card -> card instanceof InfantryPlatoon).forEach(card -> player.getOpponent().cardDamaged(card));
+            opponentDeploymentZoneCards.stream().filter(card -> card instanceof InfantryPlatoon).forEach(card -> player.getOpponent().cardDamaged((Unit) card));
         }
 
         if (this instanceof SwarmAttack) {
@@ -144,6 +144,21 @@ public abstract class Unit extends Card {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean isActionable(Player player, String cardLocation) {
+        if (!player.isYourTurn()) {
+            return false;
+        }
+
+        if (cardLocation.equals(Card.CARD_LOCATION_HAND)) {
+            return player.isActionPhase() && player.getActions() > 0;
+        } else if (cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
+            return isAbilityAvailable(player);
+        }
+
+        return false;
     }
 
     public int getAttack() {

@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,8 @@ public class DiscardCardsFromHand extends Action {
         return selectedCards;
     }
 
-    public void setSelectedCards(List<Card> selectedCards) {
-        this.selectedCards = selectedCards;
+    @Override
+    public boolean isCardActionable(Card card, String cardLocation, Player player) {
+        return cardLocation.equals(Card.CARD_LOCATION_HAND) && !selectedCards.contains(card);
     }
 }

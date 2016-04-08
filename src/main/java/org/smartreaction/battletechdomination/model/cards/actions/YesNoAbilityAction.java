@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,11 @@ public class YesNoAbilityAction extends Action {
         choices.add(no);
 
         return choices;
+    }
+
+    @Override
+    public boolean isCardActionable(Card card, String cardLocation, Player player) {
+        return false;
     }
 
     public Card getCard() {

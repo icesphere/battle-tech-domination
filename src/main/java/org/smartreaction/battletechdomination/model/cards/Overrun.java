@@ -11,7 +11,6 @@ public abstract class Overrun extends Card {
 
     @Override
     public void cardPlayed(Player player) {
-
     }
 
     public int getOverrunAmount() {
@@ -20,5 +19,10 @@ public abstract class Overrun extends Card {
 
     public void setOverrunAmount(int overrunAmount) {
         this.overrunAmount = overrunAmount;
+    }
+
+    @Override
+    public boolean isActionable(Player player, String cardLocation) {
+        return false;
     }
 }

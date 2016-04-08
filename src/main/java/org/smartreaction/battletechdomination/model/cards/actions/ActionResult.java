@@ -10,6 +10,8 @@ public class ActionResult {
 
     private Integer choiceSelected;
 
+    private String cardLocation;
+
     public ActionResult() {
     }
 
@@ -27,5 +29,13 @@ public class ActionResult {
 
     public void setChoiceSelected(Integer choiceSelected) {
         this.choiceSelected = choiceSelected;
+    }
+
+    public String getCardLocation() {
+        return cardLocation;
+    }
+
+    public void setCardLocation(String cardLocation) {
+        this.cardLocation = cardLocation;
     }
 }
