@@ -25,6 +25,7 @@ import org.smartreaction.battletechdomination.model.cards.unit.infantry.Infantry
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -502,6 +503,33 @@ public abstract class Player {
                 } else {
                     addGameLog(playerName + " is discarding two cards from their hand to make opponent gain a Heavy Casualties card");
                 }
+            } else if (card instanceof HeavyCasualties) {
+                Optional<Card> infantryPlatoonInHand = hand.stream().filter(c -> c instanceof InfantryPlatoon).findAny();
+                Optional<Unit> infantryPlatoonInDeploymentZone = deploymentZone.stream().filter(c -> c instanceof InfantryPlatoon).findAny();
+
+                if (!infantryPlatoonInHand.isPresent() && !infantryPlatoonInDeploymentZone.isPresent()) {
+                    resolveActions();
+                    return;
+                } else if (!infantryPlatoonInHand.isPresent()) {
+                    addGameLog(playerName + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
+                    deploymentZone.remove(infantryPlatoonInDeploymentZone.get());
+                    discard.add(infantryPlatoonInDeploymentZone.get());
+                    hand.remove(card);
+                    game.getHeavyCasualties().add((HeavyCasualties) card);
+                } else if (!infantryPlatoonInDeploymentZone.isPresent()) {
+                    addGameLog(playerName + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
+                    discardCardFromHand(infantryPlatoonInHand.get());
+                    hand.remove(card);
+                    game.getHeavyCasualties().add((HeavyCasualties) card);
+                }
+            } else if (card instanceof CriticalHit) {
+                int numMechUnitsInDeploymentZone = getNumMechUnitsInDeploymentZone();
+                long numMechsInHand = hand.stream().filter(c -> c instanceof MechUnit).count();
+
+                if (numMechUnitsInDeploymentZone == 0 && numMechsInHand == 0) {
+                    resolveActions();
+                    return;
+                }
             }
         } else if (action instanceof FreeCardFromSupplyToTopOfDeck) {
             if (getGame().getSupplyGrid().isEmpty()) {
@@ -666,6 +694,31 @@ public abstract class Player {
                 selectedCards.stream().forEach(this::discardCardFromHand);
                 hand.remove(cardActionCard);
                 game.getRaidedSupplies().add((RaidedSupplies) cardActionCard);
+            } else if (cardActionCard instanceof HeavyCasualties) {
+                if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
+                    addGameLog(playerName + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
+                    discardCardFromHand(card);
+                    hand.remove(cardActionCard);
+                    game.getHeavyCasualties().add((HeavyCasualties) cardActionCard);
+                } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
+                    addGameLog(playerName + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
+                    deploymentZone.remove(card);
+                    discard.add(card);
+                    hand.remove(cardActionCard);
+                    game.getHeavyCasualties().add((HeavyCasualties) cardActionCard);
+                }
+            } else if (cardActionCard instanceof CriticalHit) {
+                if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
+                    addGameLog(playerName + " scrapped a Mech from their hand to return a Critical Hit back to Overrun pile");
+                    scrapCardFromHand(card);
+                    hand.remove(cardActionCard);
+                    game.getCriticalHits().add((CriticalHit) cardActionCard);
+                } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
+                    addGameLog(playerName + " scrapped a Mech from their deployment zone to return a Critical Hit back to Overrun pile");
+                    scrapUnitFromDeploymentZone((Unit) card);
+                    hand.remove(cardActionCard);
+                    game.getCriticalHits().add((CriticalHit) cardActionCard);
+                }
             }
         } else if (action instanceof DamageOpponentUnit || action instanceof DamageOpponentUnitMaxCost) {
             getOpponent().cardDamaged((Unit) card);
