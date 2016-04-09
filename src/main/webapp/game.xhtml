@@ -126,7 +126,7 @@
                         <h:panelGroup layout="block" id="playerUnitsSection" styleClass="playerUnitsSection player">
                             <h:outputText value="#{gameView.player.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.player.deploymentZone}" var="card">
+                                <ui:repeat value="#{gameView.playerDeploymentZoneCards}" var="card">
                                     <btd:card card="#{card}" source="playerUnits"/>
                                 </ui:repeat>
                             </div>
@@ -135,7 +135,7 @@
                         <h:panelGroup layout="block" id="opponentUnitsSection" styleClass="opponentUnitsSection opponent">
                             <h:outputText value="#{gameView.opponent.playerName}'s Units:" styleClass="unitsLabel"/>
                             <div style="padding: 10px 0;">
-                                <ui:repeat value="#{gameView.opponent.deploymentZone}" var="card">
+                                <ui:repeat value="#{gameView.opponentDeploymentZoneCards}" var="card">
                                     <btd:card card="#{card}" source="opponentUnits"/>
                                 </ui:repeat>
                             </div>

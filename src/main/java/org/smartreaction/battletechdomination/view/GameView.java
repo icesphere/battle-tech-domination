@@ -6,6 +6,8 @@ import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
 
@@ -15,6 +17,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -172,6 +175,28 @@ public class GameView implements Serializable {
         return getGame().getCurrentPlayer().getCardsPlayed();
     }
 
+    public List<Card> getPlayerDeploymentZoneCards() {
+        return getDeploymentZoneCards(getPlayer());
+    }
+
+    public List<Card> getOpponentDeploymentZoneCards() {
+        return getDeploymentZoneCards(getOpponent());
+    }
+
+    public List<Card> getDeploymentZoneCards(Player player) {
+        List<Card> cards = new ArrayList<>(player.getDeploymentZone());
+
+        if (player.isForwardBaseInDeploymentZone()) {
+            cards.add(new ForwardBase());
+        }
+
+        if (player.isExpertMechTechsInDeploymentZone()) {
+            cards.add(new ExpertMechTechs());
+        }
+
+        return cards;
+    }
+
     public void updateCardView() {
         Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String cardName = paramValues.get("cardName");
@@ -188,9 +213,6 @@ public class GameView implements Serializable {
         String source = paramValues.get("source");
 
         String cardName = paramValues.get("cardName");
-
-        //todo remove this log
-        getGame().gameLog("clicked " + cardName + " from " + source);
 
         if (source.equals("basicSupply") || source.equals("supplyGrid")) {
             Card card;
@@ -223,12 +245,12 @@ public class GameView implements Serializable {
                     }
                 }
             } else if (source.equals("playerUnits")) {
-                Unit unit = (Unit) findCardById(getPlayer().getDeploymentZone(), cardId);
-                if (highlightCard(unit, source)) {
+                Card card = findCardById(getPlayer().getDeploymentZone(), cardId);
+                if (highlightCard(card, source)) {
                     if (getAction() != null) {
-                        handleCardClickedForAction(unit, source);
+                        handleCardClickedForAction(card, source);
                     } else {
-                        getPlayer().useUnitAbility(unit);
+                        getPlayer().useUnitAbility((Unit) card);
                         sendGameMessageToAll("refresh_middle_section");
                         sendGameMessageToAll("refresh_right_section");
                     }
