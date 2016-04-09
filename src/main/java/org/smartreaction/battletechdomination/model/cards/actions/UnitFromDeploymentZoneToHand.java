@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class UnitFromDeploymentZoneToHand extends Action {
@@ -21,5 +22,12 @@ public class UnitFromDeploymentZoneToHand extends Action {
             player.addGameLog(player.getPlayerName() + " is moving a Unit from their deployment zone to their hand");
             return true;
         }
+    }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        Unit unit = (Unit) result.getSelectedCard();
+        player.getDeploymentZone().remove(unit);
+        player.addCardToHand(unit);
     }
 }

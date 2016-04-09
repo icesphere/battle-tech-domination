@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class DamageOpponentUnit extends Action {
@@ -21,5 +22,10 @@ public class DamageOpponentUnit extends Action {
             player.addGameLog(player.getPlayerName() + " is choosing an opponent's unit to damage");
             return true;
         }
+    }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.getOpponent().cardDamaged((Unit) result.getSelectedCard());
     }
 }

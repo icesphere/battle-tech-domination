@@ -35,4 +35,9 @@ public class ScrapOpponentUnitMaxCost extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.getOpponent().scrapUnitFromDeploymentZone((Unit) result.getSelectedCard());
+    }
 }

@@ -39,6 +39,15 @@ public class ChoiceAction extends Action {
         return true;
     }
 
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        if (abilityName != null) {
+            player.abilityChoiceMade(card, abilityName, result.getChoiceSelected());
+        } else {
+            card.choiceMade(result.getChoiceSelected(), player);
+        }
+    }
+
     public String getAbilityName() {
         return abilityName;
     }

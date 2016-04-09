@@ -38,4 +38,11 @@ public class ActionResult {
     public void setCardLocation(String cardLocation) {
         this.cardLocation = cardLocation;
     }
+
+    public Card getSelectedCard() {
+        if (selectedCards.size() > 0) {
+            return selectedCards.get(0);
+        }
+        return null;
+    }
 }

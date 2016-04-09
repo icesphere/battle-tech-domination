@@ -45,4 +45,9 @@ public class DiscardCardsFromHand extends Action {
             }
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        selectedCards.stream().forEach(player::discardCardFromHand);
+    }
 }

@@ -38,4 +38,19 @@ public class DiscardCardsForStrategicBombing extends Action {
         //todo
         return false;
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        for (Card discardedCard : discardedCards) {
+            revealedCards.remove(discardedCard);
+            player.getOpponent().removeCardFromDeck(discardedCard);
+            player.getOpponent().addCardToDiscard(discardedCard);
+            revealedCards.remove(discardedCard);
+            player.addGameLog("Discarded " + discardedCard.getName() + " from opponent's deck");
+        }
+
+        Card cardToPutBack = revealedCards.get(0);
+        player.getOpponent().addCardToTopOfDeck(cardToPutBack);
+        player.addGameLog("Put " + cardToPutBack.getName() + " back on top of opponent's deck");
+    }
 }

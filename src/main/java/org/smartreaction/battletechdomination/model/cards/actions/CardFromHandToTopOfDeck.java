@@ -22,4 +22,11 @@ public class CardFromHandToTopOfDeck extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        Card card = result.getSelectedCard();
+        player.getHand().remove(card);
+        player.addCardToTopOfDeck(card);
+    }
 }

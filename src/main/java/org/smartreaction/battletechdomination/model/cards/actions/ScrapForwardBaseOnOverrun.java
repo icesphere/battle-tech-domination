@@ -1,18 +1,15 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Overrun;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class ScrapForwardBaseOnOverrun extends Action {
-    private int difference;
+    private Overrun overrunCard;
 
-    public ScrapForwardBaseOnOverrun(int difference, String text) {
-        this.difference = difference;
+    public ScrapForwardBaseOnOverrun(Overrun overrunCard, String text) {
+        this.overrunCard = overrunCard;
         this.text = text;
-    }
-
-    public int getDifference() {
-        return difference;
     }
 
     @Override
@@ -23,5 +20,15 @@ public class ScrapForwardBaseOnOverrun extends Action {
     @Override
     public boolean processAction(Player player) {
         return true;
+    }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        if (result.getChoiceSelected() == 1) {
+            player.addGameLog(player.getPlayerName() + " scrapped Forward Base");
+            player.setForwardBaseInDeploymentZone(false);
+        } else {
+            player.gainOverrunCard(overrunCard);
+        }
     }
 }

@@ -1,8 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
-import org.smartreaction.battletechdomination.model.cards.Card;
-import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.Unit;
+import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.abilities.HeavyFireSupport;
 import org.smartreaction.battletechdomination.model.cards.abilities.MobileFireSupport;
 import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
@@ -152,5 +150,79 @@ public class CardAction extends Action {
         }  
         
         return true;
+    }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        Card selectedCard = result.getSelectedCard();
+        if (card instanceof HiddenBase) {
+            player.getHand().remove(selectedCard);
+            player.getHiddenBaseCards().add(selectedCard);
+        } else if (card instanceof Refinery) {
+            player.scrapCardFromHand(selectedCard);
+            player.gainFreeResourceCardIntoHand(selectedCard.getIndustryCost() + 3);
+        } else if (card instanceof MobileFireSupport) {
+            player.discardCardFromHand(selectedCard);
+            player.addAttack(1);
+        } else if (card instanceof HeavyFireSupport) {
+            player.discardCardFromHand(selectedCard);
+            player.addOpponentAction(new DamageUnit());
+        } else if (card instanceof CloseAirSupport) {
+            player.discardCardFromHand(selectedCard);
+            if (selectedCard instanceof Resource) {
+                player.addOpponentAction(new DamageUnit());
+            } else if (selectedCard instanceof Unit) {
+                player.addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
+            } else if (selectedCard instanceof Support) {
+                player.addOpponentAction(new DamageUnit());
+                player.getOpponent().gainHeavyCasualties();
+            }
+        } else if (card instanceof LongTomBattery) {
+            player.discardCardFromHand(selectedCard);
+            if (selectedCard instanceof Unit) {
+                player.getOpponent().gainRaidedSupplies();
+            } else if (selectedCard instanceof Resource || selectedCard instanceof Support) {
+                player.addOpponentAction(new DamageUnit());
+            }
+        } else if (card instanceof QuadERPPCs) {
+            selectedCards.stream().forEach(player::discardCardFromHand);
+            player.getOpponent().gainHeavyCasualties();
+        } else if (card instanceof BattlefieldSalvage) {
+            if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
+                player.discardCardFromHand(selectedCard);
+            } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
+                player.discardCardFromDeploymentZone((Unit) selectedCard);
+            }
+            player.addIndustry(selectedCard.getIndustryCost());
+        } else if (card instanceof RaidedSupplies) {
+            selectedCards.stream().forEach(player::discardCardFromHand);
+            player.getHand().remove(card);
+            player.getGame().getRaidedSupplies().add((RaidedSupplies) card);
+        } else if (card instanceof HeavyCasualties) {
+            if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
+                player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
+                player.discardCardFromHand(selectedCard);
+                player.getHand().remove(card);
+                player.getGame().getHeavyCasualties().add((HeavyCasualties) card);
+            } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
+                player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
+                player.getDeploymentZone().remove(selectedCard);
+                player.addCardToDiscard(selectedCard);
+                player.getHand().remove(card);
+                player.getGame().getHeavyCasualties().add((HeavyCasualties) card);
+            }
+        } else if (card instanceof CriticalHit) {
+            if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
+                player.addGameLog(player.getPlayerName() + " scrapped a Mech from their hand to return a Critical Hit back to Overrun pile");
+                player.scrapCardFromHand(selectedCard);
+                player.getHand().remove(card);
+                player.getGame().getCriticalHits().add((CriticalHit) card);
+            } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
+                player.addGameLog(player.getPlayerName() + " scrapped a Mech from their deployment zone to return a Critical Hit back to Overrun pile");
+                player.scrapUnitFromDeploymentZone((Unit) selectedCard);
+                player.getHand().remove(card);
+                player.getGame().getCriticalHits().add((CriticalHit) card);
+            }
+        }
     }
 }

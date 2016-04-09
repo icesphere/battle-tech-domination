@@ -29,4 +29,11 @@ public class FreeCardFromSupplyToTopOfDeck extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        Card card = result.getSelectedCard();
+        player.addGameLog(player.getPlayerName() + " acquired free card from supply on put it on top of deck: " + card.getName());
+        player.addCardToTopOfDeck(card);
+    }
 }

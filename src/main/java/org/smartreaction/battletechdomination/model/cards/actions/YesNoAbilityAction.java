@@ -40,6 +40,11 @@ public class YesNoAbilityAction extends Action {
         return true;
     }
 
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.abilityChoiceMade(card, abilityName, result.getChoiceSelected());
+    }
+
     public Card getCard() {
         return card;
     }

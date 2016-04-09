@@ -35,4 +35,9 @@ public class DamageOpponentUnitMaxCost extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.getOpponent().cardDamaged((Unit) result.getSelectedCard());
+    }
 }

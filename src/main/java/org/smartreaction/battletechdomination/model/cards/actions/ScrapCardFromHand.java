@@ -30,4 +30,9 @@ public class ScrapCardFromHand extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.scrapCardFromHand(result.getSelectedCard());
+    }
 }

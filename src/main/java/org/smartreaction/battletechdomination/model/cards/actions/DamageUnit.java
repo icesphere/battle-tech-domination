@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.CardType;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class DamageUnit extends Action {
@@ -46,5 +47,10 @@ public class DamageUnit extends Action {
 
             return true;
         }
+    }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.cardDamaged((Unit) result.getSelectedCard());
     }
 }

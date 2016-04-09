@@ -53,4 +53,23 @@ public class FreeResourceCardIntoHand extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        Card card = result.getSelectedCard();
+
+        if (card instanceof AdvancedFactory) {
+            player.getGame().getAdvancedFactories().remove(0);
+        } else if (card instanceof BasicFactory) {
+            player.getGame().getBasicFactories().remove(0);
+        } else if (card instanceof MunitionsFactory) {
+            player.getGame().getMunitionsFactories().remove(0);
+        } else {
+            player.getGame().getSupplyGrid().remove(card);
+            player.getGame().addCardToSupplyGrid();
+        }
+
+        player.addGameLog(player.getPlayerName() + " acquired free Resource card into hand: " + card.getName());
+        player.addCardToHand(card);
+    }
 }

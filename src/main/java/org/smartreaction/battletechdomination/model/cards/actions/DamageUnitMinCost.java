@@ -35,4 +35,9 @@ public class DamageUnitMinCost extends Action {
             return true;
         }
     }
+
+    @Override
+    public void processActionResult(Player player, ActionResult result) {
+        player.cardDamaged((Unit) result.getSelectedCard());
+    }
 }
