@@ -20,4 +20,14 @@ public class ScrapCardFromHand extends Action {
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
         return cardLocation.equals(Card.CARD_LOCATION_HAND) && (cardType == null || cardType == card.getCardType());
     }
+
+    @Override
+    public boolean processAction(Player player) {
+        if (player.getHand().isEmpty() || (cardType != null && player.getHand().stream().noneMatch(c -> c.getCardType() == cardType))) {
+            return false;
+        } else {
+            player.addGameLog(player.getPlayerName() + " is scrapping a card from their hand");
+            return true;
+        }
+    }
 }

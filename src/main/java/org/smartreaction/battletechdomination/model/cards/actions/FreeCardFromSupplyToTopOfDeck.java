@@ -19,4 +19,14 @@ public class FreeCardFromSupplyToTopOfDeck extends Action {
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
         return cardLocation.equals(Card.CARD_LOCATION_SUPPLY) && (maxCost == null || card.getIndustryCost() <= maxCost);
     }
+
+    @Override
+    public boolean processAction(Player player) {
+        if (player.getGame().getSupplyGrid().isEmpty()) {
+            return false;
+        } else {
+            player.addGameLog(player.getPlayerName() + " is choosing a free card from the supply to put on top of their deck");
+            return true;
+        }
+    }
 }

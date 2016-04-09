@@ -185,7 +185,8 @@ public class GameService {
 
         cards.add(new LongTomBattery());
 
-        cards.add(new StrategicBombing());
+        //todo
+        //cards.add(new StrategicBombing());
 
         cards.add(new TacticalNuke());
 

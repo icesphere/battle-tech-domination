@@ -34,6 +34,11 @@ public class ChoiceAction extends Action {
         return false;
     }
 
+    @Override
+    public boolean processAction(Player player) {
+        return true;
+    }
+
     public String getAbilityName() {
         return abilityName;
     }

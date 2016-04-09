@@ -25,7 +25,6 @@ import org.smartreaction.battletechdomination.model.cards.unit.infantry.Infantry
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -389,231 +388,16 @@ public abstract class Player {
             }
         } else {
             Action action = actionsQueue.remove(0);
-            resolveAction(action);
+            processNextAction(action);
         }
     }
 
-    private void resolveAction(Action action) {
-        //todo remove this log
-        addGameLog("resolving action: " + action.getClass().getSimpleName());
-
-        if (action instanceof DamageUnit) {
-            CardType unitType = ((DamageUnit) action).getCardType();
-            if (unitType != null && deploymentZone.stream().noneMatch(u -> u.getCardType() == unitType)) {
-                resolveActions();
-                return;
-            } else {
-                String log = playerName + " must damage ";
-                if (unitType != null) {
-                    if (unitType == CardType.UNIT_INFANTRY) {
-                        log += " an Infantry Unit";
-                    } else if (unitType == CardType.UNIT_MECH) {
-                        log += " a Mech Unit";
-                    } else if (unitType == CardType.UNIT_VEHICLE) {
-                        log += " a Vehicle Unit";
-                    }
-                } else {
-                    log += " a Unit";
-                }
-                addGameLog(log);
-            }
-        } else if (action instanceof DamageUnitMaxCost) {
-            DamageUnitMaxCost damageUnitMaxCostAction = (DamageUnitMaxCost) action;
-            List<Unit> units = deploymentZone.stream().filter(u -> u.getIndustryCost() <= damageUnitMaxCostAction.getMaxCost()).collect(toList());
-            if (units.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " must damage a Unit of cost " + damageUnitMaxCostAction.getMaxCost() + " Industry or less");
-            }
-        } else if (action instanceof DamageUnitMinCost) {
-            DamageUnitMinCost damageUnitMinCostAction = (DamageUnitMinCost) action;
-            List<Unit> units = deploymentZone.stream().filter(u -> u.getIndustryCost() >= damageUnitMinCostAction.getMinCost()).collect(toList());
-            if (units.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " must damage a Unit of cost " + damageUnitMinCostAction.getMinCost() + " Industry or more");
-            }
-        } else if (action instanceof ScrapOpponentUnitMaxCost) {
-            ScrapOpponentUnitMaxCost scrapOpponentUnitMaxCostAction = (ScrapOpponentUnitMaxCost) action;
-            List<Unit> units = opponent.getDeploymentZone().stream().filter(u -> u.getIndustryCost() <= scrapOpponentUnitMaxCostAction.getMaxCost()).collect(toList());
-            if (units.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is scrapping an opponent's Unit of cost " + scrapOpponentUnitMaxCostAction.getMaxCost() + " Industry or less");
-            }
-        } else if (action instanceof UnitFromHandToTopOfDeck) {
-            if (numUnitsInHand() == 0) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is moving a Unit from their hand to the top of their deck");
-            }
-        } else if (action instanceof UnitFromDeploymentZoneToHand) {
-            if (deploymentZone.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is moving a Unit from their deployment zone to their hand");
-            }
-        } else if (action instanceof CardAction) {
-            Card card = ((CardAction) action).getCard();
-            if (card instanceof HiddenBase || card instanceof Refinery || card instanceof MobileFireSupport || card instanceof CloseAirSupport) {
-                if (hand.isEmpty()) {
-                    resolveActions();
-                    return;
-                } else {
-                    if (card instanceof HiddenBase) {
-                        addGameLog(playerName + " is setting aside a card for Hidden Base");
-                    } else if (card instanceof Refinery) {
-                        addGameLog(playerName + " is gaining a card from Refinery");
-                    } else if (card instanceof MobileFireSupport) {
-                        addGameLog(playerName + " is discarding a card to get +1 Attack");
-                    } else if (card instanceof CloseAirSupport) {
-                        addGameLog(playerName + " is discarding a card for Close Air Support");
-                    }
-                }
-            } else if (card instanceof HeavyFireSupport) {
-                if (numUnitsInHand() == 0) {
-                    resolveActions();
-                    return;
-                }  else {
-                    addGameLog(playerName + " is discarding a card from their hand to damage an opponent's unit");
-                }
-            } else if (card instanceof BattlefieldSalvage) {
-                if (hand.isEmpty() && deploymentZone.isEmpty()) {
-                    resolveActions();
-                    return;
-                } else {
-                    addGameLog(playerName + " is discarding a card from their hand or deployment zone for BattlefieldSalvage");
-                }
-            } else if (card instanceof RaidedSupplies) {
-                if (hand.size() < 2) {
-                    resolveActions();
-                    return;
-                } else {
-                    addGameLog(playerName + " is discarding 2 cards to return Raided Supplies to Overrun pile");
-                }
-            } else if (card instanceof QuadERPPCs) {
-                if (getHandSize() < 2) {
-                    resolveActions();
-                    return;
-                } else {
-                    addGameLog(playerName + " is discarding two cards from their hand to make opponent gain a Heavy Casualties card");
-                }
-            } else if (card instanceof HeavyCasualties) {
-                Optional<Card> infantryPlatoonInHand = hand.stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-                Optional<Unit> infantryPlatoonInDeploymentZone = deploymentZone.stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-
-                if (!infantryPlatoonInHand.isPresent() && !infantryPlatoonInDeploymentZone.isPresent()) {
-                    resolveActions();
-                    return;
-                } else if (!infantryPlatoonInHand.isPresent()) {
-                    addGameLog(playerName + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
-                    deploymentZone.remove(infantryPlatoonInDeploymentZone.get());
-                    discard.add(infantryPlatoonInDeploymentZone.get());
-                    hand.remove(card);
-                    game.getHeavyCasualties().add((HeavyCasualties) card);
-                } else if (!infantryPlatoonInDeploymentZone.isPresent()) {
-                    addGameLog(playerName + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
-                    discardCardFromHand(infantryPlatoonInHand.get());
-                    hand.remove(card);
-                    game.getHeavyCasualties().add((HeavyCasualties) card);
-                }
-            } else if (card instanceof CriticalHit) {
-                int numMechUnitsInDeploymentZone = getNumMechUnitsInDeploymentZone();
-                long numMechsInHand = hand.stream().filter(c -> c instanceof MechUnit).count();
-
-                if (numMechUnitsInDeploymentZone == 0 && numMechsInHand == 0) {
-                    resolveActions();
-                    return;
-                }
-            }
-        } else if (action instanceof FreeCardFromSupplyToTopOfDeck) {
-            if (getGame().getSupplyGrid().isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is choosing a free card from the supply to put on top of their deck");
-            }
-        } else if (action instanceof DamageOpponentUnit) {
-            if (opponent.getDeploymentZone().isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is choosing an opponent's unit to damage");
-            }
-        } else if (action instanceof DamageOpponentUnitMaxCost) {
-            DamageOpponentUnitMaxCost damageOpponentUnitMaxCostAction = (DamageOpponentUnitMaxCost) action;
-            List<Unit> units = opponent.getDeploymentZone().stream().filter(u -> u.getIndustryCost() <= damageOpponentUnitMaxCostAction.getMaxCost()).collect(toList());
-            if (units.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is damaging an opponent's Unit of cost " + damageOpponentUnitMaxCostAction.getMaxCost() + " Industry or less");
-            }
-        } else if (action instanceof FreeResourceCardIntoHand) {
-            List<Card> resourceCards = new ArrayList<>();
-            if (!game.getAdvancedFactories().isEmpty()) {
-                resourceCards.add(new AdvancedFactory());
-            }
-            if (!game.getBasicFactories().isEmpty()) {
-                resourceCards.add(new BasicFactory());
-            }
-            if (!game.getMunitionsFactories().isEmpty()) {
-                resourceCards.add(new MunitionsFactory());
-            }
-
-            for (Card card : game.getSupply()) {
-                if (card instanceof Resource) {
-                    resourceCards.add(card);
-                }
-            }
-
-            if (resourceCards.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is gaining a free resouce card into their hand");
-            }
-        } else if (action instanceof ScrapCardFromHand) {
-            ScrapCardFromHand scrapCardFromHandAction = (ScrapCardFromHand) action;
-            CardType cardType = scrapCardFromHandAction.getCardType();
-            if (hand.isEmpty() || (cardType != null && hand.stream().noneMatch(c -> c.getCardType() == cardType))) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is scrapping a card from their hand");
-            }
-        } else if (action instanceof CardFromHandToTopOfDeck) {
-            if (hand.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                addGameLog(playerName + " is putting a card from their hand on top of their deck");
-            }
-        } else if (action instanceof DiscardCardsFromHand) {
-            if (hand.isEmpty()) {
-                resolveActions();
-                return;
-            } else {
-                DiscardCardsFromHand discardCardsFromHandAction = (DiscardCardsFromHand) action;
-                int numCardsToDiscard = discardCardsFromHandAction.getNumCardsToDiscard();
-
-                if (numCardsToDiscard > hand.size()) {
-                    hand.stream().forEach(this::addCardToDiscard);
-                    hand.clear();
-                    resolveActions();
-                    return;
-                } else {
-                    addGameLog(playerName + " is discarding " + numCardsToDiscard + " cards");
-                }
-            }
+    private void processNextAction(Action action) {
+        if (action.processAction(this)) {
+            currentAction = action;
+        } else {
+            resolveActions();
         }
-
-        currentAction = action;
     }
 
     @SuppressWarnings({"ConstantConditions", "SuspiciousMethodCalls"})
@@ -1088,7 +872,7 @@ public abstract class Player {
             }
         }
 
-        if (currentAction == null) {
+        if (actionsQueue.isEmpty()) {
             turnPhase = TurnPhase.NONE;
             game.turnEnded();
         }

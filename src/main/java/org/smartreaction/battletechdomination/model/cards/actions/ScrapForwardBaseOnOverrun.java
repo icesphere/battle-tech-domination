@@ -19,4 +19,9 @@ public class ScrapForwardBaseOnOverrun extends Action {
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
         return false;
     }
+
+    @Override
+    public boolean processAction(Player player) {
+        return true;
+    }
 }

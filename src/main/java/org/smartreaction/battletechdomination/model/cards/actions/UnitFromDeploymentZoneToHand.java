@@ -12,4 +12,14 @@ public class UnitFromDeploymentZoneToHand extends Action {
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
         return cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS);
     }
+
+    @Override
+    public boolean processAction(Player player) {
+        if (player.getDeploymentZone().isEmpty()) {
+            return false;
+        } else {
+            player.addGameLog(player.getPlayerName() + " is moving a Unit from their deployment zone to their hand");
+            return true;
+        }
+    }
 }

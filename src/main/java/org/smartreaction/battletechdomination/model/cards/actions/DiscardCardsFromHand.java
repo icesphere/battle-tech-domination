@@ -28,4 +28,21 @@ public class DiscardCardsFromHand extends Action {
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
         return cardLocation.equals(Card.CARD_LOCATION_HAND) && !selectedCards.contains(card);
     }
+
+    @Override
+    public boolean processAction(Player player) {
+        if (player.getHand().isEmpty()) {
+            return false;
+        } else {
+            if (numCardsToDiscard > player.getHand().size()) {
+                player.getHand().stream().forEach(player::addCardToDiscard);
+                player.getHand().clear();
+                player.addGameLog(player.getPlayerName() + " discarded " + player.getHand().size() + " cards");
+                return false;
+            } else {
+                player.addGameLog(player.getPlayerName() + " is discarding " + numCardsToDiscard + " cards");
+                return true;
+            }
+        }
+    }
 }

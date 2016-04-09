@@ -35,6 +35,11 @@ public class YesNoAbilityAction extends Action {
         return false;
     }
 
+    @Override
+    public boolean processAction(Player player) {
+        return true;
+    }
+
     public Card getCard() {
         return card;
     }

@@ -18,4 +18,6 @@ public abstract class Action {
     }
 
     public abstract boolean isCardActionable(Card card, String cardLocation, Player player);
+
+    public abstract boolean processAction(Player player);
 }

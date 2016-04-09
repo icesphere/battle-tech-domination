@@ -32,4 +32,10 @@ public class DiscardCardsForStrategicBombing extends Action {
         //todo
         return false;
     }
+
+    @Override
+    public boolean processAction(Player player) {
+        //todo
+        return false;
+    }
 }
