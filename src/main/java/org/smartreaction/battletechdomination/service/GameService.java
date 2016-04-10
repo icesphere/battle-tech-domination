@@ -487,8 +487,8 @@ public class GameService {
         if (!users.isEmpty()) {
             User opponent = users.get(0);
             opponent.setAutoMatch(false);
-            createGame(user, opponent);
             user.setAutoMatch(false);
+            createGame(user, opponent);
             sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
         } else {
             user.setAutoMatch(true);

@@ -50,6 +50,8 @@ public class Game {
 
     private boolean gameOver;
 
+    private Player quitGamePlayer;
+
     public Game() {
         gameId = UUID.randomUUID().toString();
     }
@@ -237,5 +239,22 @@ public class Game {
 
     public List<Card> getSupplyGrid() {
         return supplyGrid;
+    }
+
+    public Player getWinner() {
+        if (getCurrentPlayer().getPoints() > getCurrentPlayer().getOpponent().getPoints()) {
+            return getCurrentPlayer();
+        } else {
+            return getCurrentPlayer().getOpponent();
+        }
+    }
+
+    public void quitGame(Player player) {
+        quitGamePlayer = player;
+        gameOver = true;
+    }
+
+    public Player getQuitGamePlayer() {
+        return quitGamePlayer;
     }
 }

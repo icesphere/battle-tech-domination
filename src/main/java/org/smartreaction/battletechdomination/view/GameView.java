@@ -4,7 +4,10 @@ import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
-import org.smartreaction.battletechdomination.model.cards.actions.*;
+import org.smartreaction.battletechdomination.model.cards.actions.Action;
+import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
+import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
+import org.smartreaction.battletechdomination.model.cards.actions.DiscardCardsFromHand;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
@@ -373,5 +376,18 @@ public class GameView implements Serializable {
 
     public void sendShowActionToPlayer() {
         sendGameMessageToPlayer("show_action");
+    }
+
+    public String quitGame() {
+        getGame().quitGame(getPlayer());
+        sendGameMessageToOpponent("refresh_game_page");
+        return exitGame();
+    }
+
+    public String exitGame() {
+        userSession.getUser().setCurrentGame(null);
+        userSession.getUser().setCurrentPlayer(null);
+
+        return "lobby.xhtml?faces-redirect=true";
     }
 }

@@ -363,3 +363,9 @@
     min-width: 200px;
 }
 
+.gameOverSection {
+    clear: both;
+    padding-top: 15px;
+    text-align: center;
+}
+
