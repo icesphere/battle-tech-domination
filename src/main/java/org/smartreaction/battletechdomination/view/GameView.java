@@ -1,5 +1,7 @@
 package org.smartreaction.battletechdomination.view;
 
+import org.apache.commons.lang3.StringUtils;
+import org.smartreaction.battletechdomination.model.ChatMessage;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
@@ -34,6 +36,8 @@ public class GameView implements Serializable {
     GameService gameService;
 
     Card cardToView;
+
+    String chatMessage = "";
 
     public void sendGameMessageToAll(String message) {
         sendGameMessage("*", message);
@@ -389,5 +393,21 @@ public class GameView implements Serializable {
         userSession.getUser().setCurrentPlayer(null);
 
         return "lobby.xhtml?faces-redirect=true";
+    }
+
+    public String getChatMessage() {
+        return chatMessage;
+    }
+
+    public void setChatMessage(String chatMessage) {
+        this.chatMessage = chatMessage;
+    }
+
+    public void sendChatMessage() {
+        if (!StringUtils.isEmpty(chatMessage)) {
+            getGame().getChatMessages().add(new ChatMessage(getPlayer().getPlayerName(), chatMessage));
+            chatMessage = "";
+            sendGameMessageToOpponent("refresh_chat");
+        }
     }
 }

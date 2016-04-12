@@ -52,6 +52,8 @@ public class Game {
 
     private Player quitGamePlayer;
 
+    private List<ChatMessage> chatMessages = new ArrayList<>();
+
     public Game() {
         gameId = UUID.randomUUID().toString();
     }
@@ -256,5 +258,9 @@ public class Game {
 
     public Player getQuitGamePlayer() {
         return quitGamePlayer;
+    }
+
+    public List<ChatMessage> getChatMessages() {
+        return chatMessages;
     }
 }
