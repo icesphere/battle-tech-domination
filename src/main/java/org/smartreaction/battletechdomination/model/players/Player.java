@@ -308,7 +308,7 @@ public abstract class Player {
                 addGameLog(playerName + " discarded " + card.getName() + " from " + getOpponent().getPlayerName() + "'s deck");
             }
         } else {
-            addAction(new DiscardCardsForStrategicBombing(revealedCards, "These cards were revealed from the top of your opponent's deck. Choose two of them to discard. The other card will be put on top of your opponent's deck."));
+            addAction(new DiscardCardsForStrategicBombing(revealedCards, "Revealed cards from the top of your opponent's deck: " + getGame().getCardsAsString(revealedCards) + ". Choose two of them to discard. The other card will be put on top of your opponent's deck."));
         }
     }
 
