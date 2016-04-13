@@ -198,6 +198,7 @@ public abstract class Player {
         addAction(new YesNoAbilityAction(card, abilityName, text));
     }
 
+    @SuppressWarnings("UnusedParameters")
     private void cardRemovedFromPlay(Card card) {
         //todo may need in the future
     }
@@ -397,7 +398,6 @@ public abstract class Player {
         }
     }
 
-    @SuppressWarnings({"ConstantConditions", "SuspiciousMethodCalls"})
     public void actionResult(Action action, ActionResult result) {
         if (!result.getSelectedCards().isEmpty() || result.getChoiceSelected() != null) {
             action.processActionResult(this, result);
@@ -431,6 +431,13 @@ public abstract class Player {
         defense = 0;
         opponent.setAttack(0);
         opponent.setDefense(0);
+    }
+
+    public void clearCombatBonuses() {
+        for (Unit unit : deploymentZone) {
+            unit.setBonusAttack(0);
+            unit.setBonusDefense(0);
+        }
     }
 
     public void continueCombatPhase() {
@@ -486,6 +493,9 @@ public abstract class Player {
             addOpponentAction(new DamageUnit());
         }
 
+        clearCombatBonuses();
+        opponent.clearCombatBonuses();
+
         addGameLog("** " + playerName + " begins Action Phase **");
 
         turnPhase = TurnPhase.ACTION;
@@ -506,22 +516,43 @@ public abstract class Player {
 
     public void applyCombatPhaseBonuses() {
         for (Card card : deploymentZone) {
-            if (card instanceof CityFighter) {
-                ((MechUnit) card).setAbilityUsed(true);
-                if (opponent.getNumInfantryUnitsInDeploymentZone() >= 2) {
-                    addGameLog(playerName + " gained +1 Attack from City Fighter ability on " + card.getName());
-                    attack++;
+            if (yourTurn) {
+                if (card instanceof CityFighter) {
+                    if (opponent.getNumInfantryUnitsInDeploymentZone() >= 2) {
+                        addGameLog(playerName + " gained +1 Attack from City Fighter ability on " + card.getName());
+                        attack++;
+                    }
                 }
-            }
 
-            if (card instanceof ECM) {
-                ((MechUnit) card).setAbilityUsed(true);
-                List<Card> otherDeploymentZoneCards = new ArrayList<>(deploymentZone);
-                otherDeploymentZoneCards.remove(card);
-                for (Card otherDeploymentZoneCard : otherDeploymentZoneCards) {
-                    addGameLog(playerName + "'s other Mech units gained +1 Defense from ECM ability on " + card.getName());
-                    if (otherDeploymentZoneCard instanceof MechUnit) {
-                        ((MechUnit) otherDeploymentZoneCard).setBonusDefense(((MechUnit) otherDeploymentZoneCard).getBonusDefense() + 1);
+                if (card instanceof Inspiring) {
+                    List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
+                    for (Card deploymentZoneCard : deploymentZoneCopy) {
+                        addGameLog(playerName + "'s Infantry units gain +1 Attack from Inspiring ability on " + card.getName());
+                        if (deploymentZoneCard instanceof InfantryPlatoon) {
+                            ((InfantryPlatoon) deploymentZoneCard).setBonusAttack(((InfantryPlatoon) deploymentZoneCard).getBonusAttack() + 1);
+                        }
+                    }
+                }
+
+                if (card instanceof LRMFireSupport) {
+                    List<Card> otherDeploymentZoneCards = new ArrayList<>(deploymentZone);
+                    otherDeploymentZoneCards.remove(card);
+                    for (Card deploymentZoneCard : otherDeploymentZoneCards) {
+                        if (deploymentZoneCard instanceof MechUnit) {
+                            addGameLog(playerName + "'s " + deploymentZoneCard.getName() + " gained +1 Attack from LRMFireSupport ability on " + card.getName());
+                            ((MechUnit) deploymentZoneCard).setBonusAttack(((MechUnit) deploymentZoneCard).getBonusAttack() + 1);
+                        }
+                    }
+                }
+            } else {
+                if (card instanceof ECM) {
+                    List<Card> otherDeploymentZoneCards = new ArrayList<>(deploymentZone);
+                    otherDeploymentZoneCards.remove(card);
+                    for (Card otherDeploymentZoneCard : otherDeploymentZoneCards) {
+                        if (otherDeploymentZoneCard instanceof MechUnit) {
+                            addGameLog(playerName + "'s " + otherDeploymentZoneCard.getName() + " gained +1 Defense from ECM ability on " + card.getName());
+                            ((MechUnit) otherDeploymentZoneCard).setBonusDefense(((MechUnit) otherDeploymentZoneCard).getBonusDefense() + 1);
+                        }
                     }
                 }
             }
@@ -531,26 +562,6 @@ public abstract class Player {
                     addGameLog(playerName + " gained +1 Attack and +2 Defense from Heroic ability on " + card.getName());
                     attack++;
                     defense += 2;
-                }
-            }
-
-            if (card instanceof Inspiring) {
-                List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
-                for (Card deploymentZoneCard : deploymentZoneCopy) {
-                    addGameLog(playerName + "'s Infantry units gain +1 Attack from Inspiring ability on " + card.getName());
-                    if (deploymentZoneCard instanceof InfantryPlatoon) {
-                        ((InfantryPlatoon) deploymentZoneCard).setBonusAttack(((InfantryPlatoon) deploymentZoneCard).getBonusAttack() + 1);
-                    }
-                }
-            }
-
-            if (card instanceof LRMFireSupport) {
-                List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
-                for (Card deploymentZoneCard : deploymentZoneCopy) {
-                    addGameLog(playerName + "'s Mech units gain +1 Attack from LRMFireSupport ability on " + card.getName());
-                    if (deploymentZoneCard instanceof MechUnit) {
-                        ((MechUnit) deploymentZoneCard).setBonusAttack(((MechUnit) deploymentZoneCard).getBonusAttack() + 1);
-                    }
                 }
             }
         }
