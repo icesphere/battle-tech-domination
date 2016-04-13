@@ -453,9 +453,10 @@ public abstract class Player {
             getGame().gameLog("attack - defense = " + difference);
 
             Overrun overrunCard = getOverrunCard(difference);
+
             if (opponent.isForwardBaseInDeploymentZone()) {
-                String text = "Do you want to scrap your Forward Base to prevent getting a " + overrunCard.getName() + "?";
-                addOpponentAction(new ScrapForwardBaseOnOverrun(overrunCard, text));
+                addGameLog(opponent.getPlayerName() + " scrapped Forward Base to prevent gaining " + overrunCard.getName());
+                opponent.setForwardBaseInDeploymentZone(false);
             } else {
                 opponent.gainOverrunCard(overrunCard);
             }
@@ -781,7 +782,9 @@ public abstract class Player {
             scrapUnitFromDeploymentZone(unit);
         } else {
             if (unit instanceof MechUnit && expertMechTechsInDeploymentZone) {
-                makeYesNoAbilityChoice(unit, "ExpertMechTechs", "Scrap Expert Mech Techs to put " + unit.getName() + " into your hand instead of your discard pile?");
+                expertMechTechsInDeploymentZone = false;
+                addGameLog(playerName + " scrapped Expert Mech Techs to put " + unit.getName() + " into their hand instead of their discard pile");
+                addCardToHand(unit);
             } else {
                 addCardToDiscard(unit);
                 cardRemovedFromPlay(unit);
@@ -794,16 +797,6 @@ public abstract class Player {
             case "BattlefieldSalvage":
                 if (choice == 1) {
                     addAction(new CardAction(card, "Discard a Unit card from your hand or deployment zone. Gain an additional +X Industry, where X is the Industry cost of the card you discarded."));
-                }
-                break;
-            case "ExpertMechTechs":
-                if (choice == 1) {
-                    expertMechTechsInDeploymentZone = false;
-                    addGameLog("Scrapped Expert Mech Techs");
-                    addCardToHand(card);
-                } else {
-                    addCardToDiscard(card);
-                    cardRemovedFromPlay(card);
                 }
                 break;
             case "HeavyArmor":
@@ -836,14 +829,6 @@ public abstract class Player {
                     opponent.discardTopCardOfDeck();
                 } else {
                     addGameLog("Chose to keep top card of opponent's deck on top of deck");
-                }
-                break;
-            case "ScrapForwardBaseOnOverrun":
-                if (choice == 1) {
-                    addGameLog("Scrapped Forward Base to prevent gaining Overrun card");
-                    forwardBaseInDeploymentZone = false;
-                } else {
-                    gainOverrunCard((Overrun) card);
                 }
                 break;
             case "StripMining":
