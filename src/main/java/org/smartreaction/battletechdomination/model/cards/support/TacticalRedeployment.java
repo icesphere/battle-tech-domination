@@ -14,6 +14,6 @@ public class TacticalRedeployment extends Support {
     public void cardPlayed(Player player) {
         player.drawCards(1);
         player.addActions(1);
-        player.moveUnitFromDeploymentZoneToHand();
+        player.makeYesNoAbilityChoice(this, "TacticalRedeployment", "Do you want to take a unit from your deployment zone and put it into your hand?");
     }
 }

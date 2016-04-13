@@ -17,7 +17,7 @@ public class FreeCardFromSupplyToTopOfDeck extends Action {
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_SUPPLY) && (maxCost == null || card.getIndustryCost() <= maxCost);
+        return cardLocation.equals(Card.CARD_LOCATION_SUPPLY) && (maxCost == null || (card.getIndustryCost() <= maxCost && (player.isIgnoreLosTechCost() || card.getLosTechCost() == 0)));
     }
 
     @Override

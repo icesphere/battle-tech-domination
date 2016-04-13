@@ -851,6 +851,10 @@ public abstract class Player {
                     addAction(new ScrapCardFromHand(CardType.RESOURCE, "Scrap a Resource card from your hand"));
                 }
                 break;
+            case "TacticalRedeployment":
+                if (choice == 1) {
+                    moveUnitFromDeploymentZoneToHand();
+                }
             case "Versatile":
                 if (choice == 1) {
                     addGameLog("Chose +1 Card");
@@ -1111,5 +1115,9 @@ public abstract class Player {
 
     public List<Card> getHiddenBaseCards() {
         return hiddenBaseCards;
+    }
+
+    public boolean isIgnoreLosTechCost() {
+        return ignoreLosTechCost;
     }
 }
