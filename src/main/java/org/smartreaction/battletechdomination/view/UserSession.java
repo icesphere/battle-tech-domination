@@ -45,4 +45,12 @@ public class UserSession implements Serializable {
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+
+    public String logout() {
+        loggedInUsers.getUsers().remove(user);
+        user = null;
+        loggedIn = false;
+
+        return "login.xhtml?faces-redirect=true";
+    }
 }

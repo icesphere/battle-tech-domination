@@ -6,8 +6,8 @@ import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualtie
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
 import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
-import org.smartreaction.battletechdomination.model.cards.resource.BasicFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.WarBonds;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 import org.smartreaction.battletechdomination.model.players.Player;
 
@@ -34,7 +34,7 @@ public class Game {
 
     private List<InfantryPlatoon> infantryPlatoons = new ArrayList<>();
 
-    private List<BasicFactory> basicFactories = new ArrayList<>();
+    private List<WarBonds> warBonds = new ArrayList<>();
 
     private List<MunitionsFactory> munitionsFactories = new ArrayList<>();
 
@@ -195,12 +195,12 @@ public class Game {
         this.infantryPlatoons = infantryPlatoons;
     }
 
-    public List<BasicFactory> getBasicFactories() {
-        return basicFactories;
+    public List<WarBonds> getWarBonds() {
+        return warBonds;
     }
 
-    public void setBasicFactories(List<BasicFactory> basicFactories) {
-        this.basicFactories = basicFactories;
+    public void setWarBonds(List<WarBonds> warBonds) {
+        this.warBonds = warBonds;
     }
 
     public List<MunitionsFactory> getMunitionsFactories() {

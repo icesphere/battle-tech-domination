@@ -90,7 +90,7 @@ public class GameService {
         }
 
         for (int i = 0; i < 8; i++) {
-            game.getBasicFactories().add(new BasicFactory());
+            game.getWarBonds().add(new WarBonds());
         }
         for (int i = 0; i < 7; i++) {
             game.getInfantryPlatoons().add(new InfantryPlatoon());
@@ -321,6 +321,8 @@ public class GameService {
                 return new MunitionsFactory();
             case "stripmining":
                 return new StripMining();
+            case "warbonds":
+                return new WarBonds();
 
             case "arrowivbattery":
                 return new ArrowIVBattery();

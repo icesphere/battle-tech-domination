@@ -12,6 +12,8 @@
                 <h:dataTable value="#{lobbyView.users}" var="user">
                     <h:column>
                         <h:outputText value="#{user.username}"/>
+                        <p:commandLink process="@this" value="Logout" action="#{userSession.logout}"
+                                       style="margin-left: 10px;" rendered="#{user.username eq userSession.user.username}"/>
                     </h:column>
                 </h:dataTable>
                 <div style="padding-top: 20px;">

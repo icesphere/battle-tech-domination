@@ -196,31 +196,31 @@ public class CardAction extends Action {
             player.addIndustry(selectedCard.getIndustryCost());
         } else if (card instanceof RaidedSupplies) {
             selectedCards.stream().forEach(player::discardCardFromHand);
-            player.getHand().remove(card);
+            player.getCardsPlayed().remove(card);
             player.getGame().getRaidedSupplies().add((RaidedSupplies) card);
         } else if (card instanceof HeavyCasualties) {
             if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
                 player.discardCardFromHand(selectedCard);
-                player.getHand().remove(card);
+                player.getCardsPlayed().remove(card);
                 player.getGame().getHeavyCasualties().add((HeavyCasualties) card);
             } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
                 player.getDeploymentZone().remove(selectedCard);
                 player.addCardToDiscard(selectedCard);
-                player.getHand().remove(card);
+                player.getCardsPlayed().remove(card);
                 player.getGame().getHeavyCasualties().add((HeavyCasualties) card);
             }
         } else if (card instanceof CriticalHit) {
             if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
                 player.addGameLog(player.getPlayerName() + " scrapped a Mech from their hand to return a Critical Hit back to Overrun pile");
                 player.scrapCardFromHand(selectedCard);
-                player.getHand().remove(card);
+                player.getCardsPlayed().remove(card);
                 player.getGame().getCriticalHits().add((CriticalHit) card);
             } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
                 player.addGameLog(player.getPlayerName() + " scrapped a Mech from their deployment zone to return a Critical Hit back to Overrun pile");
                 player.scrapUnitFromDeploymentZone((Unit) selectedCard);
-                player.getHand().remove(card);
+                player.getCardsPlayed().remove(card);
                 player.getGame().getCriticalHits().add((CriticalHit) card);
             }
         }

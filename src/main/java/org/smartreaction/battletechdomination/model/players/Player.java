@@ -345,6 +345,10 @@ public abstract class Player {
         }
     }
 
+    public void acquireFreeCardInSupply() {
+        addAction(new FreeCardFromSupply("Choose a free card to gain from the Supply"));
+    }
+
     public void acquireFreeCardInSupplyAndPutOnTopOfDeck(Integer maxIndustryCost) {
         String text = "Choose a free card from the Supply to go on top of your deck";
         if (maxIndustryCost != null) {
