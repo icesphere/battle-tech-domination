@@ -28,7 +28,7 @@ public class DamageUnit extends Action {
 
     @Override
     public boolean processAction(Player player) {
-        if (cardType != null && player.getDeploymentZone().stream().noneMatch(u -> u.getCardType() == cardType)) {
+        if (player.getDeploymentZone().isEmpty() || (cardType != null && player.getDeploymentZone().stream().noneMatch(u -> u.getCardType() == cardType))) {
             return false;
         } else {
             String log = player.getPlayerName() + " must damage ";
