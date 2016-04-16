@@ -18,8 +18,9 @@ public class TacticalNuke extends SupportAttack {
         if (card != null) {
             player.discardTopCardOfDeck();
             int roundedValue = (int) Math.round(card.getIndustryCost() / 2.0);
+            player.addGameLog(player.getOpponent().getPlayerName() + " must damage " + roundedValue + " units");
             for (int i = 0; i < roundedValue; i++) {
-                 player.getOpponent().addOpponentAction(new DamageUnit());
+                 player.addOpponentAction(new DamageUnit());
             }
         }
     }

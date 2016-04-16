@@ -389,7 +389,6 @@ public abstract class Player {
             if (turnPhase == TurnPhase.NONE) {
                 startCombatPhase();
             } else if (turnPhase == TurnPhase.CLEANUP) {
-                turnPhase = TurnPhase.NONE;
                 game.turnEnded();
             }
         } else {
@@ -734,7 +733,6 @@ public abstract class Player {
         }
 
         if (actionsQueue.isEmpty()) {
-            turnPhase = TurnPhase.NONE;
             game.turnEnded();
         }
     }
@@ -984,6 +982,10 @@ public abstract class Player {
 
     public TurnPhase getTurnPhase() {
         return turnPhase;
+    }
+
+    public void setTurnPhase(TurnPhase turnPhase) {
+        this.turnPhase = turnPhase;
     }
 
     public boolean isExpertMechTechsInDeploymentZone() {
