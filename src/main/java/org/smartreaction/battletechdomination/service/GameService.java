@@ -54,6 +54,20 @@ public class GameService {
         player1.setOpponent(player2);
         player2.setOpponent(player1);
 
+        if (user1.getGameOptions().getCardToTest() != null) {
+            Card cardToTest = getCardByName(user1.getGameOptions().getCardToTest());
+            if (cardToTest != null) {
+                player1.addCardToHand(cardToTest);
+            }
+        }
+
+        if (user2.getGameOptions().getCardToTest() != null) {
+            Card cardToTest = getCardByName(user2.getGameOptions().getCardToTest());
+            if (cardToTest != null) {
+                player2.addCardToHand(cardToTest);
+            }
+        }
+
         for (Player player : players) {
             player.setGame(game);
         }

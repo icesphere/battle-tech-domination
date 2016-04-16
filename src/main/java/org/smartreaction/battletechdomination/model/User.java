@@ -9,6 +9,8 @@ public class User {
 
     private Game currentGame;
 
+    private GameOptions gameOptions = new GameOptions();
+
     private Player currentPlayer;
 
     private boolean autoMatch;
@@ -43,6 +45,14 @@ public class User {
 
     public void setAutoMatch(boolean autoMatch) {
         this.autoMatch = autoMatch;
+    }
+
+    public GameOptions getGameOptions() {
+        return gameOptions;
+    }
+
+    public void setGameOptions(GameOptions gameOptions) {
+        this.gameOptions = gameOptions;
     }
 
     @Override

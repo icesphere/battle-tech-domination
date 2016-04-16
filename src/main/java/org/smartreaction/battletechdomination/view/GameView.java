@@ -290,7 +290,7 @@ public class GameView implements Serializable {
             } else {
                 return;
             }
-        } else if (action instanceof CardAction && (((CardAction) action).getCard() instanceof QuadERPPCs || ((CardAction) action).getCard() instanceof RaidedSupplies)) {
+        } else if (action instanceof CardAction && (((CardAction) action).getCardActionCard() instanceof QuadERPPCs || ((CardAction) action).getCardActionCard() instanceof RaidedSupplies)) {
             CardAction cardAction = (CardAction) action;
             cardAction.getSelectedCards().add(card);
             if (cardAction.getSelectedCards().size() == 2) {
