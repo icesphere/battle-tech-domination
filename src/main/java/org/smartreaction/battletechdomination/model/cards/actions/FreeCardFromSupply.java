@@ -28,6 +28,6 @@ public class FreeCardFromSupply extends Action {
     public void processActionResult(Player player, ActionResult result) {
         Card card = result.getSelectedCard();
         player.addGameLog(player.getPlayerName() + " acquired a free card from the supply: " + card.getName());
-        player.addCardToDiscard(card);
+        player.cardAcquired(card);
     }
 }

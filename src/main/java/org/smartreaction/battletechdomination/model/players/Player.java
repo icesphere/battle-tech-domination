@@ -136,8 +136,12 @@ public abstract class Player {
         }
     }
 
-    private void cardAcquired(Card card) {
-        addCardToDiscard(card);
+    public void cardAcquired(Card card) {
+        if (mayPutBoughtOrGainedCardsOnTopOfDeck) {
+            makeYesNoAbilityChoice(card, "SocialGenerals", "Add " + card.getName() + " to top of deck?");
+        } else {
+            addCardToDiscard(card);
+        }
     }
 
     public void discardCardFromHand(Card card) {
@@ -844,6 +848,14 @@ public abstract class Player {
                     opponent.discardTopCardOfDeck();
                 } else {
                     addGameLog("Chose to keep top card of opponent's deck on top of deck");
+                }
+                break;
+            case "SocialGenerals":
+                if (choice == 1) {
+                    addGameLog(playerName + " chose to use Social Generals to put " + card.getName() + " on top of deck");
+                    addCardToTopOfDeck(card);
+                } else {
+                    addCardToDiscard(card);
                 }
                 break;
             case "StripMining":
