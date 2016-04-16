@@ -1,5 +1,6 @@
 package org.smartreaction.battletechdomination.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 import org.smartreaction.battletechdomination.model.Game;
@@ -23,6 +24,7 @@ import org.smartreaction.battletechdomination.model.players.Player;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,23 +56,10 @@ public class GameService {
         player1.setOpponent(player2);
         player2.setOpponent(player1);
 
-        if (user1.getGameOptions().getCardToTest() != null) {
-            Card cardToTest = getCardByName(user1.getGameOptions().getCardToTest());
-            if (cardToTest != null) {
-                player1.addCardToHand(cardToTest);
-            }
-        }
+        addTestCards(player1, user1.getGameOptions().getCardsToTest());
+        addTestCards(player2, user2.getGameOptions().getCardsToTest());
 
-        if (user2.getGameOptions().getCardToTest() != null) {
-            Card cardToTest = getCardByName(user2.getGameOptions().getCardToTest());
-            if (cardToTest != null) {
-                player2.addCardToHand(cardToTest);
-            }
-        }
-
-        for (Player player : players) {
-            player.setGame(game);
-        }
+        players.stream().forEach(p -> p.setGame(game));
 
         Collections.shuffle(players);
 
@@ -86,6 +75,18 @@ public class GameService {
         game.startGame();
 
         return game;
+    }
+
+    private void addTestCards(Player player, String cardsToTest) {
+        if (!StringUtils.isEmpty(cardsToTest)) {
+            String[] cardsNames = cardsToTest.split(",");
+            Arrays.stream(cardsNames).forEach(cardName -> {
+                Card card = getCardByName(cardName);
+                if (card != null) {
+                    player.addCardToHand(card);
+                }
+            });
+        }
     }
 
     public void setupCards(Game game) {

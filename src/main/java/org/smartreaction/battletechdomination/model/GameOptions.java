@@ -1,13 +1,13 @@
 package org.smartreaction.battletechdomination.model;
 
 public class GameOptions {
-    private String cardToTest;
+    private String cardsToTest;
 
-    public String getCardToTest() {
-        return cardToTest;
+    public String getCardsToTest() {
+        return cardsToTest;
     }
 
-    public void setCardToTest(String cardToTest) {
-        this.cardToTest = cardToTest;
+    public void setCardsToTest(String cardsToTest) {
+        this.cardsToTest = cardsToTest;
     }
 }

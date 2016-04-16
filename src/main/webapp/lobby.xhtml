@@ -19,8 +19,8 @@
                 <div style="padding-top: 20px;">
                     <h:panelGroup id="gameOptions" layout="block" rendered="#{!userSession.user.autoMatch}">
                         <div>
-                            <h:outputText value="Card to Test:" style="padding-right: 10px;"/>
-                            <h:inputText value="#{userSession.user.gameOptions.cardToTest}"/>
+                            <h:outputText value="Cards to Test (separate multiple cards with a comma):" style="padding-right: 10px;"/>
+                            <h:inputText value="#{userSession.user.gameOptions.cardsToTest}"/>
                         </div>
                         <div style="padding-top: 15px;">
                             <p:commandLink action="#{lobbyView.startAutoMatch}" process="gameOptions" update="@form" value="Auto Match"/>
