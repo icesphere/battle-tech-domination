@@ -361,7 +361,7 @@ public class GameView implements Serializable {
 
     public void refreshGamePageWithCheckForAction() {
         if (getAction() != null) {
-            sendGameMessageToPlayer("show_action");
+            sendShowActionToPlayer();
             sendGameMessageToOpponent("refresh_game_page");
         } else {
             if (!getPlayer().isYourTurn()) {
@@ -379,7 +379,11 @@ public class GameView implements Serializable {
     }
 
     public void sendShowActionToPlayer() {
-        sendGameMessageToPlayer("show_action");
+        if (getAction().showActionDialog()) {
+            sendGameMessageToPlayer("show_action");
+        } else {
+            sendGameMessageToPlayer("refresh_game_page");
+        }
     }
 
     public String quitGame() {

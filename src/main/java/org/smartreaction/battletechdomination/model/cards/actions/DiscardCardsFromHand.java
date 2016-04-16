@@ -50,4 +50,9 @@ public class DiscardCardsFromHand extends Action {
     public void processActionResult(Player player, ActionResult result) {
         selectedCards.stream().forEach(player::discardCardFromHand);
     }
+
+    @Override
+    public boolean showActionDialog() {
+        return selectedCards.size() == 0;
+    }
 }

@@ -15,13 +15,14 @@ import org.smartreaction.battletechdomination.model.cards.support.attack.LongTom
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 import org.smartreaction.battletechdomination.model.players.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CardAction extends Action {
     private Card cardActionCard;
 
-    private List<Card> selectedCards;
+    private List<Card> selectedCards = new ArrayList<>(2);
 
     public CardAction(Card cardActionCard, String text) {
         this.cardActionCard = cardActionCard;
@@ -75,7 +76,6 @@ public class CardAction extends Action {
                 if (!getSelectedCards().contains(card)) {
                     return true;
                 }
-                return true;
             }
         }
 
@@ -120,7 +120,7 @@ public class CardAction extends Action {
             if (player.getHandSize() < 2) {
                 return false;
             } else {
-                player.addGameLog(player.getPlayerName() + " is discarding two cards from their hand to make opponent gain a Heavy Casualties card");
+                player.addGameLog(player.getPlayerName() + " is discarding 2 cards from their hand to make opponent gain a Heavy Casualties card");
             }
         } else if (cardActionCard instanceof HeavyCasualties) {
             Optional<Card> infantryPlatoonInHand = player.getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
@@ -224,5 +224,10 @@ public class CardAction extends Action {
                 player.getGame().getCriticalHits().add((CriticalHit) cardActionCard);
             }
         }
+    }
+
+    @Override
+    public boolean showActionDialog() {
+        return selectedCards.size() == 0;
     }
 }

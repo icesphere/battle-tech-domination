@@ -675,7 +675,7 @@ public abstract class Player {
             }
 
             if (unit instanceof QuadERPPCs) {
-                addAction(new CardAction(unit, "Discard two cards from your hand to make your opponent gain a Heavy Casualties card."));
+                addAction(new CardAction(unit, "Discard 2 cards from your hand to make your opponent gain a Heavy Casualties card."));
             }
 
             if (unit instanceof Scout) {
