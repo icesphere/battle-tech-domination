@@ -11,6 +11,7 @@ import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualtie
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.WarBonds;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
@@ -704,7 +705,11 @@ public abstract class Player {
         boughtInfantryPlatoonThisTurn = false;
 
         for (Card card : cardsPlayed) {
-            addCardToDiscard(card);
+            if (card instanceof WarBonds) {
+                addGameLog("War Bonds returned to supply");
+            } else {
+                addCardToDiscard(card);
+            }
             cardRemovedFromPlay(card);
         }
 

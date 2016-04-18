@@ -14,6 +14,5 @@ public class WarBonds extends Resource implements BaseSupply {
     @Override
     public void cardPlayed(Player player) {
         player.addIndustry(2);
-        player.getCardsPlayed().remove(this);
     }
 }
