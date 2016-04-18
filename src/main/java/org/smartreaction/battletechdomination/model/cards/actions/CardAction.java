@@ -77,6 +77,10 @@ public class CardAction extends Action {
                     return true;
                 }
             }
+        } else if (cardActionCard instanceof CriticalHit) {
+            if (card instanceof MechUnit && (cardLocation.equals(Card.CARD_LOCATION_HAND) || cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS))) {
+                return true;
+            }
         }
 
         return false;
@@ -134,11 +138,13 @@ public class CardAction extends Action {
                 player.addCardToDiscard(infantryPlatoonInDeploymentZone.get());
                 player.getHand().remove(cardActionCard);
                 player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
+                return false;
             } else if (!infantryPlatoonInDeploymentZone.isPresent()) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
                 player.discardCardFromHand(infantryPlatoonInHand.get());
                 player.getHand().remove(cardActionCard);
                 player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
+                return false;
             }
         } else if (cardActionCard instanceof CriticalHit) {
             int numMechUnitsInDeploymentZone = player.getNumMechUnitsInDeploymentZone();

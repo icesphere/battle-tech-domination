@@ -72,6 +72,10 @@
                                 </h:panelGroup>
                             </div>
 
+                            <div style="clear: both; padding-top: 15px;">
+                                <h:outputText value="Card left in supply: #{gameView.game.supply.size()}"/>
+                            </div>
+
                             <div class="supplyGrid">
                                 <ui:repeat value="#{gameView.game.supplyGrid}" var="card">
                                     <btd:supplyCard card="#{card}" source="supplyGrid"/>
