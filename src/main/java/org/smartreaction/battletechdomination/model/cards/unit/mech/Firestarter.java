@@ -5,7 +5,7 @@ import org.smartreaction.battletechdomination.model.cards.abilities.Flamers;
 
 public class Firestarter extends MechUnit implements Flamers {
     public Firestarter() {
-        name = "Commando";
+        name = "Firestarter";
         subName = "FS9-H";
         cardText = "FLAMERS: When you deploy this unit, your opponent must damage all Infantry Platoons in his deployment zone.";
         attack = 1;

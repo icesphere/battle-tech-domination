@@ -1,5 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards.actions;
 
+import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.abilities.HeavyFireSupport;
 import org.smartreaction.battletechdomination.model.cards.abilities.MobileFireSupport;
@@ -136,14 +137,17 @@ public class CardAction extends Action {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
                 player.getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
                 player.addCardToDiscard(infantryPlatoonInDeploymentZone.get());
-                player.getHand().remove(cardActionCard);
+                player.getCardsPlayed().remove(cardActionCard);
                 player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
                 return false;
             } else if (!infantryPlatoonInDeploymentZone.isPresent()) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
                 player.discardCardFromHand(infantryPlatoonInHand.get());
-                player.getHand().remove(cardActionCard);
+                player.getCardsPlayed().remove(cardActionCard);
                 player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
+                return false;
+            } else {
+                player.makeAbilityChoice(cardActionCard, "HeavyCasualties", "Discard an Infantry Platoon.", new Choice(1, "Discard from hand"), new Choice(2, "Discard from deployment zone"));
                 return false;
             }
         } else if (cardActionCard instanceof CriticalHit) {

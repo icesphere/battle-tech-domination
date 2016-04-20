@@ -19,6 +19,7 @@ import org.smartreaction.battletechdomination.model.cards.unit.infantry.Infantry
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -830,6 +831,21 @@ public abstract class Player {
                     cardRemovedFromPlay(card);
                 }
                 break;
+            case "HeavyCasualties":
+                if (choice == 1) {
+                    Optional<Card> infantryPlatoonInHand = getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
+                    addGameLog(playerName + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
+                    discardCardFromHand(infantryPlatoonInHand.get());
+                    getCardsPlayed().remove(card);
+                    getGame().getHeavyCasualties().add((HeavyCasualties) card);
+                } else if (choice == 2) {
+                    Optional<Unit> infantryPlatoonInDeploymentZone = getDeploymentZone().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
+                    addGameLog(playerName + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
+                    getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
+                    addCardToDiscard(infantryPlatoonInDeploymentZone.get());
+                    getCardsPlayed().remove(card);
+                    getGame().getHeavyCasualties().add((HeavyCasualties) card);
+                }
             case "QuickToAction":
                 if (choice == 1) {
                     addGameLog(playerName + " chose to use Quick To Action ability to put " + card.getName() + " on top of deck");

@@ -5,7 +5,7 @@ import org.smartreaction.battletechdomination.model.cards.abilities.Mobile;
 
 public class Cicada extends MechUnit implements Mobile {
     public Cicada() {
-        name = "Centurion";
+        name = "Cicada";
         subName = "CDA-2A";
         cardText = "MOBILE: +1 Action when you deploy this unit.";
         attack = 1;
