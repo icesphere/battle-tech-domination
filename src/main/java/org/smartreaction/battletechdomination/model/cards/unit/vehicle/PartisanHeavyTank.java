@@ -9,6 +9,6 @@ public class PartisanHeavyTank extends VehicleUnit implements Tank {
         cardText = "TANK: If this unit is damaged, scrap it instead.";
         attack = 0;
         defense = 2;
-        industryCost = 0;
+        industryCost = 1;
     }
 }

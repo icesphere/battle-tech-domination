@@ -7,7 +7,7 @@ public class Stormcrow extends MechUnit implements CounterAttack {
     public Stormcrow() {
         name = "Stormcrow";
         subName = "RYOKEN";
-        cardText = "COUNTER ATTACK: When this unit is damaged, your opponent must damage a unit with the highest Industry cost in his deployment zone.";
+        cardText = "COUNTER ATTACK: When this unit is damaged, your opponent must damage a Mech.";
         attack = 3;
         defense = 1;
         industryCost = 4;

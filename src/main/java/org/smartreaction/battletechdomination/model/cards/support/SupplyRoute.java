@@ -7,7 +7,7 @@ public class SupplyRoute extends Support {
     public SupplyRoute() {
         name = "Supply Route";
         cardText = "Gain a card costing up to 4 Industry. Put the gained card on top of your deck.";
-        industryCost = 5;
+        industryCost = 4;
     }
 
     @Override

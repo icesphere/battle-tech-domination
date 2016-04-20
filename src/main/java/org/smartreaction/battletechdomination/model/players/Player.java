@@ -528,8 +528,8 @@ public abstract class Player {
             if (yourTurn) {
                 if (card instanceof CityFighter) {
                     if (opponent.getNumInfantryUnitsInDeploymentZone() >= 2) {
-                        addGameLog(playerName + " gained +1 Attack from City Fighter ability on " + card.getName());
-                        attack++;
+                        addGameLog(playerName + " gained +3 Attack from City Fighter ability on " + card.getName());
+                        attack += 3;
                     }
                 }
 
@@ -777,10 +777,9 @@ public abstract class Player {
         }
 
         if (unit instanceof CounterAttack) {
-            Unit opponentUnit = opponent.getUnitWithHighestIndustryCost(opponent.getDeploymentZone());
-            if (opponentUnit != null) {
-                addGameLog(opponent.getPlayerName() + "'s " + opponentUnit.getName() + " damaged from " + playerName + "'s Counter Attack ability on " + unit.getName());
-                opponent.cardDamaged(opponentUnit);
+            if (getOpponent().getNumMechUnitsInDeploymentZone() > 0) {
+                addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
+                addGameLog(opponent.getPlayerName() + " must damage a Mech due to " + playerName + "'s Counter Attack ability on " + unit.getName());
             }
         }
 
@@ -1094,7 +1093,7 @@ public abstract class Player {
 
         for (Card card : getAllCards()) {
             if (card.getLosTechCost() > 0) {
-                points += 2;
+                points += 1;
             }
             if (card instanceof Overrun) {
                 points -= ((Overrun) card).getOverrunAmount();

@@ -99,8 +99,8 @@ public class GameService {
             }
             player.setup();
             if (!player.isFirstPlayer()) {
-                game.gameLog(player.getPlayerName() + " adds Infantry Platoon to discard pile");
-                player.addCardToDiscard(new InfantryPlatoon());
+                game.gameLog(player.getPlayerName() + " is second player and adds Infantry Platoon to deployment zone");
+                player.getDeploymentZone().add(new InfantryPlatoon());
             }
         }
 
