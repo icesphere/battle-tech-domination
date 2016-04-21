@@ -234,8 +234,7 @@ public class GameView implements Serializable {
                     handleCardClickedForAction(card, source);
                 } else {
                     getPlayer().buyCard(card);
-                    sendGameMessageToAll("refresh_supply");
-                    sendGameMessageToAll("refresh_right_section");
+                    sendGameMessageToAll("refresh_game_page");
                 }
             }
         } else  {
@@ -317,12 +316,7 @@ public class GameView implements Serializable {
 
     public void nextPhase() {
         getPlayer().nextPhase();
-        if (getPlayer().isActionPhase()) {
-            sendGameMessageToOpponent("refresh_middle_section");
-            sendGameMessageToOpponent("refresh_right_section");
-        } else if (getPlayer().isBuyPhase()) {
-            sendGameMessageToOpponent("refresh_right_section");
-        }
+        sendGameMessageToOpponent("refresh_game_page");
         checkForAction();
     }
 
