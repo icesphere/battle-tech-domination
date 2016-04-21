@@ -98,10 +98,6 @@ public class GameService {
                 player.addCardToDeck(new InfantryPlatoon());
             }
             player.setup();
-            if (!player.isFirstPlayer()) {
-                game.gameLog(player.getPlayerName() + " is second player and adds Infantry Platoon to deployment zone");
-                player.getDeploymentZone().add(new InfantryPlatoon());
-            }
         }
 
         for (int i = 0; i < 8; i++) {

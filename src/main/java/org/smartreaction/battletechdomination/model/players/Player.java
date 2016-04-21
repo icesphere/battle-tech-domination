@@ -121,7 +121,11 @@ public abstract class Player {
 
     public void setup() {
         Collections.shuffle(deck);
-        drawCards(5);
+        if (isFirstPlayer()) {
+            drawCards(3);
+        } else {
+            drawCards(5);
+        }
     }
 
     private void cardBought(Card card) {
