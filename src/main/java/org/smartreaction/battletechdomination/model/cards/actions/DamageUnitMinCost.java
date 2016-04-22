@@ -22,7 +22,7 @@ public class DamageUnitMinCost extends Action {
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS) && card.getIndustryCost() >= minCost;
+        return cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS) && card.isUnit() && card.getIndustryCost() >= minCost;
     }
 
     @Override

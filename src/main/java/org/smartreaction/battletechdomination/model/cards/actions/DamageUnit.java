@@ -23,7 +23,7 @@ public class DamageUnit extends Action {
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS) && (cardType == null || card.getCardType() == cardType);
+        return cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS) && card.isUnit() && (cardType == null || card.getCardType() == cardType);
     }
 
     @Override

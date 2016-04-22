@@ -22,7 +22,7 @@ public class DamageOpponentUnitMaxCost extends Action {
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_OPPONENT_UNITS) && card.getIndustryCost() <= maxCost;
+        return cardLocation.equals(Card.CARD_LOCATION_OPPONENT_UNITS) && card.isUnit() && card.getIndustryCost() <= maxCost;
     }
 
     @Override

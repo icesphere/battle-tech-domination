@@ -27,6 +27,8 @@ public class FreeCardFromSupply extends Action {
     @Override
     public void processActionResult(Player player, ActionResult result) {
         Card card = result.getSelectedCard();
+        player.getGame().getSupplyGrid().remove(card);
+        player.getGame().addCardToSupplyGrid();
         player.addGameLog(player.getPlayerName() + " acquired a free card from the supply: " + card.getName());
         player.cardAcquired(card);
     }

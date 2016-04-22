@@ -11,7 +11,7 @@ public class DamageOpponentUnit extends Action {
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_OPPONENT_UNITS);
+        return cardLocation.equals(Card.CARD_LOCATION_OPPONENT_UNITS) && card.isUnit();
     }
 
     @Override
