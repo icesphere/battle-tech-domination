@@ -33,6 +33,8 @@ public class FreeCardFromSupplyToTopOfDeck extends Action {
     @Override
     public void processActionResult(Player player, ActionResult result) {
         Card card = result.getSelectedCard();
+        player.getGame().getSupplyGrid().remove(card);
+        player.getGame().addCardToSupplyGrid();
         player.addGameLog(player.getPlayerName() + " acquired free card from supply on put it on top of deck: " + card.getName());
         player.addCardToTopOfDeck(card);
     }

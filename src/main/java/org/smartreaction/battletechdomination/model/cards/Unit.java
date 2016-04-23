@@ -110,6 +110,12 @@ public abstract class Unit extends Card {
             player.addOpponentAction(new DamageUnit(CardType.UNIT_INFANTRY, "Damage an Infantry Unit"));
         }
 
+        if (this instanceof ChampionMech) {
+            if (player.getNumUnitsInDeploymentZone() < player.getOpponent().getNumUnitsInDeploymentZone()) {
+                player.drawCards(2);
+            }
+        }
+
         if (this instanceof HighMaintenance) {
             player.addGameLog(player.getPlayerName() + " must discard a card due to the High Maintenance ability on " + getName());
             player.discardCardFromHand();
@@ -139,10 +145,6 @@ public abstract class Unit extends Card {
     }
 
     public boolean isDeployable(Player player) {
-        if (this instanceof ChampionMech) {
-            return player.getNumMechUnitsInDeploymentZone() < player.getOpponent().getNumMechUnitsInDeploymentZone();
-        }
-
         return true;
     }
 

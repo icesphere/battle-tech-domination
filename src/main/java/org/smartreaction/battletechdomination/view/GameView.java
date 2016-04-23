@@ -250,8 +250,14 @@ public class GameView implements Serializable {
                         refreshGamePageWithCheckForAction();
                     }
                 }
-            } else if (source.equals("playerUnits")) {
-                Card card = findCardById(getPlayer().getDeploymentZone(), cardId);
+            } else if (source.equals("playerUnits") || source.equals("opponentUnits")) {
+                Player player;
+                if (source.equals("opponentUnits")) {
+                    player = getOpponent();
+                } else {
+                    player = getPlayer();
+                }
+                Card card = findCardById(player.getDeploymentZone(), cardId);
                 if (highlightCard(card, source)) {
                     if (getAction() != null) {
                         handleCardClickedForAction(card, source);

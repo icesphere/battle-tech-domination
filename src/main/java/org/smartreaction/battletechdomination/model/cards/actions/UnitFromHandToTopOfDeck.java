@@ -10,7 +10,7 @@ public class UnitFromHandToTopOfDeck extends Action {
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_HAND);
+        return cardLocation.equals(Card.CARD_LOCATION_HAND) && card.isUnit();
     }
 
     @Override

@@ -7,7 +7,7 @@ public class StripMining extends Resource {
     public StripMining() {
         name = "Strip Mining";
         cardText = "You may scrap a Resource card from your hand.";
-        industryCost = 1;
+        industryCost = 3;
     }
 
     @Override
