@@ -537,6 +537,13 @@ public abstract class Player {
                     }
                 }
 
+                if (card instanceof AC10) {
+                    if (opponent.getNumMechUnitsInDeploymentZone() > 0 || opponent.getNumVehicleUnitsInDeploymentZone() > 0) {
+                        addGameLog(playerName + " gained +1 Attack from AC/10 ability on " + card.getName());
+                        attack++;
+                    }
+                }
+
                 if (card instanceof Inspiring) {
                     List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
                     for (Card deploymentZoneCard : deploymentZoneCopy) {
@@ -840,14 +847,12 @@ public abstract class Player {
                     addGameLog(playerName + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
                     discardCardFromHand(infantryPlatoonInHand.get());
                     getCardsPlayed().remove(card);
-                    getGame().getHeavyCasualties().add((HeavyCasualties) card);
                 } else if (choice == 2) {
                     Optional<Unit> infantryPlatoonInDeploymentZone = getDeploymentZone().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
                     addGameLog(playerName + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
                     getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
                     addCardToDiscard(infantryPlatoonInDeploymentZone.get());
                     getCardsPlayed().remove(card);
-                    getGame().getHeavyCasualties().add((HeavyCasualties) card);
                 }
             case "QuickToAction":
                 if (choice == 1) {
@@ -994,6 +999,10 @@ public abstract class Player {
 
     public int getNumInfantryUnitsInDeploymentZone() {
         return (int) deploymentZone.stream().filter(c -> c instanceof InfantryUnit).count();
+    }
+
+    public int getNumVehicleUnitsInDeploymentZone() {
+        return (int) deploymentZone.stream().filter(c -> c instanceof VehicleUnit).count();
     }
 
     public void ignoreLosTechCost() {

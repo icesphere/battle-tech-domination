@@ -8,8 +8,8 @@ public class Quickdraw extends MechUnit implements Versatile {
         name = "Quickdraw";
         subName = "QKD-4G";
         cardText = "VERSATILE: When you deploy this unit, choose one: +1 Card; +1 Action; +1 Industry";
-        attack = 1;
-        defense = 2;
+        attack = 2;
+        defense = 1;
         industryCost = 5;
     }
 }

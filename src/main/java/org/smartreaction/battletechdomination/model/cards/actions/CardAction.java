@@ -138,13 +138,11 @@ public class CardAction extends Action {
                 player.getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
                 player.addCardToDiscard(infantryPlatoonInDeploymentZone.get());
                 player.getCardsPlayed().remove(cardActionCard);
-                player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
                 return false;
             } else if (!infantryPlatoonInDeploymentZone.isPresent()) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
                 player.discardCardFromHand(infantryPlatoonInHand.get());
                 player.getCardsPlayed().remove(cardActionCard);
-                player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
                 return false;
             } else {
                 player.makeAbilityChoice(cardActionCard, "HeavyCasualties", "Discard an Infantry Platoon.", new Choice(1, "Discard from hand"), new Choice(2, "Discard from deployment zone"));
@@ -207,31 +205,26 @@ public class CardAction extends Action {
         } else if (cardActionCard instanceof RaidedSupplies) {
             selectedCards.stream().forEach(player::discardCardFromHand);
             player.getCardsPlayed().remove(cardActionCard);
-            player.getGame().getRaidedSupplies().add((RaidedSupplies) cardActionCard);
         } else if (cardActionCard instanceof HeavyCasualties) {
             if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
                 player.discardCardFromHand(selectedCard);
                 player.getCardsPlayed().remove(cardActionCard);
-                player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
             } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
                 player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
                 player.getDeploymentZone().remove(selectedCard);
                 player.addCardToDiscard(selectedCard);
                 player.getCardsPlayed().remove(cardActionCard);
-                player.getGame().getHeavyCasualties().add((HeavyCasualties) cardActionCard);
             }
         } else if (cardActionCard instanceof CriticalHit) {
             if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
                 player.addGameLog(player.getPlayerName() + " scrapped a Mech from their hand to return a Critical Hit back to Overrun pile");
                 player.scrapCardFromHand(selectedCard);
                 player.getCardsPlayed().remove(cardActionCard);
-                player.getGame().getCriticalHits().add((CriticalHit) cardActionCard);
             } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
                 player.addGameLog(player.getPlayerName() + " scrapped a Mech from their deployment zone to return a Critical Hit back to Overrun pile");
                 player.scrapUnitFromDeploymentZone((Unit) selectedCard);
                 player.getCardsPlayed().remove(cardActionCard);
-                player.getGame().getCriticalHits().add((CriticalHit) cardActionCard);
             }
         }
     }

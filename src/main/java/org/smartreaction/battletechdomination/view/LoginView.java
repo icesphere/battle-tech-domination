@@ -19,6 +19,8 @@ public class LoginView implements Serializable {
 
     private String username;
 
+    private boolean showUsernameError;
+
     public String getUsername() {
         return username;
     }
@@ -29,11 +31,16 @@ public class LoginView implements Serializable {
 
     public String loginAsGuest() {
         if (userSession.loginAsGuest(username)) {
+            showUsernameError = false;
             return "lobby.xhtml?faces-redirect=true";
         } else {
-            //todo show error
+            showUsernameError = true;
             return null;
         }
+    }
+
+    public boolean isShowUsernameError() {
+        return showUsernameError;
     }
 
     @SuppressWarnings("UnusedDeclaration")

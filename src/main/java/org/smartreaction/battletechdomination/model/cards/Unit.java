@@ -2,12 +2,12 @@ package org.smartreaction.battletechdomination.model.cards;
 
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.TurnPhase;
-import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.abilities.*;
+import org.smartreaction.battletechdomination.model.cards.actions.DamageOpponentUnitMaxCost;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
-import org.smartreaction.battletechdomination.model.cards.actions.DamageUnitMaxCost;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnitMinCost;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
+import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +126,7 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof FastAssault) {
-            player.addOpponentAction(new DamageUnitMaxCost(5, "Damage a unit costing 5 Industry or less"));
+            player.addAction(new DamageOpponentUnitMaxCost(5, "Damage an opponent's unit costing 5 Industry or less"));
         }
 
         if (this instanceof ReconInForce) {

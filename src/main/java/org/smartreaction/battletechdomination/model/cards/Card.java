@@ -111,6 +111,10 @@ public abstract class Card {
         return this instanceof Support || this instanceof SupportAttack || this instanceof SupportReaction || this instanceof OverrunSupport;
     }
 
+    public boolean isOverrun() {
+        return this instanceof Overrun;
+    }
+
     public String getId() {
         return id;
     }
