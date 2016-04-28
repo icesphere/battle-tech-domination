@@ -9,6 +9,6 @@ public class MobileHQ extends VehicleUnit implements TacticalCommand {
         cardText = "TACTICAL COMMAND: Draw 2 extra cards during your Clean-Up phase, then discard down to 5 cards in your hand.  If this unit is damaged or scrapped, your opponent immediately draws 2 cards.";
         attack = 0;
         defense = 0;
-        industryCost = 5;
+        industryCost = 6;
     }
 }

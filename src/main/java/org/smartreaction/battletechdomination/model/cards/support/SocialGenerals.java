@@ -7,7 +7,7 @@ public class SocialGenerals extends Support {
     public SocialGenerals() {
         name = "Social Generals";
         cardText = "+2 Industry. Until the end of your turn, when you buy or gain a card, you may put it on top of your deck.";
-        industryCost = 4;
+        industryCost = 5;
     }
 
     @Override

@@ -7,7 +7,7 @@ public class Catapult extends MechUnit implements HeavyFireSupport {
     public Catapult() {
         name = "Catapult";
         subName = "CPLT-C1";
-        cardText = "HEAVY FIRE SUPPORT: Once per turn during your Action phase, you may discard a Unit card from your hand. If you do, your opponent must damage a unit.";
+        cardText = "HEAVY FIRE SUPPORT: You may discard a Unit card from your hand at the start of your Combat phase. If you do, your opponent must damage a unit.";
         attack = 0;
         defense = 2;
         industryCost = 5;

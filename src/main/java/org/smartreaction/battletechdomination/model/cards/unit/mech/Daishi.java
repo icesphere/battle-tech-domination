@@ -8,7 +8,7 @@ public class Daishi extends MechUnit implements GreatDeath {
         name = "Daishi";
         subName = "DIRE WOLF";
         cardText = "\"GREAT DEATH\": When you overrun your opponent, he must damage an additional unit at the end of your Combat phase.";
-        attack = 5;
+        attack = 6;
         defense = 4;
         industryCost = 9;
         losTechCost = 1;

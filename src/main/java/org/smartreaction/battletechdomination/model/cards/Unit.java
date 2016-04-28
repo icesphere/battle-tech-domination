@@ -37,7 +37,7 @@ public abstract class Unit extends Card {
         TurnPhase turnPhase = player.getTurnPhase();
 
         if (this instanceof AC20) {
-            if (turnPhase == TurnPhase.ACTION) {
+            if (turnPhase == TurnPhase.COMBAT_START) {
                 return true;
             }
         }
@@ -55,7 +55,7 @@ public abstract class Unit extends Card {
         }
 
         if (this instanceof HeavyFireSupport) {
-            if (turnPhase == TurnPhase.ACTION && player.numUnitsInHand() > 0) {
+            if (turnPhase == TurnPhase.COMBAT_START && player.numUnitsInHand() > 0) {
                 return true;
             }
         }
