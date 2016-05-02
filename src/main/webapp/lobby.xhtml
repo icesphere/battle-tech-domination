@@ -4,7 +4,12 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition template="/templates/commonLayout.xhtml">
     <ui:define name="content">
-        <h:form>
+        <h:form id="lobbyForm">
+
+            <p:remoteCommand name="refreshLobby" process="@this" update="lobbyForm"/>
+
+            <h:messages styleClass="errorText"/>
+
             <div class="lobbyPage">
                 <div>
                     Logged in Users:
@@ -12,7 +17,7 @@
                 <h:dataTable value="#{lobbyView.users}" var="user">
                     <h:column>
                         <h:outputText value="#{user.username}"/>
-                        <p:commandLink process="@this" value="Logout" action="#{userSession.logout}"
+                        <p:commandLink process="@this" update="lobbyForm" value="Logout" action="#{userSession.logout}"
                                        style="margin-left: 10px;" rendered="#{user.username eq userSession.user.username}"/>
                     </h:column>
                 </h:dataTable>
@@ -39,6 +44,8 @@
                 console.log(response);
                 if (response.message == 'game_started') {
                     window.location.href = 'game.xhtml?faces-redirect=true';
+                } else if (response.message == 'refresh_lobby') {
+                    refreshLobby();
                 }
             }
         </script>

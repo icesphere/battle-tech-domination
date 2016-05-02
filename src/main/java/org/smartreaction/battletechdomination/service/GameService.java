@@ -511,6 +511,14 @@ public class GameService {
         sendGameMessage(sender, recipient, "lobby", message);
     }
 
+    public void sendLobbyMessageToAll(String sender, String message) {
+        sendLobbyMessage(sender, "*", message);
+    }
+
+    public void refreshLobby(String sender) {
+        sendLobbyMessageToAll(sender, "refresh_lobby");
+    }
+
     public void sendGameMessage(String sender, String recipient, String channel, String message) {
         getEventBus().publish(GAME_CHANNEL + channel + "/" + recipient, sender + ":" + message);
     }

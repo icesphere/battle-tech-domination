@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.view;
 
 import org.smartreaction.battletechdomination.model.User;
+import org.smartreaction.battletechdomination.service.GameService;
 import org.smartreaction.battletechdomination.service.LoggedInUsers;
 
 import javax.ejb.EJB;
@@ -13,6 +14,9 @@ import java.io.Serializable;
 public class UserSession implements Serializable {
     @EJB
     LoggedInUsers loggedInUsers;
+
+    @EJB
+    GameService gameService;
 
     private boolean loggedIn;
 
@@ -32,6 +36,7 @@ public class UserSession implements Serializable {
             user.setUsername(username);
             loggedIn = true;
             loggedInUsers.getUsers().add(user);
+            gameService.refreshLobby(username);
             return true;
         }
 
@@ -48,6 +53,7 @@ public class UserSession implements Serializable {
 
     public String logout() {
         loggedInUsers.getUsers().remove(user);
+        gameService.refreshLobby(user.getUsername());
         user = null;
         loggedIn = false;
 
