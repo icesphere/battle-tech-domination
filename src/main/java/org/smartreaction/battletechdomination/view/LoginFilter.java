@@ -27,6 +27,10 @@ public class LoginFilter implements Filter {
 
             UserSession userSession = (UserSession) servletRequest.getSession().getAttribute("userSession");
 
+            if (userSession != null && userSession.getUser() != null) {
+                userSession.getUser().updateLastActivity();
+            }
+
             String requestURI = servletRequest.getRequestURI();
             if (requestURI.contains("/login.xhtml")
                     || (userSession != null && userSession.getUser() != null)

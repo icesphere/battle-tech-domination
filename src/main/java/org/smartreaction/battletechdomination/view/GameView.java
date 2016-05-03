@@ -396,6 +396,8 @@ public class GameView implements Serializable {
         userSession.getUser().setCurrentGame(null);
         userSession.getUser().setCurrentPlayer(null);
 
+        gameService.refreshLobby(userSession.getUser().getUsername());
+
         return "lobby.xhtml?faces-redirect=true";
     }
 

@@ -1,0 +1,16 @@
+.chatSection {
+    width: 600px;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.chats {
+    height: 300px;
+    overflow: auto;
+    padding-right: 5px;
+}
+
+.lobbyHeader {
+    padding-bottom: 10px;
+    font-weight: bold;
+}
