@@ -13,6 +13,7 @@ public abstract class Card {
     protected CardType cardType;
     protected int industryCost;
     protected int losTechCost;
+    protected String imageFile;
 
     public static String CARD_LOCATION_HAND = "hand";
     public static String CARD_LOCATION_DECK = "deck";
@@ -120,4 +121,12 @@ public abstract class Card {
     }
 
     public abstract boolean isActionable(Player player, String cardLocation);
+
+    public String getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
+    }
 }

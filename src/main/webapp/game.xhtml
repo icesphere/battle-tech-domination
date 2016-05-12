@@ -86,35 +86,40 @@
 
                         <h:panelGroup layout="block" id="cardViewSection">
                             <h:panelGroup layout="block" styleClass="cardViewSection">
-                                <div class="cardView">
-                                    <h:panelGroup layout="block" rendered="#{!empty gameView.cardToView}">
-                                        <h:outputText value="#{gameView.cardToView.name}" style="font-weight: bold; font-size: 20px;"/>
-                                        <div style="padding-top: 15px; font-size: 18px;">
-                                            <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
-                                        </div>
-                                        <div style="padding-top: 15px;">
-                                            <h:outputText value="Cost:" style="padding-right: 10px;"/>
-                                            <h:outputText value="#{gameView.cardToView.industryCost}"/>
-                                            <h:graphicImage library="images" name="IndustryIcon.png" styleClass="playerInfoIcon"/>
-                                            <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
-                                        </div>
-                                        <h:panelGroup layout="block" style="padding-top: 15px;" rendered="#{gameView.cardToView.overrun}">
-                                            <h:outputText value="Overrun Amount: #{gameView.cardToView.overrunAmount}"/>
+                                <h:panelGroup rendered="#{!empty gameView.cardToView.imageFile}">
+                                    <h:graphicImage library="images" name="cards/#{gameView.cardToView.imageFile}" width="288"/>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{empty gameView.cardToView.imageFile}">
+                                    <div class="cardView">
+                                        <h:panelGroup layout="block" rendered="#{!empty gameView.cardToView}">
+                                            <h:outputText value="#{gameView.cardToView.name}" style="font-weight: bold; font-size: 20px;"/>
+                                            <div style="padding-top: 15px; font-size: 18px;">
+                                                <h:outputText value="#{gameView.getCardTypeDisplayName(gameView.cardToView.cardType)}"/>
+                                            </div>
+                                            <div style="padding-top: 15px;">
+                                                <h:outputText value="Cost:" style="padding-right: 10px;"/>
+                                                <h:outputText value="#{gameView.cardToView.industryCost}"/>
+                                                <h:graphicImage library="images" name="icons/IndustryIcon.png" styleClass="playerInfoIcon"/>
+                                                <h:graphicImage rendered="#{gameView.cardToView.losTechCost gt 0}" library="images" name="LosTechIcon.png" styleClass="playerInfoIcon" style="margin-left: 15px;"/>
+                                            </div>
+                                            <h:panelGroup layout="block" style="padding-top: 15px;" rendered="#{gameView.cardToView.overrun}">
+                                                <h:outputText value="Overrun Amount: #{gameView.cardToView.overrunAmount}"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" rendered="#{gameView.cardToView.unit}" style="padding-top: 15px;">
+                                                <h:outputText value="#{gameView.cardToView.attack}"/>
+                                                <h:graphicImage library="images" name="icons/AttackIcon.png" styleClass="playerInfoIcon"/>
+                                                <h:outputText value="#{gameView.cardToView.defense}" style="padding-left: 15px;"/>
+                                                <h:graphicImage library="images" name="icons/DefenseIcon.png" styleClass="playerInfoIcon"/>
+                                            </h:panelGroup>
+                                            <div style="padding-top: 15px;">
+                                                <h:outputText value="#{gameView.cardToView.cardText}"/>
+                                            </div>
                                         </h:panelGroup>
-                                        <h:panelGroup layout="block" rendered="#{gameView.cardToView.unit}" style="padding-top: 15px;">
-                                            <h:outputText value="#{gameView.cardToView.attack}"/>
-                                            <h:graphicImage library="images" name="AttackIcon.png" styleClass="playerInfoIcon"/>
-                                            <h:outputText value="#{gameView.cardToView.defense}" style="padding-left: 15px;"/>
-                                            <h:graphicImage library="images" name="DefenseIcon.png" styleClass="playerInfoIcon"/>
+                                        <h:panelGroup layout="block" rendered="#{empty gameView.cardToView}" styleClass="emptyCardView">
+                                            Hover over a card to see card details.
                                         </h:panelGroup>
-                                        <div style="padding-top: 15px;">
-                                            <h:outputText value="#{gameView.cardToView.cardText}"/>
-                                        </div>
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" rendered="#{empty gameView.cardToView}" styleClass="emptyCardView">
-                                        Hover over a card to see card details.
-                                    </h:panelGroup>
-                                </div>
+                                    </div>
+                                </h:panelGroup>
                             </h:panelGroup>
                         </h:panelGroup>
 
@@ -156,9 +161,9 @@
                                         </h:panelGroup>
                                         <h:panelGroup layout="block" styleClass="turnValueTextWrapper" rendered="#{gameView.game.currentPlayer.actionPhase or gameView.game.currentPlayer.buyPhase}">
                                             <h:outputText styleClass="turnValueText" value="#{gameView.game.currentPlayer.industry}"/>
-                                            <h:graphicImage library="images" name="IndustryIcon.png" styleClass="turnValueIcon"/>
+                                            <h:graphicImage library="images" name="icons/IndustryIcon.png" styleClass="turnValueIcon"/>
                                             <h:outputText styleClass="turnValueText" style="padding-left: 20px;" value="#{gameView.game.currentPlayer.losTech}"/>
-                                            <h:graphicImage library="images" name="LosTechIcon.png" styleClass="turnValueIcon"/>
+                                            <h:graphicImage library="images" name="icons/LosTechIcon.png" styleClass="turnValueIcon"/>
                                         </h:panelGroup>
                                         <h:panelGroup layout="block" styleClass="turnValueTextWrapper" rendered="#{!gameView.game.currentPlayer.actionPhase and !gameView.game.currentPlayer.buyPhase}">
                                             <h:outputText value=""/>
