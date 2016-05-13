@@ -12,6 +12,6 @@ public class MadCat extends MechUnit implements FastAssault {
         defense = 3;
         industryCost = 7;
         losTechCost = 1;
-        imageFile = "madcat.jpg";
+        imageFile = "madcat_v2.jpeg";
     }
 }
