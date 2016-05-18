@@ -6,7 +6,7 @@ import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class QuadERPPCs extends Ability {
+public class QuadERPPCs extends Ability implements CardActionAbility {
     //QUAD ER PPCs: You may discard two cards from your hand at the start of your Combat phase. If you do, your opponent gains a Heavy Casualties card.
 
     public QuadERPPCs(Card card) {

@@ -532,8 +532,8 @@ public abstract class Player {
     }
 
     public void applyCombatPhaseBonuses() {
-        for (Card card : deploymentZone) {
-            card.applyCombatPhaseBonuses(this);
+        for (Unit unit : deploymentZone) {
+            unit.applyCombatPhaseBonuses(this);
         }
     }
 

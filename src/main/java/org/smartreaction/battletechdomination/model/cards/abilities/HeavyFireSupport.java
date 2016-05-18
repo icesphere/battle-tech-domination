@@ -7,7 +7,7 @@ import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class HeavyFireSupport extends Ability {
+public class HeavyFireSupport extends Ability implements CardActionAbility {
     //HEAVY FIRE SUPPORT: Once per turn during your Action phase, you may discard a Unit card from your hand. If you do, your opponent must damage a unit.
 
     public HeavyFireSupport(Card card) {

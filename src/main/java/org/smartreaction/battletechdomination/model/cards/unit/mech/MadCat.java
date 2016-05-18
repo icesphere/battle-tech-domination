@@ -2,11 +2,8 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.FastAssault;
-import org.smartreaction.battletechdomination.model.players.Player;
 
 public class MadCat extends MechUnit {
-    FastAssault fastAssault;
-
     public MadCat() {
         name = "Mad Cat";
         subName = "TIMBERWOLF";
@@ -17,11 +14,6 @@ public class MadCat extends MechUnit {
         losTechCost = 1;
         imageFile = "madcat_v2.jpeg";
 
-        fastAssault = new FastAssault(this);
-    }
-
-    @Override
-    public void unitDeployed(Player player) {
-        fastAssault.useAbility(player);
+        addAbility(new FastAssault(this));
     }
 }

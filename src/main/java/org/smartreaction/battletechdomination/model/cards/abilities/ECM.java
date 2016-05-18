@@ -7,7 +7,7 @@ import org.smartreaction.battletechdomination.model.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ECM extends Ability {
+public class ECM extends Ability implements CombatPhaseBonusAbility {
     //ECM: Each other Mech in your deployment zone gets +1 Defense.
 
     public ECM(Card card) {

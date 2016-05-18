@@ -2,11 +2,8 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.Mobile;
-import org.smartreaction.battletechdomination.model.players.Player;
 
 public class Locust extends MechUnit {
-    Mobile mobile;
-
     public Locust() {
         name = "Locust";
         subName = "LCT-1V";
@@ -15,12 +12,7 @@ public class Locust extends MechUnit {
         defense = 0;
         industryCost = 0;
 
-        mobile = new Mobile(this);
-    }
-
-    @Override
-    public void unitDeployed(Player player) {
-        mobile.useAbility(player);
+        addAbility(new Mobile(this));
     }
 
     //todo

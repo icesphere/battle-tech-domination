@@ -3,7 +3,7 @@ package org.smartreaction.battletechdomination.model.cards.abilities;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class AC10 extends Ability {
+public class AC10 extends Ability implements CombatPhaseBonusAbility {
     //AC/10: +1 Attack if your opponent has a Mech or Vehicle in his deployment zone.
 
     public AC10(Card card) {

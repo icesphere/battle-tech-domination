@@ -6,7 +6,7 @@ import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class MobileFireSupport extends Ability {
+public class MobileFireSupport extends Ability implements CardActionAbility {
     //MOBILE FIRE SUPPORT: At the start of your Combat phase, you may discard a card from your hand. If you do, +1 Attack.
 
     public MobileFireSupport(Card card) {

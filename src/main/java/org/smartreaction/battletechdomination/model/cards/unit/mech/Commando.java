@@ -3,11 +3,8 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.Durable;
 import org.smartreaction.battletechdomination.model.cards.abilities.Scout;
-import org.smartreaction.battletechdomination.model.players.Player;
 
 public class Commando extends MechUnit implements Durable {
-    Scout scout;
-
     public Commando() {
         name = "Commando";
         subName = "COM-2D";
@@ -16,16 +13,6 @@ public class Commando extends MechUnit implements Durable {
         defense = 0;
         industryCost = 3;
 
-        scout = new Scout(this);
-    }
-
-    @Override
-    public boolean isAbilityAvailable(Player player) {
-        return scout.isAbilityAvailable(player);
-    }
-
-    @Override
-    public void useUnitAbility(Player player) {
-        scout.useAbility(player);
+        addAbility(new Scout(this));
     }
 }

@@ -3,7 +3,7 @@ package org.smartreaction.battletechdomination.model.cards.abilities;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class ReconInForce extends Ability {
+public class ReconInForce extends Ability implements UnitDeployedAbility {
     //RECON-IN-FORCE: When you deploy this unit, you may discard a card. If you do, your opponent must gain a Raided Supplies card.
 
     public ReconInForce(Card card) {

@@ -34,22 +34,6 @@ public abstract class Card {
 
     }
 
-    public void applyCombatPhaseBonuses(Player player) {
-
-    }
-
-    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
-        return false;
-    }
-
-    public boolean processCardAction(Player player) {
-        return true;
-    }
-
-    public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
-
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null)

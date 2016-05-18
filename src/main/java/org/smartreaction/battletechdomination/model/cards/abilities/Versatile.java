@@ -4,7 +4,7 @@ import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class Versatile extends Ability {
+public class Versatile extends Ability implements UnitDeployedAbility {
     //VERSATILE: When you deploy this unit, choose one: +1 Card; +1 Action; +1 Industry
 
     public Versatile(Card card) {

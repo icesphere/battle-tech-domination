@@ -11,9 +11,6 @@ import org.smartreaction.battletechdomination.model.cards.support.Refinery;
 import org.smartreaction.battletechdomination.model.cards.support.attack.CloseAirSupport;
 import org.smartreaction.battletechdomination.model.cards.support.attack.LongTomBattery;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
-import org.smartreaction.battletechdomination.model.cards.unit.mech.Catapult;
-import org.smartreaction.battletechdomination.model.cards.unit.mech.Masakari;
-import org.smartreaction.battletechdomination.model.cards.unit.mech.Trebuchet;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
@@ -68,16 +65,17 @@ public class CardAction extends Action {
             if (card instanceof MechUnit && (cardLocation.equals(Card.CARD_LOCATION_HAND) || cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS))) {
                 return true;
             }
+        } else if (cardActionCard.isUnit()) {
+            Unit unit = (Unit) cardActionCard;
+            unit.isActionableForCardAction(this, cardLocation, player);
         }
 
-        return card.isActionableForCardAction(this, cardLocation, player);
+        return false;
     }
 
     @Override
     public boolean processAction(Player player) {
-        if (cardActionCard instanceof Trebuchet) {
-            return cardActionCard.processCardAction(player);
-        } else if (cardActionCard instanceof HiddenBase || cardActionCard instanceof Refinery || cardActionCard instanceof CloseAirSupport) {
+        if (cardActionCard instanceof HiddenBase || cardActionCard instanceof Refinery || cardActionCard instanceof CloseAirSupport) {
             if (player.getHand().isEmpty()) {
                 return false;
             } else {
@@ -89,8 +87,6 @@ public class CardAction extends Action {
                     player.addGameLog(player.getPlayerName() + " is discarding a card for Close Air Support");
                 }
             }
-        } else if (cardActionCard instanceof Catapult) {
-            cardActionCard.processCardAction(player);
         } else if (cardActionCard instanceof BattlefieldSalvage) {
             if (player.getHand().isEmpty() && player.getDeploymentZone().isEmpty()) {
                 return false;
@@ -103,8 +99,6 @@ public class CardAction extends Action {
             } else {
                 player.addGameLog(player.getPlayerName() + " is discarding 2 cards to return Raided Supplies to Overrun pile");
             }
-        } else if (cardActionCard instanceof Masakari) {
-            cardActionCard.processCardAction(player);
         } else if (cardActionCard instanceof HeavyCasualties) {
             Optional<Card> infantryPlatoonInHand = player.getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
             Optional<Unit> infantryPlatoonInDeploymentZone = player.getDeploymentZone().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
@@ -133,7 +127,9 @@ public class CardAction extends Action {
             if (numMechUnitsInDeploymentZone == 0 && numMechsInHand == 0) {
                 return false;
             }
-        }  
+        } else if (cardActionCard.isUnit()) {
+            ((Unit) cardActionCard).processCardAction(player);
+        }
         
         return true;
     }
@@ -147,10 +143,6 @@ public class CardAction extends Action {
         } else if (cardActionCard instanceof Refinery) {
             player.scrapCardFromHand(selectedCard);
             player.gainFreeResourceCardIntoHand(selectedCard.getIndustryCost() + 3);
-        } else if (cardActionCard instanceof Trebuchet) {
-            cardActionCard.processCardActionResult(this, player, result);
-        } else if (cardActionCard instanceof Catapult) {
-            cardActionCard.processCardActionResult(this, player, result);
         } else if (cardActionCard instanceof CloseAirSupport) {
             player.discardCardFromHand(selectedCard);
             if (selectedCard instanceof Resource) {
@@ -168,8 +160,6 @@ public class CardAction extends Action {
             } else if (selectedCard instanceof Resource || selectedCard instanceof Support) {
                 player.addOpponentAction(new DamageUnit());
             }
-        } else if (cardActionCard instanceof Masakari) {
-            cardActionCard.processCardActionResult(this, player, result);
         } else if (cardActionCard instanceof BattlefieldSalvage) {
             if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
                 player.discardCardFromHand(selectedCard);
@@ -201,6 +191,8 @@ public class CardAction extends Action {
                 player.scrapUnitFromDeploymentZone((Unit) selectedCard);
                 player.getCardsPlayed().remove(cardActionCard);
             }
+        } else if (cardActionCard.isUnit()) {
+            ((Unit) cardActionCard).processCardActionResult(this, player, result);
         }
     }
 

@@ -8,7 +8,7 @@ import org.smartreaction.battletechdomination.model.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Flamers extends Ability {
+public class Flamers extends Ability implements UnitDeployedAbility {
     //FLAMERS: When you deploy this unit, your opponent must damage all Infantry Platoons in his deployment zone.
 
     public Flamers(Card card) {

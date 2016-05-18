@@ -2,13 +2,8 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
-import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
-import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
-import org.smartreaction.battletechdomination.model.players.Player;
 
 public class Masakari extends MechUnit {
-    QuadERPPCs quadERPPCs;
-
     public Masakari() {
         name = "Masakari";
         subName = "WARHAWK";
@@ -18,31 +13,6 @@ public class Masakari extends MechUnit {
         industryCost = 8;
         losTechCost = 1;
 
-        quadERPPCs = new QuadERPPCs(this);
-    }
-
-    @Override
-    public boolean isAbilityAvailable(Player player) {
-        return quadERPPCs.isAbilityAvailable(player);
-    }
-
-    @Override
-    public void useUnitAbility(Player player) {
-        quadERPPCs.useAbility(player);
-    }
-
-    @Override
-    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
-        return quadERPPCs.isActionableForCardAction(cardAction, cardLocation, player);
-    }
-
-    @Override
-    public boolean processCardAction(Player player) {
-        return quadERPPCs.processCardAction(player);
-    }
-
-    @Override
-    public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
-        quadERPPCs.processCardActionResult(cardAction, player, result);
+        addAbility(new QuadERPPCs(this));
     }
 }

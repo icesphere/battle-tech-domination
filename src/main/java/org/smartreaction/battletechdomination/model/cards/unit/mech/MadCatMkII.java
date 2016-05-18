@@ -2,11 +2,8 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.ChampionMech;
-import org.smartreaction.battletechdomination.model.players.Player;
 
 public class MadCatMkII extends MechUnit {
-    ChampionMech championMech;
-
     public MadCatMkII() {
         name = "Mad Cat Mk II";
         cardText = "CHAMPION MECH: When you deploy this unit, +2 cards if your opponent has more units in his deployment zone than you have in yours.";
@@ -15,11 +12,6 @@ public class MadCatMkII extends MechUnit {
         industryCost = 8;
         losTechCost = 1;
 
-        championMech = new ChampionMech(this);
-    }
-
-    @Override
-    public void unitDeployed(Player player) {
-        championMech.useAbility(player);
+        addAbility(new ChampionMech(this));
     }
 }

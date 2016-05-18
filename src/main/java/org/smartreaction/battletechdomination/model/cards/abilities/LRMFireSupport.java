@@ -7,7 +7,7 @@ import org.smartreaction.battletechdomination.model.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LRMFireSupport extends Ability {
+public class LRMFireSupport extends Ability implements CombatPhaseBonusAbility {
     //LRM FIRE SUPPORT: Each Mech in your deployment zone gets +1 Attack.
 
     public LRMFireSupport(Card card) {
