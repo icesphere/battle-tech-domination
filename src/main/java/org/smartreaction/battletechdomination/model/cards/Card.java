@@ -1,5 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards;
 
+import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
+import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.Objects;
@@ -29,6 +31,22 @@ public abstract class Card {
     public abstract void cardPlayed(Player player);
 
     public void choiceMade(int choice, Player player) {
+
+    }
+
+    public void applyCombatPhaseBonuses(Player player) {
+
+    }
+
+    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
+        return false;
+    }
+
+    public boolean processCardAction(Player player) {
+        return true;
+    }
+
+    public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
 
     }
 

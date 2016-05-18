@@ -3,8 +3,11 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.ActiveProbe;
 import org.smartreaction.battletechdomination.model.cards.abilities.ECM;
+import org.smartreaction.battletechdomination.model.players.Player;
 
-public class Loki extends MechUnit implements ECM, ActiveProbe {
+public class Loki extends MechUnit implements ActiveProbe {
+    ECM ecm;
+
     public Loki() {
         name = "Loki";
         subName = "HELLBRINGER";
@@ -13,5 +16,12 @@ public class Loki extends MechUnit implements ECM, ActiveProbe {
         defense = 2;
         industryCost = 6;
         losTechCost = 1;
+
+        ecm = new ECM(this);
+    }
+
+    @Override
+    public void applyCombatPhaseBonuses(Player player) {
+        ecm.useAbility(player);
     }
 }

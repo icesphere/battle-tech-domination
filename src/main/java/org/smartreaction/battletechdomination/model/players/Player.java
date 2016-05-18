@@ -342,6 +342,10 @@ public abstract class Player {
         this.attack += attack;
     }
 
+    public void addDefense(int defense) {
+        this.defense += defense;
+    }
+
     public void scrapCardFromHand(Card card) {
         addGameLog(playerName + " scrapped " + card.getName() + " from hand");
         hand.remove(card);
@@ -529,61 +533,7 @@ public abstract class Player {
 
     public void applyCombatPhaseBonuses() {
         for (Card card : deploymentZone) {
-            if (yourTurn) {
-                if (card instanceof CityFighter) {
-                    if (opponent.getNumInfantryUnitsInDeploymentZone() >= 2) {
-                        addGameLog(playerName + " gained +3 Attack from City Fighter ability on " + card.getName());
-                        attack += 3;
-                    }
-                }
-
-                if (card instanceof AC10) {
-                    if (opponent.getNumMechUnitsInDeploymentZone() > 0 || opponent.getNumVehicleUnitsInDeploymentZone() > 0) {
-                        addGameLog(playerName + " gained +1 Attack from AC/10 ability on " + card.getName());
-                        attack++;
-                    }
-                }
-
-                if (card instanceof Inspiring) {
-                    List<Card> deploymentZoneCopy = new ArrayList<>(deploymentZone);
-                    for (Card deploymentZoneCard : deploymentZoneCopy) {
-                        addGameLog(playerName + "'s Infantry units gain +1 Attack from Inspiring ability on " + card.getName());
-                        if (deploymentZoneCard instanceof InfantryPlatoon) {
-                            ((InfantryPlatoon) deploymentZoneCard).setBonusAttack(((InfantryPlatoon) deploymentZoneCard).getBonusAttack() + 1);
-                        }
-                    }
-                }
-
-                if (card instanceof LRMFireSupport) {
-                    List<Card> otherDeploymentZoneCards = new ArrayList<>(deploymentZone);
-                    otherDeploymentZoneCards.remove(card);
-                    for (Card deploymentZoneCard : otherDeploymentZoneCards) {
-                        if (deploymentZoneCard instanceof MechUnit) {
-                            addGameLog(playerName + "'s " + deploymentZoneCard.getName() + " gained +1 Attack from LRMFireSupport ability on " + card.getName());
-                            ((MechUnit) deploymentZoneCard).setBonusAttack(((MechUnit) deploymentZoneCard).getBonusAttack() + 1);
-                        }
-                    }
-                }
-            } else {
-                if (card instanceof ECM) {
-                    List<Card> otherDeploymentZoneCards = new ArrayList<>(deploymentZone);
-                    otherDeploymentZoneCards.remove(card);
-                    for (Card otherDeploymentZoneCard : otherDeploymentZoneCards) {
-                        if (otherDeploymentZoneCard instanceof MechUnit) {
-                            addGameLog(playerName + "'s " + otherDeploymentZoneCard.getName() + " gained +1 Defense from ECM ability on " + card.getName());
-                            ((MechUnit) otherDeploymentZoneCard).setBonusDefense(((MechUnit) otherDeploymentZoneCard).getBonusDefense() + 1);
-                        }
-                    }
-                }
-            }
-
-            if (card instanceof Heroic) {
-                if (getNumUnitsInDeploymentZone() < opponent.getNumUnitsInDeploymentZone()) {
-                    addGameLog(playerName + " gained +1 Attack and +2 Defense from Heroic ability on " + card.getName());
-                    attack++;
-                    defense += 2;
-                }
-            }
+            card.applyCombatPhaseBonuses(this);
         }
     }
 
@@ -653,55 +603,9 @@ public abstract class Player {
     }
 
     public void useUnitAbility(Unit unit) {
-        if (unit.isAbilityAvailable(this)) {
+        if (!unit.isAbilityUsed() && unit.isAbilityAvailable(this)) {
             unit.setAbilityUsed(true);
-            if (unit instanceof AC20) {
-                Card card = revealTopCardOfDeck();
-                if (card instanceof Resource) {
-                    addGameLog(opponent.getPlayerName() + " must damage a Mech unit due to AC/20 ability on " + unit.getName());
-                    addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
-                } else if (card instanceof Support) {
-                    cardDamaged(unit);
-                }
-            }
-
-            if (unit instanceof Expendable) {
-                cardDamaged(unit);
-                addGameLog(playerName + " gets +1 Attack from damaging Expendable unit: " + unit.getName());
-                attack++;
-            }
-
-            if (unit instanceof DeathFromAbove) {
-                cardDamaged(unit);
-                addGameLog(playerName + " gets to damage an opponent's unit costing 5 Industry or less due to damaging " + unit.getName() + " with Death From Above ability");
-                addAction(new ScrapOpponentUnitMaxCost(5, "Damage an opponent's unit costing 5 Industry or less"));
-            }
-
-            if (unit instanceof HeavyFireSupport) {
-                addAction(new CardAction(unit, "Discard a Unit card from your hand to make your opponent damage a unit."));
-            }
-
-            if (unit instanceof MobileFireSupport) {
-                addAction(new CardAction(unit, "Discard a card from your hand for +1 Attack."));
-            }
-
-            if (unit instanceof Overheat) {
-                cardDamaged(unit);
-                attack += 4;
-            }
-
-            if (unit instanceof QuadERPPCs) {
-                addAction(new CardAction(unit, "Discard 2 cards from your hand to make your opponent gain a Heavy Casualties card."));
-            }
-
-            if (unit instanceof Scout) {
-                Card card = opponent.revealTopCardOfDeck();
-
-                Choice choice1 = new Choice(1, "Opponent discards " + card.getName());
-                Choice choice2 = new Choice(2, "Opponent puts " + card.getName() + " back on top of deck");
-
-                this.makeAbilityChoice(unit, "Scout", "Opponent's top card of deck is " + card.getName() + ". Do you want to discard it or put it back?", choice1, choice2);
-            }
+            unit.useUnitAbility(this);
         }
     }
 

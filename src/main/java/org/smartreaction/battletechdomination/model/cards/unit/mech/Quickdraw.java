@@ -2,8 +2,11 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.Versatile;
+import org.smartreaction.battletechdomination.model.players.Player;
 
-public class Quickdraw extends MechUnit implements Versatile {
+public class Quickdraw extends MechUnit {
+    Versatile versatile;
+
     public Quickdraw() {
         name = "Quickdraw";
         subName = "QKD-4G";
@@ -11,5 +14,12 @@ public class Quickdraw extends MechUnit implements Versatile {
         attack = 2;
         defense = 1;
         industryCost = 5;
+
+        versatile = new Versatile(this);
+    }
+
+    @Override
+    public void unitDeployed(Player player) {
+        versatile.useAbility(player);
     }
 }

@@ -5,7 +5,6 @@ import org.smartreaction.battletechdomination.model.ChatMessage;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
 import org.smartreaction.battletechdomination.model.cards.actions.Action;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
@@ -13,6 +12,7 @@ import org.smartreaction.battletechdomination.model.cards.actions.DiscardCardsFr
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
+import org.smartreaction.battletechdomination.model.cards.unit.mech.Masakari;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
 
@@ -295,7 +295,7 @@ public class GameView implements Serializable {
             } else {
                 return;
             }
-        } else if (action instanceof CardAction && (((CardAction) action).getCardActionCard() instanceof QuadERPPCs || ((CardAction) action).getCardActionCard() instanceof RaidedSupplies)) {
+        } else if (action instanceof CardAction && (((CardAction) action).getCardActionCard() instanceof Masakari || ((CardAction) action).getCardActionCard() instanceof RaidedSupplies)) {
             CardAction cardAction = (CardAction) action;
             cardAction.getSelectedCards().add(card);
             if (cardAction.getSelectedCards().size() == 2) {

@@ -2,8 +2,11 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.DeathFromAbove;
+import org.smartreaction.battletechdomination.model.players.Player;
 
-public class Thor extends MechUnit implements DeathFromAbove {
+public class Thor extends MechUnit {
+    DeathFromAbove deathFromAbove;
+
     public Thor() {
         name = "Thor";
         subName = "SUMMONER";
@@ -12,5 +15,12 @@ public class Thor extends MechUnit implements DeathFromAbove {
         defense = 3;
         industryCost = 6;
         losTechCost = 1;
+
+        deathFromAbove = new DeathFromAbove(this);
+    }
+
+    @Override
+    public void useUnitAbility(Player player) {
+        deathFromAbove.useAbility(player);
     }
 }

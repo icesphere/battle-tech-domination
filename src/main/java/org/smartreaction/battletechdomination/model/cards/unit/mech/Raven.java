@@ -3,8 +3,11 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.ActiveProbe;
 import org.smartreaction.battletechdomination.model.cards.abilities.ECM;
+import org.smartreaction.battletechdomination.model.players.Player;
 
-public class Raven extends MechUnit implements ECM, ActiveProbe {
+public class Raven extends MechUnit implements ActiveProbe {
+    ECM ecm;
+
     public Raven() {
         name = "Raven";
         subName = "RVN-3L";
@@ -12,5 +15,12 @@ public class Raven extends MechUnit implements ECM, ActiveProbe {
         attack = 0;
         defense = 0;
         industryCost = 3;
+
+        ecm = new ECM(this);
+    }
+
+    @Override
+    public void applyCombatPhaseBonuses(Player player) {
+        ecm.useAbility(player);
     }
 }

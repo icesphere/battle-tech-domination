@@ -2,8 +2,11 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.CityFighter;
+import org.smartreaction.battletechdomination.model.players.Player;
 
-public class Urbanmech extends MechUnit implements CityFighter {
+public class Urbanmech extends MechUnit {
+    CityFighter cityFighter;
+
     public Urbanmech() {
         name = "Urbanmech";
         subName = "UM-R63";
@@ -11,5 +14,12 @@ public class Urbanmech extends MechUnit implements CityFighter {
         attack = 0;
         defense = 1;
         industryCost = 1;
+
+        cityFighter = new CityFighter(this);
+    }
+
+    @Override
+    public void applyCombatPhaseBonuses(Player player) {
+        cityFighter.useAbility(player);
     }
 }
