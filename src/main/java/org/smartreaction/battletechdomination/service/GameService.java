@@ -34,6 +34,8 @@ public class GameService {
 
     private final static String GAME_CHANNEL = "/game/";
 
+    private final Object matchUserLock = new Object();
+
     @EJB
     LoggedInUsers loggedInUsers;
 
@@ -491,19 +493,20 @@ public class GameService {
     }
 
     public void autoMatchUser(User user) {
-        //todo synchronize this
-        if (user.getCurrentGame() != null) {
-            return;
-        }
-        List<User> users = loggedInUsers.getUsersWaitingForAutoMatch();
-        if (!users.isEmpty()) {
-            User opponent = users.get(0);
-            opponent.setAutoMatch(false);
-            user.setAutoMatch(false);
-            createGame(user, opponent);
-            sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
-        } else {
-            user.setAutoMatch(true);
+        synchronized (matchUserLock) {
+            if (user.getCurrentGame() != null) {
+                return;
+            }
+            List<User> users = loggedInUsers.getUsersWaitingForAutoMatch();
+            if (!users.isEmpty()) {
+                User opponent = users.get(0);
+                opponent.setAutoMatch(false);
+                user.setAutoMatch(false);
+                createGame(user, opponent);
+                sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
+            } else {
+                user.setAutoMatch(true);
+            }
         }
     }
 
