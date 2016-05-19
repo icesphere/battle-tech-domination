@@ -488,20 +488,7 @@ public abstract class Player {
             List<Unit> deploymentZoneCopy = new ArrayList<>(deploymentZone);
 
             for (Unit unit : deploymentZoneCopy) {
-                if (unit instanceof GreatDeath) {
-                    addGameLog(getOpponent().getPlayerName() + " must damage a unit due to Great Death ability on " + unit.getName());
-                    addOpponentAction(new DamageUnit());
-                }
-                if (unit instanceof GuerrillaFighter) {
-                    addGameLog(playerName + " gets to draw a card due to Guerrilla Fighter ability on " + unit.getName());
-                    drawCards(1);
-                }
-                if (unit instanceof PoorHeatManagement) {
-                    addGameLog(playerName + " has to discard a card due to Poor Heat Management ability on " + unit.getName());
-                    discardCardsFromHand(1);
-                    deploymentZone.remove(unit);
-                    shuffleCardIntoDeck(unit);
-                }
+                unit.applyOverrunOpponentAbilities(this);
             }
         }
 
@@ -585,11 +572,6 @@ public abstract class Player {
     }
 
     public void deployUnit(Unit unit) {
-        if (!unit.isDeployable(this)) {
-            addGameLog(unit.getName() + " is not deployable");
-            return;
-        }
-
         if (unit instanceof MechUnit || unit instanceof VehicleUnit) {
             for (Card card : opponent.getDeploymentZone()) {
                 if (card instanceof ActiveProbe) {
@@ -686,21 +668,11 @@ public abstract class Player {
         addGameLog(playerName + " damaged " + unit.getName());
         deploymentZone.remove(unit);
 
+        unit.unitDamaged(this);
+
         if (unit instanceof TacticalCommand) {
             addGameLog(opponent.getPlayerName() + " draws 2 cards from damaging " + unit.getName());
             opponent.drawCards(2);
-        }
-
-        if (unit instanceof CounterAttack) {
-            if (getOpponent().getNumMechUnitsInDeploymentZone() > 0) {
-                addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
-                addGameLog(opponent.getPlayerName() + " must damage a Mech due to " + playerName + "'s Counter Attack ability on " + unit.getName());
-            }
-        }
-
-        if (unit instanceof Durable) {
-            addGameLog(playerName + " gets to draw 1 card due to Durable ability on " + unit.getName());
-            drawCards(1);
         }
 
         if (unit instanceof MechUnit) {
@@ -712,20 +684,13 @@ public abstract class Player {
             }
         }
 
-        if (unit instanceof HeavyArmor) {
-            makeYesNoAbilityChoice(unit, "HeavyArmor", "Shuffle " + unit.getName() + " into deck?");
-        } else if (unit instanceof Tank) {
-            addGameLog(unit.getName() + " was scrapped due to Tank ability");
-            scrapUnitFromDeploymentZone(unit);
+        if (unit instanceof MechUnit && expertMechTechsInDeploymentZone) {
+            expertMechTechsInDeploymentZone = false;
+            addGameLog(playerName + " scrapped Expert Mech Techs to put " + unit.getName() + " into their hand instead of their discard pile");
+            addCardToHand(unit);
         } else {
-            if (unit instanceof MechUnit && expertMechTechsInDeploymentZone) {
-                expertMechTechsInDeploymentZone = false;
-                addGameLog(playerName + " scrapped Expert Mech Techs to put " + unit.getName() + " into their hand instead of their discard pile");
-                addCardToHand(unit);
-            } else {
-                addCardToDiscard(unit);
-                cardRemovedFromPlay(unit);
-            }
+            addCardToDiscard(unit);
+            cardRemovedFromPlay(unit);
         }
     }
 

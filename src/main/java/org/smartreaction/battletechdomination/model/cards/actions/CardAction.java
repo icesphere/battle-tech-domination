@@ -67,7 +67,7 @@ public class CardAction extends Action {
             }
         } else if (cardActionCard.isUnit()) {
             Unit unit = (Unit) cardActionCard;
-            unit.isActionableForCardAction(this, cardLocation, player);
+            unit.isActionableForCardAction(card, this, cardLocation, player);
         }
 
         return false;

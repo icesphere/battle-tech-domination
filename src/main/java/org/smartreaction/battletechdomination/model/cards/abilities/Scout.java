@@ -3,13 +3,14 @@ package org.smartreaction.battletechdomination.model.cards.abilities;
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class Scout extends Ability {
     //SCOUT: At the start of your Combat phase, your opponent reveals the top card of his deck and either puts it back or discards it, your choice.
 
-    public Scout(Card card) {
-        super(card);
+    public Scout(Unit unit) {
+        super(unit);
     }
 
     @Override

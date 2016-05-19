@@ -4,7 +4,7 @@ import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.Durable;
 import org.smartreaction.battletechdomination.model.cards.abilities.Scout;
 
-public class Commando extends MechUnit implements Durable {
+public class Commando extends MechUnit {
     public Commando() {
         name = "Commando";
         subName = "COM-2D";
@@ -13,6 +13,7 @@ public class Commando extends MechUnit implements Durable {
         defense = 0;
         industryCost = 3;
 
+        addAbility(new Durable(this));
         addAbility(new Scout(this));
     }
 }

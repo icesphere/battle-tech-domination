@@ -8,8 +8,8 @@ import org.smartreaction.battletechdomination.model.players.Player;
 public class AC20 extends Ability implements UnitDeployedAbility {
     //AC/20: Once per turn during your action phase, you may reveal the top card of your deck. If it is a... Resource card, your opponent must damage a Mech; Support card, damage this unit; Unit card, no effect.
 
-    public AC20(Card card) {
-        super(card);
+    public AC20(Unit unit) {
+        super(unit);
     }
 
     @Override

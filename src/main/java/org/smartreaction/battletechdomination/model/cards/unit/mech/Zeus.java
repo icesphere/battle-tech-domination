@@ -3,7 +3,7 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.Durable;
 
-public class Zeus extends MechUnit implements Durable {
+public class Zeus extends MechUnit {
     public Zeus() {
         name = "Zeus";
         subName = "ZEU-9S";
@@ -11,5 +11,7 @@ public class Zeus extends MechUnit implements Durable {
         attack = 2;
         defense = 3;
         industryCost = 6;
+
+        addAbility(new Durable(this));
     }
 }

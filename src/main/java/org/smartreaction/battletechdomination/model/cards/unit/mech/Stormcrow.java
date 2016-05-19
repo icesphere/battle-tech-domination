@@ -3,7 +3,7 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.CounterAttack;
 
-public class Stormcrow extends MechUnit implements CounterAttack {
+public class Stormcrow extends MechUnit {
     public Stormcrow() {
         name = "Stormcrow";
         subName = "RYOKEN";
@@ -12,5 +12,7 @@ public class Stormcrow extends MechUnit implements CounterAttack {
         defense = 1;
         industryCost = 4;
         losTechCost = 1;
+
+        addAbility(new CounterAttack(this));
     }
 }

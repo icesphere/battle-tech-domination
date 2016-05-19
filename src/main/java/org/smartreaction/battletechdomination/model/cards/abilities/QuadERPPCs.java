@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.abilities;
 
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
@@ -9,13 +10,13 @@ import org.smartreaction.battletechdomination.model.players.Player;
 public class QuadERPPCs extends Ability implements CardActionAbility {
     //QUAD ER PPCs: You may discard two cards from your hand at the start of your Combat phase. If you do, your opponent gains a Heavy Casualties card.
 
-    public QuadERPPCs(Card card) {
-        super(card);
+    public QuadERPPCs(Unit unit) {
+        super(unit);
     }
 
     @Override
     public void useAbility(Player player) {
-        player.addAction(new CardAction(card, "Discard 2 cards from your hand to make your opponent gain a Heavy Casualties card."));
+        player.addAction(new CardAction(unit, "Discard 2 cards from your hand to make your opponent gain a Heavy Casualties card."));
     }
 
     @Override
@@ -24,7 +25,7 @@ public class QuadERPPCs extends Ability implements CardActionAbility {
     }
 
     @Override
-    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
+    public boolean isActionableForCardAction(Card card, CardAction cardAction, String cardLocation, Player player) {
         if (cardLocation.equals(Card.CARD_LOCATION_HAND)) {
             if (!cardAction.getSelectedCards().contains(card)) {
                 return true;

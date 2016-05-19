@@ -1,20 +1,19 @@
 package org.smartreaction.battletechdomination.model.cards.abilities;
 
 import org.smartreaction.battletechdomination.model.TurnPhase;
-import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class Overheat extends Ability {
     //OVERHEAT: You may damage this unit at the start of your combat phase. If you do, +4 Attack.
 
-    public Overheat(Card card) {
-        super(card);
+    public Overheat(Unit unit) {
+        super(unit);
     }
 
     @Override
     public void useAbility(Player player) {
-        player.cardDamaged((Unit) card);
+        player.cardDamaged(unit);
         player.addAttack(4);
     }
 

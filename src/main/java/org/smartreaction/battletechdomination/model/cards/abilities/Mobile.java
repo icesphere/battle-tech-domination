@@ -1,13 +1,13 @@
 package org.smartreaction.battletechdomination.model.cards.abilities;
 
-import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class Mobile extends Ability implements UnitDeployedAbility {
     //MOBILE: +1 Action when you deploy this unit.
 
-    public Mobile(Card card) {
-        super(card);
+    public Mobile(Unit unit) {
+        super(unit);
     }
 
     @Override

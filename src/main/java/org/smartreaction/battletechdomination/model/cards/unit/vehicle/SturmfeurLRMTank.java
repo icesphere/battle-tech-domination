@@ -4,7 +4,7 @@ import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.LRMFireSupport;
 import org.smartreaction.battletechdomination.model.cards.abilities.Tank;
 
-public class SturmfeurLRMTank extends VehicleUnit implements Tank {
+public class SturmfeurLRMTank extends VehicleUnit {
     public SturmfeurLRMTank() {
         name = "Sturmfeur LRM Tank";
         cardText = "LRM FIRE SUPPORT: Each Mech in your deployment zone gets +1 Attack. TANK: If this unit is damaged, scrap it instead.";
@@ -13,5 +13,6 @@ public class SturmfeurLRMTank extends VehicleUnit implements Tank {
         industryCost = 2;
 
         addAbility(new LRMFireSupport(this));
+        addAbility(new Tank(this));
     }
 }

@@ -1,9 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards;
 
-import org.smartreaction.battletechdomination.model.cards.abilities.Ability;
-import org.smartreaction.battletechdomination.model.cards.abilities.CardActionAbility;
-import org.smartreaction.battletechdomination.model.cards.abilities.CombatPhaseBonusAbility;
-import org.smartreaction.battletechdomination.model.cards.abilities.UnitDeployedAbility;
+import org.smartreaction.battletechdomination.model.cards.abilities.*;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
@@ -52,8 +49,8 @@ public abstract class Unit extends Card {
         abilities.stream().filter(a -> a instanceof UnitDeployedAbility).forEach(a -> a.useAbility(player));
     }
 
-    public boolean isDeployable(Player player) {
-        return true;
+    public void unitDamaged(Player player) {
+        abilities.stream().filter(a -> a instanceof UnitDamagedAbility).forEach(a -> a.useAbility(player));
     }
 
     @Override
@@ -71,8 +68,8 @@ public abstract class Unit extends Card {
         return false;
     }
 
-    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
-        return abilities.stream().anyMatch(a -> a instanceof CardActionAbility && ((CardActionAbility) a).isActionableForCardAction(cardAction, cardLocation, player));
+    public boolean isActionableForCardAction(Card card, CardAction cardAction, String cardLocation, Player player) {
+        return abilities.stream().anyMatch(a -> a instanceof CardActionAbility && ((CardActionAbility) a).isActionableForCardAction(card, cardAction, cardLocation, player));
     }
 
     public boolean processCardAction(Player player) {
@@ -89,6 +86,10 @@ public abstract class Unit extends Card {
 
     public void applyCombatPhaseBonuses(Player player) {
         abilities.stream().filter(a -> a instanceof CombatPhaseBonusAbility).forEach(a -> a.useAbility(player));
+    }
+
+    public void applyOverrunOpponentAbilities(Player player) {
+        abilities.stream().filter(a -> a instanceof OverrunOpponentAbility).forEach(a -> a.useAbility(player));
     }
 
     public int getAttack() {

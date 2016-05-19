@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.abilities;
 
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
@@ -10,8 +11,8 @@ import org.smartreaction.battletechdomination.model.players.Player;
 public class HeavyFireSupport extends Ability implements CardActionAbility {
     //HEAVY FIRE SUPPORT: Once per turn during your Action phase, you may discard a Unit card from your hand. If you do, your opponent must damage a unit.
 
-    public HeavyFireSupport(Card card) {
-        super(card);
+    public HeavyFireSupport(Unit unit) {
+        super(unit);
     }
 
     @Override
@@ -21,11 +22,11 @@ public class HeavyFireSupport extends Ability implements CardActionAbility {
 
     @Override
     public void useAbility(Player player) {
-        player.addAction(new CardAction(card, "Discard a Unit card from your hand to make your opponent damage a unit."));
+        player.addAction(new CardAction(unit, "Discard a Unit card from your hand to make your opponent damage a unit."));
     }
 
     @Override
-    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
+    public boolean isActionableForCardAction(Card card, CardAction cardAction, String cardLocation, Player player) {
         return card.isUnit() && cardLocation.equals(Card.CARD_LOCATION_HAND);
     }
 

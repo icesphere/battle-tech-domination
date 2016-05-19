@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.abilities;
 
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
@@ -9,8 +10,8 @@ import org.smartreaction.battletechdomination.model.players.Player;
 public class MobileFireSupport extends Ability implements CardActionAbility {
     //MOBILE FIRE SUPPORT: At the start of your Combat phase, you may discard a card from your hand. If you do, +1 Attack.
 
-    public MobileFireSupport(Card card) {
-        super(card);
+    public MobileFireSupport(Unit unit) {
+        super(unit);
     }
 
     @Override
@@ -20,11 +21,11 @@ public class MobileFireSupport extends Ability implements CardActionAbility {
 
     @Override
     public void useAbility(Player player) {
-        player.addAction(new CardAction(card, "Discard a card from your hand for +1 Attack."));
+        player.addAction(new CardAction(unit, "Discard a card from your hand for +1 Attack."));
     }
 
     @Override
-    public boolean isActionableForCardAction(CardAction cardAction, String cardLocation, Player player) {
+    public boolean isActionableForCardAction(Card card, CardAction cardAction, String cardLocation, Player player) {
         return cardLocation.equals(Card.CARD_LOCATION_HAND);
     }
 
