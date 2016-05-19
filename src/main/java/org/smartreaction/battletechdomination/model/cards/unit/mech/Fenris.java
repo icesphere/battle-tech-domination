@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.ActiveProbe;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.ActiveProbe;
 
 public class Fenris extends MechUnit implements ActiveProbe {
     public Fenris() {

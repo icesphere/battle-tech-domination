@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Mobile;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Mobile;
 
 public class Locust extends MechUnit {
     public Locust() {

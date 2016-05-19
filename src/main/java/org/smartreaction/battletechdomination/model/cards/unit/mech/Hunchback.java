@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.AC20;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.AC20;
 
 public class Hunchback extends MechUnit {
     public Hunchback() {

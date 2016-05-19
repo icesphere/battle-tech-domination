@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Versatile;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Versatile;
 
 public class Quickdraw extends MechUnit {
     public Quickdraw() {

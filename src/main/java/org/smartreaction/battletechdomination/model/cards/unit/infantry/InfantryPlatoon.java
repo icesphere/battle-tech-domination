@@ -2,7 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.unit.infantry;
 
 import org.smartreaction.battletechdomination.model.cards.BaseSupply;
 import org.smartreaction.battletechdomination.model.cards.InfantryUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Expendable;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Expendable;
 
 public class InfantryPlatoon extends InfantryUnit implements BaseSupply {
     public InfantryPlatoon() {

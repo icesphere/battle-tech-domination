@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.GuerrillaFighter;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.GuerrillaFighter;
 
 public class Jenner extends MechUnit {
     public Jenner() {

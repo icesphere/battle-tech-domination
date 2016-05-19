@@ -15,4 +15,14 @@ public class SocialGenerals extends Support {
         player.addIndustry(2);
         player.mayPutBoughtOrGainedCardsOnTopOfDeck();
     }
+
+    @Override
+    public void choiceMade(int choice, Player player) {
+        if (choice == 1) {
+            player.addGameLog(player.getPlayerName() + " chose to use Social Generals to put " + getName() + " on top of deck");
+            player.addCardToTopOfDeck(this);
+        } else {
+            player.addCardToDiscard(this);
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Durable;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Durable;
 
 public class Zeus extends MechUnit {
     public Zeus() {

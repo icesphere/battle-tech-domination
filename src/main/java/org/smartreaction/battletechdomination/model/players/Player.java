@@ -4,7 +4,7 @@ import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.abilities.*;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.*;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
@@ -135,8 +135,8 @@ public abstract class Player {
             boughtInfantryPlatoonThisTurn = true;
         }
 
-        if (card instanceof QuickToAction) {
-            makeYesNoAbilityChoice(card, "QuickToAction", "Add " + card.getName() + " to top of deck?");
+        if (card.isUnit() && ((Unit) card).hasBuyAbility()) {
+            ((Unit) card).applyBuyAbility(this);
         } else {
             cardAcquired(card);
         }
@@ -204,12 +204,20 @@ public abstract class Player {
         addAction(choiceAction);
     }
 
+    public void makeUnitAbilityChoice(UnitChoiceAbility ability, String text, Choice... choices) {
+        addAction(new UnitAbilityChoiceAction(ability, text, choices));
+    }
+
+    public void makeYesNoUnitAbilityChoice(UnitChoiceAbility ability, String text) {
+        addAction(new YesNoUnitAbilityChoiceAction(ability, text));
+    }
+
     public void makeYesNoAbilityChoice(Card card, String abilityName, String text) {
         addAction(new YesNoAbilityAction(card, abilityName, text));
     }
 
     @SuppressWarnings("UnusedParameters")
-    private void cardRemovedFromPlay(Card card) {
+    public void cardRemovedFromPlay(Card card) {
         //todo may need in the future
     }
 
@@ -701,15 +709,6 @@ public abstract class Player {
                     addAction(new CardAction(card, "Discard a Unit card from your hand or deployment zone. Gain an additional +X Industry, where X is the Industry cost of the card you discarded."));
                 }
                 break;
-            case "HeavyArmor":
-                if (choice == 1) {
-                    addGameLog(playerName + " chose to use Heavy Armor ability to shuffle " + card.getName() + " into deck");
-                    shuffleCardIntoDeck(card);
-                } else {
-                    addCardToDiscard(card);
-                    cardRemovedFromPlay(card);
-                }
-                break;
             case "HeavyCasualties":
                 if (choice == 1) {
                     Optional<Card> infantryPlatoonInHand = getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
@@ -723,29 +722,6 @@ public abstract class Player {
                     addCardToDiscard(infantryPlatoonInDeploymentZone.get());
                     getCardsPlayed().remove(card);
                 }
-            case "QuickToAction":
-                if (choice == 1) {
-                    addGameLog(playerName + " chose to use Quick To Action ability to put " + card.getName() + " on top of deck");
-                    addCardToTopOfDeck(card);
-                } else {
-                    addCardToDiscard(card);
-                }
-                break;
-            case "ReconInForce":
-                if (choice == 1) {
-                    addGameLog(playerName + " chose to use Recon In Force ability on " + card.getName() + " to discard a card to make opponent gain a Raided Supplies");
-                    discardCardsFromHand(1);
-                    opponent.gainRaidedSupplies();
-                }
-                break;
-            case "Scout":
-                if (choice == 1) {
-                    addGameLog("Chose to discard top card of opponent's deck");
-                    opponent.discardTopCardOfDeck();
-                } else {
-                    addGameLog("Chose to keep top card of opponent's deck on top of deck");
-                }
-                break;
             case "SocialGenerals":
                 if (choice == 1) {
                     addGameLog(playerName + " chose to use Social Generals to put " + card.getName() + " on top of deck");
@@ -762,17 +738,6 @@ public abstract class Player {
             case "TacticalRedeployment":
                 if (choice == 1) {
                     moveUnitFromDeploymentZoneToHand();
-                }
-            case "Versatile":
-                if (choice == 1) {
-                    addGameLog("Chose +1 Card");
-                    drawCards(1);
-                } else if (choice == 2) {
-                    addGameLog("Chose +1 Action");
-                    addActions(1);
-                } else if (choice == 3) {
-                    addGameLog("Chose +1 Industry");
-                    addIndustry(1);
                 }
                 break;
         }

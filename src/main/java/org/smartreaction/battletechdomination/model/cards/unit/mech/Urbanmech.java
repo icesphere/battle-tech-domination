@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.CityFighter;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.CityFighter;
 
 public class Urbanmech extends MechUnit {
     public Urbanmech() {

@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.TacticalCommand;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.TacticalCommand;
 
 public class MobileHQ extends VehicleUnit implements TacticalCommand {
     public MobileHQ() {

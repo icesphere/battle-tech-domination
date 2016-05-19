@@ -1,6 +1,6 @@
 package org.smartreaction.battletechdomination.model.cards;
 
-import org.smartreaction.battletechdomination.model.cards.abilities.*;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.*;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
@@ -16,11 +16,11 @@ public abstract class Unit extends Card {
     protected int bonusAttack;
     protected int bonusDefense;
 
-    protected List<Ability> abilities = new ArrayList<>(1);
+    protected List<UnitAbility> abilities = new ArrayList<>(1);
 
     protected boolean abilityUsed;
 
-    public void addAbility(Ability ability) {
+    public void addAbility(UnitAbility ability) {
         abilities.add(ability);
     }
 
@@ -72,13 +72,24 @@ public abstract class Unit extends Card {
         return abilities.stream().anyMatch(a -> a instanceof CardActionAbility && ((CardActionAbility) a).isActionableForCardAction(card, cardAction, cardLocation, player));
     }
 
+    public boolean hasBuyAbility() {
+        return abilities.stream().anyMatch(a -> a instanceof UnitBuyAbility);
+    }
+
+    public void applyBuyAbility(Player player) {
+        Optional<UnitAbility> buyAbility = abilities.stream().filter(a -> a instanceof UnitBuyAbility).findAny();
+        if (buyAbility.isPresent()) {
+            buyAbility.get().useAbility(player);
+        }
+    }
+
     public boolean processCardAction(Player player) {
-        Optional<Ability> ability = abilities.stream().filter(a -> a instanceof CardActionAbility).findFirst();
+        Optional<UnitAbility> ability = abilities.stream().filter(a -> a instanceof CardActionAbility).findFirst();
         return !ability.isPresent() || ((CardActionAbility) ability.get()).processCardAction(player);
     }
 
     public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
-        Optional<Ability> ability = abilities.stream().filter(a -> a instanceof CardActionAbility).findFirst();
+        Optional<UnitAbility> ability = abilities.stream().filter(a -> a instanceof CardActionAbility).findFirst();
         if (ability.isPresent()) {
             ((CardActionAbility) ability.get()).processCardActionResult(cardAction, player, result);
         }

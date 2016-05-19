@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.GreatDeath;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.GreatDeath;
 
 public class Daishi extends MechUnit {
     public Daishi() {

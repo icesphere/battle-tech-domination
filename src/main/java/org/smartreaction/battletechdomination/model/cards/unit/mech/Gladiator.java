@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.TotemMech;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.TotemMech;
 
 public class Gladiator extends MechUnit implements TotemMech {
     public Gladiator() {

@@ -20,10 +20,6 @@ public class ChoiceAction extends Action {
         this.text = text;
     }
 
-    public Card getCard() {
-        return card;
-    }
-
     @Override
     public List<Choice> getChoices() {
         return choices;
@@ -46,10 +42,6 @@ public class ChoiceAction extends Action {
         } else {
             card.choiceMade(result.getChoiceSelected(), player);
         }
-    }
-
-    public String getAbilityName() {
-        return abilityName;
     }
 
     public void setAbilityName(String abilityName) {

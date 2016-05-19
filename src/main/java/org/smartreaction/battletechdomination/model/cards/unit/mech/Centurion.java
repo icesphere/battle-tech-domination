@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.AC10;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.AC10;
 
 public class Centurion extends MechUnit {
     public Centurion() {

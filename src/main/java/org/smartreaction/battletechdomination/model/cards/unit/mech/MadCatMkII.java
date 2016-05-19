@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.ChampionMech;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.ChampionMech;
 
 public class MadCatMkII extends MechUnit {
     public MadCatMkII() {

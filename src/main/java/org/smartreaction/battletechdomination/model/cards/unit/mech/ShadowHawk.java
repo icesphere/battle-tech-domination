@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.ReconInForce;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.ReconInForce;
 
 public class ShadowHawk extends MechUnit {
     public ShadowHawk() {

@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.QuadERPPCs;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.QuadERPPCs;
 
 public class Masakari extends MechUnit {
     public Masakari() {

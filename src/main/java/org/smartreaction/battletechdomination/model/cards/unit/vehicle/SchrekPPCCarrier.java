@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Tank;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Tank;
 
 public class SchrekPPCCarrier extends VehicleUnit {
     public SchrekPPCCarrier() {

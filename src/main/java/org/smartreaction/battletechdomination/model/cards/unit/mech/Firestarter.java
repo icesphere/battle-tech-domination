@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Flamers;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Flamers;
 
 public class Firestarter extends MechUnit {
     public Firestarter() {

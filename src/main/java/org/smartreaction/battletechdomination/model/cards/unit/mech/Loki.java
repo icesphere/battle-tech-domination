@@ -1,8 +1,8 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.ActiveProbe;
-import org.smartreaction.battletechdomination.model.cards.abilities.ECM;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.ActiveProbe;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.ECM;
 
 public class Loki extends MechUnit implements ActiveProbe {
     public Loki() {

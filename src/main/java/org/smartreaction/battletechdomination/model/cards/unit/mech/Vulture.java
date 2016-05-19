@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.LRMFireSupport;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.LRMFireSupport;
 
 public class Vulture extends MechUnit {
     public Vulture() {

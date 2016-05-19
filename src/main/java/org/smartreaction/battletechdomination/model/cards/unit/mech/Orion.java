@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
-import org.smartreaction.battletechdomination.model.cards.abilities.Heroic;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Heroic;
 
 public class Orion extends MechUnit {
     public Orion() {
