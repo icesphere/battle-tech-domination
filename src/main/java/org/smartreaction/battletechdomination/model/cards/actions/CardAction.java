@@ -6,6 +6,7 @@ import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.support.BattlefieldSalvage;
+import org.smartreaction.battletechdomination.model.cards.support.BlackMarket;
 import org.smartreaction.battletechdomination.model.cards.support.HiddenBase;
 import org.smartreaction.battletechdomination.model.cards.support.Refinery;
 import org.smartreaction.battletechdomination.model.cards.support.attack.CloseAirSupport;
@@ -63,6 +64,10 @@ public class CardAction extends Action {
             }
         } else if (cardActionCard instanceof CriticalHit) {
             if (card instanceof MechUnit && (cardLocation.equals(Card.CARD_LOCATION_HAND) || cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS))) {
+                return true;
+            }
+        } else if (cardActionCard instanceof BlackMarket) {
+            if (cardLocation.equals(Card.CARD_LOCATION_HAND) && cardActionCard.isResource()) {
                 return true;
             }
         } else if (cardActionCard.isUnit()) {
@@ -125,6 +130,12 @@ public class CardAction extends Action {
             long numMechsInHand = player.getHand().stream().filter(c -> c instanceof MechUnit).count();
 
             if (numMechUnitsInDeploymentZone == 0 && numMechsInHand == 0) {
+                return false;
+            }
+        } else if (cardActionCard instanceof BlackMarket) {
+            if (player.getHand().stream().anyMatch(Card::isResource)) {
+                player.addGameLog(player.getPlayerName() + " is scrapping a Resource card from hand to gain +3 Industry");
+            } else {
                 return false;
             }
         } else if (cardActionCard.isUnit()) {
@@ -191,6 +202,10 @@ public class CardAction extends Action {
                 player.scrapUnitFromDeploymentZone((Unit) selectedCard);
                 player.getCardsPlayed().remove(cardActionCard);
             }
+        } else if (cardActionCard instanceof BlackMarket) {
+            player.addGameLog(player.getPlayerName() + " scrapped a Resource from their hand to gain +3 Industry.");
+            player.scrapCardFromHand(selectedCard);
+            player.addIndustry(3);
         } else if (cardActionCard.isUnit()) {
             ((Unit) cardActionCard).processCardActionResult(this, player, result);
         }
