@@ -9,6 +9,7 @@ public class AdvancedFactory extends Resource implements BaseSupply {
         name = "Advanced Factory";
         cardText = "+3 Industry and +1 Los Tech";
         industryCost = 6;
+        imageFile = "advanced_factory.jpg";
     }
 
     @Override

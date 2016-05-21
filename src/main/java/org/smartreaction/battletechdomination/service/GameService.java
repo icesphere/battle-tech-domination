@@ -327,6 +327,7 @@ public class GameService {
             case "advancedfactory":
                 return new AdvancedFactory();
             case "basicfactory":
+            case "factory":
                 return new BasicFactory();
             case "dropship":
                 return new DropShip();

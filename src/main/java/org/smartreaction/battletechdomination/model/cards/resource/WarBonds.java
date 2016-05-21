@@ -9,6 +9,7 @@ public class WarBonds extends Resource implements BaseSupply {
         name = "War Bonds";
         cardText = "+2 Industry. Return this card to its Supply pile.";
         industryCost = 2;
+        imageFile = "war_bonds.jpg";
     }
 
     @Override

@@ -10,6 +10,7 @@ public class MunitionsFactory extends Resource implements BaseSupply {
         name = "Munitions Factory";
         cardText = "Choose one: +2 Industry or +1 Los Tech";
         industryCost = 3;
+        imageFile = "munitions_factory.jpg";
     }
 
     @Override

@@ -692,7 +692,16 @@ public abstract class Player {
             }
         }
 
-        if (unit instanceof MechUnit && expertMechTechsInDeploymentZone) {
+        if (unit instanceof SoftTarget) {
+            if (getOpponent().getNumMechUnitsInDeploymentZone() > 0) {
+                playerCardScrapped(unit);
+                cardRemovedFromPlay(unit);
+                addGameLog(playerName + " scrapped " + unit.getName() + " due to Soft Target ability.");
+            } else {
+                addCardToDiscard(unit);
+                cardRemovedFromPlay(unit);
+            }
+        } else if (unit instanceof MechUnit && expertMechTechsInDeploymentZone) {
             expertMechTechsInDeploymentZone = false;
             addGameLog(playerName + " scrapped Expert Mech Techs to put " + unit.getName() + " into their hand instead of their discard pile");
             addCardToHand(unit);

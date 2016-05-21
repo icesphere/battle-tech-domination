@@ -6,8 +6,9 @@ import org.smartreaction.battletechdomination.model.cards.Resource;
 
 public class BasicFactory extends Resource implements BaseSupply {
     public BasicFactory() {
-        name = "Basic Factory";
+        name = "Factory";
         cardText = "+1 Industry";
+        imageFile = "basic_factory.jpg";
     }
 
     @Override
