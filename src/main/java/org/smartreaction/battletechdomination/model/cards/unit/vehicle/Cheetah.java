@@ -1,6 +1,8 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Aerospace;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Afterburner;
 
 public class Cheetah extends VehicleUnit {
     public Cheetah() {
@@ -10,7 +12,8 @@ public class Cheetah extends VehicleUnit {
         attack = 1;
         defense = 1;
         industryCost = 2;
-    }
 
-    //todo
+        addAbility(new Afterburner(this));
+        addAbility(new Aerospace(this));
+    }
 }

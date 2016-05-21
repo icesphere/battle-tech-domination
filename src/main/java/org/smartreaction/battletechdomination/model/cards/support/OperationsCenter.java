@@ -12,7 +12,7 @@ public class OperationsCenter extends Support {
 
     @Override
     public void cardPlayed(Player player) {
+        player.addActions(1);
+        //todo
     }
-
-    //todo
 }

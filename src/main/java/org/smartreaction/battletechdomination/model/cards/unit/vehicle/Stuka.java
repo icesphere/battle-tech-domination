@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Aerospace;
 
 public class Stuka extends VehicleUnit {
     public Stuka() {
@@ -10,7 +11,7 @@ public class Stuka extends VehicleUnit {
         attack = 3;
         defense = 1;
         industryCost = 4;
-    }
 
-    //todo
+        addAbility(new Aerospace(this));
+    }
 }

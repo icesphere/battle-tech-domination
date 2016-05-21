@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Brawler;
 
 public class Wolverine extends MechUnit {
     public Wolverine() {
@@ -10,7 +11,7 @@ public class Wolverine extends MechUnit {
         attack = 1;
         defense = 2;
         industryCost = 4;
-    }
 
-    //todo
+        addAbility(new Brawler(this));
+    }
 }

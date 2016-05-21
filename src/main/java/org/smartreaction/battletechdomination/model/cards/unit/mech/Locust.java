@@ -2,8 +2,9 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.unit.Mobile;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Spotter;
 
-public class Locust extends MechUnit {
+public class Locust extends MechUnit implements Spotter {
     public Locust() {
         name = "Locust";
         subName = "LCT-1V";
@@ -14,6 +15,4 @@ public class Locust extends MechUnit {
 
         addAbility(new Mobile(this));
     }
-
-    //todo
 }

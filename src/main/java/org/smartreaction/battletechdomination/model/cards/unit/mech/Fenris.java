@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.abilities.unit.ActiveProbe;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.VeryFast;
 
 public class Fenris extends MechUnit implements ActiveProbe {
     public Fenris() {
@@ -12,7 +13,7 @@ public class Fenris extends MechUnit implements ActiveProbe {
         defense = 1;
         industryCost = 4;
         losTechCost = 1;
-    }
 
-    //todo
+        addAbility(new VeryFast(this));
+    }
 }

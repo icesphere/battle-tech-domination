@@ -1,6 +1,5 @@
 package org.smartreaction.battletechdomination.model.cards.abilities.unit;
 
-import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
@@ -13,7 +12,7 @@ public class QuickToAction extends UnitAbility implements UnitBuyAbility, UnitCh
 
     @Override
     public void useAbility(Player player) {
-        player.makeUnitAbilityChoice(this, "Add " + unit.getName() + " to top of deck?", new Choice(1, "Yes"), new Choice(2, "No"));
+        player.makeYesNoUnitAbilityChoice(this, "Add " + unit.getName() + " to top of deck?");
     }
 
     @Override
@@ -22,7 +21,7 @@ public class QuickToAction extends UnitAbility implements UnitBuyAbility, UnitCh
             player.addGameLog(player.getPlayerName() + " chose to use Quick To Action ability to put " + unit.getName() + " on top of deck");
             player.addCardToTopOfDeck(unit);
         } else {
-            player.addCardToDiscard(unit);
+            player.cardAcquired(unit);
         }
     }
 }

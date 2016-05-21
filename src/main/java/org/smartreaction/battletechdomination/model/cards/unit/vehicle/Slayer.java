@@ -1,6 +1,8 @@
 package org.smartreaction.battletechdomination.model.cards.unit.vehicle;
 
 import org.smartreaction.battletechdomination.model.cards.VehicleUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Aerospace;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.StrafingRun;
 
 public class Slayer extends VehicleUnit {
     public Slayer() {
@@ -10,7 +12,8 @@ public class Slayer extends VehicleUnit {
         attack = 0;
         defense = 0;
         industryCost = 3;
-    }
 
-    //todo
+        addAbility(new StrafingRun(this));
+        addAbility(new Aerospace(this));
+    }
 }

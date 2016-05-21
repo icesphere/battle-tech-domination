@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.LowMaintenance;
 
 public class Thunderbolt extends MechUnit {
     public Thunderbolt() {
@@ -10,7 +11,7 @@ public class Thunderbolt extends MechUnit {
         attack = 1;
         defense = 3;
         industryCost = 5;
-    }
 
-    //todo
+        addAbility(new LowMaintenance(this));
+    }
 }

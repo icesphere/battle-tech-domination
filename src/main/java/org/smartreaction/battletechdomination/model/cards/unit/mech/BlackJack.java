@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.SuppressiveFire;
 
 public class BlackJack extends MechUnit {
     public BlackJack() {
@@ -10,7 +11,7 @@ public class BlackJack extends MechUnit {
         attack = 0;
         defense = 2;
         industryCost = 3;
-    }
 
-    //todo
+        addAbility(new SuppressiveFire(this));
+    }
 }

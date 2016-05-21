@@ -12,7 +12,10 @@ public class InvasionFleet extends Support {
 
     @Override
     public void cardPlayed(Player player) {
+        player.addActions(2);
+        player.revealHand();
+        if (!player.getHand().stream().anyMatch(c -> c.isUnit() || c.isSupport())) {
+            player.drawCards(2);
+        }
     }
-
-    //todo
 }

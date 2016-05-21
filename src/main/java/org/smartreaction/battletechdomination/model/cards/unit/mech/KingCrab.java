@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.DualAC20s;
 
 public class KingCrab extends MechUnit {
     public KingCrab() {
@@ -10,7 +11,7 @@ public class KingCrab extends MechUnit {
         attack = 2;
         defense = 4;
         industryCost = 7;
-    }
 
-    //todo
+        addAbility(new DualAC20s(this));
+    }
 }

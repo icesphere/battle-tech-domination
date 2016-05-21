@@ -12,7 +12,7 @@ public class Scrapyard extends Support {
 
     @Override
     public void cardPlayed(Player player) {
+        player.addIndustry(2);
+        //todo
     }
-
-    //todo
 }

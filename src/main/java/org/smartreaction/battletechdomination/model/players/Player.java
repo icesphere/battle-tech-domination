@@ -139,11 +139,20 @@ public abstract class Player {
             ((Unit) card).applyBuyAbility(this);
         } else {
             cardAcquired(card);
+            card.cardBought(this);
         }
     }
 
     public void cardAcquired(Card card) {
-        if (mayPutBoughtOrGainedCardsOnTopOfDeck) {
+        if (card.isOverrun()) {
+            Optional<Unit> spotterUnit = opponent.getDeploymentZone().stream().filter(u -> u instanceof Spotter).findAny();
+            if (spotterUnit.isPresent()) {
+                addGameLog(playerName + " had to put " + card.getName() + " on top of deck due to Spotter ability on " + spotterUnit.get().getName());
+                addCardToTopOfDeck(card);
+            } else {
+                addCardToDiscard(card);
+            }
+        } else if (mayPutBoughtOrGainedCardsOnTopOfDeck) {
             makeYesNoAbilityChoice(card, "SocialGenerals", "Add " + card.getName() + " to top of deck?");
         } else {
             addCardToDiscard(card);
@@ -279,6 +288,10 @@ public abstract class Player {
             addGameLog(playerName + " gained " + infantryPlatoon.getName() + " into hand");
             addCardToHand(infantryPlatoon);
         }
+    }
+
+    public void revealHand() {
+        addGameLog(playerName + " revealed their hand: " + getGame().getCardsAsString(hand));
     }
 
     public Card revealTopCardOfDeck() {
@@ -497,6 +510,12 @@ public abstract class Player {
 
             for (Unit unit : deploymentZoneCopy) {
                 unit.applyOverrunOpponentAbilities(this);
+            }
+
+            List<Unit> opponentDeploymentZoneCopy = new ArrayList<>(opponent.getDeploymentZone());
+
+            for (Unit unit : opponentDeploymentZoneCopy) {
+                unit.applyOverrunByOpponentAbilities(opponent);
             }
         }
 

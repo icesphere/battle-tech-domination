@@ -17,10 +17,12 @@ public class Scout extends UnitAbility implements UnitChoiceAbility {
     public void useAbility(Player player) {
         Card card = player.getOpponent().revealTopCardOfDeck();
 
-        Choice choice1 = new Choice(1, "Opponent discards " + card.getName());
-        Choice choice2 = new Choice(2, "Opponent puts " + card.getName() + " back on top of deck");
+        if (card != null) {
+            Choice choice1 = new Choice(1, "Opponent discards " + card.getName());
+            Choice choice2 = new Choice(2, "Opponent puts " + card.getName() + " back on top of deck");
 
-        player.makeUnitAbilityChoice(this, "Opponent's top card of deck is " + card.getName() + ". Do you want to discard it or put it back?", choice1, choice2);
+            player.makeUnitAbilityChoice(this, "Opponent's top card of deck is " + card.getName() + ". Do you want to discard it or put it back?", choice1, choice2);
+        }
     }
 
     @Override

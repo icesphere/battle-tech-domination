@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.Striker;
 
 public class Koshi extends MechUnit {
     public Koshi() {
@@ -11,7 +12,7 @@ public class Koshi extends MechUnit {
         defense = 0;
         industryCost = 2;
         losTechCost = 1;
-    }
 
-    //todo
+        addAbility(new Striker(this));
+    }
 }

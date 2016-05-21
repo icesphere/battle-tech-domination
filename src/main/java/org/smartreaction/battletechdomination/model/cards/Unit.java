@@ -103,6 +103,10 @@ public abstract class Unit extends Card {
         abilities.stream().filter(a -> a instanceof OverrunOpponentAbility).forEach(a -> a.useAbility(player));
     }
 
+    public void applyOverrunByOpponentAbilities(Player player) {
+        abilities.stream().filter(a -> a instanceof OverrunByOpponentAbility).forEach(a -> a.useAbility(player));
+    }
+
     public int getAttack() {
         return attack;
     }

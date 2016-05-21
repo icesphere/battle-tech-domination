@@ -13,7 +13,12 @@ public class CommandCircuit extends Support {
 
     @Override
     public void cardPlayed(Player player) {
+        player.drawCards(2);
+        player.addActions(1);
     }
 
-    //todo
+    @Override
+    public void cardBought(Player player) {
+        player.acquireFreeCardInSupplyAndPutOnTopOfDeck(5);
+    }
 }

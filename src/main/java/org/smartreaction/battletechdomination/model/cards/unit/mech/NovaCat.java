@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.LongRangeBarrage;
 
 public class NovaCat extends MechUnit {
     public NovaCat() {
@@ -10,7 +11,7 @@ public class NovaCat extends MechUnit {
         defense = 2;
         industryCost = 7;
         losTechCost = 1;
-    }
 
-    //todo
+        addAbility(new LongRangeBarrage(this));
+    }
 }

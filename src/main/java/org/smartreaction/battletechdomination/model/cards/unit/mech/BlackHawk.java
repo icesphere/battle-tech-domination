@@ -1,6 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.LaserBarrage;
 
 public class BlackHawk extends MechUnit {
     public BlackHawk() {
@@ -11,7 +12,7 @@ public class BlackHawk extends MechUnit {
         defense = 1;
         industryCost = 4;
         losTechCost = 1;
-    }
 
-    //todo
+        addAbility(new LaserBarrage(this));
+    }
 }
