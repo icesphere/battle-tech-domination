@@ -43,7 +43,7 @@ public class LobbyView implements Serializable {
 
     public String getUserStatus(User user) {
         if (user.getCurrentGame() != null) {
-            return "(playing game with " + user.getCurrentPlayer().getPlayerName() + ")";
+            return "(playing game with " + user.getCurrentPlayer().getOpponent().getPlayerName() + ")";
         }
 
         PrettyTime p = new PrettyTime();
