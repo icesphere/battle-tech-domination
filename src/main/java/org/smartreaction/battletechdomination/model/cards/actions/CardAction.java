@@ -62,6 +62,12 @@ public class CardAction extends Action {
             if (cardLocation.equals(Card.CARD_LOCATION_HAND)) {
                 return true;
             }
+        } else if (cardActionCard instanceof RaidedSupplies) {
+            if (cardLocation.equals(Card.CARD_LOCATION_HAND)) {
+                if (!getSelectedCards().contains(card)) {
+                    return true;
+                }
+            }
         } else if (cardActionCard instanceof CriticalHit) {
             if (card instanceof MechUnit && (cardLocation.equals(Card.CARD_LOCATION_HAND) || cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS))) {
                 return true;
