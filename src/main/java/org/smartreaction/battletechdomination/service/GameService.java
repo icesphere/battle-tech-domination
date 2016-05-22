@@ -546,6 +546,57 @@ public class GameService {
             case "sturmfeurlrmtank":
                 return new SturmfeurLRMTank();
 
+            case "operationscenter":
+                return new OperationsCenter();
+            case "scrapyard":
+                return new Scrapyard();
+            case "blackhawk":
+                return new BlackHawk();
+            case "blackjack":
+                return new BlackJack();
+            case "fenris":
+                return new Fenris();
+            case "griffin":
+                return new Griffin();
+            case "highlander":
+                return new Highlander();
+            case "jagermech":
+                return new JagerMech();
+            case "kingcrab":
+                return new KingCrab();
+            case "koshi":
+                return new Koshi();
+            case "locust":
+                return new Locust();
+            case "novacat":
+                return new NovaCat();
+            case "spider":
+                return new Spider();
+            case "thunderbolt":
+                return new Thunderbolt();
+            case "wolverine":
+                return new Wolverine();
+            case "cheetah":
+                return new Cheetah();
+            case "slayer":
+                return new Slayer();
+            case "stuka":
+                return new Stuka();
+            case "transit":
+                return new Transit();
+            case "bankingsector":
+                return new BankingSector();
+            case "blackmarket":
+                return new BlackMarket();
+            case "combatdrop":
+                return new CombatDrop();
+            case "commandcircuit":
+                return new CommandCircuit();
+            case "fanaticalleader":
+                return new FanaticalLeader();
+            case "invasionfleet":
+                return new InvasionFleet();
+
             default:
                 return null;
         }
