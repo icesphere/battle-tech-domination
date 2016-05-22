@@ -47,12 +47,14 @@
     clear: both;
     float: left;
     padding-top: 10px;
+    width: 288px;
+    text-align: center;
 }
 
 .cardView {
     float: left;
     width: 256px;
-    height: 407px;
+    height: 367px;
     padding: 15px;
     background-color: #EEEEF0;
     border: 1px solid #DDDDE0;
