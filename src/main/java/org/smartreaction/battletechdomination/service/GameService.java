@@ -128,6 +128,8 @@ public class GameService {
         }
 
         List<Card> supplyCards = getSupplyCards();
+        supplyCards.addAll(getExpansion1Cards());
+
         Collections.shuffle(supplyCards);
         game.setSupply(supplyCards.subList(0, 40));
 
@@ -300,6 +302,62 @@ public class GameService {
         cards.add(new Vulture());
 
         cards.add(new Zeus());
+
+        return cards;
+    }
+
+    public List<Card> getExpansion1Cards() {
+        List<Card> cards = new ArrayList<>();
+
+        cards.add(new BankingSector());
+        cards.add(new BankingSector());
+
+        cards.add(new BlackMarket());
+
+        cards.add(new FanaticalLeader());
+
+        cards.add(new InvasionFleet());
+
+        cards.add(new BlackHawk());
+
+        cards.add(new BlackJack());
+        cards.add(new BlackJack());
+
+        cards.add(new Fenris());
+
+        cards.add(new Griffin());
+        cards.add(new Griffin());
+
+        cards.add(new Highlander());
+
+        cards.add(new JagerMech());
+
+        cards.add(new KingCrab());
+
+        cards.add(new Koshi());
+        cards.add(new Koshi());
+
+        cards.add(new Locust());
+
+        cards.add(new NovaCat());
+
+        cards.add(new Spider());
+        cards.add(new Spider());
+
+        cards.add(new Thunderbolt());
+
+        cards.add(new Wolverine());
+
+        cards.add(new Cheetah());
+        cards.add(new Cheetah());
+
+        cards.add(new Slayer());
+        cards.add(new Slayer());
+
+        cards.add(new Stuka());
+
+        cards.add(new Transit());
+        cards.add(new Transit());
 
         return cards;
     }
