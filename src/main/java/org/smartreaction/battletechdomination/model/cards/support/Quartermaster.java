@@ -1,10 +1,11 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
 import org.smartreaction.battletechdomination.model.Choice;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Support;
 
-public class Quartermaster extends Support {
+public class Quartermaster extends Support implements SupportActionChoice {
     public Quartermaster() {
         name = "Quartermaster";
         cardText = "+1 Industry. Choose two (may be same or different): +1 Card; +1 Action; +1 Industry.";
@@ -26,11 +27,11 @@ public class Quartermaster extends Support {
         Choice choice5 = new Choice(5, "+1 Card, +1 Industry");
         Choice choice6 = new Choice(6, "+1 Action, +1 Industry");
 
-        player.makeChoice(this, "Choose one", choice1, choice2, choice3, choice4, choice5, choice6);
+        player.makeSupportActionChoice(this, "Choose one", choice1, choice2, choice3, choice4, choice5, choice6);
     }
 
     @Override
-    public void choiceMade(int choice, Player player) {
+    public void abilityChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.addGameLog("Chose +2 Cards");
             player.drawCards(2);

@@ -4,6 +4,7 @@ import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.cards.abilities.unit.*;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
@@ -153,7 +154,7 @@ public abstract class Player {
                 addCardToDiscard(card);
             }
         } else if (mayPutBoughtOrGainedCardsOnTopOfDeck) {
-            makeYesNoAbilityChoice(card, "SocialGenerals", "Add " + card.getName() + " to top of deck?");
+            addCardToTopOfDeck(card);
         } else {
             addCardToDiscard(card);
         }
@@ -203,14 +204,12 @@ public abstract class Player {
         addAction(new DiscardCardsFromHand(cards, text));
     }
 
-    public void makeChoice(Card card, String text, Choice... choices) {
-        addAction(new ChoiceAction(card, text, choices));
+    public void makeSupportActionChoice(SupportActionChoice card, String text, Choice... choices) {
+        addAction(new SupportChoiceAction(card, text, choices));
     }
 
-    public void makeAbilityChoice(Card card, String abilityName, String text, Choice... choices) {
-        ChoiceAction choiceAction = new ChoiceAction(card, text, choices);
-        choiceAction.setAbilityName(abilityName);
-        addAction(choiceAction);
+    public void makeYesNoSupportActionChoice(SupportActionChoice card, String text) {
+        addAction(new YesNoAbilityAction(card, text));
     }
 
     public void makeUnitAbilityChoice(UnitChoiceAbility ability, String text, Choice... choices) {
@@ -219,10 +218,6 @@ public abstract class Player {
 
     public void makeYesNoUnitAbilityChoice(UnitChoiceAbility ability, String text) {
         addAction(new YesNoUnitAbilityChoiceAction(ability, text));
-    }
-
-    public void makeYesNoAbilityChoice(Card card, String abilityName, String text) {
-        addAction(new YesNoAbilityAction(card, abilityName, text));
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -727,47 +722,6 @@ public abstract class Player {
         } else {
             addCardToDiscard(unit);
             cardRemovedFromPlay(unit);
-        }
-    }
-
-    public void abilityChoiceMade(Card card, String abilityName, int choice) {
-        switch (abilityName) {
-            case "BattlefieldSalvage":
-                if (choice == 1) {
-                    addAction(new CardAction(card, "Discard a Unit card from your hand or deployment zone. Gain an additional +X Industry, where X is the Industry cost of the card you discarded."));
-                }
-                break;
-            case "HeavyCasualties":
-                if (choice == 1) {
-                    Optional<Card> infantryPlatoonInHand = getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-                    addGameLog(playerName + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
-                    discardCardFromHand(infantryPlatoonInHand.get());
-                    getCardsPlayed().remove(card);
-                } else if (choice == 2) {
-                    Optional<Unit> infantryPlatoonInDeploymentZone = getDeploymentZone().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-                    addGameLog(playerName + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
-                    getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
-                    addCardToDiscard(infantryPlatoonInDeploymentZone.get());
-                    getCardsPlayed().remove(card);
-                }
-            case "SocialGenerals":
-                if (choice == 1) {
-                    addGameLog(playerName + " chose to use Social Generals to put " + card.getName() + " on top of deck");
-                    addCardToTopOfDeck(card);
-                } else {
-                    addCardToDiscard(card);
-                }
-                break;
-            case "StripMining":
-                if (choice == 1) {
-                    addAction(new ScrapCardFromHand(CardType.RESOURCE, "Scrap a Resource card from your hand"));
-                }
-                break;
-            case "TacticalRedeployment":
-                if (choice == 1) {
-                    moveUnitFromDeploymentZoneToHand();
-                }
-                break;
         }
     }
 

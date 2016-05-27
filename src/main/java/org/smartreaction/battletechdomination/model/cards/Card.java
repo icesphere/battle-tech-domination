@@ -28,10 +28,6 @@ public abstract class Card {
 
     public abstract void cardPlayed(Player player);
 
-    public void choiceMade(int choice, Player player) {
-
-    }
-
     public void cardBought(Player player) {
 
     }

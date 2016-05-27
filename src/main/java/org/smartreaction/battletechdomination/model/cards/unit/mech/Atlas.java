@@ -7,7 +7,7 @@ public class Atlas extends MechUnit {
     public Atlas() {
         name = "Atlas";
         subName = "AS7-K";
-        cardText = "HEAVY ARMOR: When this unit is damaged, you may shuffle it into your deck.";
+        cardText = "HEAVY ARMOR: When this unit is damaged, shuffle it into your deck.";
         attack = 3;
         defense = 4;
         industryCost = 8;

@@ -2,10 +2,11 @@ package org.smartreaction.battletechdomination.model.cards.resource;
 
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.BaseSupply;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 
-public class MunitionsFactory extends Resource implements BaseSupply {
+public class MunitionsFactory extends Resource implements BaseSupply, SupportActionChoice {
     public MunitionsFactory() {
         name = "Munitions Factory";
         cardText = "Choose one: +2 Industry or +1 Los Tech";
@@ -18,11 +19,11 @@ public class MunitionsFactory extends Resource implements BaseSupply {
         Choice choice1 = new Choice(1, "+2 Industry");
         Choice choice2 = new Choice(2, "+1 Los Tech");
 
-        player.makeChoice(this, "Choose one", choice1, choice2);
+        player.makeSupportActionChoice(this, "Choose one", choice1, choice2);
     }
 
     @Override
-    public void choiceMade(int choice, Player player) {
+    public void abilityChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.addGameLog("Chose +2 Industry");
             player.addIndustry(2);

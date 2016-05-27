@@ -1,12 +1,13 @@
 package org.smartreaction.battletechdomination.model.cards.support;
 
 import org.smartreaction.battletechdomination.model.Choice;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Support;
 
 import java.util.*;
 
-public class ComStarEngineers extends Support {
+public class ComStarEngineers extends Support implements SupportActionChoice {
     private int choicesMade = 0;
 
     private Set<Integer> differentChoices = new HashSet<>();
@@ -39,12 +40,21 @@ public class ComStarEngineers extends Support {
             choices.add(new Choice(4, "+1 Los Tech"));
         }
 
+        String text;
 
-        player.makeChoice(this, "Choose three (must be different)", choices.toArray(new Choice[choices.size()]));
+        if (differentChoices.size() == 1) {
+            text = "Choose two more (must be different)";
+        } else if (differentChoices.size() == 2) {
+            text = "Choose one more";
+        } else {
+            text = "Choose three (must be different)";
+        }
+
+        player.makeSupportActionChoice(this, text, choices.toArray(new Choice[choices.size()]));
     }
 
     @Override
-    public void choiceMade(int choice, Player player) {
+    public void abilityChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.addGameLog("Chose +2 Cards");
             player.drawCards(2);

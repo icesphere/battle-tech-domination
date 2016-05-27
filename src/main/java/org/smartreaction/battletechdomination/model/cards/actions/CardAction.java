@@ -2,6 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.*;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
@@ -128,7 +129,7 @@ public class CardAction extends Action {
                 player.getCardsPlayed().remove(cardActionCard);
                 return false;
             } else {
-                player.makeAbilityChoice(cardActionCard, "HeavyCasualties", "Discard an Infantry Platoon.", new Choice(1, "Discard from hand"), new Choice(2, "Discard from deployment zone"));
+                player.makeSupportActionChoice((SupportActionChoice) cardActionCard, "Discard an Infantry Platoon.", new Choice(1, "Discard from hand"), new Choice(2, "Discard from deployment zone"));
                 return false;
             }
         } else if (cardActionCard instanceof CriticalHit) {

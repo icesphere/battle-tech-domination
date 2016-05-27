@@ -2,19 +2,18 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.Card;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ChoiceAction extends Action {
-    private Card card;
+public class SupportChoiceAction extends Action {
+    private SupportActionChoice card;
 
     private List<Choice> choices;
 
-    private String abilityName;
-
-    public ChoiceAction(Card card, String text, Choice... choices) {
+    public SupportChoiceAction(SupportActionChoice card, String text, Choice... choices) {
         this.card = card;
         this.choices = Arrays.asList(choices);
         this.text = text;
@@ -37,14 +36,6 @@ public class ChoiceAction extends Action {
 
     @Override
     public void processActionResult(Player player, ActionResult result) {
-        if (abilityName != null) {
-            player.abilityChoiceMade(card, abilityName, result.getChoiceSelected());
-        } else {
-            card.choiceMade(result.getChoiceSelected(), player);
-        }
-    }
-
-    public void setAbilityName(String abilityName) {
-        this.abilityName = abilityName;
+        card.abilityChoiceMade(player, result.getChoiceSelected());
     }
 }
