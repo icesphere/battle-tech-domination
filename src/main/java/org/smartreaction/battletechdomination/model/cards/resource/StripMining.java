@@ -2,18 +2,26 @@ package org.smartreaction.battletechdomination.model.cards.resource;
 
 import org.smartreaction.battletechdomination.model.cards.CardType;
 import org.smartreaction.battletechdomination.model.cards.Resource;
+import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.cards.actions.ScrapCardFromHand;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class StripMining extends Resource {
+public class StripMining extends Resource implements SupportActionChoice {
     public StripMining() {
         name = "Strip Mining";
-        cardText = "Scrap a Resource card from your hand.";
+        cardText = "You may scrap a Resource card from your hand.";
         industryCost = 3;
     }
 
     @Override
     public void cardPlayed(Player player) {
-        player.addAction(new ScrapCardFromHand(CardType.RESOURCE, "Scrap a Resource card from your hand"));
+        player.makeYesNoSupportActionChoice(this, "Do you want to scrap a Resource card from your hand?");
+    }
+
+    @Override
+    public void supportActionChoiceMade(Player player, int choice) {
+        if (choice == 1) {
+            player.addAction(new ScrapCardFromHand(CardType.RESOURCE, "Scrap a Resource card from your hand"));
+        }
     }
 }
