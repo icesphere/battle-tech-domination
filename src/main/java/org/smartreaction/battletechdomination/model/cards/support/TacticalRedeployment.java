@@ -19,7 +19,7 @@ public class TacticalRedeployment extends Support implements SupportActionChoice
     }
 
     @Override
-    public void abilityChoiceMade(Player player, int choice) {
+    public void supportActionChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.moveUnitFromDeploymentZoneToHand();
         }

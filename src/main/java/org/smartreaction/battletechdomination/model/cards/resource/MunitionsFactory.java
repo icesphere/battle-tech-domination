@@ -23,7 +23,7 @@ public class MunitionsFactory extends Resource implements BaseSupply, SupportAct
     }
 
     @Override
-    public void abilityChoiceMade(Player player, int choice) {
+    public void supportActionChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.addGameLog("Chose +2 Industry");
             player.addIndustry(2);

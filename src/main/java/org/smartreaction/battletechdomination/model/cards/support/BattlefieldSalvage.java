@@ -23,7 +23,7 @@ public class BattlefieldSalvage extends Support implements SupportActionChoice, 
     }
 
     @Override
-    public void abilityChoiceMade(Player player, int choice) {
+    public void supportActionChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.addAction(new CardAction(this, "Discard a Unit card from your hand or deployment zone. Gain an additional +X Industry, where X is the Industry cost of the card you discarded."));
         }

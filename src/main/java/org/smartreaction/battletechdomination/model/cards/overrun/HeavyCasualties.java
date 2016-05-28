@@ -26,7 +26,7 @@ public class HeavyCasualties extends OverrunSupport implements SupportActionChoi
     }
 
     @Override
-    public void abilityChoiceMade(Player player, int choice) {
+    public void supportActionChoiceMade(Player player, int choice) {
         if (choice == 1) {
             Optional<Card> infantryPlatoonInHand = player.getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
             player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");

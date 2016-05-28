@@ -31,7 +31,7 @@ public class Quartermaster extends Support implements SupportActionChoice {
     }
 
     @Override
-    public void abilityChoiceMade(Player player, int choice) {
+    public void supportActionChoiceMade(Player player, int choice) {
         if (choice == 1) {
             player.addGameLog("Chose +2 Cards");
             player.drawCards(2);

@@ -41,6 +41,6 @@ public class YesNoAbilityAction extends Action {
 
     @Override
     public void processActionResult(Player player, ActionResult result) {
-        card.abilityChoiceMade(player, result.getChoiceSelected());
+        card.supportActionChoiceMade(player, result.getChoiceSelected());
     }
 }

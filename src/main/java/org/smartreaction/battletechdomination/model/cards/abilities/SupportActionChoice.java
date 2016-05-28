@@ -4,6 +4,6 @@ import org.smartreaction.battletechdomination.model.players.Player;
 
 public interface SupportActionChoice {
 
-    void abilityChoiceMade(Player player, int choice);
+    void supportActionChoiceMade(Player player, int choice);
 
 }
