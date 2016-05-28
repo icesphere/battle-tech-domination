@@ -104,6 +104,10 @@ public abstract class Card {
         return this instanceof Unit;
     }
 
+    public boolean isMechUnit() {
+        return this instanceof MechUnit;
+    }
+
     public boolean isResource() {
         return this instanceof Resource;
     }

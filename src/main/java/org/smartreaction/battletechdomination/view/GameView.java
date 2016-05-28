@@ -5,10 +5,7 @@ import org.smartreaction.battletechdomination.model.ChatMessage;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.actions.Action;
-import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
-import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
-import org.smartreaction.battletechdomination.model.cards.actions.DiscardCardsFromHand;
+import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
@@ -292,6 +289,14 @@ public class GameView implements Serializable {
             discardCardsFromHand.getSelectedCards().add(card);
             if (discardCardsFromHand.getNumCardsToDiscard() == discardCardsFromHand.getSelectedCards().size()) {
                 result.getSelectedCards().addAll(discardCardsFromHand.getSelectedCards());
+            } else {
+                return;
+            }
+        } else if (action instanceof DiscardHandDownTo) {
+            DiscardHandDownTo discardHandDownTo = (DiscardHandDownTo) action;
+            discardHandDownTo.getSelectedCards().add(card);
+            if (discardHandDownTo.getCardsToDiscardDownTo() == (getPlayer().getHandSize() - discardHandDownTo.getSelectedCards().size())) {
+                result.getSelectedCards().addAll(discardHandDownTo.getSelectedCards());
             } else {
                 return;
             }

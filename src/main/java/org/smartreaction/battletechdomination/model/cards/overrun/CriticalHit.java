@@ -23,7 +23,7 @@ public class CriticalHit extends OverrunSupport implements SupportCardAction {
 
     @Override
     public boolean isCardActionable(Card card, CardAction cardAction, String cardLocation, Player player) {
-        return card instanceof MechUnit && (cardLocation.equals(Card.CARD_LOCATION_HAND) || cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS));
+        return card.isMechUnit() && (cardLocation.equals(Card.CARD_LOCATION_HAND) || cardLocation.equals(Card.CARD_LOCATION_PLAYER_UNITS));
     }
 
     @Override

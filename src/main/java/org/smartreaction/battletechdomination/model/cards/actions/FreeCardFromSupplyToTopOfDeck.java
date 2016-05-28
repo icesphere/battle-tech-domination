@@ -35,7 +35,7 @@ public class FreeCardFromSupplyToTopOfDeck extends Action {
         Card card = result.getSelectedCard();
         player.getGame().getSupplyGrid().remove(card);
         player.getGame().addCardToSupplyGrid();
-        player.addGameLog(player.getPlayerName() + " acquired free card from supply on put it on top of deck: " + card.getName());
+        player.addGameLog(player.getPlayerName() + " gained free card from supply and put it on top of deck: " + card.getName());
         player.addCardToTopOfDeck(card);
     }
 }

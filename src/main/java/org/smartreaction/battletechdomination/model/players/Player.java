@@ -407,6 +407,11 @@ public abstract class Player {
             hiddenBaseCards.clear();
             addGameLog(playerName + " added cards set aside by Hidden Base to hand");
         }
+
+        hand.stream().filter(Card::isUnit).forEach(u -> {
+            ((Unit) u).applyStartOfTurnAbilities(this);
+        });
+
         resolveActions();
     }
 
@@ -675,7 +680,7 @@ public abstract class Player {
     }
 
     public void scrapUnitFromDeploymentZone(Unit unit) {
-        addGameLog(playerName + " scrapped " + unit.getName());
+        addGameLog(playerName + " scrapped " + unit.getName() + " from their deployment zone");
         deploymentZone.remove(unit);
         playerCardScrapped(unit);
         cardRemovedFromPlay(unit);
@@ -810,7 +815,7 @@ public abstract class Player {
     }
 
     public int getNumMechUnitsInDeploymentZone() {
-        return (int) deploymentZone.stream().filter(c -> c instanceof MechUnit).count();
+        return (int) deploymentZone.stream().filter(Card::isMechUnit).count();
     }
 
     public int getNumInfantryUnitsInDeploymentZone() {
@@ -819,6 +824,10 @@ public abstract class Player {
 
     public int getNumVehicleUnitsInDeploymentZone() {
         return (int) deploymentZone.stream().filter(c -> c instanceof VehicleUnit).count();
+    }
+
+    public int getNumMechUnitsInHand() {
+        return (int) hand.stream().filter(Card::isMechUnit).count();
     }
 
     public void ignoreLosTechCost() {
