@@ -7,6 +7,7 @@ import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.Ambush;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
 import org.smartreaction.battletechdomination.model.cards.unit.mech.Masakari;
@@ -198,6 +199,10 @@ public class GameView implements Serializable {
             cards.add(new ExpertMechTechs());
         }
 
+        if (player.isAmbushInDeploymentZone()) {
+            cards.add(new Ambush());
+        }
+
         return cards;
     }
 
@@ -297,6 +302,14 @@ public class GameView implements Serializable {
             discardHandDownTo.getSelectedCards().add(card);
             if (discardHandDownTo.getCardsToDiscardDownTo() == (getPlayer().getHandSize() - discardHandDownTo.getSelectedCards().size())) {
                 result.getSelectedCards().addAll(discardHandDownTo.getSelectedCards());
+            } else {
+                return;
+            }
+        } else if (action instanceof ScrapCardsFromHandForBenefit) {
+            ScrapCardsFromHandForBenefit scrapCardsFromHandForBenefit = (ScrapCardsFromHandForBenefit) action;
+            scrapCardsFromHandForBenefit.getSelectedCards().add(card);
+            if (scrapCardsFromHandForBenefit.getNumCardsToScrap() == scrapCardsFromHandForBenefit.getSelectedCards().size()) {
+                result.getSelectedCards().addAll(scrapCardsFromHandForBenefit.getSelectedCards());
             } else {
                 return;
             }

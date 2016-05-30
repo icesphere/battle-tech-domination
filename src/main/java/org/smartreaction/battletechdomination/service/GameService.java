@@ -13,6 +13,7 @@ import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
 import org.smartreaction.battletechdomination.model.cards.resource.*;
 import org.smartreaction.battletechdomination.model.cards.support.*;
 import org.smartreaction.battletechdomination.model.cards.support.attack.*;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.Ambush;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.*;
@@ -129,6 +130,7 @@ public class GameService {
 
         List<Card> supplyCards = getSupplyCards();
         supplyCards.addAll(getExpansion1Cards());
+        supplyCards.addAll(getExpansion2Cards());
 
         Collections.shuffle(supplyCards);
         game.setSupply(supplyCards.subList(0, 40));
@@ -358,6 +360,26 @@ public class GameService {
 
         cards.add(new Transit());
         cards.add(new Transit());
+
+        return cards;
+    }
+
+    public List<Card> getExpansion2Cards() {
+        List<Card> cards = new ArrayList<>();
+
+        cards.add(new PrimusOfComstar());
+
+        cards.add(new BehindEnemyLines());
+
+        cards.add(new TrialOfPosition());
+
+        cards.add(new Ambush());
+
+        cards.add(new Crab());
+
+        cards.add(new Dragon());
+
+        cards.add(new Gargoyle());
 
         return cards;
     }
@@ -596,6 +618,21 @@ public class GameService {
                 return new FanaticalLeader();
             case "invasionfleet":
                 return new InvasionFleet();
+
+            case "primusofcomstar":
+                return new PrimusOfComstar();
+            case "behindenemylines":
+                return new BehindEnemyLines();
+            case "trialofposition":
+                return new TrialOfPosition();
+            case "ambush":
+                return new Ambush();
+            case "crab":
+                return new Crab();
+            case "dragon":
+                return new Dragon();
+            case "gargoyle":
+                return new Gargoyle();
 
             default:
                 return null;

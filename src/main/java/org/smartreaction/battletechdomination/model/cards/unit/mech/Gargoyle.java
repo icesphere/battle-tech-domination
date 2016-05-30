@@ -1,8 +1,9 @@
 package org.smartreaction.battletechdomination.model.cards.unit.mech;
 
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
+import org.smartreaction.battletechdomination.model.cards.abilities.unit.FastAssault;
 
-public class Gargoyle extends MechUnit {
+public class Gargoyle extends MechUnit implements FastAssault {
     public Gargoyle() {
         name = "Gargoyle";
         subName = "MAN-O'-WAR";
@@ -11,7 +12,5 @@ public class Gargoyle extends MechUnit {
         defense = 2;
         industryCost = 5;
         losTechCost = 1;
-
-        //todo
     }
 }

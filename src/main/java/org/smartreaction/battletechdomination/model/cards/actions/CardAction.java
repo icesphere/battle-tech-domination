@@ -2,7 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Unit;
-import org.smartreaction.battletechdomination.model.cards.abilities.SupportCardAction;
+import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportCardAction;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;

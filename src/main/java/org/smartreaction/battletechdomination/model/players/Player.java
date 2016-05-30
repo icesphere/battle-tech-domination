@@ -4,7 +4,7 @@ import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
+import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.cards.abilities.unit.*;
 import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
@@ -13,6 +13,7 @@ import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies
 import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
 import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
 import org.smartreaction.battletechdomination.model.cards.resource.WarBonds;
+import org.smartreaction.battletechdomination.model.cards.support.reaction.Ambush;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
@@ -64,6 +65,8 @@ public abstract class Player {
     protected boolean expertMechTechsInDeploymentZone;
 
     protected boolean forwardBaseInDeploymentZone;
+
+    protected boolean ambushInDeploymentZone;
 
     protected boolean yourTurn;
 
@@ -506,6 +509,11 @@ public abstract class Player {
                 opponent.gainOverrunCard(overrunCard);
             }
 
+            if (opponent.isAmbushInDeploymentZone()) {
+                opponent.addAction(new DamageOpponentUnit(CardType.UNIT_MECH, "Choose an opponent Mech to damage"));
+                opponent.setAmbushInDeploymentZone(false);
+            }
+
             List<Unit> deploymentZoneCopy = new ArrayList<>(deploymentZone);
 
             for (Unit unit : deploymentZoneCopy) {
@@ -583,6 +591,8 @@ public abstract class Player {
                     expertMechTechsInDeploymentZone = true;
                 } else if (card instanceof ForwardBase) {
                     forwardBaseInDeploymentZone = true;
+                } else if (card instanceof Ambush) {
+                    ambushInDeploymentZone = true;
                 }
             } else if (card instanceof Support || card instanceof OverrunSupport) {
                 game.gameLog(this.getPlayerName() + " played " + card.getName());
@@ -690,6 +700,12 @@ public abstract class Player {
         if (unit instanceof TotemMech && getNumMechUnitsInDeploymentZone() == 1) {
             addGameLog(playerName + "'s " + unit.getName() + " was not damaged due to Totem Mech ability");
             return;
+        } else if (unit instanceof FastAssault) {
+            Unit unitWithHighestIndustryCost = getUnitWithHighestIndustryCost(opponent.getDeploymentZone());
+            if (unitWithHighestIndustryCost == null || unitWithHighestIndustryCost.getIndustryCost() < 6) {
+                addGameLog(playerName + "'s " + unit.getName() + " was not damaged due to Fast Assault ability");
+                return;
+            }
         }
 
         addGameLog(playerName + " damaged " + unit.getName());
@@ -724,6 +740,9 @@ public abstract class Player {
             expertMechTechsInDeploymentZone = false;
             addGameLog(playerName + " scrapped Expert Mech Techs to put " + unit.getName() + " into their hand instead of their discard pile");
             addCardToHand(unit);
+        } else if (unit instanceof HeavyArmor) {
+            shuffleCardIntoDeck(unit);
+            cardRemovedFromPlay(unit);
         } else {
             addCardToDiscard(unit);
             cardRemovedFromPlay(unit);
@@ -856,6 +875,14 @@ public abstract class Player {
 
     public void setForwardBaseInDeploymentZone(boolean forwardBaseInDeploymentZone) {
         this.forwardBaseInDeploymentZone = forwardBaseInDeploymentZone;
+    }
+
+    public boolean isAmbushInDeploymentZone() {
+        return ambushInDeploymentZone;
+    }
+
+    public void setAmbushInDeploymentZone(boolean ambushInDeploymentZone) {
+        this.ambushInDeploymentZone = ambushInDeploymentZone;
     }
 
     public Unit getUnitWithHighestIndustryCost(List<Unit> units) {

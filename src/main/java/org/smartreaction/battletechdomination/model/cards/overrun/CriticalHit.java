@@ -4,7 +4,7 @@ import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.MechUnit;
 import org.smartreaction.battletechdomination.model.cards.OverrunSupport;
 import org.smartreaction.battletechdomination.model.cards.Unit;
-import org.smartreaction.battletechdomination.model.cards.abilities.SupportCardAction;
+import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportCardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.players.Player;

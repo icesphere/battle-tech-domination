@@ -1,4 +1,4 @@
-package org.smartreaction.battletechdomination.model.cards.abilities;
+package org.smartreaction.battletechdomination.model.cards.abilities.support;
 
 import org.smartreaction.battletechdomination.model.players.Player;
 

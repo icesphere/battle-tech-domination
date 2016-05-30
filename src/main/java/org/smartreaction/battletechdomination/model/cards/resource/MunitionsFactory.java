@@ -2,7 +2,7 @@ package org.smartreaction.battletechdomination.model.cards.resource;
 
 import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.BaseSupply;
-import org.smartreaction.battletechdomination.model.cards.abilities.SupportActionChoice;
+import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 

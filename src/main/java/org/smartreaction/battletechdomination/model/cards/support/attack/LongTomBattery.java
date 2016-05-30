@@ -1,7 +1,7 @@
 package org.smartreaction.battletechdomination.model.cards.support.attack;
 
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.abilities.SupportCardAction;
+import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportCardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
