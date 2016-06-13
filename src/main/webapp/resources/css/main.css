@@ -69,7 +69,7 @@ table {
 }
 
 a {
-    color: #1a56ff;
+    color: #151EA9;
 }
 
 .centerDiv {
@@ -147,10 +147,4 @@ a {
 
 .backToTopLink {
     display: none;
-}
-
-.lobbyPage {
-    padding: 10px;
-    font-size: 16px;
-    font-family: serif;
 }
