@@ -12,6 +12,7 @@ public class RaidedSupplies extends OverrunSupport implements SupportCardAction 
         name = "Raided Supplies";
         cardText = "You may discard 2 cards from your hand.  If you do, return this card to the Overrun pile.";
         overrunAmount = 2;
+        imageFile = "RaidedSupplies.png";
     }
 
     @Override

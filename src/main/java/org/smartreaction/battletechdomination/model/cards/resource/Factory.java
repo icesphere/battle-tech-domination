@@ -4,11 +4,11 @@ import org.smartreaction.battletechdomination.model.cards.BaseSupply;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 
-public class BasicFactory extends Resource implements BaseSupply {
-    public BasicFactory() {
+public class Factory extends Resource implements BaseSupply {
+    public Factory() {
         name = "Factory";
         cardText = "+1 Industry";
-        imageFile = "basic_factory.jpg";
+        imageFile = "Factory.png";
     }
 
     @Override

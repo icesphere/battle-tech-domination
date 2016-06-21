@@ -10,9 +10,9 @@ import org.smartreaction.battletechdomination.model.cards.actions.*;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
-import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
-import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
-import org.smartreaction.battletechdomination.model.cards.resource.WarBonds;
+import org.smartreaction.battletechdomination.model.cards.overrun.Defeat;
+import org.smartreaction.battletechdomination.model.cards.resource.HeavyFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.SupplyDrop;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.Ambush;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
@@ -228,11 +228,11 @@ public abstract class Player {
         //todo may need in the future
     }
 
-    public void gainMunitionsFactory() {
-        if (!game.getMunitionsFactories().isEmpty()) {
-            MunitionsFactory munitionsFactory = game.getMunitionsFactories().remove(0);
-            addGameLog(playerName + " gained " + munitionsFactory.getName());
-            cardAcquired(munitionsFactory);
+    public void gainHeavyFactory() {
+        if (!game.getHeavyFactories().isEmpty()) {
+            HeavyFactory heavyFactory = game.getHeavyFactories().remove(0);
+            addGameLog(playerName + " gained " + heavyFactory.getName());
+            cardAcquired(heavyFactory);
         }
     }
 
@@ -243,8 +243,8 @@ public abstract class Player {
             gainRaidedSupplies();
         } else if (overrun instanceof CriticalHit) {
             gainCriticalHit();
-        } else if (overrun instanceof Retreat) {
-            gainRetreat();
+        } else if (overrun instanceof Defeat) {
+            gainDefeat();
         }
     }
 
@@ -264,11 +264,11 @@ public abstract class Player {
         }
     }
 
-    public void gainRetreat() {
-        if (!game.getRetreats().isEmpty()) {
-            Retreat retreat = game.getRetreats().remove(0);
-            addGameLog(playerName + " gained " + retreat.getName());
-            cardAcquired(retreat);
+    public void gainDefeat() {
+        if (!game.getDefeats().isEmpty()) {
+            Defeat defeat = game.getDefeats().remove(0);
+            addGameLog(playerName + " gained " + defeat.getName());
+            cardAcquired(defeat);
         }
     }
 
@@ -542,7 +542,7 @@ public abstract class Player {
 
     public Overrun getOverrunCard(int difference) {
         if (difference >= 4) {
-            return new Retreat();
+            return new Defeat();
         } else if (difference == 3) {
             return new CriticalHit();
         } else if (difference == 2) {
@@ -640,7 +640,7 @@ public abstract class Player {
         boughtInfantryPlatoonThisTurn = false;
 
         for (Card card : cardsPlayed) {
-            if (card instanceof WarBonds) {
+            if (card instanceof SupplyDrop) {
                 addGameLog("War Bonds returned to supply");
             } else {
                 addCardToDiscard(card);

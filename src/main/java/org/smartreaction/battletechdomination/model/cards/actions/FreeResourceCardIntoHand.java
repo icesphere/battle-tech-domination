@@ -3,8 +3,8 @@ package org.smartreaction.battletechdomination.model.cards.actions;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
-import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
-import org.smartreaction.battletechdomination.model.cards.resource.WarBonds;
+import org.smartreaction.battletechdomination.model.cards.resource.HeavyFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.SupplyDrop;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 import java.util.ArrayList;
@@ -33,11 +33,11 @@ public class FreeResourceCardIntoHand extends Action {
         if (!player.getGame().getAdvancedFactories().isEmpty()) {
             resourceCards.add(new AdvancedFactory());
         }
-        if (!player.getGame().getWarBonds().isEmpty()) {
-            resourceCards.add(new WarBonds());
+        if (!player.getGame().getSupplyDrops().isEmpty()) {
+            resourceCards.add(new SupplyDrop());
         }
-        if (!player.getGame().getMunitionsFactories().isEmpty()) {
-            resourceCards.add(new MunitionsFactory());
+        if (!player.getGame().getHeavyFactories().isEmpty()) {
+            resourceCards.add(new HeavyFactory());
         }
 
         for (Card card : player.getGame().getSupply()) {
@@ -58,7 +58,7 @@ public class FreeResourceCardIntoHand extends Action {
     public void processActionResult(Player player, ActionResult result) {
         Card card = result.getSelectedCard();
 
-        if (!(card instanceof AdvancedFactory || card instanceof WarBonds || card instanceof MunitionsFactory)) {
+        if (!(card instanceof AdvancedFactory || card instanceof SupplyDrop || card instanceof HeavyFactory)) {
             player.getGame().getSupplyGrid().remove(card);
             player.getGame().addCardToSupplyGrid();
         }

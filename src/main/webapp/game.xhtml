@@ -61,11 +61,11 @@
                                 <h:panelGroup rendered="#{!empty gameView.game.infantryPlatoons}">
                                     <btd:supplyCard card="#{gameView.game.infantryPlatoons[0]}" source="basicSupply"/>
                                 </h:panelGroup>
-                                <h:panelGroup rendered="#{!empty gameView.game.warBonds}">
-                                    <btd:supplyCard card="#{gameView.game.warBonds[0]}" source="basicSupply"/>
+                                <h:panelGroup rendered="#{!empty gameView.game.supplyDrops}">
+                                    <btd:supplyCard card="#{gameView.game.supplyDrops[0]}" source="basicSupply"/>
                                 </h:panelGroup>
-                                <h:panelGroup rendered="#{!empty gameView.game.munitionsFactories}">
-                                    <btd:supplyCard card="#{gameView.game.munitionsFactories[0]}" source="basicSupply"/>
+                                <h:panelGroup rendered="#{!empty gameView.game.heavyFactories}">
+                                    <btd:supplyCard card="#{gameView.game.heavyFactories[0]}" source="basicSupply"/>
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{!empty gameView.game.advancedFactories}">
                                     <btd:supplyCard card="#{gameView.game.advancedFactories[0]}" source="basicSupply"/>
@@ -131,7 +131,7 @@
                             <btd:overrunCard cardsLeft="#{gameView.game.heavyCasualties.size()}" pileName="Heavy Casualties"/>
                             <btd:overrunCard cardsLeft="#{gameView.game.raidedSupplies.size()}" pileName="Raided Supplies"/>
                             <btd:overrunCard cardsLeft="#{gameView.game.criticalHits.size()}" pileName="Critical Hits"/>
-                            <btd:overrunCard cardsLeft="#{gameView.game.retreats.size()}" pileName="Retreats"/>
+                            <btd:overrunCard cardsLeft="#{gameView.game.defeats.size()}" pileName="Defeats"/>
                         </div>
 
                         <h:panelGroup layout="block" id="playerInfoSection" styleClass="playerInfoSection">
@@ -197,7 +197,7 @@
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" id="playAreaSection" styleClass="playAreaSection">
-                            <span style="font-style: italic">Play Area:</span>
+                            <span style="font-style: italic; color: white;">Play Area:</span>
                             <div class="playArea">
                                 <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
                                     <btd:card card="#{card}" source="playArea"/>
@@ -206,7 +206,7 @@
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" id="handSection" styleClass="handSection">
-                            <span style="font-style: italic">Your Hand:</span>
+                            <span style="font-style: italic; color: white;">Your Hand:</span>
                             <div class="hand">
                                 <ui:repeat value="#{gameView.player.hand}" var="card">
                                     <btd:card card="#{card}" source="hand"/>

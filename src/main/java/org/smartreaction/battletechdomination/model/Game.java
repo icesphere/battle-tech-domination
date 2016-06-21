@@ -4,10 +4,10 @@ import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
-import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
+import org.smartreaction.battletechdomination.model.cards.overrun.Defeat;
 import org.smartreaction.battletechdomination.model.cards.resource.AdvancedFactory;
-import org.smartreaction.battletechdomination.model.cards.resource.MunitionsFactory;
-import org.smartreaction.battletechdomination.model.cards.resource.WarBonds;
+import org.smartreaction.battletechdomination.model.cards.resource.HeavyFactory;
+import org.smartreaction.battletechdomination.model.cards.resource.SupplyDrop;
 import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 import org.smartreaction.battletechdomination.model.players.Player;
 
@@ -30,13 +30,13 @@ public class Game {
 
     private List<CriticalHit> criticalHits = new ArrayList<>();
 
-    private List<Retreat> retreats = new ArrayList<>();
+    private List<Defeat> defeats = new ArrayList<>();
 
     private List<InfantryPlatoon> infantryPlatoons = new ArrayList<>();
 
-    private List<WarBonds> warBonds = new ArrayList<>();
+    private List<SupplyDrop> supplyDrops = new ArrayList<>();
 
-    private List<MunitionsFactory> munitionsFactories = new ArrayList<>();
+    private List<HeavyFactory> heavyFactories = new ArrayList<>();
 
     private List<AdvancedFactory> advancedFactories = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class Game {
     public void turnEnded() {
         getCurrentPlayer().setTurnPhase(TurnPhase.NONE);
 
-        if (supply.isEmpty() || heavyCasualties.isEmpty() || raidedSupplies.isEmpty() || criticalHits.isEmpty() || retreats.isEmpty()) {
+        if (supply.isEmpty() || heavyCasualties.isEmpty() || raidedSupplies.isEmpty() || criticalHits.isEmpty() || defeats.isEmpty()) {
             gameOver();
             return;
         }
@@ -181,12 +181,12 @@ public class Game {
         this.criticalHits = criticalHits;
     }
 
-    public List<Retreat> getRetreats() {
-        return retreats;
+    public List<Defeat> getDefeats() {
+        return defeats;
     }
 
-    public void setRetreats(List<Retreat> retreats) {
-        this.retreats = retreats;
+    public void setDefeats(List<Defeat> defeats) {
+        this.defeats = defeats;
     }
 
     public List<InfantryPlatoon> getInfantryPlatoons() {
@@ -197,20 +197,20 @@ public class Game {
         this.infantryPlatoons = infantryPlatoons;
     }
 
-    public List<WarBonds> getWarBonds() {
-        return warBonds;
+    public List<SupplyDrop> getSupplyDrops() {
+        return supplyDrops;
     }
 
-    public void setWarBonds(List<WarBonds> warBonds) {
-        this.warBonds = warBonds;
+    public void setSupplyDrops(List<SupplyDrop> supplyDrops) {
+        this.supplyDrops = supplyDrops;
     }
 
-    public List<MunitionsFactory> getMunitionsFactories() {
-        return munitionsFactories;
+    public List<HeavyFactory> getHeavyFactories() {
+        return heavyFactories;
     }
 
-    public void setMunitionsFactories(List<MunitionsFactory> munitionsFactories) {
-        this.munitionsFactories = munitionsFactories;
+    public void setHeavyFactories(List<HeavyFactory> heavyFactories) {
+        this.heavyFactories = heavyFactories;
     }
 
     public List<AdvancedFactory> getAdvancedFactories() {

@@ -9,7 +9,7 @@ import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.overrun.CriticalHit;
 import org.smartreaction.battletechdomination.model.cards.overrun.HeavyCasualties;
 import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
-import org.smartreaction.battletechdomination.model.cards.overrun.Retreat;
+import org.smartreaction.battletechdomination.model.cards.overrun.Defeat;
 import org.smartreaction.battletechdomination.model.cards.resource.*;
 import org.smartreaction.battletechdomination.model.cards.support.*;
 import org.smartreaction.battletechdomination.model.cards.support.attack.*;
@@ -95,7 +95,7 @@ public class GameService {
     public void setupCards(Game game) {
         for (Player player : game.getPlayers()) {
             for (int i = 0; i < 8; i++) {
-                player.addCardToDeck(new BasicFactory());
+                player.addCardToDeck(new Factory());
             }
             for (int i = 0; i < 2; i++) {
                 player.addCardToDeck(new InfantryPlatoon());
@@ -104,13 +104,13 @@ public class GameService {
         }
 
         for (int i = 0; i < 8; i++) {
-            game.getWarBonds().add(new WarBonds());
+            game.getSupplyDrops().add(new SupplyDrop());
         }
         for (int i = 0; i < 7; i++) {
             game.getInfantryPlatoons().add(new InfantryPlatoon());
         }
         for (int i = 0; i < 12; i++) {
-            game.getMunitionsFactories().add(new MunitionsFactory());
+            game.getHeavyFactories().add(new HeavyFactory());
         }
         for (int i = 0; i < 6; i++) {
             game.getAdvancedFactories().add(new AdvancedFactory());
@@ -125,7 +125,7 @@ public class GameService {
             game.getCriticalHits().add(new CriticalHit());
         }
         for (int i = 0; i < 3; i++) {
-            game.getRetreats().add(new Retreat());
+            game.getDefeats().add(new Defeat());
         }
 
         List<Card> supplyCards = getSupplyCards();
@@ -400,23 +400,23 @@ public class GameService {
                 return new HeavyCasualties();
             case "raidedsupplies":
                 return new RaidedSupplies();
-            case "retreat":
-            case "retreats":
-                return new Retreat();
+            case "defeat":
+            case "defeat!":
+            case "defeats":
+                return new Defeat();
 
             case "advancedfactory":
                 return new AdvancedFactory();
-            case "basicfactory":
             case "factory":
-                return new BasicFactory();
+                return new Factory();
             case "dropship":
                 return new DropShip();
-            case "munitionsfactory":
-                return new MunitionsFactory();
+            case "heavyfactory":
+                return new HeavyFactory();
             case "stripmining":
                 return new StripMining();
-            case "warbonds":
-                return new WarBonds();
+            case "supplydrop":
+                return new SupplyDrop();
 
             case "arrowivbattery":
                 return new ArrowIVBattery();

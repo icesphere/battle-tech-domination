@@ -6,12 +6,12 @@ import org.smartreaction.battletechdomination.model.cards.abilities.support.Supp
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 
-public class MunitionsFactory extends Resource implements BaseSupply, SupportActionChoice {
-    public MunitionsFactory() {
-        name = "Munitions Factory";
+public class HeavyFactory extends Resource implements BaseSupply, SupportActionChoice {
+    public HeavyFactory() {
+        name = "Heavy Factory";
         cardText = "Choose one: +2 Industry or +1 Los Tech";
         industryCost = 3;
-        imageFile = "munitions_factory.jpg";
+        imageFile = "HeavyFactory.png";
     }
 
     @Override

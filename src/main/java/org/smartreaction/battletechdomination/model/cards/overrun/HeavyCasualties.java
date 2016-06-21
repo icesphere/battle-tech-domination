@@ -18,6 +18,7 @@ public class HeavyCasualties extends OverrunSupport implements SupportActionChoi
         name = "Heavy Casualties";
         cardText = "You may discard an Infantry Platoon from your hand or deployment zone.  If you do, return this card to the Overrun pile.";
         overrunAmount = 1;
+        imageFile = "HeavyCasualties.png";
     }
 
     @Override
