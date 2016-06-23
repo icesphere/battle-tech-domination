@@ -13,6 +13,7 @@ public class KitFox extends MechUnit {
         defense = 1;
         industryCost = 3;
         losTechCost = 1;
+        imageFile = "KitFox.png";
 
         addAbility(new Versatile(this));
         addAbility(new QuickToAction(this));

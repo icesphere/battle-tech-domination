@@ -10,6 +10,7 @@ public class PartisanHeavyTank extends VehicleUnit {
         attack = 0;
         defense = 2;
         industryCost = 1;
+        imageFile = "Partisan.png";
 
         addAbility(new Tank(this));
     }

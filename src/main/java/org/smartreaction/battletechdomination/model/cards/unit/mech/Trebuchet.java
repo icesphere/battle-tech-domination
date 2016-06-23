@@ -11,6 +11,7 @@ public class Trebuchet extends MechUnit {
         attack = 1;
         defense = 1;
         industryCost = 4;
+        imageFile = "Trebuchet.png";
 
         addAbility(new MobileFireSupport(this));
     }

@@ -87,7 +87,7 @@
                         <h:panelGroup layout="block" id="cardViewSection">
                             <h:panelGroup layout="block" styleClass="cardViewSection">
                                 <h:panelGroup rendered="#{!empty gameView.cardToView.imageFile}">
-                                    <h:graphicImage library="images" name="cards/#{gameView.cardToView.imageFile}" width="262"/>
+                                    <h:graphicImage library="images" name="cards/#{gameView.cardToView.imageFile}" width="250"/>
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{empty gameView.cardToView.imageFile}">
                                     <div class="cardView">
@@ -197,7 +197,7 @@
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" id="playAreaSection" styleClass="playAreaSection">
-                            <span style="font-style: italic; color: white;">Play Area:</span>
+                            <span style="font-style: italic;">Play Area:</span>
                             <div class="playArea">
                                 <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
                                     <btd:card card="#{card}" source="playArea"/>
@@ -206,7 +206,7 @@
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" id="handSection" styleClass="handSection">
-                            <span style="font-style: italic; color: white;">Your Hand:</span>
+                            <span style="font-style: italic;">Your Hand:</span>
                             <div class="hand">
                                 <ui:repeat value="#{gameView.player.hand}" var="card">
                                     <btd:card card="#{card}" source="hand"/>

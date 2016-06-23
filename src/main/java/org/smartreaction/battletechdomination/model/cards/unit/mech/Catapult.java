@@ -11,6 +11,7 @@ public class Catapult extends MechUnit {
         attack = 0;
         defense = 2;
         industryCost = 5;
+        imageFile = "Catapult.png";
 
         addAbility(new HeavyFireSupport(this));
     }

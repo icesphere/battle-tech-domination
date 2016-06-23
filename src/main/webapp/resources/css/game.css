@@ -5,7 +5,7 @@
     padding: 15px;
     font-size: 16px;
     font-family: serif;
-    background-image: url("#{resource['images/Background1.JPG']}");
+    background-image: url("#{resource['images/GamePageBackground.jpg']}");
     background-size: 100%;
 }
 
@@ -55,12 +55,14 @@
 
 .cardView {
     float: left;
-    width: 256px;
-    height: 367px;
+    width: 222px;
+    height: 342px;
     padding: 15px;
     background-color: #EEEEF0;
     border: 1px solid #DDDDE0;
     text-align: center;
+    border-radius: 20px;
+    margin-left: 16px;
 }
 
 .emptyCardView {
@@ -125,7 +127,7 @@
     width: 265px;
     padding: 5px;
     border: 2px solid black;
-    background-color: white;
+    background-color: #EEEEF0;
 }
 
 .gameLog {
@@ -154,7 +156,7 @@
 
 .playerCardInfoBox {
     border: 1px solid #333;
-    background-color: #CCC;
+    background-color: #EEEEF0;
     float: left;
     width: 277px;
 }
@@ -193,7 +195,7 @@
 
 .turnInfoBox {
     border: 1px solid #333;
-    background-color: #CCC;
+    background-color: #EEEEF0;
     float: left;
     width: 320px;
     padding: 7px;
@@ -300,11 +302,11 @@
 }
 
 .player {
-    background-color: #DFFFBF;
+    background-color: #70B9B9;
 }
 
 .opponent {
-    background-color: #FFE0B0;
+    background-color: #CC9977;
 }
 
 .card {

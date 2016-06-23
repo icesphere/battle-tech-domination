@@ -11,6 +11,7 @@ public class Griffin extends MechUnit {
         attack = 1;
         defense = 1;
         industryCost = 4;
+        imageFile = "Griffin.png";
 
         addAbility(new Sniper(this));
     }

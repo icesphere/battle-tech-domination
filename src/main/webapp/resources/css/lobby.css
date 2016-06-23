@@ -19,6 +19,6 @@
     padding: 10px;
     font-size: 16px;
     font-family: serif;
-    background-image: url("#{resource['images/Background1.JPG']}");
+    background-image: url("#{resource['images/LobbyBackground.jpg']}");
     background-size: 100%;
 }

@@ -11,6 +11,7 @@ public class Cicada extends MechUnit {
         attack = 1;
         defense = 1;
         industryCost = 4;
+        imageFile = "Cicada.png";
 
         addAbility(new Mobile(this));
     }

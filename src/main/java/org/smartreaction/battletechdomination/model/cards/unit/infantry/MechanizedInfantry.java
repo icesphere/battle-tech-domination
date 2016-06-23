@@ -11,6 +11,7 @@ public class MechanizedInfantry extends InfantryUnit {
         attack = 0;
         defense = 1;
         industryCost = 2;
+        imageFile = "MechanizedInfantry.png";
 
         addAbility(new Expendable(this));
         addAbility(new Mobile(this));

@@ -7,9 +7,10 @@ public class Elementals extends InfantryUnit {
     public Elementals() {
         name = "Elementals";
         cardText = "ANTI-INFANTRY: When you deploy this unit, your opponent must damage an Infantry unit.";
-        attack = 1;
+        attack = 2;
         defense = 1;
         industryCost = 4;
+        imageFile = "Elementals.png";
 
         addAbility(new AntiInfantry(this));
     }

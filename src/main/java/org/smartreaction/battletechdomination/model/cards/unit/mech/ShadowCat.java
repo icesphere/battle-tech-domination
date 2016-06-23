@@ -11,6 +11,7 @@ public class ShadowCat extends MechUnit {
         defense = 1;
         industryCost = 4;
         losTechCost = 1;
+        imageFile = "ShadowCat.png";
 
         addAbility(new JumpJets(this));
     }

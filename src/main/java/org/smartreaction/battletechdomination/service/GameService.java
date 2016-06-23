@@ -220,8 +220,8 @@ public class GameService {
 
         cards.add(new SturmfeurLRMTank());
 
-        cards.add(new BattleArmorSquad());
-        cards.add(new BattleArmorSquad());
+        cards.add(new EliteElementals());
+        cards.add(new EliteElementals());
 
         cards.add(new Elementals());
         cards.add(new Elementals());
@@ -479,8 +479,8 @@ public class GameService {
             case "tacticalredeployment":
                 return new TacticalRedeployment();
 
-            case "battlearmorsquad":
-                return new BattleArmorSquad();
+            case "eliteelementals":
+                return new EliteElementals();
             case "elementals":
                 return new Elementals();
             case "infantryplatoon":
@@ -626,6 +626,7 @@ public class GameService {
             case "trialofposition":
                 return new TrialOfPosition();
             case "ambush":
+            case "ambush!":
                 return new Ambush();
             case "crab":
                 return new Crab();

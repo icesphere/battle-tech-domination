@@ -11,6 +11,7 @@ public class Centurion extends MechUnit {
         attack = 1;
         defense = 1;
         industryCost = 3;
+        imageFile = "Centurion.png";
 
         addAbility(new AC10(this));
     }

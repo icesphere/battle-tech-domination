@@ -11,6 +11,7 @@ public class Firestarter extends MechUnit {
         attack = 1;
         defense = 0;
         industryCost = 3;
+        imageFile = "Firestarter.png";
 
         addAbility(new Flamers(this));
     }

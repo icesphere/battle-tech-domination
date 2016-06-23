@@ -12,6 +12,7 @@ public class Commando extends MechUnit {
         attack = 1;
         defense = 0;
         industryCost = 3;
+        imageFile = "Commando.png";
 
         addAbility(new Durable(this));
         addAbility(new Scout(this));

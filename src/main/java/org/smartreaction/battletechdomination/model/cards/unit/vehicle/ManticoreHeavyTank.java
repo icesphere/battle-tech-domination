@@ -10,6 +10,7 @@ public class ManticoreHeavyTank extends VehicleUnit {
         attack = 1;
         defense = 1;
         industryCost = 1;
+        imageFile = "Manticore.png";
 
         addAbility(new Tank(this));
     }

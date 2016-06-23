@@ -720,8 +720,8 @@ public abstract class Player {
 
         if (unit instanceof MechUnit) {
             for (Card opponentCard : opponent.getDeploymentZone()) {
-                if (opponentCard instanceof TargetingComputer) {
-                    addGameLog(playerName + " gets to draw 1 card due to Targeting Computer ability on " + opponentCard.getName());
+                if (opponentCard instanceof Ferocious) {
+                    addGameLog(playerName + " gets to draw 1 card due to Ferocious ability on " + opponentCard.getName());
                     opponent.drawCards(1);
                 }
             }
