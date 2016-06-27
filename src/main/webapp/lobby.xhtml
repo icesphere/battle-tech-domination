@@ -48,13 +48,17 @@
                             <h:inputText value="#{userSession.user.gameOptions.cardsToTest}"/>
                         </div>
                         <div style="padding-top: 15px;">
-                            <p:commandLink action="#{lobbyView.startAutoMatch}" process="gameOptions" update="@form" value="Auto Match"/>
+                            <p:commandLink styleClass="lobbyButton" action="#{lobbyView.startAutoMatch}" process="gameOptions" update="@form" value="Auto Match"/>
                         </div>
                     </h:panelGroup>
                     <h:outputText value="Waiting for Auto Match..." rendered="#{userSession.user.autoMatch}"/>
                 </div>
 
-                <div style="padding-top: 20px;">
+                <div style="padding-top: 20px; clear: both;">
+                    <a class="lobbyButton" href="https://drive.google.com/file/d/0B1VkMJotxpbPY1d0UF9LaUpXbGc/view" target="_blank">Tutorial</a>
+                </div>
+
+                <div style="padding-top: 20px; clear:both;">
 
                     <div class="lobbyHeader">
                         <h:outputText value="Lobby Chat"/>
