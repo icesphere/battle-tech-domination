@@ -2,7 +2,7 @@ package org.smartreaction.battletechdomination.model;
 
 import org.smartreaction.battletechdomination.model.players.Player;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Objects;
 
 public class User {
@@ -16,7 +16,7 @@ public class User {
 
     private boolean autoMatch;
 
-    private Date lastActivity = new Date();
+    private Instant lastActivity = Instant.now();
 
     public String getUsername() {
         return username;
@@ -58,12 +58,12 @@ public class User {
         this.gameOptions = gameOptions;
     }
 
-    public Date getLastActivity() {
+    public Instant getLastActivity() {
         return lastActivity;
     }
 
     public void updateLastActivity() {
-        lastActivity = new Date();
+        lastActivity = Instant.now();
     }
 
     @Override

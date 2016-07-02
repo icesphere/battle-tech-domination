@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 @ManagedBean
@@ -29,7 +30,7 @@ public class LobbyView implements Serializable {
     String chatMessage = "";
 
     public List<User> getUsers() {
-        return loggedInUsers.getUsers();
+        return loggedInUsers.getActiveUsers();
     }
 
     public String startAutoMatch() {
@@ -47,7 +48,7 @@ public class LobbyView implements Serializable {
         }
 
         PrettyTime p = new PrettyTime();
-        String lastActivity = p.format(user.getLastActivity());
+        String lastActivity = p.format(Date.from(user.getLastActivity()));
 
         if (user.isAutoMatch()) {
             return "(waiting for auto match: " + lastActivity + ")";

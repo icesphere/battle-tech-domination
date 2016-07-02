@@ -4,9 +4,11 @@ import org.smartreaction.battletechdomination.model.ChatMessage;
 import org.smartreaction.battletechdomination.model.User;
 
 import javax.ejb.Singleton;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.HOURS;
 import static java.util.stream.Collectors.toList;
 
 @Singleton
@@ -14,6 +16,16 @@ public class LoggedInUsers {
     List<User> users = new ArrayList<>();
 
     private List<ChatMessage> chatMessages = new ArrayList<>();
+
+    public void clearOutInactiveUsers() {
+        List<User> inactiveUsers = users.stream().filter(u -> HOURS.between(u.getLastActivity(), Instant.now()) > 4).collect(toList());
+        users.removeAll(inactiveUsers);
+    }
+
+    public List<User> getActiveUsers() {
+        clearOutInactiveUsers();
+        return users;
+    }
 
     public List<User> getUsers() {
         return users;
