@@ -11,6 +11,7 @@ public class Stalker extends MechUnit {
         attack = 4;
         defense = 2;
         industryCost = 6;
+        imageFile = "Stalker.png";
 
         addAbility(new PoorHeatManagement(this));
     }

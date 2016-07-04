@@ -11,6 +11,7 @@ public class Urbanmech extends MechUnit {
         attack = 0;
         defense = 1;
         industryCost = 1;
+        imageFile = "UrbanMech.png";
 
         addAbility(new CityFighter(this));
     }

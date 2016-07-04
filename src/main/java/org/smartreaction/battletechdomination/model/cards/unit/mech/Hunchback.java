@@ -11,6 +11,7 @@ public class Hunchback extends MechUnit {
         attack = 0;
         defense = 1;
         industryCost = 4;
+        imageFile = "Hunchback.png";
 
         addAbility(new AC20(this));
     }

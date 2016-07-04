@@ -12,6 +12,7 @@ public class Masakari extends MechUnit {
         defense = 4;
         industryCost = 8;
         losTechCost = 1;
+        imageFile = "Masakari.png";
 
         addAbility(new QuadERPPCs(this));
     }

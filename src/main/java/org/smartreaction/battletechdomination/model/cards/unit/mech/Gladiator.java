@@ -8,9 +8,10 @@ public class Gladiator extends MechUnit implements TotemMech {
         name = "Gladiator";
         subName = "EXECUTIONER";
         cardText = "TOTEM MECH: This unit cannot be damaged if it is the only Mech in your deployment zone.";
-        attack = 4;
+        attack = 5;
         defense = 3;
         industryCost = 7;
         losTechCost = 1;
+        imageFile = "Gladiator.png";
     }
 }

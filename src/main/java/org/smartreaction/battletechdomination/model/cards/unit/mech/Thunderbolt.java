@@ -8,9 +8,10 @@ public class Thunderbolt extends MechUnit {
         name = "Thunderbolt";
         subName = "TDR-5S";
         cardText = "LOW MAINTENANCE: +1 Card when you deploy this unit.";
-        attack = 1;
-        defense = 3;
+        attack = 2;
+        defense = 1;
         industryCost = 5;
+        imageFile = "Thunderbolt.png";
 
         addAbility(new LowMaintenance(this));
     }

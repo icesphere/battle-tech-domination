@@ -12,6 +12,7 @@ public class Vulture extends MechUnit {
         defense = 2;
         industryCost = 5;
         losTechCost = 1;
+        imageFile = "Vulture.png";
 
         addAbility(new LRMFireSupport(this));
     }

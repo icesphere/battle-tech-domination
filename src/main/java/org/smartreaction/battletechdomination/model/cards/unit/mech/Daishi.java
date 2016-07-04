@@ -12,6 +12,7 @@ public class Daishi extends MechUnit {
         defense = 4;
         industryCost = 9;
         losTechCost = 1;
+        imageFile = "Daishi.png";
 
         addAbility(new GreatDeath(this));
     }

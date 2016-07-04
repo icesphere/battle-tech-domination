@@ -11,6 +11,7 @@ public class Highlander extends MechUnit {
         attack = 2;
         defense = 3;
         industryCost = 7;
+        imageFile = "Highlander.png";
 
         addAbility(new HighlanderBurial(this));
     }

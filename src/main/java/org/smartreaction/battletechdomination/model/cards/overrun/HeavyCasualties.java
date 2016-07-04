@@ -1,86 +1,49 @@
 package org.smartreaction.battletechdomination.model.cards.overrun;
 
-import org.smartreaction.battletechdomination.model.Choice;
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.OverrunSupport;
 import org.smartreaction.battletechdomination.model.cards.Unit;
-import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportActionChoice;
 import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportCardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
-import org.smartreaction.battletechdomination.model.cards.unit.infantry.InfantryPlatoon;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-import java.util.Optional;
-
-public class HeavyCasualties extends OverrunSupport implements SupportActionChoice, SupportCardAction {
+public class HeavyCasualties extends OverrunSupport implements SupportCardAction {
     public HeavyCasualties() {
         name = "Heavy Casualties";
-        cardText = "You may discard an Infantry Platoon from your hand or deployment zone.  If you do, return this card to the Overrun pile.";
+        cardText = "You may discard a Unit card from your hand or deployment zone.  If you do, scrap this card.";
         overrunAmount = 1;
         imageFile = "HeavyCasualties.png";
     }
 
     @Override
     public void cardPlayed(Player player) {
-        player.addAction(new CardAction(this, "Discard an Infantry Platoon from Hand or Deployment Zone"));
-    }
-
-    @Override
-    public void supportActionChoiceMade(Player player, int choice) {
-        if (choice == 1) {
-            Optional<Card> infantryPlatoonInHand = player.getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-            player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
-            player.discardCardFromHand(infantryPlatoonInHand.get());
-            player.getCardsPlayed().remove(this);
-        } else if (choice == 2) {
-            Optional<Unit> infantryPlatoonInDeploymentZone = player.getDeploymentZone().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-            player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
-            player.getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
-            player.addCardToDiscard(infantryPlatoonInDeploymentZone.get());
-            player.getCardsPlayed().remove(this);
-        }
+        player.addAction(new CardAction(this, "Discard a Unit card from your Hand or Deployment Zone to scrap Heavy Casualties"));
     }
 
     @Override
     public boolean isCardActionable(Card card, CardAction cardAction, String cardLocation, Player player) {
-        return false;
+        return card.isUnit() && (CARD_LOCATION_HAND.equals(cardLocation) || CARD_LOCATION_PLAYER_UNITS.equals(cardLocation));
     }
 
     @Override
-    public boolean processCardAction(Player player) {Optional<Card> infantryPlatoonInHand = player.getHand().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
-        Optional<Unit> infantryPlatoonInDeploymentZone = player.getDeploymentZone().stream().filter(c -> c instanceof InfantryPlatoon).findAny();
+    public boolean processCardAction(Player player) {
+        int numUnitsInDeploymentZone = player.getNumUnitsInDeploymentZone();
+        long numUnitsInHand = player.getHand().stream().filter(Card::isUnit).count();
 
-        if (!infantryPlatoonInHand.isPresent() && !infantryPlatoonInDeploymentZone.isPresent()) {
-            return false;
-        } else if (!infantryPlatoonInHand.isPresent()) {
-            player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
-            player.getDeploymentZone().remove(infantryPlatoonInDeploymentZone.get());
-            player.addCardToDiscard(infantryPlatoonInDeploymentZone.get());
-            player.getCardsPlayed().remove(this);
-            return false;
-        } else if (!infantryPlatoonInDeploymentZone.isPresent()) {
-            player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
-            player.discardCardFromHand(infantryPlatoonInHand.get());
-            player.getCardsPlayed().remove(this);
-            return false;
-        } else {
-            player.makeSupportActionChoice(this, "Discard an Infantry Platoon.", new Choice(1, "Discard from hand"), new Choice(2, "Discard from deployment zone"));
-            return false;
-        }
+        return numUnitsInDeploymentZone > 0 || numUnitsInHand > 0;
     }
 
     @Override
     public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
         Card selectedCard = result.getSelectedCard();
         if (result.getCardLocation().equals(Card.CARD_LOCATION_HAND)) {
-            player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their hand to return a Heavy Casualties back to Overrun pile");
+            player.addGameLog(player.getPlayerName() + " discarded " + selectedCard.getName() + " from their hand to scrap a Heavy Casualties");
             player.discardCardFromHand(selectedCard);
             player.getCardsPlayed().remove(this);
         } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
-            player.addGameLog(player.getPlayerName() + " discarded an Infantry Platoon from their deployment zone to return a Heavy Casualties back to Overrun pile");
-            player.getDeploymentZone().remove(selectedCard);
-            player.addCardToDiscard(selectedCard);
+            player.addGameLog(player.getPlayerName() + " discarded " +  selectedCard.getName() + " from their deployment zone to scrap a Heavy Casualties");
+            player.discardCardFromDeploymentZone((Unit) selectedCard);
             player.getCardsPlayed().remove(this);
         }
     }

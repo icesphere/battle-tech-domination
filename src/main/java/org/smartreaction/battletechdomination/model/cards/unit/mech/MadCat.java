@@ -12,6 +12,7 @@ public class MadCat extends MechUnit {
         defense = 3;
         industryCost = 7;
         losTechCost = 1;
+        imageFile = "MadCat.png";
 
         addAbility(new OverwhelmingAttack(this));
     }

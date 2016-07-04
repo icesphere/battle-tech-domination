@@ -11,6 +11,7 @@ public class Quickdraw extends MechUnit {
         attack = 2;
         defense = 1;
         industryCost = 5;
+        imageFile = "Quickdraw.png";
 
         addAbility(new Versatile(this));
     }

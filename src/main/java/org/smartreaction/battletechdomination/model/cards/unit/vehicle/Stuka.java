@@ -8,9 +8,10 @@ public class Stuka extends VehicleUnit {
         name = "Stuka";
         subName = "STU-K5";
         cardText = "AEROSPACE: Damage this unit if you are Overrun or if you Overrun your opponent.";
-        attack = 3;
-        defense = 1;
+        attack = 4;
+        defense = 0;
         industryCost = 4;
+        imageFile = "Stuka.png";
 
         addAbility(new Aerospace(this));
     }

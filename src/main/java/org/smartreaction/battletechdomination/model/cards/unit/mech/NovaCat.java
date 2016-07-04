@@ -11,6 +11,7 @@ public class NovaCat extends MechUnit {
         defense = 2;
         industryCost = 7;
         losTechCost = 1;
+        imageFile = "NovaCat.png";
 
         addAbility(new LongRangeBarrage(this));
     }

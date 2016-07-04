@@ -11,6 +11,7 @@ public class Zeus extends MechUnit {
         attack = 2;
         defense = 3;
         industryCost = 6;
+        imageFile = "Zeus.png";
 
         addAbility(new Durable(this));
     }

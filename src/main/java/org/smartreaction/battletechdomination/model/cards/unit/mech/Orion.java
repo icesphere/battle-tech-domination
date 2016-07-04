@@ -11,6 +11,7 @@ public class Orion extends MechUnit {
         attack = 2;
         defense = 2;
         industryCost = 6;
+        imageFile = "Orion.png";
 
         addAbility(new Heroic(this));
     }

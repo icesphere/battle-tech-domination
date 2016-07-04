@@ -11,6 +11,7 @@ public class Victor extends MechUnit {
         attack = 2;
         defense = 2;
         industryCost = 6;
+        imageFile = "Victor.png";
 
         addAbility(new JumpJets(this));
     }

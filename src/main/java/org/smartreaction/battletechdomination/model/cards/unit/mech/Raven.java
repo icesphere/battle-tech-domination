@@ -12,6 +12,7 @@ public class Raven extends MechUnit implements ActiveProbe {
         attack = 0;
         defense = 0;
         industryCost = 3;
+        imageFile = "Raven.png";
 
         addAbility(new ECM(this));
     }

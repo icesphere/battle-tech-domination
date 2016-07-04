@@ -272,7 +272,7 @@ public class GameService {
 
         cards.add(new MadCat());
 
-        cards.add(new MadCatMkII());
+        cards.add(new Kodiak());
 
         cards.add(new Marauder());
 
@@ -291,7 +291,7 @@ public class GameService {
 
         cards.add(new Stalker());
 
-        cards.add(new Stormcrow());
+        cards.add(new Ryoken());
 
         cards.add(new Thor());
 
@@ -301,7 +301,7 @@ public class GameService {
         cards.add(new Urbanmech());
         cards.add(new Urbanmech());
 
-        cards.add(new Uziel());
+        cards.add(new Argus());
 
         cards.add(new Victor());
 
@@ -496,6 +496,8 @@ public class GameService {
 
             case "adder":
                 return new Adder();
+            case "argus":
+                return new Argus();
             case "atlas":
                 return new Atlas();
             case "awesome":
@@ -520,12 +522,12 @@ public class GameService {
                 return new Jenner();
             case "kitfox":
                 return new KitFox();
+            case "kodiak":
+                return new Kodiak();
             case "loki":
                 return new Loki();
             case "madcat":
                 return new MadCat();
-            case "madcatmkii":
-                return new MadCatMkII();
             case "marauder":
                 return new Marauder();
             case "masakari":
@@ -536,22 +538,20 @@ public class GameService {
                 return new Quickdraw();
             case "raven":
                 return new Raven();
+            case "ryoken":
+                return new Ryoken();
             case "shadowcat":
                 return new ShadowCat();
             case "shadowhawk":
                 return new ShadowHawk();
             case "stalker":
                 return new Stalker();
-            case "stormcrow":
-                return new Stormcrow();
             case "thor":
                 return new Thor();
             case "trebuchet":
                 return new Trebuchet();
             case "urbanmech":
                 return new Urbanmech();
-            case "uziel":
-                return new Uziel();
             case "victor":
                 return new Victor();
             case "vulture":

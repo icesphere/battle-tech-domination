@@ -11,5 +11,6 @@ public class Atlas extends MechUnit implements HeavyArmor {
         attack = 3;
         defense = 4;
         industryCost = 8;
+        imageFile = "Atlas.png";
     }
 }

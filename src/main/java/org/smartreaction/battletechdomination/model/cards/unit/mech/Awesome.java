@@ -11,6 +11,7 @@ public class Awesome extends MechUnit {
         attack = 1;
         defense = 3;
         industryCost = 6;
+        imageFile = "Awesome.png";
 
         addAbility(new Overheat(this));
     }

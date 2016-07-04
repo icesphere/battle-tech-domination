@@ -10,5 +10,6 @@ public class Marauder extends MechUnit {
         attack = 3;
         defense = 3;
         industryCost = 7;
+        imageFile = "Marauder.png";
     }
 }

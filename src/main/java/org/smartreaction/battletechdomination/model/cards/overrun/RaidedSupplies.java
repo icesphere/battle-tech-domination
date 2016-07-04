@@ -10,14 +10,14 @@ import org.smartreaction.battletechdomination.model.players.Player;
 public class RaidedSupplies extends OverrunSupport implements SupportCardAction {
     public RaidedSupplies() {
         name = "Raided Supplies";
-        cardText = "You may discard 2 cards from your hand.  If you do, return this card to the Overrun pile.";
+        cardText = "You may discard 2 cards from your hand.  If you do, scrap this card.";
         overrunAmount = 2;
         imageFile = "RaidedSupplies.png";
     }
 
     @Override
     public void cardPlayed(Player player) {
-        player.addAction(new CardAction(this, "Discard 2 cards from your hand to return Raided Supplies to Overrun pile"));
+        player.addAction(new CardAction(this, "Discard 2 cards from your hand to scrap Raided Supplies"));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class RaidedSupplies extends OverrunSupport implements SupportCardAction 
         if (player.getHand().size() < 2) {
             return false;
         } else {
-            player.addGameLog(player.getPlayerName() + " is discarding 2 cards to return Raided Supplies to Overrun pile");
+            player.addGameLog(player.getPlayerName() + " is discarding 2 cards to scrap Raided Supplies");
             return true;
         }
     }

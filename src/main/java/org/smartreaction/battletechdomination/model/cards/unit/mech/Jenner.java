@@ -11,6 +11,7 @@ public class Jenner extends MechUnit {
         attack = 1;
         defense = 0;
         industryCost = 2;
+        imageFile = "Jenner.png";
 
         addAbility(new GuerrillaFighter(this));
     }

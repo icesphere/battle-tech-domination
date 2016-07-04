@@ -11,6 +11,7 @@ public class Transit extends VehicleUnit {
         attack = 2;
         defense = 1;
         industryCost = 3;
+        imageFile = "Transit.png";
 
         addAbility(new Aerospace(this));
     }

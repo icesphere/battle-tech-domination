@@ -13,6 +13,7 @@ public class Loki extends MechUnit implements ActiveProbe {
         defense = 2;
         industryCost = 6;
         losTechCost = 1;
+        imageFile = "Loki.png";
 
         addAbility(new ECM(this));
     }

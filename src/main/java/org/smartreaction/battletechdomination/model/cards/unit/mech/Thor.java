@@ -12,6 +12,7 @@ public class Thor extends MechUnit {
         defense = 3;
         industryCost = 6;
         losTechCost = 1;
+        imageFile = "Thor.png";
 
         addAbility(new DeathFromAbove(this));
     }
