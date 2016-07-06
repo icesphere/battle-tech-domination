@@ -11,6 +11,7 @@ public class SturmfeurLRMTank extends VehicleUnit {
         attack = 1;
         defense = 0;
         industryCost = 2;
+        imageFile = "SturmFeur.png";
 
         addAbility(new LRMFireSupport(this));
         addAbility(new Tank(this));

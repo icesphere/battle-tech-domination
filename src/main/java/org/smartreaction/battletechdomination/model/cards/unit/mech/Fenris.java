@@ -13,6 +13,7 @@ public class Fenris extends MechUnit implements ActiveProbe {
         defense = 1;
         industryCost = 4;
         losTechCost = 1;
+        imageFile = "Fenris.png";
 
         addAbility(new VeryFast(this));
     }

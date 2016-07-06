@@ -11,6 +11,7 @@ public class Dragon extends MechUnit {
         attack = 1;
         defense = 2;
         industryCost = 5;
+        imageFile = "Dragon.png";
 
         addAbility(new MobileHeavy(this));
     }

@@ -9,8 +9,9 @@ public class JagerMech extends MechUnit {
         subName = "JM6-A";
         cardText = "SUPPRESSIVE FIRE: +1 Attack if you have more Mechs in your deployment zone than your opponent has in his.";
         attack = 1;
-        defense = 3;
+        defense = 2;
         industryCost = 5;
+        imageFile = "JagerMech.png";
 
         addAbility(new SuppressiveFire(this));
     }

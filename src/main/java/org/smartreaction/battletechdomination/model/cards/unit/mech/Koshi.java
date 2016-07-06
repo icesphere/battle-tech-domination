@@ -12,6 +12,7 @@ public class Koshi extends MechUnit {
         defense = 0;
         industryCost = 2;
         losTechCost = 1;
+        imageFile = "Koshi.png";
 
         addAbility(new Striker(this));
     }

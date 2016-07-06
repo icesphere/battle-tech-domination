@@ -8,9 +8,10 @@ public class Wolverine extends MechUnit {
         name = "Wolverine";
         subName = "WVR-7D";
         cardText = "BRAWLER: When this unit is damaged, your opponent must damage a unit.";
-        attack = 1;
+        attack = 2;
         defense = 2;
         industryCost = 4;
+        imageFile = "Wolverine.png";
 
         addAbility(new Brawler(this));
     }

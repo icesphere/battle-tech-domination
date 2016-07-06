@@ -383,7 +383,7 @@ public class GameService {
 
         cards.add(new Dragon());
 
-        cards.add(new Gargoyle());
+        cards.add(new ManOWar());
 
         return cards;
     }
@@ -636,8 +636,8 @@ public class GameService {
                 return new Crab();
             case "dragon":
                 return new Dragon();
-            case "gargoyle":
-                return new Gargoyle();
+            case "manowar":
+                return new ManOWar();
 
             default:
                 return null;

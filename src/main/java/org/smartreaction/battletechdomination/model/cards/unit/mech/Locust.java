@@ -12,6 +12,7 @@ public class Locust extends MechUnit implements Spotter {
         attack = 0;
         defense = 0;
         industryCost = 0;
+        imageFile = "Locust.png";
 
         addAbility(new Mobile(this));
     }

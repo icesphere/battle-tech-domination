@@ -11,6 +11,7 @@ public class Crab extends MechUnit {
         attack = 1;
         defense = 1;
         industryCost = 4;
+        imageFile = "Crab.png";
 
         addAbility(new AdvancedCommSystem(this));
     }
