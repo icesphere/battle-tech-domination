@@ -25,9 +25,10 @@ public class UnitFromDeploymentZoneToHand extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         Unit unit = (Unit) result.getSelectedCard();
         player.getDeploymentZone().remove(unit);
         player.addCardToHand(unit);
+        return true;
     }
 }

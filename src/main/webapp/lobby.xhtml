@@ -17,6 +17,8 @@
                 var chats = $('#chats');
                 chats.scrollTop(chats.prop('scrollHeight'));
             }
+
+            var ignoreFutureMessages = false;
         </script>
     </ui:define>
 
@@ -51,7 +53,11 @@
                             <p:commandLink styleClass="lobbyButton" action="#{lobbyView.startAutoMatch}" process="gameOptions" update="@form" value="Auto Match"/>
                         </div>
                     </h:panelGroup>
-                    <h:outputText value="Waiting for Auto Match..." rendered="#{userSession.user.autoMatch}"/>
+                    <h:panelGroup rendered="#{userSession.user.autoMatch}">
+                        <h:outputText value="Waiting for Auto Match..."/>
+                        <p:commandLink value="Cancel" process="@form" update="@form" style="margin-left: 15px;"
+                                       actionListener="#{userSession.user.setAutoMatch(false)}"/>
+                    </h:panelGroup>
                 </div>
 
                 <div style="padding-top: 20px; clear: both;">
@@ -102,13 +108,17 @@
             function handleLobbyMessage(response) {
                 console.log("received message from server: ");
                 console.log(response);
-                if (response.message == 'game_started') {
-                    window.location.href = 'game.xhtml?faces-redirect=true';
-                } else if (response.message == 'refresh_lobby') {
-                    console.log('received refresh lobby message');
-                    refreshLobby();
-                } else if (response.message == 'refresh_chat') {
-                    refreshChat();
+                if (!ignoreFutureMessages) {
+                    if (response.message == 'game_started') {
+                        PF('lobbyMessageSubscriber').disconnect();
+                        ignoreFutureMessages = true;
+                        window.location.href = 'game.xhtml?faces-redirect=true';
+                    } else if (response.message == 'refresh_lobby') {
+                        console.log('received refresh lobby message');
+                        refreshLobby();
+                    } else if (response.message == 'refresh_chat') {
+                        refreshChat();
+                    }
                 }
             }
         </script>

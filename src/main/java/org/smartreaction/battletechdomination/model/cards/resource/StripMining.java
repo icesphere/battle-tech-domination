@@ -3,7 +3,7 @@ package org.smartreaction.battletechdomination.model.cards.resource;
 import org.smartreaction.battletechdomination.model.cards.CardType;
 import org.smartreaction.battletechdomination.model.cards.Resource;
 import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportActionChoice;
-import org.smartreaction.battletechdomination.model.cards.actions.ScrapCardFromHand;
+import org.smartreaction.battletechdomination.model.cards.actions.ScrapCardsFromHand;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class StripMining extends Resource implements SupportActionChoice {
@@ -21,7 +21,7 @@ public class StripMining extends Resource implements SupportActionChoice {
     @Override
     public void supportActionChoiceMade(Player player, int choice) {
         if (choice == 1) {
-            player.addAction(new ScrapCardFromHand(CardType.RESOURCE, "Scrap a Resource card from your hand"));
+            player.addAction(new ScrapCardsFromHand(1, "Scrap a Resource card from your hand", true, CardType.RESOURCE));
         }
     }
 }

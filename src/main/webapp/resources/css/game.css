@@ -71,8 +71,11 @@
 }
 
 .overrunCards {
+    clear: both;
     float: left;
-    margin-right: 10px;
+    width: 200px;
+    margin-left: 42px;
+    margin-bottom: 15px;
 }
 
 .playerInfoSection {
@@ -94,36 +97,37 @@
     float: left;
     margin-right: 10px;
     padding: 12px;
-    min-width: 210px;
+    width: 210px;
 }
 
 .opponentUnitsSection {
     float: left;
     padding: 12px;
-    min-width: 210px;
+    width: 210px;
 }
 
 .playAreaSection {
-    clear: left;
-    padding-top: 10px;
+    float: left;
+    width: 245px;
 }
 
 .playArea {
-    padding-left: 20px;
+    padding-left: 10px;
     padding-top: 10px;
 }
 
 .handSection {
-    clear: left;
-    padding-top: 10px;
+    float: left;
+    width: 245px;
 }
 
 .hand {
-    padding-left: 20px;
+    padding-left: 10px;
     padding-top: 10px;
 }
 
 .gameLogSection {
+    clear: both;
     width: 265px;
     padding: 5px;
     border: 2px solid black;
@@ -190,14 +194,14 @@
 .turnInfoSection {
     clear: both;
     float: left;
-    padding-top: 5px;
+    padding-top: 15px;
 }
 
 .turnInfoBox {
     border: 1px solid #333;
     background-color: #EEEEF0;
     float: left;
-    width: 320px;
+    width: 263px;
     padding: 7px;
 }
 
@@ -242,10 +246,77 @@
     text-decoration: none;
 }
 
+.smallButtonWrapper {
+    clear: both;
+    float: left;
+    padding-top: 7px;
+}
+
+.smallButton {
+    float: left;
+    min-width: 130px;
+    text-align: center;
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px 16px 8px 16px;
+    text-decoration: none;
+    border: solid #1f628d 2px;
+}
+
+.smallButton:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
+.tinyButton {
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    border-radius: 9px;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    font-size: 11px;
+    padding: 1px 10px 1px 10px;
+    text-decoration: none;
+    border: solid #1f628d 2px;
+}
+
+.tinyButton:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
 .supplyCard {
     clear: both;
     float: left;
     margin-bottom: 2px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;
 }
 
 .supplyCardCost {
@@ -311,6 +382,12 @@
     clear: both;
     float: left;
     margin-bottom: 2px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;
 }
 
 .cardInfo {
@@ -321,15 +398,15 @@
 
 .playerInfo {
     padding-bottom: 5px;
-    clear: both;
     float: left;
+    min-width: 245px;
 }
 
 .playerInfoName {
     float: left;
     padding: 10px;
     margin-right: 2px;
-    min-width: 128px;
+    width: 210px;
     min-height: 17px;
 }
 
@@ -337,8 +414,9 @@
     float: left;
     padding: 7px 10px;
     margin-right: 2px;
-    min-width: 41px;
+    width: 55px;
     font-size: 20px;
+    text-align: center;
 }
 
 .playerInfoIcon {
@@ -382,6 +460,10 @@
     cursor: pointer;
 }
 
+.selected {
+    border: 3px solid #cc00ff !important;
+}
+
 .buyableCard .supplyCardCost {
     padding-left: 8px;
     padding-right: 9px;
@@ -401,10 +483,17 @@
     font-weight:bold;
 }
 
+.showCardsSection {
+    clear: both;
+    float: left;
+    padding-top: 10px;
+}
+
 .actionSection {
     clear: both;
     float: left;
     padding-top: 20px;
+    max-width: 478px;
 }
 
 .red {

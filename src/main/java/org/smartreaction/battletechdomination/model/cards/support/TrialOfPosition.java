@@ -7,7 +7,7 @@ import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportCardAction;
 import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
 import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
-import org.smartreaction.battletechdomination.model.cards.actions.FreeCardFromSupplyToHand;
+import org.smartreaction.battletechdomination.model.cards.actions.FreeCardFromSupply;
 import org.smartreaction.battletechdomination.model.players.Player;
 
 public class TrialOfPosition extends Support implements SupportCardAction {
@@ -42,6 +42,6 @@ public class TrialOfPosition extends Support implements SupportCardAction {
         } else if (result.getCardLocation().equals(Card.CARD_LOCATION_PLAYER_UNITS)) {
             player.scrapUnitFromDeploymentZone((Unit) selectedCard);
         }
-        player.addAction(new FreeCardFromSupplyToHand(null, CardType.UNIT_MECH, "Gain a Mech from the Supply regardless of its cost and put it in your hand."));
+        player.addAction(new FreeCardFromSupply(null, "Gain a Mech from the Supply regardless of its cost and put it in your hand.", Card.CARD_LOCATION_HAND, CardType.UNIT_MECH));
     }
 }

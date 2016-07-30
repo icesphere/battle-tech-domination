@@ -21,5 +21,23 @@ public abstract class Action {
 
     public abstract boolean processAction(Player player);
 
-    public abstract void processActionResult(Player player, ActionResult result);
+    public abstract boolean processActionResult(Player player, ActionResult result);
+
+    public boolean isShowDoNotUse() {
+        return false;
+    }
+
+    public boolean isShowDone(Player player) {
+        return false;
+    }
+
+    public String getDoneText() {
+        return "Done";
+    }
+
+    public boolean isCardSelected(Card card) {
+        return false;
+    }
+
+    public void onNotUsed(Player player) {}
 }

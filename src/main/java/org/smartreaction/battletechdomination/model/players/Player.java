@@ -371,6 +371,12 @@ public abstract class Player {
         playerCardScrapped(card);
     }
 
+    public void scrapCardFromDiscard(Card card) {
+        getGame().gameLog("Scrapped " + card.getName() + " from discard");
+        discard.remove(card);
+        playerCardScrapped(card);
+    }
+
     private void playerCardScrapped(Card card) {
         if (card instanceof TacticalCommand) {
             addGameLog(opponent.getPlayerName() + " draws 2 cards due to " + card.getName() + " being scrapped");
@@ -388,7 +394,7 @@ public abstract class Player {
             text += " costing up to " + maxIndustryCost + " Industry";
         }
 
-        addAction(new FreeCardFromSupplyToTopOfDeck(maxIndustryCost, text));
+        addAction(new FreeCardFromSupply(maxIndustryCost, text, Card.CARD_LOCATION_DECK));
     }
 
     public void gainFreeResourceCardIntoHand(Integer maxIndustryCost) {
@@ -440,13 +446,16 @@ public abstract class Player {
     }
 
     public void actionResult(Action action, ActionResult result) {
-        if (!result.getSelectedCards().isEmpty() || result.getChoiceSelected() != null) {
-            action.processActionResult(this, result);
+        if (!result.getSelectedCards().isEmpty() || result.getChoiceSelected() != null
+                || result.isDoNotUse() || result.isDoneWithAction()) {
+            if (result.isDoNotUse() || action.processActionResult(this, result)) {
+                if (result.isDoNotUse()) {
+                    currentAction.onNotUsed(this);
+                }
+                currentAction = null;
+                resolveActions();
+            }
         }
-
-        currentAction = null;
-
-        resolveActions();
     }
 
     public void nextPhase() {
@@ -937,6 +946,20 @@ public abstract class Player {
 
     public List<Card> getHand() {
         return hand;
+    }
+
+    public List<Card> getDiscard() {
+        return discard;
+    }
+
+    public List<Card> getDeck() {
+        return deck;
+    }
+
+    public List getHandAndDeck() {
+        List<Card> cards = new ArrayList<>(hand);
+        cards.addAll(deck);
+        return cards;
     }
 
     public void buyCard(Card card) {

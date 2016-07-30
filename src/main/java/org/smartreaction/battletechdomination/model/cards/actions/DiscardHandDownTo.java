@@ -16,17 +16,9 @@ public class DiscardHandDownTo extends Action {
         this.text = text;
     }
 
-    public int getCardsToDiscardDownTo() {
-        return cardsToDiscardDownTo;
-    }
-
-    public List<Card> getSelectedCards() {
-        return selectedCards;
-    }
-
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_HAND) && !selectedCards.contains(card);
+        return cardLocation.equals(Card.CARD_LOCATION_HAND);
     }
 
     @Override
@@ -47,7 +39,38 @@ public class DiscardHandDownTo extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
-        selectedCards.forEach(player::discardCardFromHand);
+    public boolean processActionResult(Player player, ActionResult result) {
+        if (result.isDoneWithAction()) {
+            selectedCards.forEach(player::discardCardFromHand);
+            return true;
+        } else {
+            Card selectedCard = result.getSelectedCard();
+            if (selectedCards.contains(selectedCard)) {
+                selectedCards.remove(selectedCard);
+            } else {
+                selectedCards.add(selectedCard);
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isShowDone(Player player) {
+        return selectedCards.size() > 0 && player.getHand().size() == cardsToDiscardDownTo;
+    }
+
+    @Override
+    public String getDoneText() {
+        if (selectedCards.size() == 1) {
+            return "Discard " + selectedCards.get(0).getName();
+        } else {
+            return "Discard " + selectedCards.size() + " cards";
+        }
+    }
+
+    @Override
+    public boolean isCardSelected(Card card) {
+        return selectedCards.contains(card);
     }
 }

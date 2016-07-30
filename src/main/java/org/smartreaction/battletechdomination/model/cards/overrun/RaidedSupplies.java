@@ -2,12 +2,13 @@ package org.smartreaction.battletechdomination.model.cards.overrun;
 
 import org.smartreaction.battletechdomination.model.cards.Card;
 import org.smartreaction.battletechdomination.model.cards.OverrunSupport;
-import org.smartreaction.battletechdomination.model.cards.abilities.support.SupportCardAction;
-import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
-import org.smartreaction.battletechdomination.model.cards.actions.CardAction;
+import org.smartreaction.battletechdomination.model.cards.actions.DiscardCardsForBenefitActionCard;
+import org.smartreaction.battletechdomination.model.cards.actions.DiscardCardsFromHandForBenefit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class RaidedSupplies extends OverrunSupport implements SupportCardAction {
+import java.util.List;
+
+public class RaidedSupplies extends OverrunSupport implements DiscardCardsForBenefitActionCard {
     public RaidedSupplies() {
         name = "Raided Supplies";
         cardText = "You may discard 2 cards from your hand.  If you do, scrap this card.";
@@ -17,32 +18,16 @@ public class RaidedSupplies extends OverrunSupport implements SupportCardAction 
 
     @Override
     public void cardPlayed(Player player) {
-        player.addAction(new CardAction(this, "Discard 2 cards from your hand to scrap Raided Supplies"));
+        player.addAction(new DiscardCardsFromHandForBenefit(this, 2, "Discard 2 cards from your hand to scrap Raided Supplies"));
     }
 
     @Override
-    public boolean isCardActionable(Card card, CardAction cardAction, String cardLocation, Player player) {
-        if (cardLocation.equals(Card.CARD_LOCATION_HAND)) {
-            if (!cardAction.getSelectedCards().contains(card)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean processCardAction(Player player) {
-        if (player.getHand().size() < 2) {
-            return false;
-        } else {
-            player.addGameLog(player.getPlayerName() + " is discarding 2 cards to scrap Raided Supplies");
-            return true;
-        }
-    }
-
-    @Override
-    public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
-        result.getSelectedCards().stream().forEach(player::discardCardFromHand);
+    public void cardsDiscarded(Player player, List<Card> discardedCards) {
         player.getCardsPlayed().remove(this);
+    }
+
+    @Override
+    public void onChoseDoNotUse(Player player) {
+
     }
 }

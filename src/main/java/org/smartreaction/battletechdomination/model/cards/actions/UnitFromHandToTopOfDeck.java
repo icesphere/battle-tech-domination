@@ -24,9 +24,10 @@ public class UnitFromHandToTopOfDeck extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         player.getHand().remove(result.getSelectedCard());
         player.addGameLog(player.getPlayerName() + " put " + result.getSelectedCard().getName() + " from hand on top of deck");
         player.addCardToTopOfDeck(result.getSelectedCard());
+        return true;
     }
 }

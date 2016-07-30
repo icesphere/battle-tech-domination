@@ -50,11 +50,12 @@ public class CardAction extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         if (cardActionCard instanceof SupportCardAction) {
             ((SupportCardAction) cardActionCard).processCardActionResult(this, player, result);
         } else if (cardActionCard.isUnit()) {
             ((Unit) cardActionCard).processCardActionResult(this, player, result);
         }
+        return true;
     }
 }

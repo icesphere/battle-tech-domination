@@ -12,15 +12,27 @@ public class ActionResult {
 
     private String cardLocation;
 
+    private boolean doNotUse;
+
+    private boolean doneWithAction;
+
     public ActionResult() {
+    }
+
+    public static ActionResult doNotUseActionResult() {
+        ActionResult actionResult = new ActionResult();
+        actionResult.setDoNotUse(true);
+        return actionResult;
+    }
+
+    public static ActionResult doneWithActionResult() {
+        ActionResult actionResult = new ActionResult();
+        actionResult.setDoneWithAction(true);
+        return actionResult;
     }
 
     public List<Card> getSelectedCards() {
         return selectedCards;
-    }
-
-    public void setSelectedCards(List<Card> selectedCards) {
-        this.selectedCards = selectedCards;
     }
 
     public Integer getChoiceSelected() {
@@ -44,5 +56,21 @@ public class ActionResult {
             return selectedCards.get(0);
         }
         return null;
+    }
+
+    public boolean isDoNotUse() {
+        return doNotUse;
+    }
+
+    public void setDoNotUse(boolean doNotUse) {
+        this.doNotUse = doNotUse;
+    }
+
+    public boolean isDoneWithAction() {
+        return doneWithAction;
+    }
+
+    public void setDoneWithAction(boolean doneWithAction) {
+        this.doneWithAction = doneWithAction;
     }
 }

@@ -5,12 +5,12 @@ import org.smartreaction.battletechdomination.model.ChatMessage;
 import org.smartreaction.battletechdomination.model.Game;
 import org.smartreaction.battletechdomination.model.TurnPhase;
 import org.smartreaction.battletechdomination.model.cards.*;
-import org.smartreaction.battletechdomination.model.cards.actions.*;
-import org.smartreaction.battletechdomination.model.cards.overrun.RaidedSupplies;
+import org.smartreaction.battletechdomination.model.cards.actions.Action;
+import org.smartreaction.battletechdomination.model.cards.actions.ActionResult;
+import org.smartreaction.battletechdomination.model.cards.actions.SelectFromDiscardAction;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.Ambush;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ExpertMechTechs;
 import org.smartreaction.battletechdomination.model.cards.support.reaction.ForwardBase;
-import org.smartreaction.battletechdomination.model.cards.unit.mech.Masakari;
 import org.smartreaction.battletechdomination.model.players.Player;
 import org.smartreaction.battletechdomination.service.GameService;
 
@@ -36,6 +36,14 @@ public class GameView implements Serializable {
     Card cardToView;
 
     String chatMessage = "";
+
+    boolean showingCards;
+
+    String showingCardsTitle;
+
+    List<Card> cardsToShow;
+
+    String cardsToShowSource;
 
     public void sendGameMessageToAll(String message) {
         sendGameMessage("*", message);
@@ -75,11 +83,18 @@ public class GameView implements Serializable {
     }
 
     public String getSupplyCardClass(Card card) {
+        String cardClass = "";
+
         if (highlightSupplyCard(card)) {
-            return "buyableCard";
+            cardClass = "buyableCard";
         }
 
-        return "";
+        Action action = getAction();
+        if (action != null && action.isCardSelected(card)) {
+            cardClass += " selected";
+        }
+
+        return cardClass;
     }
 
     public boolean highlightSupplyCard(Card card) {
@@ -97,6 +112,11 @@ public class GameView implements Serializable {
 
         if (highlightCard(card, source)) {
             cardClass += " actionableCard";
+        }
+
+        Action action = getAction();
+        if (action != null && action.isCardSelected(card)) {
+            cardClass += " selected";
         }
 
         return cardClass;
@@ -289,41 +309,7 @@ public class GameView implements Serializable {
         ActionResult result = new ActionResult();
         result.setCardLocation(cardLocation);
 
-        if (action instanceof DiscardCardsFromHand) {
-            DiscardCardsFromHand discardCardsFromHand = (DiscardCardsFromHand) action;
-            discardCardsFromHand.getSelectedCards().add(card);
-            if (discardCardsFromHand.getNumCardsToDiscard() == discardCardsFromHand.getSelectedCards().size()) {
-                result.getSelectedCards().addAll(discardCardsFromHand.getSelectedCards());
-            } else {
-                return;
-            }
-        } else if (action instanceof DiscardHandDownTo) {
-            DiscardHandDownTo discardHandDownTo = (DiscardHandDownTo) action;
-            discardHandDownTo.getSelectedCards().add(card);
-            if (discardHandDownTo.getCardsToDiscardDownTo() == (getPlayer().getHandSize() - discardHandDownTo.getSelectedCards().size())) {
-                result.getSelectedCards().addAll(discardHandDownTo.getSelectedCards());
-            } else {
-                return;
-            }
-        } else if (action instanceof ScrapCardsFromHandForBenefit) {
-            ScrapCardsFromHandForBenefit scrapCardsFromHandForBenefit = (ScrapCardsFromHandForBenefit) action;
-            scrapCardsFromHandForBenefit.getSelectedCards().add(card);
-            if (scrapCardsFromHandForBenefit.getNumCardsToScrap() == scrapCardsFromHandForBenefit.getSelectedCards().size()) {
-                result.getSelectedCards().addAll(scrapCardsFromHandForBenefit.getSelectedCards());
-            } else {
-                return;
-            }
-        } else if (action instanceof CardAction && (((CardAction) action).getCardActionCard() instanceof Masakari || ((CardAction) action).getCardActionCard() instanceof RaidedSupplies)) {
-            CardAction cardAction = (CardAction) action;
-            cardAction.getSelectedCards().add(card);
-            if (cardAction.getSelectedCards().size() == 2) {
-                result.getSelectedCards().addAll(cardAction.getSelectedCards());
-            } else {
-                return;
-            }
-        } else {
-            result.getSelectedCards().add(card);
-        }
+        result.getSelectedCards().add(card);
 
         getPlayer().actionResult(action, result);
 
@@ -363,11 +349,7 @@ public class GameView implements Serializable {
         if (!getGame().isGameOver()) {
             getPlayer().getOpponent().startTurn();
         }
-        if (getPlayer().getOpponent().getCurrentAction() != null) {
-            sendGameMessageToOpponent("show_action");
-        } else {
-            sendGameMessageToOpponent("refresh_game_page");
-        }
+        sendGameMessageToOpponent("refresh_game_page");
     }
 
     public void choiceMade(int choiceSelected) {
@@ -429,5 +411,53 @@ public class GameView implements Serializable {
             chatMessage = "";
             sendGameMessageToOpponent("refresh_chat");
         }
+    }
+
+    public void showCards(List<Card> cards, String title, String source) {
+        if (!cards.isEmpty()) {
+            showingCards = true;
+            showingCardsTitle = title;
+            cardsToShow = cards;
+            cardsToShowSource = source;
+
+            sendGameMessageToPlayer("refresh_middle_section");
+        }
+    }
+
+    public void hideCardsToShow() {
+        showingCards = false;
+        cardsToShow = null;
+    }
+
+    public boolean isShowingCards() {
+        return showingCards;
+    }
+
+    public List<Card> getCardsToShow() {
+        return cardsToShow;
+    }
+
+    public String getShowingCardsTitle() {
+        return showingCardsTitle;
+    }
+
+    public String getCardsToShowSource() {
+        return cardsToShowSource;
+    }
+
+    public void doNotUseAction() {
+        getPlayer().actionResult(getAction(), ActionResult.doNotUseActionResult());
+        sendGameMessageToPlayer("refresh_game_page");
+    }
+
+    public void doneWithAction() {
+        getPlayer().actionResult(getAction(), ActionResult.doneWithActionResult());
+        sendGameMessageToAll("refresh_game_page");
+    }
+
+    public boolean isHighlightDiscardButton() {
+        Action action = getAction();
+        return action != null && getPlayer().isYourTurn() && !getPlayer().getDiscard().isEmpty()
+                && (action instanceof SelectFromDiscardAction);
     }
 }

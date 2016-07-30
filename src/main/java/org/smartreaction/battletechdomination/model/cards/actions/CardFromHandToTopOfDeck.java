@@ -15,18 +15,19 @@ public class CardFromHandToTopOfDeck extends Action {
 
     @Override
     public boolean processAction(Player player) {
-        if (player.getHand().isEmpty()) {
-            return false;
-        } else {
-            player.addGameLog(player.getPlayerName() + " is putting a card from their hand on top of their deck");
-            return true;
-        }
+        return !player.getHand().isEmpty();
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         Card card = result.getSelectedCard();
         player.getHand().remove(card);
         player.addCardToTopOfDeck(card);
+        return true;
+    }
+
+    @Override
+    public boolean isShowDoNotUse() {
+        return true;
     }
 }

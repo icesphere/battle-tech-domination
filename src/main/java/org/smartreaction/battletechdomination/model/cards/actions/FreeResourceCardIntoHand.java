@@ -55,7 +55,7 @@ public class FreeResourceCardIntoHand extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         Card card = result.getSelectedCard();
 
         if (!(card instanceof AdvancedFactory || card instanceof SupplyDrop || card instanceof HeavyFactory)) {
@@ -65,5 +65,7 @@ public class FreeResourceCardIntoHand extends Action {
 
         player.addGameLog(player.getPlayerName() + " acquired free Resource card into hand: " + card.getName());
         player.addCardToHand(card);
+
+        return true;
     }
 }

@@ -33,7 +33,8 @@ public class DamageUnitMinCost extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         player.cardDamaged((Unit) result.getSelectedCard());
+        return true;
     }
 }

@@ -33,7 +33,8 @@ public class DamageOpponentUnit extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         player.getOpponent().cardDamaged((Unit) result.getSelectedCard());
+        return true;
     }
 }

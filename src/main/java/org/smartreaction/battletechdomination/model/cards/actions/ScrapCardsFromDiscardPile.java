@@ -6,46 +6,46 @@ import org.smartreaction.battletechdomination.model.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscardCardsFromHand extends Action {
-    protected int numCardsToDiscard;
+public class ScrapCardsFromDiscardPile extends Action implements SelectFromDiscardAction {
+    protected int numCardsToScrap;
 
     protected List<Card> selectedCards = new ArrayList<>(3);
 
     protected boolean optional;
 
-    public DiscardCardsFromHand(int numCardsToDiscard) {
-        this.numCardsToDiscard = numCardsToDiscard;
-        text = "Discard " + numCardsToDiscard + " card";
-        if (numCardsToDiscard != 1) {
+    public ScrapCardsFromDiscardPile(int numCardsToScrap) {
+        this.numCardsToScrap = numCardsToScrap;
+        text = "Scrap " + numCardsToScrap + " card";
+        if (numCardsToScrap != 1) {
             text += "s";
         }
     }
 
-    public DiscardCardsFromHand(int numCardsToDiscard, String text) {
-        this.numCardsToDiscard = numCardsToDiscard;
+    public ScrapCardsFromDiscardPile(int numCardsToScrap, String text) {
+        this.numCardsToScrap = numCardsToScrap;
         this.text = text;
     }
 
-    public DiscardCardsFromHand(int numCardsToDiscard, String text, boolean optional) {
-        this.numCardsToDiscard = numCardsToDiscard;
+    public ScrapCardsFromDiscardPile(int numCardsToScrap, String text, boolean optional) {
+        this.numCardsToScrap = numCardsToScrap;
         this.text = text;
         this.optional = optional;
     }
 
     @Override
     public boolean isCardActionable(Card card, String cardLocation, Player player) {
-        return cardLocation.equals(Card.CARD_LOCATION_HAND);
+        return cardLocation.equals(Card.CARD_LOCATION_DISCARD);
     }
 
     @Override
     public boolean processAction(Player player) {
-        return !player.getHand().isEmpty();
+        return !player.getDiscard().isEmpty();
     }
 
     @Override
     public boolean processActionResult(Player player, ActionResult result) {
         if (result.isDoneWithAction()) {
-            selectedCards.forEach(player::discardCardFromHand);
+            selectedCards.forEach(player::scrapCardFromDiscard);
             return true;
         } else {
             Card selectedCard = result.getSelectedCard();
@@ -66,15 +66,15 @@ public class DiscardCardsFromHand extends Action {
 
     @Override
     public boolean isShowDone(Player player) {
-        return selectedCards.size() > 0 && selectedCards.size() <= numCardsToDiscard && (optional || selectedCards.size() == numCardsToDiscard);
+        return selectedCards.size() > 0 && (optional || selectedCards.size() == numCardsToScrap);
     }
 
     @Override
     public String getDoneText() {
         if (selectedCards.size() == 1) {
-            return "Discard " + selectedCards.get(0).getName();
+            return "Scrap " + selectedCards.get(0).getName();
         } else {
-            return "Discard " + selectedCards.size() + " cards";
+            return "Scrap " + selectedCards.size() + " cards";
         }
     }
 

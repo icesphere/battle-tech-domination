@@ -37,7 +37,7 @@ public class DiscardCardsForStrategicBombing extends Action {
     }
 
     @Override
-    public void processActionResult(Player player, ActionResult result) {
+    public boolean processActionResult(Player player, ActionResult result) {
         List<Card> discardedCards = new ArrayList<>();
 
         Integer choice = result.getChoiceSelected();
@@ -64,5 +64,7 @@ public class DiscardCardsForStrategicBombing extends Action {
         Card cardToPutBack = revealedCards.get(0);
         player.getOpponent().addCardToTopOfDeck(cardToPutBack);
         player.addGameLog("Put " + cardToPutBack.getName() + " back on top of opponent's deck");
+
+        return true;
     }
 }

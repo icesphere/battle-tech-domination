@@ -9,30 +9,61 @@
 <composite:interface>
     <composite:attribute name="player" required="true" type="org.smartreaction.battletechdomination.model.players.Player"/>
     <composite:attribute name="playerClass" required="true"/>
+    <composite:attribute name="isOpponent" required="true"/>
 </composite:interface>
 
 <composite:implementation>
 
     <h:panelGroup layout="block" styleClass="playerInfo">
 
-        <div class="#{cc.attrs.playerClass} playerInfoName">
+        <div style="float: left;" class="playerInfoName #{cc.attrs.playerClass}">
             <h:outputText value="#{cc.attrs.player.playerName}"/>
         </div>
 
-        <div class="#{cc.attrs.playerClass} playerInfoValue">
-            <h:outputText value="#{cc.attrs.player.points}"/>
-            <h:graphicImage library="images" name="icons/LosTechIcon.png" styleClass="playerInfoIcon"/>
+        <div style="clear: both; float: left; padding-top: 10px;">
+            <div class="#{cc.attrs.playerClass} playerInfoValue">
+                <h:outputText value="#{cc.attrs.player.points}"/>
+                <h:graphicImage library="images" name="icons/LosTechIcon.png" styleClass="playerInfoIcon"/>
+            </div>
+
+            <div class="#{cc.attrs.playerClass} playerInfoValue">
+                <h:outputText value="#{cc.attrs.player.currentAttack}"/>
+                <h:graphicImage library="images" name="icons/AttackIcon.png" styleClass="playerInfoIcon"/>
+            </div>
+
+            <div class="#{cc.attrs.playerClass} playerInfoValue">
+                <h:outputText value="#{cc.attrs.player.currentDefense}"/>
+                <h:graphicImage library="images" name="icons/DefenseIcon.png" styleClass="playerInfoIcon"/>
+            </div>
         </div>
 
-        <div class="#{cc.attrs.playerClass} playerInfoValue">
-            <h:outputText value="#{cc.attrs.player.currentAttack}"/>
-            <h:graphicImage library="images" name="icons/AttackIcon.png" styleClass="playerInfoIcon"/>
-        </div>
+        <h:panelGroup rendered="#{!cc.attrs.isOpponent}">
 
-        <div class="#{cc.attrs.playerClass} playerInfoValue">
-            <h:outputText value="#{cc.attrs.player.currentDefense}"/>
-            <h:graphicImage library="images" name="icons/DefenseIcon.png" styleClass="playerInfoIcon"/>
-        </div>
+            <div class="smallButtonWrapper">
+                <p:commandLink value="Deck (#{cc.attrs.player.deck.size()})" process="@this" styleClass="smallButton"
+                               actionListener="#{gameView.showCards(cc.attrs.player.deck, 'Cards in your deck', 'deck')}"/>
+            </div>
+
+            <div class="smallButtonWrapper">
+                <p:commandLink value="Discard (#{cc.attrs.player.discard.size()})" process="@this" styleClass="smallButton #{gameView.highlightDiscardButton ? 'selected' : ''}"
+                               actionListener="#{gameView.showCards(cc.attrs.player.discard, 'Cards in your discard pile', 'discard')}"/>
+            </div>
+
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{cc.attrs.isOpponent}">
+
+            <div class="smallButtonWrapper">
+                <p:commandLink value="Hand &amp; Deck (#{cc.attrs.player.handAndDeck.size()})" process="@this" styleClass="smallButton"
+                               actionListener="#{gameView.showCards(cc.attrs.player.handAndDeck, 'Cards in your opponent\'s hand and deck', 'opponentDeckAndHand')}"/>
+            </div>
+
+            <div class="smallButtonWrapper">
+                <p:commandLink value="Discard (#{cc.attrs.player.discard.size()})" process="@this" styleClass="smallButton"
+                               actionListener="#{gameView.showCards(cc.attrs.player.discard, 'Cards in your opponent\'s discard pile', 'opponentDiscard')}"/>
+            </div>
+
+        </h:panelGroup>
 
     </h:panelGroup>
 
