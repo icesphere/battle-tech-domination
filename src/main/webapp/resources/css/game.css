@@ -222,11 +222,9 @@
     background-image: -ms-linear-gradient(top, #3498db, #2980b9);
     background-image: -o-linear-gradient(top, #3498db, #2980b9);
     background-image: linear-gradient(to bottom, #3498db, #2980b9);
-    -webkit-border-radius: 20;
-    -moz-border-radius: 20;
     border-radius: 20px;
     text-shadow: 1px 1px 3px #666666;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     color: #ffffff;
     font-size: 16px;
     padding: 20px 60px 20px 60px;
@@ -393,13 +391,6 @@
     padding-right: 7px;
 }
 
-.actionDialog {
-    padding: 5px;
-    padding-top: 10px;
-    text-align: center;
-    min-width: 200px;
-}
-
 .gameOverSection {
     clear: both;
     padding-top: 15px;
@@ -408,5 +399,25 @@
 
 .sectionHeader {
     font-weight:bold;
+}
+
+.actionSection {
+    clear: both;
+    float: left;
+    padding-top: 20px;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.currentActionLabel {
+    color: white;
+    background-color: #ff0000;
+    padding: 5px 20px;
+}
+
+.radioSpacing td {
+    padding-right: 10px;
 }
 

@@ -40,7 +40,7 @@ public class ScrapCardsFromHandForBenefit extends Action {
                 cardsAvailableToScrap = new ArrayList<>(player.getHand());
             }
             if (numCardsToScrap > cardsAvailableToScrap.size()) {
-                cardsAvailableToScrap.stream().forEach(player::scrapCardFromHand);
+                cardsAvailableToScrap.forEach(player::scrapCardFromHand);
                 card.cardsScrapped(player, cardsAvailableToScrap);
                 return false;
             } else {
@@ -51,7 +51,7 @@ public class ScrapCardsFromHandForBenefit extends Action {
 
     @Override
     public void processActionResult(Player player, ActionResult result) {
-        selectedCards.stream().forEach(player::scrapCardFromHand);
+        selectedCards.forEach(player::scrapCardFromHand);
         card.cardsScrapped(player, selectedCards);
     }
 
@@ -61,10 +61,5 @@ public class ScrapCardsFromHandForBenefit extends Action {
 
     public List<Card> getSelectedCards() {
         return selectedCards;
-    }
-
-    @Override
-    public boolean showActionDialog() {
-        return selectedCards.size() == 0;
     }
 }

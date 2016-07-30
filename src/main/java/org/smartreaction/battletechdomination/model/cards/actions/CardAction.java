@@ -57,9 +57,4 @@ public class CardAction extends Action {
             ((Unit) cardActionCard).processCardActionResult(this, player, result);
         }
     }
-
-    @Override
-    public boolean showActionDialog() {
-        return selectedCards.size() == 0;
-    }
 }

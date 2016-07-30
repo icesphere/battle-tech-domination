@@ -11,10 +11,6 @@
 
         <script>
             $( document ).ready(function() {
-                var needToShowActionDialog = "#{!empty gameView.action}";
-                if (needToShowActionDialog === "true") {
-                    showAction();
-                }
                 setTimeout(scrollChat, 500);
             });
 
@@ -46,8 +42,6 @@
             <p:remoteCommand name="refreshSupply" process="@this" update="supplySection"/>
             <p:remoteCommand name="refreshUnits" process="@this" update="unitsSection"/>
             <p:remoteCommand name="refreshChat" process="@this" update="chatSection" oncomplete="scrollChat()"/>
-
-            <p:remoteCommand name="showAction" process="@this" update="gamePage" oncomplete="PF('actionDialog').show()"/>
 
             <div class="gamePagePlusChat">
 
@@ -171,6 +165,27 @@
                                     </div>
                                 </div>
                             </h:panelGroup>
+
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" id="actionSection" styleClass="actionSection" rendered="#{!empty gameView.action}">
+
+                            <div style="float: left;">
+                                <h:outputText value="Current Action" styleClass="red"/>
+                            </div>
+
+                            <div style="clear: both; float: left; padding-top: 10px;">
+                                <h:outputText value="#{gameView.action.text}" />
+                            </div>
+
+                            <div style="padding-top: 15px;">
+                                <h:panelGroup rendered="#{!empty gameView.action.choices}">
+                                    <ui:repeat value="#{gameView.action.choices}" var="choice">
+                                        <p:commandButton value="#{choice.text}" style="margin-right: 10px;"
+                                                         actionListener="#{gameView.choiceMade(choice.choiceNumber)}"/>
+                                    </ui:repeat>
+                                </h:panelGroup>
+                            </div>
 
                         </h:panelGroup>
 
@@ -312,26 +327,6 @@
 
                     </h:panelGroup>
 
-                    <p:dialog header="Action" widgetVar="actionDialog" styleClass="actionDialog" modal="true" closable="false" resizable="false">
-                        <h:panelGroup rendered="#{!empty gameView.action}">
-                            <div>
-                                <h:outputText value="#{gameView.action.text}" />
-                            </div>
-                            <div style="padding-top: 15px;">
-                                <h:panelGroup rendered="#{!empty gameView.action.choices}">
-                                    <ui:repeat value="#{gameView.action.choices}" var="choice">
-                                        <p:commandButton value="#{choice.text}" style="margin-right: 10px;"
-                                                         actionListener="#{gameView.choiceMade(choice.choiceNumber)}"
-                                                         oncomplete="PF('actionDialog').hide()"/>
-                                    </ui:repeat>
-                                </h:panelGroup>
-                                <h:panelGroup rendered="#{empty gameView.action.choices}">
-                                    <p:commandButton value="OK" oncomplete="PF('actionDialog').hide()"/>
-                                </h:panelGroup>
-                            </div>
-                        </h:panelGroup>
-                    </p:dialog>
-
                 </h:panelGroup>
 
                 <h:panelGroup layout="block" id="chatSection" styleClass="chatSection">
@@ -393,8 +388,6 @@
                     refreshSupply();
                 } else if (message == 'refresh_units') {
                     refreshUnits();
-                } else if (message == 'show_action') {
-                    showAction();
                 } else if (message == 'refresh_chat') {
                     refreshChat();
                 }
