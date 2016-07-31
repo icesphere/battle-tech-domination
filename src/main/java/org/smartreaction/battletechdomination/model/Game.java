@@ -83,6 +83,8 @@ public class Game {
         }
 
         turn++;
+
+        getCurrentPlayer().startTurn();
     }
 
     private void gameOver() {

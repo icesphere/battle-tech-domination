@@ -371,11 +371,11 @@
 }
 
 .player {
-    background-color: #70B9B9;
+    background-color: #9FCBBB;
 }
 
 .opponent {
-    background-color: #CC9977;
+    background-color: #CCAA77;
 }
 
 .card {
@@ -406,7 +406,7 @@
     float: left;
     padding: 10px;
     margin-right: 2px;
-    width: 210px;
+    width: 215px;
     min-height: 17px;
 }
 
@@ -414,7 +414,7 @@
     float: left;
     padding: 7px 10px;
     margin-right: 2px;
-    width: 55px;
+    width: 57px;
     font-size: 20px;
     text-align: center;
 }
@@ -492,8 +492,12 @@
 .actionSection {
     clear: both;
     float: left;
-    padding-top: 20px;
-    max-width: 478px;
+    border: 2px solid red;
+    margin-top: 10px;
+    padding: 10px;
+    padding-top: 15px;
+    width: 456px;
+    background-color: white;
 }
 
 .red {

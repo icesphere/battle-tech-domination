@@ -341,15 +341,8 @@ public class GameView implements Serializable {
         if (getAction() != null) {
             sendShowActionToPlayer();
         } else {
-            refreshAfterEndTurn();
+            sendGameMessageToOpponent("refresh_game_page");
         }
-    }
-
-    public void refreshAfterEndTurn() {
-        if (!getGame().isGameOver()) {
-            getPlayer().getOpponent().startTurn();
-        }
-        sendGameMessageToOpponent("refresh_game_page");
     }
 
     public void choiceMade(int choiceSelected) {
@@ -365,7 +358,7 @@ public class GameView implements Serializable {
             sendGameMessageToOpponent("refresh_game_page");
         } else {
             if (!getPlayer().isYourTurn()) {
-                refreshAfterEndTurn();
+                sendGameMessageToOpponent("refresh_game_page");
             } else {
                 sendGameMessageToAll("refresh_game_page");
             }

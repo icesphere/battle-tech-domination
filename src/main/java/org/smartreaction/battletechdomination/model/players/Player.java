@@ -665,7 +665,7 @@ public abstract class Player {
 
         cardsPlayed.clear();
 
-        hand.stream().forEach(this::addCardToDiscard);
+        hand.forEach(this::addCardToDiscard);
         hand.clear();
 
         drawCards(5);
