@@ -8,6 +8,7 @@ public class StagingGround extends Support {
         name = "Staging Ground";
         cardText = "+3 Cards. +1 Action. Discard 3 cards.";
         industryCost = 2;
+        imageFile = "StagingGround.png";
     }
 
     @Override

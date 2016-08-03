@@ -10,5 +10,6 @@ public class MobileHQ extends VehicleUnit implements TacticalCommand {
         attack = 0;
         defense = 0;
         industryCost = 6;
+        imageFile = "MobileHQ.png";
     }
 }

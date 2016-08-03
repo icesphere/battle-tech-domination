@@ -12,6 +12,7 @@ public class Reinforcements extends Support {
         name = "Reinforcements";
         cardText = "+1 Action. Reveal the top 4 cards of your deck. The revealed Unit cards go into your hand. The other cards go back on top of your deck in the same order.";
         industryCost = 3;
+        imageFile = "Reinforcements.png";
     }
 
     @Override

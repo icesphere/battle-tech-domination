@@ -8,7 +8,7 @@ public class RapidDeployment extends Support {
         name = "Rapid Deployment";
         cardText = "+1 Card. +2 Actions.";
         industryCost = 3;
-        imageFile = "RapidDeployment.png";
+        imageFile = "RapidDeployment2.png";
     }
 
     @Override

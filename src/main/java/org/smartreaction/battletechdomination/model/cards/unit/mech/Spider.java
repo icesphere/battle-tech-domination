@@ -11,7 +11,7 @@ public class Spider extends MechUnit {
         attack = 1;
         defense = 0;
         industryCost = 1;
-        imageFile = "Spider.png";
+        imageFile = "Spider2.png";
 
         addAbility(new Raider(this));
     }

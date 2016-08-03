@@ -152,31 +152,31 @@ public class GameService {
         cards.add(new DropShip());
         cards.add(new DropShip());
 
-        cards.add(new StripMining());
+        cards.add(new FuelDump());
 
-        cards.add(new AmmoDump());
+        cards.add(new MechBay());
 
-        cards.add(new BattlefieldSalvage());
+        cards.add(new ScrapForParts());
 
-        cards.add(new CommandCouncil());
+        cards.add(new LaborerCaste());
 
-        cards.add(new ComStarEngineers());
+        cards.add(new HPGUplink());
 
-        cards.add(new Convoy());
+        cards.add(new CivilianSettlement());
 
-        cards.add(new HeavyIndustry());
+        cards.add(new MerchantCaste());
 
-        cards.add(new HiddenBase());
+        cards.add(new HiddenRoute());
 
-        cards.add(new HighCommand());
+        cards.add(new FortifiedPalace());
 
-        cards.add(new LosTechCache());
+        cards.add(new ScientistCaste());
 
-        cards.add(new MartialLaw());
+        cards.add(new Zellbringen());
 
-        cards.add(new Mobilization());
+        cards.add(new RepairFacility());
 
-        cards.add(new Propaganda());
+        cards.add(new CombinedArms());
 
         cards.add(new Quartermaster());
 
@@ -188,25 +188,25 @@ public class GameService {
 
         cards.add(new Refinery());
 
-        cards.add(new SocialGenerals());
+        cards.add(new SalvageTeam());
 
         cards.add(new StagingGround());
 
-        cards.add(new SupplyRoute());
+        cards.add(new SupplyRun());
 
-        cards.add(new TacticalRedeployment());
+        cards.add(new Redeployment());
 
-        cards.add(new ArrowIVBattery());
+        cards.add(new TargetingComputer());
 
         cards.add(new CloseAirSupport());
 
-        cards.add(new ForcedNegotiations());
+        cards.add(new UrbanAssault());
 
-        cards.add(new GuerrillaWarfare());
+        cards.add(new HeavyBombardment());
 
-        cards.add(new LongTomBattery());
+        cards.add(new ArtilleryStrike());
 
-        cards.add(new StrategicBombing());
+        cards.add(new NightAssault());
 
         cards.add(new TacticalNuke());
 
@@ -220,7 +220,7 @@ public class GameService {
 
         cards.add(new SchrekPPCCarrier());
 
-        cards.add(new SRMCarrier());
+        cards.add(new Aggressor());
 
         cards.add(new SturmfeurLRMTank());
 
@@ -233,7 +233,7 @@ public class GameService {
         cards.add(new MechanizedInfantry());
         cards.add(new MechanizedInfantry());
 
-        cards.add(new VeteranInfantry());
+        cards.add(new HeavyInfantry());
 
         cards.add(new Adder());
         cards.add(new Adder());
@@ -318,11 +318,11 @@ public class GameService {
         cards.add(new BankingSector());
         cards.add(new BankingSector());
 
-        cards.add(new BlackMarket());
+        cards.add(new HeavyManufacturing());
 
-        cards.add(new FanaticalLeader());
+        cards.add(new CounterAttack());
 
-        cards.add(new InvasionFleet());
+        cards.add(new UAV());
 
         cards.add(new BlackHawk());
 
@@ -371,11 +371,11 @@ public class GameService {
     public List<Card> getExpansion2Cards() {
         List<Card> cards = new ArrayList<>();
 
-        cards.add(new PrimusOfComstar());
+        cards.add(new WarriorCaste());
 
         cards.add(new BehindEnemyLines());
 
-        cards.add(new TrialOfPosition());
+        cards.add(new TechnicianCaste());
 
         cards.add(new Ambush());
 
@@ -417,23 +417,24 @@ public class GameService {
                 return new DropShip();
             case "heavyfactory":
                 return new HeavyFactory();
-            case "stripmining":
-                return new StripMining();
+            case "fueldump":
+                return new FuelDump();
             case "supplydrop":
                 return new SupplyDrop();
 
-            case "arrowivbattery":
-                return new ArrowIVBattery();
+            case "targetingcomputer":
+            case "targettingcomputer":
+                return new TargetingComputer();
             case "closeairsupport":
                 return new CloseAirSupport();
-            case "forcednegotiations":
-                return new ForcedNegotiations();
-            case "guerrillawarfare":
-                return new GuerrillaWarfare();
-            case "longtombattery":
-                return new LongTomBattery();
-            case "strategicbombing":
-                return new StrategicBombing();
+            case "urbanassault":
+                return new UrbanAssault();
+            case "heavybombardment":
+                return new HeavyBombardment();
+            case "artillerystrike":
+                return new ArtilleryStrike();
+            case "nightassault":
+                return new NightAssault();
             case "tacticalnuke":
                 return new TacticalNuke();
 
@@ -442,30 +443,30 @@ public class GameService {
             case "forwardbase":
                 return new ForwardBase();
 
-            case "ammodump":
-                return new AmmoDump();
-            case "battlefieldsalvage":
-                return new BattlefieldSalvage();
-            case "commandcouncil":
-                return new CommandCouncil();
-            case "comstarengineers":
-                return new ComStarEngineers();
-            case "convoy":
-                return new Convoy();
-            case "heavyindustry":
-                return new HeavyIndustry();
-            case "hiddenbase":
-                return new HiddenBase();
-            case "highcommand":
-                return new HighCommand();
-            case "lostechcache":
-                return new LosTechCache();
-            case "martiallaw":
-                return new MartialLaw();
-            case "mobilization":
-                return new Mobilization();
-            case "propaganda":
-                return new Propaganda();
+            case "mechbay":
+                return new MechBay();
+            case "scrapforparts":
+                return new ScrapForParts();
+            case "laborercaste":
+                return new LaborerCaste();
+            case "hpguplink":
+                return new HPGUplink();
+            case "civiliansettlement":
+                return new CivilianSettlement();
+            case "merchantcaste":
+                return new MerchantCaste();
+            case "hiddenroute":
+                return new HiddenRoute();
+            case "fortifiedpalace":
+                return new FortifiedPalace();
+            case "scientistcaste":
+                return new ScientistCaste();
+            case "zellbringen":
+                return new Zellbringen();
+            case "repairfacility":
+                return new RepairFacility();
+            case "combinedarms":
+                return new CombinedArms();
             case "quartermaster":
                 return new Quartermaster();
             case "rapiddeployment":
@@ -474,14 +475,14 @@ public class GameService {
                 return new Refinery();
             case "reinforcements":
                 return new Reinforcements();
-            case "socialgenerals":
-                return new SocialGenerals();
+            case "salvageteam":
+                return new SalvageTeam();
             case "stagingground":
                 return new StagingGround();
-            case "supplyroute":
-                return new SupplyRoute();
-            case "tacticalredeployment":
-                return new TacticalRedeployment();
+            case "supplyrun":
+                return new SupplyRun();
+            case "redeployment":
+                return new Redeployment();
 
             case "eliteelementals":
                 return new EliteElementals();
@@ -491,8 +492,8 @@ public class GameService {
                 return new InfantryPlatoon();
             case "mechanizedinfantry":
                 return new MechanizedInfantry();
-            case "veteraninfantry":
-                return new VeteranInfantry();
+            case "heavyinfantry":
+                return new HeavyInfantry();
 
             case "adder":
                 return new Adder();
@@ -567,13 +568,13 @@ public class GameService {
                 return new PartisanHeavyTank();
             case "schrekppccarrier":
                 return new SchrekPPCCarrier();
-            case "srmcarrier":
-                return new SRMCarrier();
+            case "aggressor":
+                return new Aggressor();
             case "sturmfeurlrmtank":
                 return new SturmfeurLRMTank();
 
-            case "operationscenter":
-                return new OperationsCenter();
+            case "closeformation":
+                return new CloseFormation();
             case "scrapyard":
                 return new Scrapyard();
             case "blackhawk":
@@ -612,23 +613,23 @@ public class GameService {
                 return new Transit();
             case "bankingsector":
                 return new BankingSector();
-            case "blackmarket":
-                return new BlackMarket();
+            case "heavymanufacturing":
+                return new HeavyManufacturing();
             case "combatdrop":
                 return new CombatDrop();
-            case "commandcircuit":
-                return new CommandCircuit();
-            case "fanaticalleader":
-                return new FanaticalLeader();
-            case "invasionfleet":
-                return new InvasionFleet();
+            case "jumpship":
+                return new Jumpship();
+            case "counterattack":
+                return new CounterAttack();
+            case "uav":
+                return new UAV();
 
-            case "primusofcomstar":
-                return new PrimusOfComstar();
+            case "warriorcaste":
+                return new WarriorCaste();
             case "behindenemylines":
                 return new BehindEnemyLines();
-            case "trialofposition":
-                return new TrialOfPosition();
+            case "techniciancaste":
+                return new TechnicianCaste();
             case "ambush":
             case "ambush!":
                 return new Ambush();

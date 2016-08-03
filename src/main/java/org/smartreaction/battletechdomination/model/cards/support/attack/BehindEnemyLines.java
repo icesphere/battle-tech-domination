@@ -9,6 +9,7 @@ public class BehindEnemyLines extends SupportAttack {
         name = "Behind Enemy Lines";
         cardText = "+2 Card. Your opponent must discard down to three card in his hand.";
         industryCost = 3;
+        imageFile = "BehindEnemyLines.png";
     }
 
     @Override

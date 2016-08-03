@@ -12,6 +12,7 @@ public class Refinery extends Support implements SupportCardAction {
         name = "Refinery";
         cardText = "Scrap a Resource card from your hand. Gain a Resource card costing up to 3 Industry more than the card you scrapped. Put the gained card into your hand.";
         industryCost = 3;
+        imageFile = "Refinery.png";
     }
 
     @Override

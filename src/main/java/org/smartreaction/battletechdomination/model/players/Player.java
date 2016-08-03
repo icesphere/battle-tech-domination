@@ -412,9 +412,9 @@ public abstract class Player {
         addGameLog("** " + playerName + "'s Turn " + turn + " **");
         actions = 2;
         if (!hiddenBaseCards.isEmpty()) {
-            hiddenBaseCards.stream().forEach(this::addCardToHand);
+            hiddenBaseCards.forEach(this::addCardToHand);
             hiddenBaseCards.clear();
-            addGameLog(playerName + " added cards set aside by Hidden Base to hand");
+            addGameLog(playerName + " added cards set aside by Hidden Route to hand");
         }
 
         hand.stream().filter(Card::isUnit).forEach(u -> {

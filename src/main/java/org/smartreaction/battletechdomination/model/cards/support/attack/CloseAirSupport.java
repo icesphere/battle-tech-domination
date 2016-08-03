@@ -10,8 +10,9 @@ import org.smartreaction.battletechdomination.model.players.Player;
 public class CloseAirSupport extends SupportAttack implements SupportCardAction {
     public CloseAirSupport() {
         name = "Close Air Support";
-        cardText = "Discard a card. If you discard a... Resource Card, your opponent must damage a unit; Unit Card, your opponent must damage a Mech; Support Card, your opponent must damage a unit and gain a Heavy Casualties card.";
+        cardText = "Discard a card. If you discard a... Resource or Unit card, your opponent must damage a Mech; Support card, your opponent must damage a unit and gain a Heavy Casualties card.";
         industryCost = 5;
+        imageFile = "CloseAirSupport.png";
     }
 
     @Override
@@ -38,9 +39,7 @@ public class CloseAirSupport extends SupportAttack implements SupportCardAction 
     public void processCardActionResult(CardAction cardAction, Player player, ActionResult result) {
         Card selectedCard = result.getSelectedCard();
         player.discardCardFromHand(selectedCard);
-        if (selectedCard instanceof Resource) {
-            player.addOpponentAction(new DamageUnit());
-        } else if (selectedCard instanceof Unit) {
+        if (selectedCard instanceof Resource || selectedCard instanceof Unit) {
             player.addOpponentAction(new DamageUnit(CardType.UNIT_MECH, "Damage a Mech Unit"));
         } else if (selectedCard instanceof Support) {
             player.addOpponentAction(new DamageUnit());

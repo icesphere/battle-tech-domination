@@ -14,7 +14,7 @@ public class CriticalHit extends OverrunSupport implements SupportCardAction {
         name = "Critical Hit";
         cardText = "You may scrap a Mech from your hand or deployment zone.  If you do, scrap this card.";
         overrunAmount = 3;
-        imageFile = "CriticalHit.png";
+        imageFile = "CriticalHit2.png";
     }
 
     @Override

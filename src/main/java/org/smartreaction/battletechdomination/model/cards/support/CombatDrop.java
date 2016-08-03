@@ -8,6 +8,7 @@ public class CombatDrop extends Support {
         name = "Combat Drop";
         cardText = "+3 Cards. Discard any number of cards from your hand. +1 Action per card discarded this way.";
         industryCost = 6;
+        imageFile = "CombatDrop.png";
     }
 
     @Override

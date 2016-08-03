@@ -9,6 +9,7 @@ public class DropShip extends Resource {
         name = "Dropship";
         cardText = "+3 Cards. Put a card from your hand on top of your deck.";
         industryCost = 4;
+        imageFile = "Dropship.png";
     }
 
     @Override

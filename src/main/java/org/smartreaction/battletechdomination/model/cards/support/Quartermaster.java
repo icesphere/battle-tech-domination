@@ -10,6 +10,7 @@ public class Quartermaster extends Support implements SupportActionChoice {
         name = "Quartermaster";
         cardText = "+1 Industry. Choose two (may be same or different): +1 Card; +1 Action; +1 Industry.";
         industryCost = 3;
+        imageFile = "Quartermaster.png";
     }
 
     @Override

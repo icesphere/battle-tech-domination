@@ -11,7 +11,7 @@ public class ShadowHawk extends MechUnit {
         attack = 1;
         defense = 1;
         industryCost = 4;
-        imageFile = "ShadowHawk.png";
+        imageFile = "ShadowHawk3.png";
 
         addAbility(new ReconInForce(this));
     }

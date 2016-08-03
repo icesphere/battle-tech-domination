@@ -10,6 +10,7 @@ public class SchrekPPCCarrier extends VehicleUnit {
         attack = 1;
         defense = 2;
         industryCost = 2;
+        imageFile = "SchrekPPCCarrier.png";
 
         addAbility(new Tank(this));
     }

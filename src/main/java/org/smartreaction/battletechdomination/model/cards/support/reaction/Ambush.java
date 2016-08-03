@@ -7,5 +7,6 @@ public class Ambush extends SupportReaction {
         name = "Ambush!";
         cardText = "Place this card in your deployment zone. When you are Overrun, scrap this card.  At the start of your next turn choose a Mech for your opponent to damage.";
         industryCost = 2;
+        imageFile = "Ambush.png";
     }
 }

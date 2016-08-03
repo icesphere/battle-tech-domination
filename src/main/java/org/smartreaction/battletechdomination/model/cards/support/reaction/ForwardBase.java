@@ -7,5 +7,6 @@ public class ForwardBase extends SupportReaction {
         name = "Forward Base";
         cardText = "Place this card in your deployment zone. Scrap this card when you are Overrun to prevent gaining the Overrun card.";
         industryCost = 4;
+        imageFile = "ForwardBase.png";
     }
 }

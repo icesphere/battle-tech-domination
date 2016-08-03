@@ -10,6 +10,7 @@ public class TacticalNuke extends SupportAttack {
         name = "Tactical Nuke";
         cardText = "Reveal then discard the top card of your deck. Your opponent must damage X units, where X equals the Industry cost of the card divided by two (rounded up).";
         industryCost = 4;
+        imageFile = "TacticalNuke.png";
     }
 
     @Override

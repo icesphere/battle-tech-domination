@@ -12,7 +12,7 @@ public class Ryoken extends MechUnit {
         defense = 1;
         industryCost = 4;
         losTechCost = 1;
-        imageFile = "Ryoken.png";
+        imageFile = "Ryoken2.png";
 
         addAbility(new CounterAttack(this));
     }
