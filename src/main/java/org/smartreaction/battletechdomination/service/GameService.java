@@ -94,15 +94,12 @@ public class GameService {
 
     public void setupCards(Game game) {
         for (Player player : game.getPlayers()) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 8; i++) {
                 player.addCardToDeck(new Factory());
             }
 
             player.addCardToDeck(new InfantryPlatoon());
             player.addCardToDeck(new InfantryPlatoon());
-
-            player.addCardToDeck(new SupplyDrop());
-            player.addCardToDeck(new SupplyDrop());
 
             player.setup();
         }

@@ -188,28 +188,6 @@
 
                         </h:panelGroup>
 
-                        <div style="clear: left; float: left; padding-top: 20px;">
-
-                            <h:panelGroup layout="block" id="handSection" styleClass="handSection">
-                                <span style="font-style: italic;">Your Hand:</span>
-                                <div class="hand">
-                                    <ui:repeat value="#{gameView.player.hand}" var="card">
-                                        <btd:card card="#{card}" source="hand"/>
-                                    </ui:repeat>
-                                </div>
-                            </h:panelGroup>
-
-                            <h:panelGroup layout="block" id="playAreaSection" styleClass="playAreaSection">
-                                <span style="font-style: italic;">Play Area:</span>
-                                <div class="playArea">
-                                    <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
-                                        <btd:card card="#{card}" source="playArea"/>
-                                    </ui:repeat>
-                                </div>
-                            </h:panelGroup>
-
-                        </div>
-
                         <h:panelGroup layout="block" id="unitsSection" styleClass="unitsSection">
 
                             <h:panelGroup layout="block" id="playerUnitsSection" styleClass="playerUnitsSection player">
@@ -231,6 +209,28 @@
                             </h:panelGroup>
 
                         </h:panelGroup>
+
+                        <div style="clear: left; float: left; padding-top: 20px;">
+
+                            <h:panelGroup layout="block" id="handSection" styleClass="handSection">
+                                <span style="font-style: italic;">Your Hand:</span>
+                                <div class="hand">
+                                    <ui:repeat value="#{gameView.player.hand}" var="card">
+                                        <btd:card card="#{card}" source="hand"/>
+                                    </ui:repeat>
+                                </div>
+                            </h:panelGroup>
+
+                            <h:panelGroup layout="block" id="playAreaSection" styleClass="playAreaSection">
+                                <span style="font-style: italic;">Play Area:</span>
+                                <div class="playArea">
+                                    <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
+                                        <btd:card card="#{card}" source="playArea"/>
+                                    </ui:repeat>
+                                </div>
+                            </h:panelGroup>
+
+                        </div>
 
                     </h:panelGroup>
 
