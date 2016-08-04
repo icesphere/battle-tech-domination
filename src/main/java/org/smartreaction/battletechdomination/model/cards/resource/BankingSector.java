@@ -8,6 +8,7 @@ public class BankingSector extends Resource {
         name = "Banking Sector";
         cardText = "+4 Industry";
         industryCost = 5;
+        imageFile = "BankingSector.png";
     }
 
     @Override
