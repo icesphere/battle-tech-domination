@@ -8,8 +8,8 @@ public class Transit extends VehicleUnit {
         name = "Transit";
         subName = "TR-10";
         cardText = "AEROSPACE: Damage this unit if you are Overrun or if you Overrun your opponent.";
-        attack = 2;
-        defense = 1;
+        attack = 3;
+        defense = 0;
         industryCost = 3;
         imageFile = "Transit.png";
 

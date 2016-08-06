@@ -7,10 +7,10 @@ public class EliteElementals extends InfantryUnit {
     public EliteElementals() {
         name = "Elite Elementals";
         cardText = "SWARM ATTACK: When you deploy this unit, your opponent must damage a Mech.";
-        attack = 0;
-        defense = 1;
+        attack = 1;
+        defense = 0;
         industryCost = 4;
-        imageFile = "EliteElements.png";
+        imageFile = "EliteElementals.png";
 
         addAbility(new SwarmAttack(this));
     }

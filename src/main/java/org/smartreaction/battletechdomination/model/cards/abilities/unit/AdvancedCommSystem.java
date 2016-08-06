@@ -12,7 +12,7 @@ public class AdvancedCommSystem extends UnitAbility implements StartOfTurnAbilit
 
     @Override
     public void useAbility(Player player) {
-        if (player.getAttack() > player.getOpponent().getAttack()) {
+        if (player.getCurrentAttack() > player.getOpponent().getCurrentAttack()) {
             player.drawCards(1);
             player.addGameLog(player.getPlayerName() + " got +1 Card from Advanced Comm System ability on " + unit.getName());
         }

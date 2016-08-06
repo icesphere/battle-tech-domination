@@ -8,7 +8,7 @@ public class Elementals extends InfantryUnit {
         name = "Elementals";
         cardText = "ANTI-INFANTRY: When you deploy this unit, your opponent must damage an Infantry unit.";
         attack = 2;
-        defense = 1;
+        defense = 0;
         industryCost = 4;
         imageFile = "Elementals.png";
 
