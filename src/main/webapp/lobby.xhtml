@@ -90,7 +90,7 @@
                             </ui:repeat>
                         </div>
                         <div style="padding-top: 10px;">
-                            <p:inputText value="#{lobbyView.chatMessage}" style="margin-right: 10px;"/>
+                            <p:inputText value="#{lobbyView.chatMessage}" style="margin-right: 10px; width: 300px;"/>
                             <p:commandButton value="Send" process="chatSection" update="chatSection"
                                              actionListener="#{lobbyView.sendChatMessage}" oncomplete="scrollChat()"/>
                         </div>
