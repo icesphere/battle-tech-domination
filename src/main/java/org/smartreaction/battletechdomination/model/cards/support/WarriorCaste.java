@@ -20,7 +20,7 @@ public class WarriorCaste extends Support implements ScrapCardsForBenefitActionC
     @Override
     public void cardPlayed(Player player) {
         player.addActions(2);
-        player.addAction(new ScrapCardsFromHandOrDiscardPileForBenefit(this, 2, "Scrap up to 2 Resource cards from your hand and/or discard pile to draw a card for each card scrapped."));
+        player.addAction(new ScrapCardsFromHandOrDiscardPileForBenefit(this, 2, "Scrap up to 2 Resource cards from your hand and/or discard pile to draw a card for each card scrapped.", true));
     }
 
     @Override
