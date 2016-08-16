@@ -57,7 +57,7 @@ public class DiscardHandDownTo extends Action {
 
     @Override
     public boolean isShowDone(Player player) {
-        return selectedCards.size() > 0 && player.getHand().size() == cardsToDiscardDownTo;
+        return selectedCards.size() > 0 && (player.getHand().size() - selectedCards.size()) == cardsToDiscardDownTo;
     }
 
     @Override

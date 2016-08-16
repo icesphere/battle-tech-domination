@@ -13,8 +13,8 @@ public class SuppressiveFire extends UnitAbility implements CombatPhaseBonusAbil
     @Override
     public void useAbility(Player player) {
         if (player.getNumMechUnitsInDeploymentZone() > player.getOpponent().getNumMechUnitsInDeploymentZone()) {
-            player.addGameLog(player.getPlayerName() + " gained +1 Attack from Suppressive Fire ability on " + unit.getName());
-            player.addAttack(1);
+            player.addGameLog(player.getPlayerName() + " gained +2 Attack from Suppressive Fire ability on " + unit.getName());
+            player.addAttack(2);
         }
     }
 }
