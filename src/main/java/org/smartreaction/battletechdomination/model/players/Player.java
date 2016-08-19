@@ -425,7 +425,7 @@ public abstract class Player {
     }
 
     public void resolveActions() {
-        if (actionsQueue.isEmpty()) {
+        if (currentAction == null && actionsQueue.isEmpty()) {
             if (turnPhase == TurnPhase.NONE) {
                 startCombatPhase();
             } else if (turnPhase == TurnPhase.CLEANUP) {
@@ -670,20 +670,16 @@ public abstract class Player {
 
         drawCards(5);
 
-        yourTurn = false;
-
         for (Card card : deploymentZone) {
             if (card instanceof TacticalCommand) {
                 drawCards(2);
                 if (hand.size() > 5) {
-                    discardCardsFromHand(hand.size() - 5);
+                    addAction(new DiscardHandDownTo(5, "Discard down to five cards"));
                 }
             }
         }
 
-        if (actionsQueue.isEmpty()) {
-            game.turnEnded();
-        }
+        resolveActions();
     }
 
     public List<Card> getAllCards() {
@@ -1041,5 +1037,9 @@ public abstract class Player {
 
     public boolean isIgnoreLosTechCost() {
         return ignoreLosTechCost;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        this.yourTurn = yourTurn;
     }
 }

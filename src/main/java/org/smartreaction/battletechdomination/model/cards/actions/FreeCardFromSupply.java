@@ -8,7 +8,7 @@ public class FreeCardFromSupply extends Action {
 
     private Integer maxCost;
 
-    private String destination;
+    private String destination = Card.CARD_LOCATION_DISCARD;
 
     private CardType cardType;
 
@@ -19,7 +19,6 @@ public class FreeCardFromSupply extends Action {
     public FreeCardFromSupply(Integer maxCost, String text) {
         this.maxCost = maxCost;
         this.text = text;
-        this.destination = Card.CARD_LOCATION_DISCARD;
     }
 
     public FreeCardFromSupply(Integer maxCost, String text, String destination) {

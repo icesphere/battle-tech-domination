@@ -69,6 +69,7 @@ public class Game {
     }
 
     public void turnEnded() {
+        getCurrentPlayer().setYourTurn(false);
         getCurrentPlayer().setTurnPhase(TurnPhase.NONE);
 
         if (supply.isEmpty() || heavyCasualties.isEmpty() || raidedSupplies.isEmpty() || criticalHits.isEmpty() || defeats.isEmpty()) {
