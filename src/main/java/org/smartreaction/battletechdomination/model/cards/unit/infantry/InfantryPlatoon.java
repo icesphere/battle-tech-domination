@@ -10,7 +10,7 @@ public class InfantryPlatoon extends InfantryUnit implements BaseSupply, SoftTar
         cardText = "SOFT TARGET: If this unit is damaged while your opponent has a Mech in their deployment zone, scrap this instead.";
         attack = 0;
         defense = 1;
-        industryCost = 0;
-        imageFile = "InfantryPlatoon.png";
+        industryCost = 1;
+        imageFile = "InfantryPlatoon2.png";
     }
 }
