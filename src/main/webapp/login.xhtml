@@ -2,24 +2,25 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-<ui:composition template="/templates/commonLayout.xhtml">
-    <ui:define name="content">
-        <h:form>
-            <div style="padding: 10px;">
-                <h:panelGroup layout="block" rendered="#{loginView.showUsernameError}" style="padding-bottom: 15px;" styleClass="errorText">
-                    <h:outputText value="Username is already in use."/>
+    <ui:composition template="/templates/commonLayout.xhtml">
+        <ui:define name="head">
+            <h:outputStylesheet name="lobby.css" library="css" />
+        </ui:define>
+        <ui:define name="content">
+            <h:form styleClass="login">
+                <h:panelGroup layout="block" styleClass="loginSection">
+                    <h:outputText value="Battletech: Domination" styleClass="loginHeaderText" />
+                    <h:panelGroup layout="block" rendered="#{loginView.showUsernameError}" styleClass="errorText">
+                        <h:outputText value="Username is already in use."/>
+                    </h:panelGroup>
+                    
+                    <h:outputText value="Select your username, Commander" styleClass="loginInputText" />
+                    
+                    <p:inputText value="#{loginView.username}" styleClass="loginInput"/>
+                    
+                    <p:commandButton process="@form" update="@form" value="Login" action="#{loginView.loginAsGuest}" styleClass="loginButton"/>
                 </h:panelGroup>
-                <div>
-                    Choose a username:
-                </div>
-                <div style="padding-top: 20px;">
-                    <p:inputText value="#{loginView.username}"/>
-                </div>
-                <div style="padding-top: 20px;">
-                    <p:commandButton process="@form" update="@form" value="Login" action="#{loginView.loginAsGuest}"/>
-                </div>
-            </div>
-        </h:form>
-    </ui:define>
-</ui:composition>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </html>

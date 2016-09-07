@@ -10,7 +10,7 @@ public class Trebuchet extends MechUnit {
         cardText = "MOBILE FIRE SUPPORT: At the start of your Combat phase, you may discard a card from your hand. If you do, +1 Attack.";
         attack = 1;
         defense = 1;
-        industryCost = 4;
+        industryCost = 3;
         imageFile = "Trebuchet.png";
 
         addAbility(new MobileFireSupport(this));

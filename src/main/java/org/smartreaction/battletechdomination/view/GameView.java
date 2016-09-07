@@ -160,13 +160,13 @@ public class GameView implements Serializable {
 
     public String getTurnPhaseDisplayName(TurnPhase turnPhase) {
         if (turnPhase == TurnPhase.COMBAT_START || turnPhase == TurnPhase.COMBAT) {
-            return "COMBAT PHASE";
+            return "Combat Phase";
         } else if (turnPhase == TurnPhase.ACTION) {
-            return "ACTION PHASE";
+            return "Action Phase";
         } else if (turnPhase == TurnPhase.BUY) {
-            return "BUY PHASE";
+            return "Buy Phase";
         } else if (turnPhase == TurnPhase.CLEANUP) {
-            return "CLEANUP PHASE";
+            return "Cleanup Phase";
         }
         return "";
     }
@@ -202,6 +202,20 @@ public class GameView implements Serializable {
 
     public List<Card> getPlayerDeploymentZoneCards() {
         return getDeploymentZoneCards(getPlayer());
+    }
+    
+    public List<Card> getBoolDeploymentZoneCards(boolean isOpponent) {
+        if(!isOpponent) {
+            return getDeploymentZoneCards(getPlayer());
+        }
+        else {
+            return getDeploymentZoneCards(getOpponent());
+        }
+    }
+    
+    public String getSourceOfCards(boolean isOpponent) {
+        if(!isOpponent) return "playerUnits";
+        else return "opponentUnits";
     }
 
     public List<Card> getOpponentDeploymentZoneCards() {
@@ -285,8 +299,9 @@ public class GameView implements Serializable {
                         handleCardClickedForAction(card, source);
                     } else {
                         getPlayer().useUnitAbility((Unit) card);
-                        sendGameMessageToAll("refresh_middle_section");
+                        //sendGameMessageToAll("refresh_middle_section");
                         sendGameMessageToAll("refresh_right_section");
+                        sendGameMessageToAll("refresh_game_page");
                     }
                 }
             }
@@ -380,6 +395,11 @@ public class GameView implements Serializable {
         sendGameMessageToOpponent("refresh_game_page");
         return exitGame();
     }
+    
+    public void readyGame() {
+        getGame().playerReady(getPlayer());
+        sendGameMessageToAll("refresh_game_page");
+    }
 
     public String exitGame() {
         userSession.getUser().setCurrentGame(null);
@@ -413,7 +433,7 @@ public class GameView implements Serializable {
             cardsToShow = cards;
             cardsToShowSource = source;
 
-            sendGameMessageToPlayer("refresh_middle_section");
+            sendGameMessageToPlayer("refresh_game_page");
         }
     }
 

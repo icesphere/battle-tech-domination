@@ -4,73 +4,137 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-        >
-
-<composite:interface>
-    <composite:attribute name="player" required="true" type="org.smartreaction.battletechdomination.model.players.Player"/>
-    <composite:attribute name="playerClass" required="true"/>
-    <composite:attribute name="isOpponent" required="true"/>
-</composite:interface>
-
-<composite:implementation>
-
-    <h:panelGroup layout="block" styleClass="playerInfo">
-
-        <div style="float: left;" class="playerInfoName #{cc.attrs.playerClass}">
-            <h:outputText value="#{cc.attrs.player.playerName}"/>
-        </div>
-
-        <div style="clear:both; padding-top: 5px;">
-
-            <h:panelGroup rendered="#{!cc.attrs.isOpponent}">
-
-                <div class="smallButtonWrapper" style="margin-right: 5px;">
-                    <p:commandLink value="Deck (#{cc.attrs.player.deck.size()})" process="@this" styleClass="smallButton"
-                                   actionListener="#{gameView.showCards(cc.attrs.player.deck, 'Cards in your deck', 'deck')}"/>
-                </div>
-
-                <div class="smallButtonWrapper">
-                    <p:commandLink value="Discard (#{cc.attrs.player.discard.size()})" process="@this" styleClass="smallButton #{gameView.highlightDiscardButton ? 'selected' : ''}"
-                                   actionListener="#{gameView.showCards(cc.attrs.player.discard, 'Cards in your discard pile', 'discard')}"/>
-                </div>
-
+    xmlns:btd="http://java.sun.com/jsf/composite/components"
+    >
+        
+    <composite:interface>
+        <composite:attribute name="player" required="true" type="org.smartreaction.battletechdomination.model.players.Player"/>
+        <composite:attribute name="playerClass" required="true"/>
+        <composite:attribute name="isOpponent" required="true"/>
+        <composite:attribute name="isTheirTurn" required="true"/>
+    </composite:interface>
+        
+    <composite:implementation>
+        
+        <h:panelGroup layout="block" id="playerInfoSection" styleClass="#{cc.attrs.playerClass}InfoSection #{cc.attrs.playerClass}">
+            
+            <h:panelGroup layout="block" class="playerInfoSectionLeftSide">
+                <h:outputText value="#{cc.attrs.player.playerName}"/>
+                <h:panelGroup layout="block" class="playerInfoSectionInfoValues">
+                    <h:panelGroup layout="block" class="playerInfoSectionInfoValuesIcon">
+                        <h:outputText styleClass="playerInfoSectionInfoValuesIconText" value="#{cc.attrs.player.currentDefense}"/>
+                        <h:graphicImage library="images" name="icons/DefenseIcon.png" styleClass="playerInfoSectionInfoValuesIconImage"/>
+                    </h:panelGroup>
+                        
+                    <h:panelGroup layout="block" class="playerInfoSectionInfoValuesIcon">
+                        <h:outputText styleClass="playerInfoSectionInfoValuesIconText" value="#{cc.attrs.player.currentAttack}"/>
+                        <h:graphicImage library="images" name="icons/AttackIcon.png" styleClass="playerInfoSectionInfoValuesIconImage"/>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" class="playerInfoSectionInfoValuesIcon">
+                        <h:outputText styleClass="playerInfoSectionInfoValuesIconText" value="#{cc.attrs.player.points}"/>
+                        <h:graphicImage library="images" name="icons/LosTechIconRED.png" styleClass="playerInfoSectionInfoValuesIconImage"/>
+                    </h:panelGroup>
+                </h:panelGroup>
             </h:panelGroup>
-
-            <h:panelGroup rendered="#{cc.attrs.isOpponent}">
-
-                <div class="smallButtonWrapper" style="margin-right: 5px;">
-                    <p:commandLink value="Hand &amp; Deck (#{cc.attrs.player.handAndDeck.size()})" process="@this" styleClass="smallButton"
-                                   actionListener="#{gameView.showCards(cc.attrs.player.handAndDeck, 'Cards in your opponent\'s hand and deck', 'opponentDeckAndHand')}"/>
-                </div>
-
-                <div class="smallButtonWrapper">
-                    <p:commandLink value="Discard (#{cc.attrs.player.discard.size()})" process="@this" styleClass="smallButton"
-                                   actionListener="#{gameView.showCards(cc.attrs.player.discard, 'Cards in your opponent\'s discard pile', 'opponentDiscard')}"/>
-                </div>
-
+                
+            <h:panelGroup layout="block" class="playerContentSection">        
+                
+                <h:panelGroup layout="block" styleClass="playerContentCardAreaSection">
+                    <h:outputText value="#{cc.attrs.player.playerName}'s Deployment Zone" styleClass="playerContentCardAreaText"/>
+                    <h:panelGroup layout="block" class="playerContentCardAreaPlayArea playerContentCardAreaPlayAreaUnits">
+                        <ui:repeat value="#{gameView.getBoolDeploymentZoneCards(cc.attrs.isOpponent)}" var="card">
+                            <btd:card card="#{card}" source="#{gameView.getSourceOfCards(cc.attrs.isOpponent)}"/>
+                        </ui:repeat>
+                    </h:panelGroup>
+                        
+                    <h:panelGroup layout="block" styleClass="playerContentCardAreaDeckAndDiscardSection">
+                        
+                        <p:commandLink process="@this"
+                                       styleClass="playerContentCardAreaDeckAndDiscardDeck"
+                                       style="background-image: url('#{cc.attrs.player.deck.size() > 0 ? resource['images/cardback.png'] : ''}')"
+                                       actionListener="#{gameView.showCards(
+                                                         cc.attrs.isOpponent ? cc.attrs.player.handAndDeck : cc.attrs.player.deck, 
+                                                         cc.attrs.isOpponent ? 'Cards in your opponents hand and deck' : 'Cards in your deck', 
+                                                         cc.attrs.isOpponent ? 'opponentDeckAndHand' : 'deck')}">
+                            <h:outputText value="Deck" styleClass="playerContentCardAreaDeckAndDiscardDeckText" />
+                            <h:outputText value="#{cc.attrs.player.deck.size()}" styleClass="playerContentCardAreaDeckAndDiscardDeckValue" />
+                        </p:commandLink>
+                        
+                        <p:commandLink process="@this" 
+                                       style="background-image: url('#{cc.attrs.player.discard.size() > 0 ? 
+                                                                       resource['images/cards/' += cc.attrs.player.discard[cc.attrs.player.discard.size()-1].imageFile] : ''}')"
+                                       styleClass="playerContentCardAreaDeckAndDiscardDeck"
+                                       actionListener="#{gameView.showCards(
+                                                         cc.attrs.player.discard, 
+                                                         cc.attrs.isOpponent ? 'Cards in your opponents discard pile' : 'Cards in your discard pile', 
+                                                         cc.attrs.isOpponent ? 'opponentDiscard' : 'discard')}">
+                            <h:outputText value="Discard" styleClass="playerContentCardAreaDeckAndDiscardDeckText" />
+                            <h:outputText value="#{cc.attrs.player.discard.size()}" styleClass="playerContentCardAreaDeckAndDiscardDeckValue" />
+                        </p:commandLink>
+                        
+                    </h:panelGroup>
+                        
+                    <h:panelGroup layout="block" 
+                                  styleClass="playerContentCardAreaShowCardsSection" 
+                                  rendered="#{gameView.showingCards and 
+                                              ((gameView.showingCardsTitle.contains('opponents') and cc.attrs.isOpponent)
+                                              or (!gameView.showingCardsTitle.contains('opponents') and !cc.attrs.isOpponent))}">
+                        
+                        <h:outputText value="#{gameView.showingCardsTitle}" style="font-weight: bold;display:block;"/>
+                                          
+                        <h:panelGroup layout="block" style="float: left; padding-top: 10px;">
+                            <ui:repeat value="#{gameView.cardsToShow}" var="card">
+                                <btd:card card="#{card}" source="#{gameView.cardsToShowSource}"/>
+                            </ui:repeat>
+                        </h:panelGroup>
+                        
+                        <h:panelGroup layout="block" style="clear: both; padding-top: 10px;">
+                            <p:commandLink value="Hide" process="@this" styleClass="smallButton" 
+                                           update="playerInfoSection"
+                                           actionListener="#{gameView.hideCardsToShow}"/>        
+                        </h:panelGroup>
+                        
+                    </h:panelGroup>
+                        
+                </h:panelGroup>
+                    
+                <h:panelGroup rendered="#{cc.attrs.isTheirTurn}" layout="block" 
+                              id="playerPlayAreaSection" 
+                              styleClass="playerContentCardAreaSection playerContentCardAreaPlayAreaSection">
+                    <h:outputText value="Play Area" styleClass="playerContentCardAreaText"  />
+                    <h:panelGroup layout="block" styleClass="playerContentCardAreaPlayArea">
+                        <ui:repeat value="#{gameView.cardsForPlayArea}" var="card">
+                            <btd:card card="#{card}" source="playArea"/>
+                        </ui:repeat>
+                        <h:panelGroup layout="block" styleClass="playerContentCardAreaPlayAreaBuySection" 
+                                      rendered="#{gameView.game.currentPlayer.actionPhase or gameView.game.currentPlayer.buyPhase}">
+                            <h:panelGroup layout="block" styleClass="playerContentCardAreaPlayAreaBuySectionValues">
+                                <h:outputText styleClass="playerContentCardAreaPlayAreaBuySectionValuesText" 
+                                              value="#{gameView.game.currentPlayer.industry}"/>
+                                <h:graphicImage styleClass="playerContentCardAreaPlayAreaBuySectionValuesIcon" 
+                                                library="images" name="icons/IndustryIcon.png"/>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" styleClass="playerContentCardAreaPlayAreaBuySectionValues">
+                                <h:outputText styleClass="playerContentCardAreaPlayAreaBuySectionValuesText" 
+                                              value="#{gameView.game.currentPlayer.losTech}"/>
+                                <h:graphicImage styleClass="playerContentCardAreaPlayAreaBuySectionValuesIcon" 
+                                                library="images" name="icons/LosTechIconRED.png"/>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block"
+                                          rendered="#{gameView.game.currentPlayer.actionPhase}">
+                                <h:outputText styleClass="playerContentCardAreaPlayAreaBuySectionValuesText"  
+                                              style="font-size:14pt;width:80px;" 
+                                              value="#{gameView.game.currentPlayer.actions} #{gameView.game.currentPlayer.actions ne 1 ? 'Actions' : 'Action'}" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:panelGroup>
+                
+                <h:outputText class="playerContentCardAreaBuffer"> </h:outputText>
             </h:panelGroup>
-
-        </div>
-
-        <div style="clear: both; float: left; padding-top: 10px;">
-            <div class="#{cc.attrs.playerClass} playerInfoValue">
-                <h:outputText value="#{cc.attrs.player.points}"/>
-                <h:graphicImage library="images" name="icons/LosTechIconRED.png" styleClass="playerInfoIcon"/>
-            </div>
-
-            <div class="#{cc.attrs.playerClass} playerInfoValue">
-                <h:outputText value="#{cc.attrs.player.currentAttack}"/>
-                <h:graphicImage library="images" name="icons/AttackIcon.png" styleClass="playerInfoIcon"/>
-            </div>
-
-            <div class="#{cc.attrs.playerClass} playerInfoValue">
-                <h:outputText value="#{cc.attrs.player.currentDefense}"/>
-                <h:graphicImage library="images" name="icons/DefenseIcon.png" styleClass="playerInfoIcon"/>
-            </div>
-        </div>
-
-    </h:panelGroup>
-
-</composite:implementation>
-
+                
+        </h:panelGroup>
+            
+    </composite:implementation>
+        
 </html>

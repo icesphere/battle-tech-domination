@@ -7,7 +7,7 @@ public class SupplyRun extends Support {
     public SupplyRun() {
         name = "Supply Run";
         cardText = "Gain a card costing up to 4 Industry. Put the gained card on top of your deck.";
-        industryCost = 4;
+        industryCost = 5;
         imageFile = "SupplyRun.png";
     }
 
