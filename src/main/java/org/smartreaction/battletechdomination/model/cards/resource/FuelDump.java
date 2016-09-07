@@ -11,7 +11,7 @@ public class FuelDump extends Resource implements SupportActionChoice {
         name = "Fuel Dump";
         cardText = "You may scrap a Resource card from your hand.";
         industryCost = 3;
-        imageFile = "FuelDup.png";
+        imageFile = "FuelDump.png";
     }
 
     @Override

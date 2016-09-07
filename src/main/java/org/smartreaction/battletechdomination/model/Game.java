@@ -39,6 +39,8 @@ public class Game {
     private List<HeavyFactory> heavyFactories = new ArrayList<>();
 
     private List<AdvancedFactory> advancedFactories = new ArrayList<>();
+    
+    private List<String> planetNames = new ArrayList<>();
 
     private boolean createGameLog;
 
@@ -49,6 +51,11 @@ public class Game {
     private int currentPlayerIndex;
 
     private boolean gameOver;
+    
+    private boolean startGamePlayer;
+    private boolean startGameOpponent;
+    
+    private String planetName;
 
     private Player quitGamePlayer;
 
@@ -56,6 +63,68 @@ public class Game {
 
     public Game() {
         gameId = UUID.randomUUID().toString();
+        populatePlanetList();
+        planetName = planetNames.get((int)(Math.random() * planetNames.size()));
+    }
+    
+    public void populatePlanetList() {
+        planetNames.add("Blackstone");
+        planetNames.add("Butte Hold");
+        planetNames.add("Crellacor");
+        planetNames.add("Drask's Den");
+        planetNames.add("Ferris");
+        planetNames.add("Gustrell");
+        planetNames.add("Oberon VI");
+        planetNames.add("Paulus Prime");
+        planetNames.add("Placida");
+        planetNames.add("The Rock");
+        planetNames.add("Sigurd");
+        planetNames.add("Botany Bay");
+        planetNames.add("Erewhon");
+        planetNames.add("Gotterdammerung");
+        planetNames.add("Lackhove");
+        planetNames.add("Last Chance");
+        planetNames.add("Von Strang's World");
+        planetNames.add("Elissa");
+        planetNames.add("Manaringaine");
+        planetNames.add("Nyserta");
+        planetNames.add("Porthos");
+        planetNames.add("Santander's World");
+        planetNames.add("Alleghe");
+        planetNames.add("Balsta");
+        planetNames.add("Chateau");
+        planetNames.add("Icar");
+        planetNames.add("New Caledonia");
+        planetNames.add("Outpost");
+        planetNames.add("St. John");
+        planetNames.add("Skallevoll");
+        planetNames.add("Svelvik");
+        planetNames.add("The Edge");
+        planetNames.add("Anywhere");
+        planetNames.add("Barcelona");
+        planetNames.add("Bensinger");
+        planetNames.add("Bone-Norman");
+        planetNames.add("Here");
+        planetNames.add("Persistence");
+        planetNames.add("Steelton");
+        planetNames.add("Toland");
+        planetNames.add("Trell I");
+        planetNames.add("Winfield");
+        planetNames.add("Constance");
+        planetNames.add("Damian");
+        planetNames.add("Holmsbu");
+        planetNames.add("Pinnacle");
+        planetNames.add("Thule");
+        planetNames.add("Almunge");
+        planetNames.add("Bjarred");
+        planetNames.add("Idlewind");
+        planetNames.add("Richmond");
+        planetNames.add("Rockland");
+        planetNames.add("Schwartz");
+        planetNames.add("Stapelfeld");
+        planetNames.add("Tarnby");
+        planetNames.add("Turtle Bay");
+        planetNames.add("Virentofta");
     }
 
     public void gameLog(String log) {
@@ -64,6 +133,8 @@ public class Game {
 
     public void startGame() {
         currentPlayerIndex = 0;
+        startGamePlayer = false;
+        startGameOpponent = false;
         turn = 1;
         getCurrentPlayer().startTurn();
     }
@@ -151,6 +222,21 @@ public class Game {
     public void setGameLog(StringBuilder gameLog) {
         this.gameLog = gameLog;
     }
+    
+    public String getSupplyClass() {
+        if(supply.size() > 20) return "supplyLeftOver20";
+        else if(supply.size() <= 20 && supply.size() > 10) return "supplyLeftOver10";
+        else if(supply.size() <= 10 && supply.size() > 5) return "supplyLeftOver5";
+        else return "supplyLeftUnder5";
+    }
+    
+    public String getOverrrunClass(List<Card> overrun, int limit) {
+        if(overrun.size() <= limit) {
+            return "overrunCardBlinking";
+        } else {
+            return "";
+        }
+    }
 
     public List<Card> getSupply() {
         return supply;
@@ -234,6 +320,27 @@ public class Game {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+    
+    public boolean isStartGameOpponent() {
+        return startGameOpponent;
+    }
+    
+    public boolean isStartGamePlayer() {
+        return startGamePlayer;
+    }
+    
+    public String getPlanetName() {
+        return planetName;
+    }
+    
+    public void playerReady(Player player) {
+        if(player == getCurrentPlayer()) startGamePlayer = true;
+        else startGameOpponent = true;
+    }
+    
+    public boolean isStartGame() {
+        return startGameOpponent && startGamePlayer;
     }
 
     public int getCurrentPlayerIndex() {
