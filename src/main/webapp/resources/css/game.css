@@ -711,12 +711,10 @@
 }
 
 .player {
-    /*background-color: #9FCBBB;*/
     background-color: rgba(156, 203, 187, 0.5);
 }
 
 .opponent {
-    /*background-color: #CCAA77;*/
     background-color: rgba(204, 170, 119, 0.5);
 }
 /* general colors end */

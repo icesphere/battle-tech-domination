@@ -3,7 +3,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:btd="http://java.sun.com/jsf/composite/components">
-        
+          
     <ui:composition template="/templates/commonLayout.xhtml">
         
         <ui:define name="head">
@@ -24,89 +24,95 @@
         <ui:define name="content">
             <h:form id="gameForm" styleClass="gameForm">
                 
-                <p:remoteCommand name="updateCardView" actionListener="#{gameView.updateCardView}" update="cardViewSection"/>
+                <p:remoteCommand name="updateCardViewImageFile" actionListener="#{gameView.updateCardViewImageFile}" update="cardViewSection" />
                     
                 <p:remoteCommand name="cardClicked" actionListener="#{gameView.cardClicked}"/>
                     
                 <p:remoteCommand name="refreshGamePage" process="@this" update="gamePagePlusChat" oncomplete="scrollChat()"/>
+                <p:remoteCommand name="refreshOpponentPlayerInfo" process="@this" update="opponentPlayerInfo" />
+                <p:remoteCommand name="refreshPlayerPlayerInfo" process="@this" update="playerPlayerInfo" />
+                <p:remoteCommand name="refreshLeftSection" process="@this" update="leftSection" />
                 <p:remoteCommand name="refreshChat" process="@this" update="chatSection" oncomplete="scrollChat()"/>
+                <p:remoteCommand name="refreshOverlay" process="@this" update="gamePageOverlay" />
                     
                 <h:panelGroup layout="block" styleClass="gamePage" id="gamePagePlusChat">
                     
-                    <h:panelGroup layout="block" rendered="#{gameView.game.gameOver}" 
-                                  styleClass="gamePageOverlay">
-                        
-                        <h:panelGroup layout="block" styleClass="gamePageOverlayHeader">
-                            <h:outputText style="display:block" value="GAME OVER" />
-                            <h:panelGroup layout="block" rendered="#{empty gameView.game.quitGamePlayer}">
-                                <h:outputText value="#{gameView.game.winner.playerName} wins!"/>
-                                <h:outputText style="display:block;text-decoration:underline;" 
-                                              value="#{gameView.game.winner.playerName eq gameView.player.playerName ? 
-                                                       'Victory Achieved!' : 'Hideous defeat!'}" />
-                                <h:outputText style="display:block" 
-                                              rendered="#{!gameView.player.firstPlayer}"
-                                              value="#{gameView.game.winner.playerName eq gameView.player.playerName ? 
-                                                       'You have survived the onslaught' : 'You have lost this planet'}" />
-                                <h:outputText style="display:block" 
-                                              rendered="#{gameView.player.firstPlayer}"
-                                              value="#{gameView.game.winner.playerName eq gameView.player.playerName ? 
-                                                       'The invasion was successful' : 'The invasion failed'}" />
-                            </h:panelGroup>
-                        </h:panelGroup>
-                            
-                        <h:panelGroup layout="block" styleClass="gamePageOverlayText"
-                                      rendered="#{!empty gameView.game.quitGamePlayer}">
-                            <h:outputText value="#{gameView.game.quitGamePlayer.playerName} quit the game."/>
-                        </h:panelGroup>
-                            
-                            
-                        <h:panelGroup layout="block" styleClass="turnButtonWrapper">
-                            <p:commandLink process="@this" styleClass="quitButton" 
-                                           value="Quit Game" action="#{gameView.exitGame}"/>
-                        </h:panelGroup>
-                            
-                    </h:panelGroup>
-                        
-                    <h:panelGroup layout="block" rendered="#{!gameView.game.startGame and !gameView.game.gameOver}" styleClass="gamePageOverlay">
-                        
-                        <h:panelGroup layout="block" styleClass="gamePageOverlayHeader">
-                            <h:panelGroup layout="block">
-                                <h:panelGroup layout="block" style="display:block;font-style:italic;">
-                                    <h:outputText value="Welcome Commander " />
-                                    <h:outputText value="#{gameView.player.firstPlayer ? 
-                                                           gameView.game.currentPlayer.playerName : gameView.game.currentPlayer.opponent.playerName}" />
+                    <h:panelGroup id="gamePageOverlay">
+                        <h:panelGroup layout="block" rendered="#{gameView.game.gameOver}" 
+                            styleClass="gamePageOverlay">
+                                
+                            <h:panelGroup layout="block" styleClass="gamePageOverlayHeader">
+                                <h:outputText style="display:block" value="GAME OVER" />
+                                <h:panelGroup layout="block" rendered="#{empty gameView.game.quitGamePlayer}">
+                                    <h:outputText value="#{gameView.game.winner.playerName} wins!"/>
+                                    <h:outputText style="display:block;text-decoration:underline;" 
+                                                  value="#{gameView.game.winner.playerName eq gameView.player.playerName ? 
+                                                           'Victory Achieved!' : 'Hideous defeat!'}" />
+                                    <h:outputText style="display:block" 
+                                                  rendered="#{!gameView.player.firstPlayer}"
+                                                  value="#{gameView.game.winner.playerName eq gameView.player.playerName ? 
+                                                           'You have survived the onslaught' : 'You have lost this planet'}" />
+                                    <h:outputText style="display:block" 
+                                                  rendered="#{gameView.player.firstPlayer}"
+                                                  value="#{gameView.game.winner.playerName eq gameView.player.playerName ? 
+                                                           'The invasion was successful' : 'The invasion failed'}" />
                                 </h:panelGroup>
-                                <h:outputText style="text-decoration: underline"
-                                              value="Mission: #{gameView.player.firstPlayer eq true ? 'Invade' : 'Defend'} #{gameView.game.planetName}" />
                             </h:panelGroup>
+                                
+                            <h:panelGroup layout="block" styleClass="gamePageOverlayText"
+                                          rendered="#{!empty gameView.game.quitGamePlayer}">
+                                <h:outputText value="#{gameView.game.quitGamePlayer.playerName} quit the game."/>
+                            </h:panelGroup>
+                                
+                                
+                            <h:panelGroup layout="block" styleClass="turnButtonWrapper">
+                                <p:commandLink process="@this" styleClass="quitButton" 
+                                               value="Quit Game" action="#{gameView.exitGame}"/>
+                            </h:panelGroup>
+                                
                         </h:panelGroup>
                             
-                        <h:panelGroup layout="block" styleClass="gamePageOverlayText">
-                            <h:outputText rendered="#{gameView.player.firstPlayer}" 
-                                          value="You have the initiative! This invasion must be successful!" />
-                            <h:outputText rendered="#{!gameView.player.firstPlayer}" 
-                                          value="An unexpected invasion! Defend this planet with all means necessary!" />
-                        </h:panelGroup>
+                            <h:panelGroup layout="block" rendered="#{!gameView.game.startGame and !gameView.game.gameOver}" styleClass="gamePageOverlay">
                             
-                        <h:outputText styleClass="gamePageOverlayText" value="Good luck Commander." />
-                        
-                        <h:panelGroup layout="block" styleClass="gamePageOverlayText"
-                                      rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGameOpponent : !gameView.game.startGamePlayer}">
-                            <h:outputText rendered="#{gameView.player.firstPlayer eq true}" 
-                                          value="Waiting for defender #{gameView.game.currentPlayer.opponent.playerName}" />
-                            <h:outputText rendered="#{gameView.player.firstPlayer eq false}"
-                                          value="Waiting for invader #{gameView.game.currentPlayer.playerName}" />
-                        </h:panelGroup>
-                            
-                        <h:panelGroup layout="block" styleClass="turnButtonWrapper" 
-                                      rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGamePlayer : !gameView.game.startGameOpponent}">
-                            <p:commandLink process="@this" styleClass="turnButton"
-                                           value="Ready" action="#{gameView.readyGame}"/>
-                        </h:panelGroup>
-                        
-                        <h:panelGroup layout="block" styleClass="turnButtonWrapper">
-                            <p:commandLink process="@this" styleClass="quitButton" update="gamePagePlusChat"
-                                       value="Quit Game" action="#{gameView.quitGame}"/>
+                            <h:panelGroup layout="block" styleClass="gamePageOverlayHeader">
+                                <h:panelGroup layout="block">
+                                    <h:panelGroup layout="block" style="display:block;font-style:italic;">
+                                        <h:outputText value="Welcome Commander " />
+                                        <h:outputText value="#{gameView.player.firstPlayer ? 
+                                                               gameView.game.currentPlayer.playerName : gameView.game.currentPlayer.opponent.playerName}" />
+                                    </h:panelGroup>
+                                    <h:outputText style="text-decoration: underline"
+                                                  value="Mission: #{gameView.player.firstPlayer eq true ? 'Invade' : 'Defend'} #{gameView.game.planetName}" />
+                                </h:panelGroup>
+                            </h:panelGroup>
+                                
+                            <h:panelGroup layout="block" styleClass="gamePageOverlayText">
+                                <h:outputText rendered="#{gameView.player.firstPlayer}" 
+                                              value="You have the initiative! This invasion must be successful!" />
+                                <h:outputText rendered="#{!gameView.player.firstPlayer}" 
+                                              value="An unexpected invasion! Defend this planet with all means necessary!" />
+                            </h:panelGroup>
+                                
+                            <h:outputText styleClass="gamePageOverlayText" value="Good luck Commander." />
+                                
+                            <h:panelGroup layout="block" styleClass="gamePageOverlayText"
+                                          rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGameOpponent : !gameView.game.startGamePlayer}">
+                                <h:outputText rendered="#{gameView.player.firstPlayer eq true}" 
+                                              value="Waiting for defender #{gameView.game.currentPlayer.opponent.playerName}" />
+                                <h:outputText rendered="#{gameView.player.firstPlayer eq false}"
+                                              value="Waiting for invader #{gameView.game.currentPlayer.playerName}" />
+                            </h:panelGroup>
+                                
+                            <h:panelGroup layout="block" styleClass="turnButtonWrapper" 
+                                          rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGamePlayer : !gameView.game.startGameOpponent}">
+                                <p:commandLink process="@this" styleClass="turnButton"
+                                               value="Ready" action="#{gameView.readyGame}"/>
+                            </h:panelGroup>
+                                
+                            <h:panelGroup layout="block" styleClass="turnButtonWrapper">
+                                <p:commandLink process="@this" styleClass="quitButton" update="gamePagePlusChat"
+                                               value="Quit Game" action="#{gameView.quitGame}"/>
+                            </h:panelGroup>
                         </h:panelGroup>
                     </h:panelGroup>
                         
@@ -114,9 +120,9 @@
                         
                         <h:panelGroup layout="block" styleClass="leftSection" id="leftSection">
                             
-                            <btd:playerInfo player="#{gameView.opponent}" playerClass="opponent" 
-                            isOpponent="true" isTheirTurn="#{!gameView.player.yourTurn}"/>
-                                                
+                            <btd:playerInfo player="#{gameView.opponent}" id="opponentPlayerInfo" playerClass="opponent" 
+                                            isOpponent="true" isTheirTurn="#{!gameView.player.yourTurn}"/>
+                            
                             <h:panelGroup layout="block" id="supplySection" styleClass="supplySection">
                                 
                                 <h:panelGroup layout="block" class="baseCards">
@@ -149,12 +155,12 @@
                                     
                             </h:panelGroup>
                                 
-                            <btd:playerInfo player="#{gameView.player}" playerClass="player" 
-                            isOpponent="false" isTheirTurn="#{gameView.player.yourTurn}" />
-                                                
+                            <btd:playerInfo player="#{gameView.player}" id="playerPlayerInfo" playerClass="player" 
+                                            isOpponent="false" isTheirTurn="#{gameView.player.yourTurn}" />
+                            
                             <h:panelGroup layout="block" id="actionSection" styleClass="actionSection"
-                                          rendered="#{gameView.player.yourTurn and !empty gameView.action}">
-                                
+                                rendered="#{gameView.player.yourTurn and !empty gameView.action}">
+                                    
                                 <h:outputText value="Current Action: #{gameView.action.text}" styleClass="currentActionLabel"/>
                                     
                                 <h:panelGroup rendered="#{!empty gameView.action.choices}">
@@ -172,8 +178,8 @@
                                         
                                         <p:commandLink value="Do not use" style="margin-right: 15px;" styleClass="smallButton"
                                                        rendered="#{gameView.action.showDoNotUse}"
-                                                       actionListener="#{gameView.doNotUseAction}"/>
-                                        
+                                        actionListener="#{gameView.doNotUseAction}"/>
+                                            
                                         <p:commandLink value="#{gameView.action.doneText}" styleClass="smallButton"
                                                        rendered="#{gameView.action.isShowDone(gameView.player)}"
                                                        actionListener="#{gameView.doneWithAction}"/>
@@ -192,9 +198,11 @@
                                 </h:panelGroup>
                                     
                                     
-                                <p:commandLink rendered="#{gameView.player.buyPhase and gameView.player.resourceCardInHand}" process="@this" update="gamePagePlusChat" styleClass="playAllButton" value="Play All" actionListener="#{gameView.playAll}"/>
-                                    
-                                    
+                                <p:commandLink rendered="#{gameView.player.buyPhase and gameView.player.resourceCardInHand}" 
+                                               process="@this" update="leftSection" 
+                                               styleClass="playAllButton" value="Play All" actionListener="#{gameView.playAll}"/>
+                                
+                                
                                 <h:panelGroup styleClass="playerContentCardAreaBuffer" />
                             </h:panelGroup>
                                 
@@ -214,13 +222,13 @@
                             </h:panelGroup>
                                 
                             <h:panelGroup layout="block" id="cardViewSection"  styleClass="cardViewSection">
-                                    <h:graphicImage rendered="#{!empty gameView.cardToView.imageFile}" library="images" styleClass="cardView" name="cards/#{gameView.cardToView.imageFile}"/>
-                                    <h:graphicImage rendered="#{empty gameView.cardToView.imageFile}" library="images" styleClass="cardView" name="cardback.png"/>
+                                <h:graphicImage rendered="#{!empty gameView.cardToViewImageFile}" library="images" styleClass="cardView" name="#{gameView.cardToViewImageFile}"/>
+                                <h:graphicImage rendered="#{empty gameView.cardToViewImageFile}" library="images" styleClass="cardView" name="cardback.png"/>
                             </h:panelGroup>
                                 
                             <h:panelGroup layout="block" rendered="#{!gameView.game.gameOver}" 
-                                          id="turnButtonsSection" styleClass="turnButtonsSection">
-                                
+                                id="turnButtonsSection" styleClass="turnButtonsSection">
+                                    
                                 <h:panelGroup rendered="#{gameView.player.yourTurn and empty gameView.action}">
                                     <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.combatStart}">
                                         <p:commandLink process="@this" update="gamePagePlusChat" styleClass="turnButton" 
@@ -294,6 +302,14 @@
                         refreshGamePage();
                     } else if (message == 'refresh_chat') {
                         refreshChat();
+                    } else if(message == 'refresh_player_player_info') {
+                        refreshPlayerPlayerInfo();
+                    } else if(message == 'refresh_opponent_player_info') {
+                        refreshOpponentPlayerInfo();
+                    } else if(message == 'refresh_left_section') {
+                        refreshLeftSection();
+                    } else if(message == 'refresh_overlay') {
+                        refreshOverlay();
                     }
                 }
             </script>
