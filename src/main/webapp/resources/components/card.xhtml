@@ -3,9 +3,9 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-          
+        
     <composite:interface>
         <composite:attribute name="card" type="org.smartreaction.battletechdomination.model.cards.Card"/>
         <composite:attribute name="source" />
@@ -13,19 +13,19 @@
         <composite:attribute name="limit" />
         <composite:attribute name="overrunCardStack" type="java.util.List" />
     </composite:interface>
-    
+        
     <composite:implementation>
         
         <h:panelGroup layout="block" styleClass="card" rendered="#{cc.attrs.overrunCardStack eq null}" 
-                      onmouseover="updateCardViewImageFile([{name:'imageFile', value:'cards/#{cc.attrs.card.imageFile}'}])" 
-            onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'}, {name:'cardId', value:'#{cc.attrs.card.id}'}])">
-                          
+                      onmouseover="hoverImage(\'#{resource['images:cards/' += cc.attrs.card.imageFile]}\')" 
+                      onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'}, {name:'cardId', value:'#{cc.attrs.card.id}'}])">
+            
             <h:panelGroup layout="block" styleClass="cardWrapper 
                           #{!cc.attrs.isSupply ? 
                             gameView.getActionableCardClass(cc.attrs.card, cc.attrs.source) : 
                             gameView.getSupplyCardClass(cc.attrs.card)}">
                 <h:outputText value="#{cc.attrs.card.name}" styleClass="cardHeader #{gameView.getCardClass(cc.attrs.card)}"/>
-                    
+                
                 <h:panelGroup rendered="#{cc.attrs.isSupply}" layout="block" styleClass="cardCost #{gameView.getCardClass(cc.attrs.card)}">
                     <h:panelGroup layout="block" styleClass="cardCostIndustry" 
                                   style="#{cc.attrs.card.losTechCost eq 0 ? 'width: 68px !important;left:0px !important' : ''}">
@@ -36,7 +36,7 @@
                         <h:graphicImage library="images" name="icons/LosTechIconRED.png" class="cardIcons" />
                     </h:panelGroup>
                 </h:panelGroup>
-                    
+                
                 <h:panelGroup rendered="#{cc.attrs.card.unit}" class="cardAttrs #{gameView.getCardClass(cc.attrs.card)}">
                     <h:panelGroup layout="block" styleClass="cardAttrsValueOffense">
                         <h:outputText value="#{cc.attrs.card.attack}" styleClass="cardAttrsValueText" />
@@ -50,17 +50,17 @@
                 <h:graphicImage library="images" name="cards/#{cc.attrs.card.imageFile}" class="cardImage" />
             </h:panelGroup>            
         </h:panelGroup>
-            
+        
         <h:panelGroup layout="block" rendered="#{cc.attrs.overrunCardStack ne null}" styleClass="overrunCard" 
-                      onmouseover="updateCardViewImageFile([{name:'imageFile', 
-                                  value:'#{!empty cc.attrs.overrunCardStack ? 'cards/' += cc.attrs.overrunCardStack[0].imageFile : 'cardback.png'}'}])">
+                      onmouseover="hoverImage(\'#{resource[!empty cc.attrs.overrunCardStack ? 'images:cards/' += cc.attrs.overrunCardStack[0].imageFile : 'images:cardback.png']}\')"
+                      >
             <h:graphicImage rendered="#{!empty cc.attrs.overrunCardStack}" library="images" name="cards/#{cc.attrs.overrunCardStack[0].imageFile}" 
                             class="overrunCardImage #{gameView.game.getOverrrunClass(cc.attrs.overrunCardStack, cc.attrs.limit)}" />
             <h:graphicImage rendered="#{empty cc.attrs.overrunCardStack}" library="images" name="cardback.png" 
                             class="overrunCardImage #{gameView.game.getOverrrunClass(cc.attrs.overrunCardStack, cc.attrs.limit)}" />
             <h:outputText value="#{cc.attrs.overrunCardStack.size()}" class="overrunCardText"/>
         </h:panelGroup>
-    
+            
     </composite:implementation>
-
+        
 </html>

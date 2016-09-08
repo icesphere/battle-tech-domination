@@ -32,9 +32,7 @@ public class GameView implements Serializable {
     
     @EJB
             GameService gameService;
-    
-    private String cardToViewImageFile;
-    
+        
     String chatMessage = "";
     
     boolean showingCards;
@@ -240,11 +238,6 @@ public class GameView implements Serializable {
         return cards;
     }
     
-    public void updateCardViewImageFile() {
-        Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        cardToViewImageFile = paramValues.get("imageFile");
-    }
-    
     public void cardClicked() {
         if (!getPlayer().isYourTurn()) {
             return;
@@ -326,14 +319,6 @@ public class GameView implements Serializable {
         getPlayer().actionResult(action, result);
         
         refreshGamePageWithCheckForAction();
-    }
-    
-    public String getCardToViewImageFile() {
-        return cardToViewImageFile;
-    }
-    
-    public void setCardToViewImageFile(String imageFile) {
-        this.cardToViewImageFile = imageFile;
     }
     
     public void nextPhase() {

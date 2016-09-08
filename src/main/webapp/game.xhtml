@@ -18,6 +18,10 @@
                     var chats = $('#chats');
                     chats.scrollTop(chats.prop('scrollHeight'));
                 }
+                
+                function hoverImage(image) {
+                    document.getElementById('gameForm:cardViewImage').src = image;
+                }
             </script>
             <style>
               .player {
@@ -31,8 +35,6 @@
         
         <ui:define name="content">
             <h:form id="gameForm" styleClass="gameForm">
-                
-                <p:remoteCommand name="updateCardViewImageFile" actionListener="#{gameView.updateCardViewImageFile}" update="cardViewSection" />
                 
                 <p:remoteCommand name="cardClicked" actionListener="#{gameView.cardClicked}"/>
                 
@@ -112,7 +114,7 @@
                             </h:panelGroup>
                             
                             <h:panelGroup layout="block" styleClass="turnButtonWrapper" 
-                                          rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGamePlayer : !gameView.game.startGameOpponent}">
+                                          rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGamePlayer : !gameView.game.startGameOpponent }">
                                 <p:commandLink process="@this" styleClass="turnButton"
                                                value="Ready" action="#{gameView.readyGame}"/>
                             </h:panelGroup>
@@ -230,8 +232,7 @@
                             </h:panelGroup>
                             
                             <h:panelGroup layout="block" id="cardViewSection"  styleClass="cardViewSection">
-                                <h:graphicImage rendered="#{!empty gameView.cardToViewImageFile}" library="images" styleClass="cardView" name="#{gameView.cardToViewImageFile}"/>
-                                <h:graphicImage rendered="#{empty gameView.cardToViewImageFile}" library="images" styleClass="cardView" name="cardback.png"/>
+                                <h:graphicImage id="cardViewImage" library="images" styleClass="cardView" name="cardback.png"/>
                             </h:panelGroup>
                             
                             <h:panelGroup layout="block" rendered="#{!gameView.game.gameOver}" 
@@ -318,7 +319,7 @@
                         refreshLeftSection();
                     } else if(message == 'refresh_overlay') {
                         refreshOverlay();
-                    }
+                    } 
                 }
             </script>
         </ui:define>
