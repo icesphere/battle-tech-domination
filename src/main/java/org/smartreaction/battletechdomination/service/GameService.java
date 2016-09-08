@@ -62,6 +62,17 @@ public class GameService {
         addTestCards(player1, user1.getGameOptions().getCardsToTest());
         addTestCards(player2, user2.getGameOptions().getCardsToTest());
         
+        player1.setPlayerColor(user1.getGameOptions().getCustomColor());
+        player2.setPlayerColor(user2.getGameOptions().getCustomColor());
+        
+        if(player1.getPlayerColor().isEmpty()) {
+            player1.setPlayerColor("rgba(156, 203, 187, 0.5)");
+        }
+        
+        if(player2.getPlayerColor().isEmpty()) {
+            player2.setPlayerColor("rgba(204, 170, 119, 0.5)");
+        }
+        
         players.stream().forEach(p -> p.setGame(game));
         
         Collections.shuffle(players);

@@ -10,4 +10,14 @@ public class GameOptions {
     public void setCardsToTest(String cardsToTest) {
         this.cardsToTest = cardsToTest;
     }
+    
+    public String customColor;
+    
+    public String getCustomColor() {
+        return customColor;
+    }
+    
+    public void setCustomColor(String customColor) {
+        this.customColor = customColor;
+    }
 }

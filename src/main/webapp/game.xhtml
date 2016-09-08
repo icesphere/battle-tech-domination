@@ -3,12 +3,12 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:btd="http://java.sun.com/jsf/composite/components">
-          
+        
     <ui:composition template="/templates/commonLayout.xhtml">
         
         <ui:define name="head">
             <h:outputStylesheet name="game.css" library="css" />
-                
+            
             <script>
                 $( document ).ready(function() {
                     setTimeout(scrollChat, 500);
@@ -19,28 +19,36 @@
                     chats.scrollTop(chats.prop('scrollHeight'));
                 }
             </script>
+            <style>
+              .player {
+                    background-color: #{gameView.player.playerColor};
+              }
+              .opponent {
+                    background-color: #{gameView.player.opponent.playerColor};
+              }
+            </style>
         </ui:define>
-            
+        
         <ui:define name="content">
             <h:form id="gameForm" styleClass="gameForm">
                 
                 <p:remoteCommand name="updateCardViewImageFile" actionListener="#{gameView.updateCardViewImageFile}" update="cardViewSection" />
-                    
+                
                 <p:remoteCommand name="cardClicked" actionListener="#{gameView.cardClicked}"/>
-                    
+                
                 <p:remoteCommand name="refreshGamePage" process="@this" update="gamePagePlusChat" oncomplete="scrollChat()"/>
                 <p:remoteCommand name="refreshOpponentPlayerInfo" process="@this" update="opponentPlayerInfo" />
                 <p:remoteCommand name="refreshPlayerPlayerInfo" process="@this" update="playerPlayerInfo" />
                 <p:remoteCommand name="refreshLeftSection" process="@this" update="leftSection" />
                 <p:remoteCommand name="refreshChat" process="@this" update="chatSection" oncomplete="scrollChat()"/>
                 <p:remoteCommand name="refreshOverlay" process="@this" update="gamePageOverlay" />
-                    
+                
                 <h:panelGroup layout="block" styleClass="gamePage" id="gamePagePlusChat">
                     
                     <h:panelGroup id="gamePageOverlay">
                         <h:panelGroup layout="block" rendered="#{gameView.game.gameOver}" 
-                            styleClass="gamePageOverlay">
-                                
+                                      styleClass="gamePageOverlay">
+                            
                             <h:panelGroup layout="block" styleClass="gamePageOverlayHeader">
                                 <h:outputText style="display:block" value="GAME OVER" />
                                 <h:panelGroup layout="block" rendered="#{empty gameView.game.quitGamePlayer}">
@@ -58,22 +66,22 @@
                                                            'The invasion was successful' : 'The invasion failed'}" />
                                 </h:panelGroup>
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" styleClass="gamePageOverlayText"
                                           rendered="#{!empty gameView.game.quitGamePlayer}">
                                 <h:outputText value="#{gameView.game.quitGamePlayer.playerName} quit the game."/>
                             </h:panelGroup>
-                                
-                                
+                            
+                            
                             <h:panelGroup layout="block" styleClass="turnButtonWrapper">
                                 <p:commandLink process="@this" styleClass="quitButton" 
                                                value="Quit Game" action="#{gameView.exitGame}"/>
                             </h:panelGroup>
-                                
+                            
                         </h:panelGroup>
-                            
+                        
                             <h:panelGroup layout="block" rendered="#{!gameView.game.startGame and !gameView.game.gameOver}" styleClass="gamePageOverlay">
-                            
+                                
                             <h:panelGroup layout="block" styleClass="gamePageOverlayHeader">
                                 <h:panelGroup layout="block">
                                     <h:panelGroup layout="block" style="display:block;font-style:italic;">
@@ -85,16 +93,16 @@
                                                   value="Mission: #{gameView.player.firstPlayer eq true ? 'Invade' : 'Defend'} #{gameView.game.planetName}" />
                                 </h:panelGroup>
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" styleClass="gamePageOverlayText">
                                 <h:outputText rendered="#{gameView.player.firstPlayer}" 
                                               value="You have the initiative! This invasion must be successful!" />
                                 <h:outputText rendered="#{!gameView.player.firstPlayer}" 
                                               value="An unexpected invasion! Defend this planet with all means necessary!" />
                             </h:panelGroup>
-                                
+                            
                             <h:outputText styleClass="gamePageOverlayText" value="Good luck Commander." />
-                                
+                            
                             <h:panelGroup layout="block" styleClass="gamePageOverlayText"
                                           rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGameOpponent : !gameView.game.startGamePlayer}">
                                 <h:outputText rendered="#{gameView.player.firstPlayer eq true}" 
@@ -102,27 +110,27 @@
                                 <h:outputText rendered="#{gameView.player.firstPlayer eq false}"
                                               value="Waiting for invader #{gameView.game.currentPlayer.playerName}" />
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" styleClass="turnButtonWrapper" 
                                           rendered="#{gameView.player.firstPlayer eq true ? !gameView.game.startGamePlayer : !gameView.game.startGameOpponent}">
                                 <p:commandLink process="@this" styleClass="turnButton"
                                                value="Ready" action="#{gameView.readyGame}"/>
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" styleClass="turnButtonWrapper">
                                 <p:commandLink process="@this" styleClass="quitButton" update="gamePagePlusChat"
                                                value="Quit Game" action="#{gameView.quitGame}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                     </h:panelGroup>
-                        
+                    
                     <h:panelGroup layout="block" id="gamePage" styleClass="gamePageContent">
                         
                         <h:panelGroup layout="block" styleClass="leftSection" id="leftSection">
                             
                             <btd:playerInfo player="#{gameView.opponent}" id="opponentPlayerInfo" playerClass="opponent" 
-                                            isOpponent="true" isTheirTurn="#{!gameView.player.yourTurn}"/>
-                            
+                            isOpponent="true" isTheirTurn="#{!gameView.player.yourTurn}"/>
+                                                
                             <h:panelGroup layout="block" id="supplySection" styleClass="supplySection">
                                 
                                 <h:panelGroup layout="block" class="baseCards">
@@ -139,30 +147,30 @@
                                         <btd:card card="#{gameView.game.advancedFactories[0]}" source="basicSupply" isSupply="true"/>
                                     </h:panelGroup>
                                 </h:panelGroup>
-                                    
-                                    
+                                
+                                
                                 <h:panelGroup layout="block" class="supplyLeftBox #{gameView.game.getSupplyClass()}">
                                     <h:graphicImage library="images" name="cardback.png" class="supplyLeftCard" />
                                     <h:outputText class="supplyLeftBoxText" value="Supply" />
                                     <h:outputText class="supplyLeftBoxValue" value="#{gameView.game.supply.size()}"/>
                                 </h:panelGroup>
-                                    
+                                
                                 <h:panelGroup layout="block" class="supplyGrid">
                                     <ui:repeat value="#{gameView.game.supplyGrid}" var="card">
                                         <btd:card card="#{card}" source="supplyGrid" isSupply="true"/>
                                     </ui:repeat>
                                 </h:panelGroup>
-                                    
-                            </h:panelGroup>
                                 
-                            <btd:playerInfo player="#{gameView.player}" id="playerPlayerInfo" playerClass="player" 
-                                            isOpponent="false" isTheirTurn="#{gameView.player.yourTurn}" />
+                            </h:panelGroup>
                             
+                            <btd:playerInfo player="#{gameView.player}" id="playerPlayerInfo" playerClass="player" 
+                            isOpponent="false" isTheirTurn="#{gameView.player.yourTurn}" />
+                                                
                             <h:panelGroup layout="block" id="actionSection" styleClass="actionSection"
-                                rendered="#{gameView.player.yourTurn and !empty gameView.action}">
-                                    
+                                          rendered="#{gameView.player.yourTurn and !empty gameView.action}">
+                                
                                 <h:outputText value="Current Action: #{gameView.action.text}" styleClass="currentActionLabel"/>
-                                    
+                                
                                 <h:panelGroup rendered="#{!empty gameView.action.choices}">
                                     <h:panelGroup layout="block" style="clear: both; float: left; padding-top: 10px;">
                                         <ui:repeat value="#{gameView.action.choices}" var="choice">
@@ -171,24 +179,24 @@
                                         </ui:repeat>
                                     </h:panelGroup>
                                 </h:panelGroup>
-                                    
+                                
                                 <h:panelGroup rendered="#{gameView.action.isShowDone(gameView.player) or gameView.action.showDoNotUse}">
                                     
                                     <h:panelGroup layout="block" style="clear: both; float: left; padding-top: 10px;">
                                         
                                         <p:commandLink value="Do not use" style="margin-right: 15px;" styleClass="smallButton"
                                                        rendered="#{gameView.action.showDoNotUse}"
-                                        actionListener="#{gameView.doNotUseAction}"/>
-                                            
+                                                       actionListener="#{gameView.doNotUseAction}"/>
+                                        
                                         <p:commandLink value="#{gameView.action.doneText}" styleClass="smallButton"
                                                        rendered="#{gameView.action.isShowDone(gameView.player)}"
                                                        actionListener="#{gameView.doneWithAction}"/>
                                     </h:panelGroup>
-                                        
-                                </h:panelGroup>
                                     
-                            </h:panelGroup>
+                                </h:panelGroup>
                                 
+                            </h:panelGroup>
+                            
                             <h:panelGroup layout="block" id="handSection" styleClass="handSection">
                                 <h:outputText value="Your Hand" styleClass="playerContentCardAreaText" />
                                 <h:panelGroup layout="block" styleClass="handCards">
@@ -196,23 +204,23 @@
                                         <btd:card card="#{card}" source="hand"/>
                                     </ui:repeat>
                                 </h:panelGroup>
-                                    
-                                    
+                                
+                                
                                 <p:commandLink rendered="#{gameView.player.buyPhase and gameView.player.resourceCardInHand}" 
                                                process="@this" update="leftSection" 
-                                               styleClass="playAllButton" value="Play All" actionListener="#{gameView.playAll}"/>
-                                
-                                
+                                styleClass="playAllButton" value="Play All" actionListener="#{gameView.playAll}"/>
+                                                   
+                                                   
                                 <h:panelGroup styleClass="playerContentCardAreaBuffer" />
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" id="gameLogSection" styleClass="gameLogSection">
                                 <h:outputText value="Game Log" styleClass="playerContentCardAreaText"/>
                                 <h:outputText styleClass="gameLog" value="#{gameView.game.gameLog.toString()}" escape="false"/>
                             </h:panelGroup>
-                                
-                        </h:panelGroup>
                             
+                        </h:panelGroup>
+                        
                         <h:panelGroup layout="block" styleClass="rightSection">
                             <h:panelGroup layout="block" styleClass="overrunCardsSection">
                                 <btd:card overrunCardStack="#{gameView.game.heavyCasualties}" limit="2"/>
@@ -220,42 +228,42 @@
                                 <btd:card overrunCardStack="#{gameView.game.criticalHits}" limit="1"/>
                                 <btd:card overrunCardStack="#{gameView.game.defeats}" limit="1"/>
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" id="cardViewSection"  styleClass="cardViewSection">
                                 <h:graphicImage rendered="#{!empty gameView.cardToViewImageFile}" library="images" styleClass="cardView" name="#{gameView.cardToViewImageFile}"/>
                                 <h:graphicImage rendered="#{empty gameView.cardToViewImageFile}" library="images" styleClass="cardView" name="cardback.png"/>
                             </h:panelGroup>
-                                
+                            
                             <h:panelGroup layout="block" rendered="#{!gameView.game.gameOver}" 
-                                id="turnButtonsSection" styleClass="turnButtonsSection">
-                                    
+                                          id="turnButtonsSection" styleClass="turnButtonsSection">
+                                
                                 <h:panelGroup rendered="#{gameView.player.yourTurn and empty gameView.action}">
                                     <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.combatStart}">
                                         <p:commandLink process="@this" update="gamePagePlusChat" styleClass="turnButton" 
                                                        value="Attack!" actionListener="#{gameView.nextPhase}"/>
                                     </h:panelGroup>
-                                        
+                                    
                                     <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.actionPhase}">
                                         <p:commandLink process="@this" update="gamePagePlusChat" styleClass="turnButton" 
                                                        value="Buy Cards" actionListener="#{gameView.nextPhase}"/>
                                     </h:panelGroup>
-                                        
+                                    
                                     <h:panelGroup layout="block" styleClass="turnButtonWrapper" rendered="#{gameView.player.buyPhase}">
                                         <p:commandLink process="@this" update="gamePagePlusChat" styleClass="turnButton" 
                                                        value="End Turn" actionListener="#{gameView.endTurn}"/>
                                     </h:panelGroup>
                                 </h:panelGroup>
-                                    
+                                
                                 <h:panelGroup layout="block" styleClass="turnButtonWrapper">
                                     <p:commandLink process="@this" styleClass="quitButton" value="Quit Game"
                                                    update="gamePagePlusChat"
                                                    onclick="if (!confirm('Are you sure you want to quit the game?')) return false"
                                                    action="#{gameView.quitGame}"/>
                                 </h:panelGroup>
-                                    
-                                    
-                            </h:panelGroup>
                                 
+                                
+                            </h:panelGroup>
+                            
                             <h:panelGroup layout="block" id="chatSection" styleClass="chatSection">
                                 <h:panelGroup layout="block" style="padding-bottom: 5px;">
                                     <h:outputText value="Chat" styleClass="sectionHeader"/>
@@ -275,9 +283,9 @@
                                                      actionListener="#{gameView.sendChatMessage}" oncomplete="scrollChat()"/>
                                 </h:panelGroup> 
                             </h:panelGroup>
-                                
+                            
                         </h:panelGroup>
-                        
+                            
                         <h:panelGroup layout="block" styleClass="floatingTurnInfoSection #{gameView.player.yourTurn ? 'player' : 'opponent'}">
                             <h:panelGroup layout="block" styleClass="floatingTurnInfoSectionText">
                                 <h:outputText styleClass="floatingTurnInfoSectionPlayerText" value="#{gameView.game.currentPlayer.playerName}'s Turn"/>
@@ -286,11 +294,11 @@
                         </h:panelGroup>
                     </h:panelGroup>
                 </h:panelGroup>
-                    
+                
             </h:form>
-                
+            
             <p:socket onMessage="handleGameMessage" channel="/game/#{gameView.game.gameId}/#{userSession.user.username}" autoConnect="true" widgetVar='gameMessageSubscriber' />
-                
+            
             <script type="text/javascript">
                 function handleGameMessage(response) {
                     console.log("received message from server: ");
@@ -314,6 +322,6 @@
                 }
             </script>
         </ui:define>
-            
+        
     </ui:composition>
 </html>
