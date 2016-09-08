@@ -709,14 +709,6 @@
 .overrun {
     background-color: rgba(156, 137, 183, 0.5);
 }
-
-.player {
-    background-color: rgba(156, 203, 187, 0.5);
-}
-
-.opponent {
-    background-color: rgba(204, 170, 119, 0.5);
-}
 /* general colors end */
 
 /* overrun card section */

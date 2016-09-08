@@ -74,6 +74,29 @@ public abstract class Player {
     
     protected Action currentAction;
     
+    protected String playerColor;
+    
+    public String getPlayerColor() {
+        return playerColor;
+    }
+    
+    public void setPlayerColor(String color) {
+        if(!color.contains("rgba")) {
+            color = color.replaceAll("#", "");
+            try {
+                if(Long.parseLong(color, 16) >= 0) {
+                    long r = Long.parseLong(color.substring(0,2), 16);
+                    long g = Long.parseLong(color.substring(2,4), 16);
+                    long b = Long.parseLong(color.substring(4,6), 16);
+                    color = "rgba("+r+","+g+","+b+",0.5)";
+                }
+            } catch(Exception e) {
+                color = "";
+            }
+        }
+        this.playerColor = color;
+    }
+    
     public void drawHandTo(int cards) {
         if (hand.size() < cards) {
             drawCards(cards - hand.size());

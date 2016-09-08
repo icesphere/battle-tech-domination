@@ -7,28 +7,34 @@ import java.util.Objects;
 
 public class User {
     private String username;
-
+    
     private Game currentGame;
-
+    
     private GameOptions gameOptions = new GameOptions();
-
+    
     private Player currentPlayer;
     
     private User invitee;
     private User inviteeRequested;
-
+    
     private boolean autoMatch;
-
+    
+    private String playerColor = "#abcdef";
+    
     private Instant lastActivity = Instant.now();
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
+    public String getPlayerColor() {
+        return playerColor;
+    }
+    
     public Game getCurrentGame() {
         return currentGame;
     }
@@ -52,11 +58,11 @@ public class User {
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
-
+    
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
+    
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -64,32 +70,32 @@ public class User {
     public boolean isAutoMatch() {
         return autoMatch;
     }
-
+    
     public void setAutoMatch(boolean autoMatch) {
         this.autoMatch = autoMatch;
     }
-
+    
     public GameOptions getGameOptions() {
         return gameOptions;
     }
-
+    
     public void setGameOptions(GameOptions gameOptions) {
         this.gameOptions = gameOptions;
     }
-
+    
     public Instant getLastActivity() {
         return lastActivity;
     }
-
+    
     public void updateLastActivity() {
         lastActivity = Instant.now();
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(username);
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
