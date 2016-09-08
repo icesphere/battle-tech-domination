@@ -17,9 +17,8 @@
     <composite:implementation>
         
         <h:panelGroup layout="block" styleClass="card" rendered="#{cc.attrs.overrunCardStack eq null}" 
-                      onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.card.name}'}])" 
-                      onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'},
-                                  {name:'cardId', value:'#{cc.attrs.card.id}'}])">
+                      onmouseover="updateCardViewImageFile([{name:'imageFile', value:'cards/#{cc.attrs.card.imageFile}'}])" 
+                      onclick="cardClicked([{name:'cardName', value:'#{cc.attrs.card.name}'}, {name:'source', value:'#{cc.attrs.source}'}, {name:'cardId', value:'#{cc.attrs.card.id}'}])">
                       
             <h:panelGroup layout="block" styleClass="cardWrapper 
                           #{!cc.attrs.isSupply ? 
@@ -53,7 +52,8 @@
         </h:panelGroup>
         
         <h:panelGroup layout="block" rendered="#{cc.attrs.overrunCardStack ne null}" styleClass="overrunCard" 
-                      onmouseover="updateCardView([{name:'cardName', value:'#{cc.attrs.overrunCardStack[0].name}'}])">
+                      onmouseover="updateCardViewImageFile([{name:'imageFile', 
+                      value:'#{!empty cc.attrs.overrunCardStack ? 'cards/' += cc.attrs.overrunCardStack[0].imageFile : 'cardback.png'}'}])">
             <h:graphicImage rendered="#{!empty cc.attrs.overrunCardStack}" library="images" name="cards/#{cc.attrs.overrunCardStack[0].imageFile}" 
                             class="overrunCardImage #{gameView.game.getOverrrunClass(cc.attrs.overrunCardStack, cc.attrs.limit)}" />
             <h:graphicImage rendered="#{empty cc.attrs.overrunCardStack}" library="images" name="cardback.png" 

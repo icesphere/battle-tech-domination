@@ -33,8 +33,8 @@ public class GameView implements Serializable {
     @EJB
     GameService gameService;
 
-    Card cardToView;
-
+    private String cardToViewImageFile;
+        
     String chatMessage = "";
 
     boolean showingCards;
@@ -239,11 +239,10 @@ public class GameView implements Serializable {
 
         return cards;
     }
-
-    public void updateCardView() {
+    
+    public void updateCardViewImageFile() {
         Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String cardName = paramValues.get("cardName");
-        cardToView = gameService.getCardByName(cardName);
+        cardToViewImageFile = paramValues.get("imageFile");
     }
 
     public void cardClicked() {
@@ -270,7 +269,7 @@ public class GameView implements Serializable {
                     handleCardClickedForAction(card, source);
                 } else {
                     getPlayer().buyCard(card);
-                    sendGameMessageToAll("refresh_game_page");
+                    sendGameMessageToAll("refresh_left_section");
                 }
             }
         } else  {
@@ -299,9 +298,7 @@ public class GameView implements Serializable {
                         handleCardClickedForAction(card, source);
                     } else {
                         getPlayer().useUnitAbility((Unit) card);
-                        //sendGameMessageToAll("refresh_middle_section");
-                        sendGameMessageToAll("refresh_right_section");
-                        sendGameMessageToAll("refresh_game_page");
+                        sendGameMessageToAll("refresh_left_section");
                     }
                 }
             }
@@ -330,13 +327,13 @@ public class GameView implements Serializable {
 
         refreshGamePageWithCheckForAction();
     }
-
-    public Card getCardToView() {
-        return cardToView;
+    
+    public String getCardToViewImageFile() {
+        return cardToViewImageFile;
     }
-
-    public void setCardToView(Card cardToView) {
-        this.cardToView = cardToView;
+    
+    public void setCardToViewImageFile(String imageFile) {
+        this.cardToViewImageFile = imageFile;
     }
 
     public void nextPhase() {
@@ -398,7 +395,7 @@ public class GameView implements Serializable {
     
     public void readyGame() {
         getGame().playerReady(getPlayer());
-        sendGameMessageToAll("refresh_game_page");
+        sendGameMessageToAll("refresh_overlay");
     }
 
     public String exitGame() {

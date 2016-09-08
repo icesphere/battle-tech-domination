@@ -51,7 +51,7 @@
                         
                         <p:commandLink process="@this"
                                        styleClass="playerContentCardAreaDeckAndDiscardDeck"
-                                       style="background-image: url('#{cc.attrs.player.deck.size() > 0 ? resource['images/cardback.png'] : ''}')"
+                                       style="background-image: url('#{cc.attrs.player.deck.size() > 0 ? resource['images:cardback.png'] : ''}')"
                                        actionListener="#{gameView.showCards(
                                                          cc.attrs.isOpponent ? cc.attrs.player.handAndDeck : cc.attrs.player.deck, 
                                                          cc.attrs.isOpponent ? 'Cards in your opponents hand and deck' : 'Cards in your deck', 
@@ -62,7 +62,7 @@
                         
                         <p:commandLink process="@this" 
                                        style="background-image: url('#{cc.attrs.player.discard.size() > 0 ? 
-                                                                       resource['images/cards/' += cc.attrs.player.discard[cc.attrs.player.discard.size()-1].imageFile] : ''}')"
+                                                                       resource['images:cards/' += cc.attrs.player.discard[cc.attrs.player.discard.size()-1].imageFile] : ''}')"
                                        styleClass="playerContentCardAreaDeckAndDiscardDeck"
                                        actionListener="#{gameView.showCards(
                                                          cc.attrs.player.discard, 
