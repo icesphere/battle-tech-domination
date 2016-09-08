@@ -32,54 +32,54 @@ import java.util.List;
 @Stateless
 public class GameService {
     private EventBus eventBus;
-
+    
     private final static String GAME_CHANNEL = "/game/";
-
+    
     private final Object matchUserLock = new Object();
-
+    
     @EJB
-    LoggedInUsers loggedInUsers;
-
+            LoggedInUsers loggedInUsers;
+    
     public Game createGame(User user1, User user2) {
         Game game = new Game();
-
+        
         HumanPlayer player1 = new HumanPlayer(user1);
         HumanPlayer player2 = new HumanPlayer(user2);
-
+        
         List<Player> players = new ArrayList<>(2);
         players.add(player1);
         players.add(player2);
-
+        
         user1.setCurrentPlayer(player1);
         user1.setCurrentGame(game);
-
+        
         user2.setCurrentPlayer(player2);
         user2.setCurrentGame(game);
-
+        
         player1.setOpponent(player2);
         player2.setOpponent(player1);
-
+        
         addTestCards(player1, user1.getGameOptions().getCardsToTest());
         addTestCards(player2, user2.getGameOptions().getCardsToTest());
-
+        
         players.stream().forEach(p -> p.setGame(game));
-
+        
         Collections.shuffle(players);
-
+        
         game.setPlayers(players);
-
+        
         game.getCurrentPlayer().setFirstPlayer(true);
-
+        
         game.gameLog("** Starting Game **");
         game.gameLog("Player 1: " + players.get(0).getPlayerName() + " - Player 2: " + players.get(1).getPlayerName());
-
+        
         setupCards(game);
-
+        
         game.startGame();
-
+        
         return game;
     }
-
+    
     private void addTestCards(Player player, String cardsToTest) {
         if (!StringUtils.isEmpty(cardsToTest)) {
             String[] cardsNames = cardsToTest.split(",");
@@ -91,19 +91,19 @@ public class GameService {
             });
         }
     }
-
+    
     public void setupCards(Game game) {
         for (Player player : game.getPlayers()) {
             for (int i = 0; i < 8; i++) {
                 player.addCardToDeck(new Factory());
             }
-
+            
             player.addCardToDeck(new InfantryPlatoon());
             player.addCardToDeck(new InfantryPlatoon());
-
+            
             player.setup();
         }
-
+        
         for (int i = 0; i < 8; i++) {
             game.getSupplyDrops().add(new SupplyDrop());
         }
@@ -128,271 +128,271 @@ public class GameService {
         for (int i = 0; i < 3; i++) {
             game.getDefeats().add(new Defeat());
         }
-
+        
         List<Card> supplyCards = getSupplyCards();
         supplyCards.addAll(getExpansion1Cards());
         supplyCards.addAll(getExpansion2Cards());
-
+        
         Collections.shuffle(supplyCards);
         game.setSupply(supplyCards.subList(0, 40));
-
+        
         game.addCardsToSupplyGrid(6);
     }
-
+    
     public List<Card> getSupplyCards() {
         List<Card> cards = new ArrayList<>();
-
+        
         cards.add(new ExpertMechTechs());
-
+        
         cards.add(new ForwardBase());
-
+        
         cards.add(new DropShip());
         cards.add(new DropShip());
-
+        
         cards.add(new FuelDump());
-
+        
         cards.add(new MechBay());
-
+        
         cards.add(new ScrapForParts());
-
+        
         cards.add(new LaborerCaste());
-
+        
         cards.add(new HPGUplink());
-
+        
         cards.add(new CivilianSettlement());
-
+        
         cards.add(new MerchantCaste());
-
+        
         cards.add(new HiddenRoute());
-
+        
         cards.add(new FortifiedPalace());
-
+        
         cards.add(new ScientistCaste());
-
+        
         cards.add(new Zellbringen());
-
+        
         cards.add(new RepairFacility());
-
+        
         cards.add(new CombinedArms());
-
+        
         cards.add(new Quartermaster());
-
+        
         cards.add(new RapidDeployment());
         cards.add(new RapidDeployment());
-
+        
         cards.add(new Reinforcements());
         cards.add(new Reinforcements());
-
+        
         cards.add(new Refinery());
-
+        
         cards.add(new SalvageTeam());
-
+        
         cards.add(new StagingGround());
-
+        
         cards.add(new SupplyRun());
-
+        
         cards.add(new Redeployment());
-
+        
         cards.add(new TargetingComputer());
-
+        
         cards.add(new CloseAirSupport());
-
+        
         cards.add(new UrbanAssault());
-
+        
         cards.add(new HeavyBombardment());
-
+        
         cards.add(new ArtilleryStrike());
-
+        
         cards.add(new NightAssault());
-
+        
         cards.add(new TacticalNuke());
-
+        
         cards.add(new ManticoreHeavyTank());
         cards.add(new ManticoreHeavyTank());
-
+        
         cards.add(new MobileHQ());
-
+        
         cards.add(new PartisanHeavyTank());
         cards.add(new PartisanHeavyTank());
-
+        
         cards.add(new SchrekPPCCarrier());
-
+        
         cards.add(new Aggressor());
-
+        
         cards.add(new SturmfeurLRMTank());
-
+        
         cards.add(new EliteElementals());
         cards.add(new EliteElementals());
-
+        
         cards.add(new Elementals());
         cards.add(new Elementals());
-
+        
         cards.add(new MechanizedInfantry());
         cards.add(new MechanizedInfantry());
-
+        
         cards.add(new HeavyInfantry());
-
+        
         cards.add(new Adder());
         cards.add(new Adder());
-
+        
         cards.add(new Atlas());
-
+        
         cards.add(new Awesome());
-
+        
         cards.add(new Catapult());
-
+        
         cards.add(new Centurion());
         cards.add(new Centurion());
-
+        
         cards.add(new Cicada());
         cards.add(new Cicada());
-
+        
         cards.add(new Commando());
         cards.add(new Commando());
-
+        
         cards.add(new Daishi());
-
+        
         cards.add(new Firestarter());
         cards.add(new Firestarter());
-
+        
         cards.add(new Gladiator());
-
+        
         cards.add(new Hunchback());
-
+        
         cards.add(new Jenner());
         cards.add(new Jenner());
-
+        
         cards.add(new KitFox());
         cards.add(new KitFox());
-
+        
         cards.add(new Loki());
-
+        
         cards.add(new MadCat());
-
+        
         cards.add(new Kodiak());
-
+        
         cards.add(new Marauder());
-
+        
         cards.add(new Masakari());
-
+        
         cards.add(new Orion());
-
+        
         cards.add(new Quickdraw());
-
+        
         cards.add(new Raven());
-
+        
         cards.add(new ShadowCat());
         cards.add(new ShadowCat());
-
+        
         cards.add(new ShadowHawk());
-
+        
         cards.add(new Stalker());
-
+        
         cards.add(new Ryoken());
-
+        
         cards.add(new Thor());
-
+        
         cards.add(new Trebuchet());
         cards.add(new Trebuchet());
-
+        
         cards.add(new Urbanmech());
         cards.add(new Urbanmech());
-
+        
         cards.add(new Argus());
-
+        
         cards.add(new Victor());
-
+        
         cards.add(new Vulture());
-
+        
         cards.add(new Zeus());
-
+        
         return cards;
     }
-
+    
     public List<Card> getExpansion1Cards() {
         List<Card> cards = new ArrayList<>();
-
+        
         cards.add(new BankingSector());
         cards.add(new BankingSector());
-
+        
         cards.add(new HeavyManufacturing());
-
+        
         cards.add(new CounterAttack());
-
+        
         cards.add(new UAV());
-
+        
         cards.add(new BlackHawk());
-
+        
         cards.add(new BlackJack());
         cards.add(new BlackJack());
-
+        
         cards.add(new Fenris());
-
+        
         cards.add(new Griffin());
         cards.add(new Griffin());
-
+        
         cards.add(new Highlander());
-
+        
         cards.add(new JagerMech());
-
+        
         cards.add(new KingCrab());
-
+        
         cards.add(new Koshi());
         cards.add(new Koshi());
-
+        
         cards.add(new Locust());
-
+        
         cards.add(new NovaCat());
-
+        
         cards.add(new Spider());
         cards.add(new Spider());
-
+        
         cards.add(new Thunderbolt());
-
+        
         cards.add(new Wolverine());
-
+        
         cards.add(new Cheetah());
         cards.add(new Cheetah());
-
+        
         cards.add(new Slayer());
         cards.add(new Slayer());
-
+        
         cards.add(new Stuka());
-
+        
         cards.add(new Transit());
         cards.add(new Transit());
-
+        
         return cards;
     }
-
+    
     public List<Card> getExpansion2Cards() {
         List<Card> cards = new ArrayList<>();
-
+        
         cards.add(new WarriorCaste());
-
+        
         cards.add(new BehindEnemyLines());
-
+        
         cards.add(new TechnicianCaste());
-
+        
         cards.add(new Ambush());
-
+        
         cards.add(new Crab());
-
+        
         cards.add(new Dragon());
-
+        
         cards.add(new ManOWar());
-
+        
         return cards;
     }
-
+    
     public Card getCardByName(String cardName) {
         if (cardName == null) {
             return null;
         }
-
+        
         cardName = cardName.replaceAll("\\s", "").toLowerCase();
         cardName = cardName.replaceAll("'", "");
-
+        
         switch (cardName) {
             case "criticalhit":
             case "criticalhits":
@@ -405,7 +405,7 @@ public class GameService {
             case "defeat!":
             case "defeats":
                 return new Defeat();
-
+                
             case "advancedfactory":
                 return new AdvancedFactory();
             case "factory":
@@ -418,7 +418,7 @@ public class GameService {
                 return new FuelDump();
             case "supplydrop":
                 return new SupplyDrop();
-
+                
             case "targetingcomputer":
             case "targettingcomputer":
                 return new TargetingComputer();
@@ -434,12 +434,12 @@ public class GameService {
                 return new NightAssault();
             case "tacticalnuke":
                 return new TacticalNuke();
-
+                
             case "expertmechtechs":
                 return new ExpertMechTechs();
             case "forwardbase":
                 return new ForwardBase();
-
+                
             case "mechbay":
                 return new MechBay();
             case "scrapforparts":
@@ -480,7 +480,7 @@ public class GameService {
                 return new SupplyRun();
             case "redeployment":
                 return new Redeployment();
-
+                
             case "eliteelementals":
                 return new EliteElementals();
             case "elementals":
@@ -491,7 +491,7 @@ public class GameService {
                 return new MechanizedInfantry();
             case "heavyinfantry":
                 return new HeavyInfantry();
-
+                
             case "adder":
                 return new Adder();
             case "argus":
@@ -556,7 +556,7 @@ public class GameService {
                 return new Vulture();
             case "zeus":
                 return new Zeus();
-
+                
             case "manticoreheavytank":
                 return new ManticoreHeavyTank();
             case "mobilehq":
@@ -569,7 +569,7 @@ public class GameService {
                 return new Aggressor();
             case "sturmfeurlrmtank":
                 return new SturmfeurLRMTank();
-
+                
             case "closeformation":
                 return new CloseFormation();
             case "scrapyard":
@@ -620,7 +620,7 @@ public class GameService {
                 return new CounterAttack();
             case "uav":
                 return new UAV();
-
+                
             case "warriorcaste":
                 return new WarriorCaste();
             case "behindenemylines":
@@ -636,12 +636,12 @@ public class GameService {
                 return new Dragon();
             case "manowar":
                 return new ManOWar();
-
+                
             default:
                 return null;
         }
     }
-
+    
     public void autoMatchUser(User user) {
         synchronized (matchUserLock) {
             if (user.getCurrentGame() != null) {
@@ -659,23 +659,23 @@ public class GameService {
             }
         }
     }
-
+    
     public void sendLobbyMessage(String sender, String recipient, String message) {
         sendGameMessage(sender, recipient, "lobby", message);
     }
-
+    
     public void sendLobbyMessageToAll(String sender, String message) {
         sendLobbyMessage(sender, "*", message);
     }
-
+    
     public void refreshLobby(String sender) {
         sendLobbyMessageToAll(sender, "refresh_lobby");
     }
-
+    
     public void sendGameMessage(String sender, String recipient, String channel, String message) {
         getEventBus().publish(GAME_CHANNEL + channel + "/" + recipient, sender + ":" + message);
     }
-
+    
     EventBus getEventBus() {
         if (eventBus == null) {
             eventBus = EventBusFactory.getDefault().eventBus();

@@ -4,16 +4,16 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:btd="http://java.sun.com/jsf/composite/components"
-    >
-        
+      xmlns:btd="http://java.sun.com/jsf/composite/components"
+      >
+    
     <composite:interface>
         <composite:attribute name="player" required="true" type="org.smartreaction.battletechdomination.model.players.Player"/>
         <composite:attribute name="playerClass" required="true"/>
         <composite:attribute name="isOpponent" required="true"/>
         <composite:attribute name="isTheirTurn" required="true"/>
     </composite:interface>
-        
+    
     <composite:implementation>
         
         <h:panelGroup layout="block" id="playerInfoSection" styleClass="#{cc.attrs.playerClass}InfoSection #{cc.attrs.playerClass}">
@@ -25,7 +25,7 @@
                         <h:outputText styleClass="playerInfoSectionInfoValuesIconText" value="#{cc.attrs.player.currentDefense}"/>
                         <h:graphicImage library="images" name="icons/DefenseIcon.png" styleClass="playerInfoSectionInfoValuesIconImage"/>
                     </h:panelGroup>
-                        
+                    
                     <h:panelGroup layout="block" class="playerInfoSectionInfoValuesIcon">
                         <h:outputText styleClass="playerInfoSectionInfoValuesIconText" value="#{cc.attrs.player.currentAttack}"/>
                         <h:graphicImage library="images" name="icons/AttackIcon.png" styleClass="playerInfoSectionInfoValuesIconImage"/>
@@ -36,7 +36,7 @@
                     </h:panelGroup>
                 </h:panelGroup>
             </h:panelGroup>
-                
+            
             <h:panelGroup layout="block" class="playerContentSection">        
                 
                 <h:panelGroup layout="block" styleClass="playerContentCardAreaSection">
@@ -46,7 +46,7 @@
                             <btd:card card="#{card}" source="#{gameView.getSourceOfCards(cc.attrs.isOpponent)}"/>
                         </ui:repeat>
                     </h:panelGroup>
-                        
+                    
                     <h:panelGroup layout="block" styleClass="playerContentCardAreaDeckAndDiscardSection">
                         
                         <p:commandLink process="@this"
@@ -59,7 +59,7 @@
                             <h:outputText value="Deck" styleClass="playerContentCardAreaDeckAndDiscardDeckText" />
                             <h:outputText value="#{cc.attrs.player.deck.size()}" styleClass="playerContentCardAreaDeckAndDiscardDeckValue" />
                         </p:commandLink>
-                        
+                            
                         <p:commandLink process="@this" 
                                        style="background-image: url('#{cc.attrs.player.discard.size() > 0 ? 
                                                                        resource['images:cards/' += cc.attrs.player.discard[cc.attrs.player.discard.size()-1].imageFile] : ''}')"
@@ -71,33 +71,33 @@
                             <h:outputText value="Discard" styleClass="playerContentCardAreaDeckAndDiscardDeckText" />
                             <h:outputText value="#{cc.attrs.player.discard.size()}" styleClass="playerContentCardAreaDeckAndDiscardDeckValue" />
                         </p:commandLink>
-                        
+                            
                     </h:panelGroup>
-                        
+                    
                     <h:panelGroup layout="block" 
                                   styleClass="playerContentCardAreaShowCardsSection" 
                                   rendered="#{gameView.showingCards and 
                                               ((gameView.showingCardsTitle.contains('opponents') and cc.attrs.isOpponent)
-                                              or (!gameView.showingCardsTitle.contains('opponents') and !cc.attrs.isOpponent))}">
-                        
-                        <h:outputText value="#{gameView.showingCardsTitle}" style="font-weight: bold;display:block;"/>
-                                          
-                        <h:panelGroup layout="block" style="float: left; padding-top: 10px;">
-                            <ui:repeat value="#{gameView.cardsToShow}" var="card">
-                                <btd:card card="#{card}" source="#{gameView.cardsToShowSource}"/>
-                            </ui:repeat>
-                        </h:panelGroup>
-                        
-                        <h:panelGroup layout="block" style="clear: both; padding-top: 10px;">
-                            <p:commandLink value="Hide" process="@this" styleClass="smallButton" 
-                                           update="playerInfoSection"
-                                           actionListener="#{gameView.hideCardsToShow}"/>        
-                        </h:panelGroup>
-                        
+                                                  or (!gameView.showingCardsTitle.contains('opponents') and !cc.attrs.isOpponent))}">
+                                                  
+                                  <h:outputText value="#{gameView.showingCardsTitle}" style="font-weight: bold;display:block;"/>
+                            
+                                  <h:panelGroup layout="block" style="float: left; padding-top: 10px;">
+                                      <ui:repeat value="#{gameView.cardsToShow}" var="card">
+                                          <btd:card card="#{card}" source="#{gameView.cardsToShowSource}"/>
+                                      </ui:repeat>
+                                  </h:panelGroup>
+                            
+                                  <h:panelGroup layout="block" style="clear: both; padding-top: 10px;">
+                                      <p:commandLink value="Hide" process="@this" styleClass="smallButton" 
+                                                     update="playerInfoSection"
+                                                     actionListener="#{gameView.hideCardsToShow}"/>        
+                                  </h:panelGroup>
+                            
                     </h:panelGroup>
-                        
-                </h:panelGroup>
                     
+                </h:panelGroup>
+                
                 <h:panelGroup rendered="#{cc.attrs.isTheirTurn}" layout="block" 
                               id="playerPlayAreaSection" 
                               styleClass="playerContentCardAreaSection playerContentCardAreaPlayAreaSection">
@@ -129,12 +129,12 @@
                         </h:panelGroup>
                     </h:panelGroup>
                 </h:panelGroup>
-                
+                    
                 <h:outputText class="playerContentCardAreaBuffer"> </h:outputText>
             </h:panelGroup>
-                
-        </h:panelGroup>
             
-    </composite:implementation>
+        </h:panelGroup>
         
+    </composite:implementation>
+    
 </html>
