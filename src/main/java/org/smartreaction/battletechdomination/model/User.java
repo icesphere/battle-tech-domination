@@ -13,6 +13,9 @@ public class User {
     private GameOptions gameOptions = new GameOptions();
 
     private Player currentPlayer;
+    
+    private User invitee;
+    private User inviteeRequested;
 
     private boolean autoMatch;
 
@@ -29,7 +32,23 @@ public class User {
     public Game getCurrentGame() {
         return currentGame;
     }
-
+    
+    public User getInvitee() {
+        return invitee;
+    }
+    
+    public User getInviteeRequested() {
+        return inviteeRequested;
+    }
+    
+    public void setInviteeRequested(User inviteeRequested) {
+        this.inviteeRequested = inviteeRequested;
+    }
+    
+    public void setInvitee(User invitee) {
+        this.invitee = invitee;
+    }
+    
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
@@ -41,7 +60,7 @@ public class User {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-
+    
     public boolean isAutoMatch() {
         return autoMatch;
     }

@@ -7,7 +7,7 @@
         
         <ui:define name="head">
             <h:outputStylesheet name="lobby.css" library="css" />
-                
+            
             <script>
                 $( document ).ready(function() {
                     setTimeout(scrollChat, 500);
@@ -21,15 +21,15 @@
                 var ignoreFutureMessages = false;
             </script>
         </ui:define>
-            
+        
         <ui:define name="content">
             <h:form id="lobbyForm" styleClass="lobby">
                 
                 <p:remoteCommand name="refreshLobby" process="@form" update="@form"/>
                 <p:remoteCommand name="refreshChat" process="@form" update="@form" oncomplete="scrollChat()"/>
-                    
+                
                 <h:messages styleClass="errorText"/>
-                    
+                
                 <h:panelGroup layout="block" styleClass="lobbyPage">
                     <h:outputText value="Battletech: Domination Lobby" styleClass="loginHeaderText" />
                     <h:panelGroup layout="block" styleClass="lobbyUserAndChatSection">
@@ -37,14 +37,20 @@
                             <h:outputText value="Online Users" styleClass="lobbyHeader"/>
                             <h:dataTable value="#{lobbyView.users}" var="user" styleClass="lobbyUserSectionUsers">
                                 <h:column>
-                                    <h:outputText value="#{user.username}" styleClass="lobbyUserSectionUsersUser"/>
-                                    <h:outputText value="(You)" styleClass="lobbyUserSectionUsersUser" rendered="#{user.username eq userSession.user.username}"/>
+                                    <h:outputText value="#{user.username} #{user.username eq userSession.user.username ? '(You)' : ''}" styleClass="lobbyUserSectionUsersUser"/>
+                                    <p:commandButton value="Invite to game" styleClass="smallButton" 
+                                                     rendered="#{user.username ne userSession.user.username 
+                                                                 and !user.autoMatch and user.currentGame eq null 
+                                                                 and user.invitee eq null and user.inviteeRequested eq null
+                                                                 and userSession.user.invitee eq null 
+                                                                 and userSession.user.inviteeRequested eq null}" 
+                                                     action="#{lobbyView.inviteMatch(user)}" />
                                     <h:outputText value="#{lobbyView.getUserStatus(user)}" styleClass="lobbyUserSectionUsersUserStatus"
                                                   rendered="#{user.username ne userSession.user.username}"/>
                                 </h:column>
                             </h:dataTable>
                         </h:panelGroup>
-                        
+                            
                         <h:panelGroup layout="block" styleClass="lobbyChatSection">
                             <h:panelGroup id="chatSection" layout="block" styleClass="chatSection">
                                 <h:outputText value="Lobby Chat" styleClass="lobbyHeader"/>
@@ -69,7 +75,7 @@
                             </h:panelGroup>
                         </h:panelGroup>
                     </h:panelGroup>
-                        
+                    
                     <h:panelGroup layout="block" styleClass="lobbyLogoutAndAutoMatch" id="gameOptions">
                         <h:panelGroup styleClass="gameOptions" 
                                       layout="block" rendered="#{!userSession.user.autoMatch}">
@@ -77,30 +83,52 @@
                             <h:inputText value="#{userSession.user.gameOptions.cardsToTest}" style="float: right; width: 300px; line-height: 20px"/>
                         </h:panelGroup>
                         <a class="lobbyButton" href="https://drive.google.com/file/d/0B1VkMJotxpbPY1d0UF9LaUpXbGc/view" 
-                           target="_blank" style="width:305px;border-top-left-radius: 20px;margin-bottom: 2px;">Tutorial</a>
+                        target="_blank" style="width:305px;border-top-left-radius: 20px;margin-bottom: 2px;">Tutorial</a>
                                
                         <a class="lobbyButton" href="https://drive.google.com/folderview?id=0B1VkMJotxpbPZWZMNjMwNlJyT28&amp;usp=sharing" 
-                           target="_blank" style="float:right;width:305px;border-top-right-radius: 20px">Card Gallery</a>
-                        <p:commandLink styleClass="lobbyButton" 
-                                       style="width: 460px; margin-right: 2px;border-bottom-left-radius: 20px;"
-                                       rendered="#{!userSession.user.autoMatch}"
-                                       action="#{lobbyView.startAutoMatch}" 
-                                       process="gameOptions" update="@form" value="Auto Match"/>
-                        <p:commandLink styleClass="lobbyButton" 
-                                       style="width: 460px; margin-right: 2px;border-bottom-left-radius: 20px;"
-                                       rendered="#{userSession.user.autoMatch}" 
-                                       value="Waiting for Auto Match, press here to cancel" 
-                                       actionListener="#{userSession.user.setAutoMatch(false)}"
-                                       process="@form" update="@form"/>
-                        <p:commandLink process="@this" styleClass="lobbyLogoutButton" style="width: 150px;border-bottom-right-radius: 20px"
-                                       update="lobbyForm" value="Logout" action="#{userSession.logout}"/>
+                           target="_blank" style="width:305px;border-top-right-radius: 20px; float: right">Card Gallery</a>
+                        <h:panelGroup style="height:32px;padding-bottom: 20px;" layout="block">
+                            <p:commandLink styleClass="lobbyButton" 
+                                           style="width: 460px; border-bottom-left-radius: 20px;height:100%;"
+                                           rendered="#{!userSession.user.autoMatch and userSession.user.invitee eq null and userSession.user.inviteeRequested eq null}" 
+                                           action="#{lobbyView.startAutoMatch}" 
+                                           process="gameOptions" update="@form" value="Auto Match"/>
+                            <p:commandLink styleClass="lobbyButton" 
+                                           style="width: 460px; border-bottom-left-radius: 20px;height:100%;animation:transparencyAnimation 1s linear infinite"
+                                           rendered="#{userSession.user.autoMatch and userSession.user.invitee eq null and userSession.user.inviteeRequested eq null}" 
+                                           value="Waiting for Auto Match, press here to cancel" 
+                                           actionListener="#{userSession.user.setAutoMatch(false)}"
+                                           process="@form" update="@form"/>
+                            
+                            <p:commandLink styleClass="lobbyButton" 
+                                           style="width: 210px; border-bottom-left-radius: 20px;height:100%;margin-right: 2px;animation:transparencyAnimation 1s linear infinite" 
+                                           rendered="#{userSession.user.invitee ne null}"
+                                           value="Accept game invite from #{userSession.user.invitee.username}"
+                                           process="gameOptions"
+                                           action="#{lobbyView.startInviteMatch()}"/>
+                            <p:commandLink styleClass="lobbyLogoutButton"
+                                           style="width: 204px; height:100%;animation:transparencyAnimation 1s linear infinite" 
+                                           rendered="#{userSession.user.invitee ne null}"
+                                           value="Decline game invite from #{userSession.user.invitee.username}"
+                                           action="#{lobbyView.cancelInviteMatch()}"/>
+                            
+                            <p:commandLink value="Cancel game invite to #{userSession.user.inviteeRequested.username}"
+                                           styleClass="lobbyLogoutButton" 
+                                           style="width: 460px; border-bottom-left-radius: 20px;height:100%;" 
+                                           rendered="#{userSession.user.inviteeRequested ne null}"
+                                           action="#{lobbyView.cancelInviteMatch()}"/>
+                            
+                            <p:commandLink process="@this" styleClass="lobbyLogoutButton" 
+                                           style="width: 150px;border-bottom-right-radius: 20px;height:100%;float: right;"
+                                           update="lobbyForm" value="Logout" action="#{userSession.logout}"/>
+                        </h:panelGroup>
                     </h:panelGroup>
-                        
+                    
                 </h:panelGroup>
             </h:form>
-                
+            
             <p:socket onMessage="handleLobbyMessage" channel="/game/lobby/#{userSession.user.username}" autoConnect="true" widgetVar='lobbyMessageSubscriber' />
-                
+            
             <script type="text/javascript">
                 function handleLobbyMessage(response) {
                     console.log("received message from server: ");

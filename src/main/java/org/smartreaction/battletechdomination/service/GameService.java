@@ -660,6 +660,17 @@ public class GameService {
         }
     }
     
+    public void startInviteMatch(User user) {
+        synchronized(matchUserLock) {
+            createGame(user, user.getInvitee());
+            sendLobbyMessage(user.getUsername(), user.getInvitee().getUsername(), "game_started");
+            user.getInvitee().setInvitee(null);
+            user.getInvitee().setInviteeRequested(null);
+            user.setInvitee(null);
+            user.setInviteeRequested(null);
+        }
+    }
+    
     public void sendLobbyMessage(String sender, String recipient, String message) {
         sendGameMessage(sender, recipient, "lobby", message);
     }
@@ -681,5 +692,28 @@ public class GameService {
             eventBus = EventBusFactory.getDefault().eventBus();
         }
         return eventBus;
+    }
+
+    public void inviteMatchUser(User user, User opponent) {
+        synchronized(matchUserLock) {
+            user.setAutoMatch(false);
+            opponent.setAutoMatch(false);
+            
+            opponent.setInvitee(user);
+            user.setInviteeRequested(opponent);
+        }
+    }
+
+    public void cancelInviteMatch(User user) {
+        try {
+            user.getInviteeRequested().setInvitee(null);
+            user.getInviteeRequested().setInviteeRequested(null);
+        } catch(Exception e) {}
+        try {
+            user.getInvitee().setInvitee(null);
+            user.getInvitee().setInviteeRequested(null);
+        } catch(Exception e) {}
+        user.setInvitee(null);
+        user.setInviteeRequested(null);
     }
 }
