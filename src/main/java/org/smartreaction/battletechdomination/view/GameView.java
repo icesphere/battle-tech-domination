@@ -240,11 +240,6 @@ public class GameView implements Serializable {
         return cards;
     }
     
-    public void updateCardViewImageFile() {
-        Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        cardToViewImageFile = paramValues.get("imageFile");
-    }
-    
     public void cardClicked() {
         if (!getPlayer().isYourTurn()) {
             return;
