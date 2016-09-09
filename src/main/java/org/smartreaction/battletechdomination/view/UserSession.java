@@ -36,7 +36,7 @@ public class UserSession implements Serializable {
             user.setUsername(username);
             loggedIn = true;
             loggedInUsers.getUsers().add(user);
-            gameService.refreshLobby(username);
+            gameService.refreshLobby(user);
             return true;
         }
 
@@ -53,7 +53,7 @@ public class UserSession implements Serializable {
 
     public String logout() {
         loggedInUsers.getUsers().remove(user);
-        gameService.refreshLobby(user.getUsername());
+        gameService.refreshLobby(user);
         user = null;
         loggedIn = false;
 

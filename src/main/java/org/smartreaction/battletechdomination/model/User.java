@@ -16,10 +16,10 @@ public class User {
     
     private User invitee;
     private User inviteeRequested;
-    
+       
     private boolean autoMatch;
     
-    private String playerColor = "#abcdef";
+    private String playerColor;
     
     private Instant lastActivity = Instant.now();
     

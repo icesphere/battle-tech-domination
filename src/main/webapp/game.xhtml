@@ -15,8 +15,8 @@
                 });
                 
                 function scrollChat () {
-                    var chats = $('#chats');
-                    chats.scrollTop(chats.prop('scrollHeight'));
+                    var chats = document.getElementById('gameForm:chats');
+                    chats.scrollTop = chats.scrollHeight;
                 }
                 
                 function hoverImage(image) {
@@ -44,6 +44,10 @@
                 <p:remoteCommand name="refreshLeftSection" process="@this" update="leftSection" />
                 <p:remoteCommand name="refreshChat" process="@this" update="chatSection" oncomplete="scrollChat()"/>
                 <p:remoteCommand name="refreshOverlay" process="@this" update="gamePageOverlay" />
+                <p:remoteCommand name="refreshOverrunCards" process="@this" update="overrunCardsSection" />
+                <p:remoteCommand name="refreshTurnButtonsSection" process="@this" update="turnButtonsSection" />
+                <p:remoteCommand name="refreshFloatingTurnInfoSection" process="@this" update="floatingTurnInfoSection" />
+                
                 
                 <h:panelGroup layout="block" styleClass="gamePage" id="gamePagePlusChat">
                     
@@ -224,14 +228,14 @@
                         </h:panelGroup>
                         
                         <h:panelGroup layout="block" styleClass="rightSection">
-                            <h:panelGroup layout="block" styleClass="overrunCardsSection">
+                            <h:panelGroup layout="block" styleClass="overrunCardsSection" id="overrunCardsSection">
                                 <btd:card overrunCardStack="#{gameView.game.heavyCasualties}" limit="2"/>
                                 <btd:card overrunCardStack="#{gameView.game.raidedSupplies}" limit="2"/>
                                 <btd:card overrunCardStack="#{gameView.game.criticalHits}" limit="1"/>
                                 <btd:card overrunCardStack="#{gameView.game.defeats}" limit="1"/>
                             </h:panelGroup>
                             
-                            <h:panelGroup layout="block" id="cardViewSection"  styleClass="cardViewSection">
+                            <h:panelGroup layout="block" id="cardViewSection" styleClass="cardViewSection">
                                 <h:graphicImage id="cardViewImage" library="images" styleClass="cardView" name="cardback.png"/>
                             </h:panelGroup>
                             
@@ -287,7 +291,7 @@
                             
                         </h:panelGroup>
                             
-                        <h:panelGroup layout="block" styleClass="floatingTurnInfoSection #{gameView.player.yourTurn ? 'player' : 'opponent'}">
+                        <h:panelGroup layout="block" id="floatingTurnInfoSection" styleClass="floatingTurnInfoSection #{gameView.player.yourTurn ? 'player' : 'opponent'}">
                             <h:panelGroup layout="block" styleClass="floatingTurnInfoSectionText">
                                 <h:outputText styleClass="floatingTurnInfoSectionPlayerText" value="#{gameView.game.currentPlayer.playerName}'s Turn"/>
                                 <h:outputText styleClass="floatingTurnInfoSectionPhaseText" value="#{gameView.turnPhase}"/>
@@ -308,7 +312,11 @@
                     var message = response.message;
                     
                     if (message == 'refresh_game_page') {
-                        refreshGamePage();
+                          refreshLeftSection();
+                          refreshOverrunCards();
+                          refreshTurnButtonsSection();
+                          refreshFloatingTurnInfoSection();
+                          //refreshGamePage();
                     } else if (message == 'refresh_chat') {
                         refreshChat();
                     } else if(message == 'refresh_player_player_info') {

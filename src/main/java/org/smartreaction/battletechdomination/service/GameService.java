@@ -664,7 +664,7 @@ public class GameService {
                 opponent.setAutoMatch(false);
                 user.setAutoMatch(false);
                 createGame(user, opponent);
-                sendLobbyMessage(user.getUsername(), opponent.getUsername(), "game_started");
+                sendLobbyMessage(user, opponent.getUsername(), "game_started");
             } else {
                 user.setAutoMatch(true);
             }
@@ -674,7 +674,7 @@ public class GameService {
     public void startInviteMatch(User user) {
         synchronized(matchUserLock) {
             createGame(user, user.getInvitee());
-            sendLobbyMessage(user.getUsername(), user.getInvitee().getUsername(), "game_started");
+            sendLobbyMessage(user, user.getInvitee().getUsername(), "game_started");
             user.getInvitee().setInvitee(null);
             user.getInvitee().setInviteeRequested(null);
             user.setInvitee(null);
@@ -682,16 +682,17 @@ public class GameService {
         }
     }
     
-    public void sendLobbyMessage(String sender, String recipient, String message) {
-        sendGameMessage(sender, recipient, "lobby", message);
+    public void sendLobbyMessage(User sender, String recipient, String message) {
+        sendGameMessage(sender.getUsername(), recipient, "lobby", message);
     }
     
-    public void sendLobbyMessageToAll(String sender, String message) {
+    public void sendLobbyMessageToAll(User sender, String message) {
         sendLobbyMessage(sender, "*", message);
     }
     
-    public void refreshLobby(String sender) {
+    public void refreshLobby(User sender) {
         sendLobbyMessageToAll(sender, "refresh_lobby");
+        sendLobbyMessageToAll(sender, "refresh_buttons");
     }
     
     public void sendGameMessage(String sender, String recipient, String channel, String message) {
@@ -726,5 +727,9 @@ public class GameService {
         } catch(Exception e) {}
         user.setInvitee(null);
         user.setInviteeRequested(null);
+    }
+
+    public void cancelAutoMatch(User user) {
+        user.setAutoMatch(false);
     }
 }

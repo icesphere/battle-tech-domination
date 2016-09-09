@@ -387,7 +387,7 @@ public class GameView implements Serializable {
         userSession.getUser().setCurrentGame(null);
         userSession.getUser().setCurrentPlayer(null);
         
-        gameService.refreshLobby(userSession.getUser().getUsername());
+        gameService.refreshLobby(userSession.getUser());
         
         return "lobby.xhtml?faces-redirect=true";
     }
@@ -404,7 +404,7 @@ public class GameView implements Serializable {
         if (!StringUtils.isEmpty(chatMessage)) {
             getGame().getChatMessages().add(new ChatMessage(getPlayer().getPlayerName(), chatMessage));
             chatMessage = "";
-            sendGameMessageToOpponent("refresh_chat");
+            sendGameMessageToAll("refresh_chat");
         }
     }
     

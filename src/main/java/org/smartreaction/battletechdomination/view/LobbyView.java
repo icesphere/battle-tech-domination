@@ -35,11 +35,16 @@ public class LobbyView implements Serializable {
     
     public String startAutoMatch() {
         gameService.autoMatchUser(userSession.getUser());
-        gameService.refreshLobby(userSession.getUser().getUsername());
+        gameService.refreshLobby(userSession.getUser());
         if (userSession.getUser().getCurrentGame() != null) {
             return "game.xhtml?faces-redirect=true";
         }
         return null;
+    }
+    
+    public void cancelAutoMatch() {
+        gameService.cancelAutoMatch(userSession.getUser());
+        gameService.refreshLobby(userSession.getUser());
     }
     
     public String startInviteMatch() {
@@ -49,12 +54,12 @@ public class LobbyView implements Serializable {
     
     public void cancelInviteMatch() {
         gameService.cancelInviteMatch(userSession.getUser());
-        gameService.refreshLobby(userSession.getUser().getUsername());
+        gameService.refreshLobby(userSession.getUser());
     }
     
     public void inviteMatch(User opponent) {
         gameService.inviteMatchUser(userSession.getUser(), opponent);
-        gameService.refreshLobby(userSession.getUser().getUsername());
+        gameService.refreshLobby(userSession.getUser());
     }
     
     public String getUserStatus(User user) {
@@ -96,7 +101,7 @@ public class LobbyView implements Serializable {
         if (!StringUtils.isEmpty(chatMessage)) {
             loggedInUsers.getChatMessages().add(new ChatMessage(userSession.getUser().getUsername(), chatMessage));
             chatMessage = "";
-            gameService.sendLobbyMessageToAll(userSession.getUser().getUsername(), "refresh_chat");
+            gameService.sendLobbyMessageToAll(userSession.getUser(), "refresh_chat");
         }
     }
     
