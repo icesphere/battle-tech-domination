@@ -550,11 +550,10 @@
     bottom: 0px;
     padding: 5px;
     max-height: 250px;
-    /*background-color: #EEEEF0;*/
 }
 
 .chats {
-    max-height: 190px;
+    height: 190px;
     overflow: auto;
     padding-right: 5px;
 }
@@ -683,11 +682,11 @@
 }
 
 .infantryUnit {
-    background-color: #66AA66;
+    background-color: #7ED090;
 }
 
 .mechUnit {
-    background-color: #DD5555;
+    background-color: #D1595A;
 }
 
 .vehicleUnit {
@@ -695,7 +694,7 @@
 }
 
 .resource {
-    background-color: #EECC00;
+    background-color: #C1C161;
 }
 
 .supportReaction {
@@ -703,7 +702,7 @@
 }
 
 .support {
-    background-color: #CCCCCC;
+    background-color: #959595;
 }
 
 .overrun {

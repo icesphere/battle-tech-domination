@@ -23,7 +23,8 @@
             <h:panelGroup layout="block" styleClass="cardWrapper 
                           #{!cc.attrs.isSupply ? 
                             gameView.getActionableCardClass(cc.attrs.card, cc.attrs.source) : 
-                            gameView.getSupplyCardClass(cc.attrs.card)}">
+                            gameView.getSupplyCardClass(cc.attrs.card)}
+                          #{gameView.getCardClass(cc.attrs.card)}">
                 <h:outputText value="#{cc.attrs.card.name}" styleClass="cardHeader #{gameView.getCardClass(cc.attrs.card)}"/>
                 
                 <h:panelGroup rendered="#{cc.attrs.isSupply}" layout="block" styleClass="cardCost #{gameView.getCardClass(cc.attrs.card)}">

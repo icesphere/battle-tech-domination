@@ -16,8 +16,8 @@
                 });
                 
                 function scrollChat () {
-                    var chats = $('#chats');
-                    chats.scrollTop(chats.prop('scrollHeight'));
+                    var chats = document.getElementById('gameForm:chats');
+                    chats.scrollTop = chats.scrollHeight;
                 }
                 
                 var ignoreFutureMessages = false;
@@ -27,20 +27,21 @@
         <ui:define name="content">
             <h:form id="lobbyForm" styleClass="lobby">
                 
-                <p:remoteCommand name="refreshLobby" process="@form" update="@form"/>
-                <p:remoteCommand name="refreshChat" process="@form" update="@form" oncomplete="scrollChat()"/>
+                <p:remoteCommand name="refreshLobby" process="@form" update="lobbyAndChatSection"/>
+                <p:remoteCommand name="refreshChat" process="@form" update="chatSection" oncomplete="scrollChat()"/>
+                <p:remoteCommand name="refreshButtons" process="@form" update="gameOptions" oncomplete="jscolor.installByClassName('jscolor')" />
                     
                 <h:messages styleClass="errorText"/>
                     
                 <h:panelGroup layout="block" styleClass="lobbyPage">
                     <h:outputText value="Battletech: Domination Lobby" styleClass="loginHeaderText" />
-                    <h:panelGroup layout="block" styleClass="lobbyUserAndChatSection">
+                    <h:panelGroup id="lobbyAndChatSection" layout="block" styleClass="lobbyUserAndChatSection">
                         <h:panelGroup layout="block" styleClass="lobbyUserSection">
                             <h:outputText value="Online Users" styleClass="lobbyHeader"/>
                             <h:dataTable value="#{lobbyView.users}" var="user" styleClass="lobbyUserSectionUsers">
                                 <h:column>
                                     <h:outputText value="#{user.username} #{user.username eq userSession.user.username ? '(You)' : ''}" styleClass="lobbyUserSectionUsersUser"/>
-                                    <p:commandButton value="Invite to game" styleClass="smallButton" 
+                                    <p:commandLink value="Invite to game" styleClass="smallButton" 
                                                      rendered="#{user.username ne userSession.user.username 
                                                                  and !user.autoMatch and user.currentGame eq null 
                                                                  and user.invitee eq null and user.inviteeRequested eq null
@@ -79,17 +80,17 @@
                     </h:panelGroup>
                         
                     <h:panelGroup layout="block" styleClass="lobbyLogoutAndAutoMatch" id="gameOptions">
-                        <h:panelGroup styleClass="gameOptions" 
-                                      layout="block" rendered="#{!userSession.user.autoMatch}">
+                        <h:panelGroup styleClass="gameOptions" rendered="#{!userSession.user.autoMatch}" layout="block">
                             <h:panelGroup layout="block" style="height: 30px">
                                 <h:outputText value="Cards to Test (separate multiple cards with a comma):" style="padding-right: 10px;"/>
                                 <h:inputText value="#{userSession.user.gameOptions.cardsToTest}" style="float: right; width: 300px; line-height: 20px"/>
                             </h:panelGroup>
                             <h:panelGroup layout="block" style="height: 30px;">
                                 <h:outputText value="Choose your background color:" style="padding-right: 10px;"/>
-                                <h:inputText class="jscolor {required:false}" 
+                                <h:inputText class="jscolor {required:false}" id="jscolor" 
                                              value="#{userSession.user.gameOptions.customColor}" 
-                                             style="float: right; width: 300px; line-height: 20px"/>
+                                             style="float: right; width: 300px; line-height: 20px"
+                                             autocomplete="off"/>
                             </h:panelGroup>
                         </h:panelGroup>
                         <a class="lobbyButton" href="https://drive.google.com/file/d/0B1VkMJotxpbPY1d0UF9LaUpXbGc/view" 
@@ -97,7 +98,7 @@
                             
                         <a class="lobbyButton" href="https://drive.google.com/folderview?id=0B1VkMJotxpbPZWZMNjMwNlJyT28&amp;usp=sharing" 
                            target="_blank" style="width:305px;border-top-right-radius: 20px; margin-bottom: 2px; float: right">Card Gallery</a>
-                        <h:panelGroup style="height:32px;padding-bottom: 20px;" layout="block">
+                        <h:panelGroup style="height:32px;padding-bottom: 20px;" layout="block" id="buttonsSection">
                             <p:commandLink styleClass="lobbyButton" 
                                            style="width: 460px; border-bottom-left-radius: 20px;height:100%;"
                                            rendered="#{!userSession.user.autoMatch and userSession.user.invitee eq null and userSession.user.inviteeRequested eq null}" 
@@ -107,8 +108,8 @@
                                            style="width: 460px; border-bottom-left-radius: 20px;height:100%;animation:transparencyAnimation 1s linear infinite"
                                            rendered="#{userSession.user.autoMatch and userSession.user.invitee eq null and userSession.user.inviteeRequested eq null}" 
                                            value="Waiting for Auto Match, press here to cancel" 
-                                           actionListener="#{userSession.user.setAutoMatch(false)}"
-                            process="@form" update="@form"/>
+                                           action="#{lobbyView.cancelAutoMatch}"
+                                           process="@form" update="@form"/>
                                                
                             <p:commandLink styleClass="lobbyButton" 
                                            style="width: 210px; border-bottom-left-radius: 20px;height:100%;margin-right: 2px;animation:transparencyAnimation 1s linear infinite" 
@@ -120,13 +121,13 @@
                                            style="width: 204px; height:100%;animation:transparencyAnimation 1s linear infinite" 
                                            rendered="#{userSession.user.invitee ne null}"
                                            value="Decline game invite from #{userSession.user.invitee.username}"
-                            action="#{lobbyView.cancelInviteMatch()}"/>
+                                           action="#{lobbyView.cancelInviteMatch()}"/>
                                                
                             <p:commandLink value="Cancel game invite to #{userSession.user.inviteeRequested.username}"
                                            styleClass="lobbyLogoutButton" 
                                            style="width: 460px; border-bottom-left-radius: 20px;height:100%;" 
                                            rendered="#{userSession.user.inviteeRequested ne null}"
-                            action="#{lobbyView.cancelInviteMatch()}"/>
+                                           action="#{lobbyView.cancelInviteMatch()}"/>
                                                
                             <p:commandLink process="@this" styleClass="lobbyLogoutButton" 
                                            style="width: 150px;border-bottom-right-radius: 20px;height:100%;float: right;"
@@ -153,6 +154,9 @@
                             refreshLobby();
                         } else if (response.message == 'refresh_chat') {
                             refreshChat();
+                        } else if (response.message == 'refresh_buttons') {
+                            refreshButtons();
+                            jscolor.installByClassName('jscolor');
                         }
                     }
                 }
