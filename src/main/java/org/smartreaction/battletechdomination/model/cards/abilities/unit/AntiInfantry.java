@@ -5,7 +5,7 @@ import org.smartreaction.battletechdomination.model.cards.Unit;
 import org.smartreaction.battletechdomination.model.cards.actions.DamageUnit;
 import org.smartreaction.battletechdomination.model.players.Player;
 
-public class AntiInfantry extends UnitAbility {
+public class AntiInfantry extends UnitAbility implements UnitDeployedAbility {
     //ANTI-INFANTRY: When you deploy this unit, your opponent must damage an Infantry unit.
 
     public AntiInfantry(Unit unit) {
