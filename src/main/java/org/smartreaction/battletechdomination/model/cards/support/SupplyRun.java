@@ -6,13 +6,14 @@ import org.smartreaction.battletechdomination.model.cards.Support;
 public class SupplyRun extends Support {
     public SupplyRun() {
         name = "Supply Run";
-        cardText = "Gain a card costing up to 4 Industry. Put the gained card on top of your deck.";
+        cardText = "+1 Action. Gain a card costing up to 4 Industry and place it on top of your deck.";
         industryCost = 5;
-        imageFile = "SupplyRun.png";
+        imageFile = "SupplyRun2.png";
     }
 
     @Override
     public void cardPlayed(Player player) {
+        player.addActions(1);
         player.acquireFreeCardInSupplyAndPutOnTopOfDeck(4);
     }
 }

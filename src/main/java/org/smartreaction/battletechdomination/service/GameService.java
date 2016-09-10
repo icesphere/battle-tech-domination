@@ -314,6 +314,8 @@ public class GameService {
         cards.add(new Victor());
         
         cards.add(new Vulture());
+
+        cards.add(new Warhammer());
         
         cards.add(new Zeus());
         
@@ -565,6 +567,8 @@ public class GameService {
                 return new Victor();
             case "vulture":
                 return new Vulture();
+            case "warhammer":
+                return new Warhammer();
             case "zeus":
                 return new Zeus();
                 
