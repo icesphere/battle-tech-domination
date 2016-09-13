@@ -268,7 +268,7 @@ public class GameView implements Serializable {
         } else  {
             String cardId = paramValues.get("cardId");
             
-            if (source.equals("hand")) {
+            if (source.equals("hand") || source.equals("discard")) {
                 Card card = findCardById(getPlayer().getHand(), cardId);
                 if (highlightCard(card, source)) {
                     if (getAction() != null) {
